@@ -12,7 +12,7 @@ namespace Mews.Fiscalization.Core.Model
 
         private RangeLimitation<decimal> Range { get; }
 
-        public int? MaxDecimalPlaces { get; }
+        private int? MaxDecimalPlaces { get; }
 
         public bool IsValid(decimal value)
         {
