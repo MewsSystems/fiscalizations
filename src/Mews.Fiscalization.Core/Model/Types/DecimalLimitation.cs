@@ -2,29 +2,26 @@ using System;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public class DecimalLimitation : Limitation<decimal>
+    public sealed class DecimalLimitation
     {
-        public DecimalLimitation(decimal? minimum = null, decimal? maximum = null, int? maxDecimalPlaces = null)
-            : base(minimum, maximum)
+        public DecimalLimitation(decimal? min = null, decimal? max = null, int? maxDecimalPlaces = null)
         {
+            Range = new RangeLimitation<decimal>(min: min, max: max);
             MaxDecimalPlaces = maxDecimalPlaces;
         }
 
+        private RangeLimitation<decimal> Range { get; }
+
         public int? MaxDecimalPlaces { get; }
 
-        public override bool IsValid(decimal value)
+        public bool IsValid(decimal value)
         {
-            return base.IsValid(value) && PrecisionIsValid(value);
+            return Range.IsValid(value) && PrecisionIsValid(value);
         }
 
         internal void CheckValidity(decimal value)
         {
-           CheckValidity(value, label: "value");
-        }
-
-        internal override void CheckValidity(decimal value, string label)
-        {
-            base.CheckValidity(value, label);
+            Range.CheckValidity(value, label: "value");
             if (!PrecisionIsValid(value))
             {
                 throw new ArgumentException($"Highest possible precision is {MaxDecimalPlaces} decimal places.");

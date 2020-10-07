@@ -2,17 +2,17 @@
 {
     public abstract class LimitedString
     {
-        protected LimitedString(string value, Limitation<int> limitation)
+        protected LimitedString(string value, StringLimitation limitation)
         {
-            limitation.CheckValidity(value.Length, label: "length of string");
+            limitation.CheckValidity(value);
             Value = value;
         }
 
         public string Value { get; }
 
-        protected static bool IsValid(string value, Limitation<int> limitation)
+        protected static bool IsValid(string value, StringLimitation limitation)
         {
-            return limitation.IsValid(value.Length);
+            return limitation.IsValid(value);
         }
     }
 }

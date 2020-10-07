@@ -4,7 +4,7 @@ namespace Mews.Fiscalization.Core.Model
     {
         protected LimitedDecimal(decimal value, DecimalLimitation limitation)
         {
-            limitation.CheckValidity(value, label: "value");
+            limitation.CheckValidity(value);
             Value = value;
         }
 

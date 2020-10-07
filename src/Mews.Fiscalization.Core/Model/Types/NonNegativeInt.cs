@@ -2,7 +2,7 @@ namespace Mews.Fiscalization.Core.Model
 {
     public sealed class NonNegativeInt : LimitedInt
     {
-        private static readonly Limitation<int> Limitation = new Limitation<int>(minimum: 0);
+        private static readonly RangeLimitation<int> Limitation = new RangeLimitation<int>(min: 0);
 
         public NonNegativeInt(int value)
             : base(value, Limitation)

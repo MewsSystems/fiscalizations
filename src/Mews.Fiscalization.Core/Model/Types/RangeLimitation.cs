@@ -2,25 +2,25 @@ using System;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public class Limitation<TValue>
+    public sealed class RangeLimitation<TValue>
         where TValue : struct, IComparable<TValue>
     {
-        public Limitation(TValue? minimum = null, TValue? maximum = null)
+        public RangeLimitation(TValue? min = null, TValue? max = null)
         {
-            Min = minimum;
-            Max = maximum;
+            Min = min;
+            Max = max;
         }
 
-        public TValue? Min { get; }
+        private TValue? Min { get; }
 
-        public TValue? Max { get; }
+        private TValue? Max { get; }
 
-        public virtual bool IsValid(TValue value)
+        public bool IsValid(TValue value)
         {
             return (!Min.HasValue || value.CompareTo(Min.Value) >= 0) && (!Max.HasValue || value.CompareTo(Max.Value) <= 0);
         }
 
-        internal virtual void CheckValidity(TValue value, string label)
+        internal void CheckValidity(TValue value, string label)
         {
             if (Min.HasValue && value.CompareTo(Min.Value) < 0)
             {

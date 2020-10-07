@@ -3,19 +3,19 @@
     public interface IIndexedItem<out T>
     {
         int Index { get; }
-        T Item { get; }
+        T Value { get; }
     }
 
     public sealed class IndexedItem<T> : IIndexedItem<T>
     {
-        public IndexedItem(int index, T item)
+        public IndexedItem(int index, T value)
         {
             Index = index;
-            Item = item;
+            Value = value;
         }
 
         public int Index { get; }
 
-        public T Item { get; }
+        public T Value { get; }
     }
 }

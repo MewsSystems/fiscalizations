@@ -2,7 +2,7 @@ namespace Mews.Fiscalization.Core.Model
 {
     public abstract class LimitedInt
     {
-        protected LimitedInt(int value, Limitation<int> limitation)
+        protected LimitedInt(int value, RangeLimitation<int> limitation)
         {
             limitation.CheckValidity(value, label: "value");
             Value = value;
@@ -10,7 +10,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public int Value { get; }
 
-        protected static bool IsValid(int value, Limitation<int> limitation)
+        protected static bool IsValid(int value, RangeLimitation<int> limitation)
         {
             return limitation.IsValid(value);
         }
