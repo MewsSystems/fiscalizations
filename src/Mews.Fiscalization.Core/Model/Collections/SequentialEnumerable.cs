@@ -9,7 +9,7 @@ namespace Mews.Fiscalization.Core.Model
 {
     public interface ISequentialEnumerable<out T> : IReadOnlyList<IIndexedItem<T>>
     {
-        IEnumerable<T> Items { get; }
+        IEnumerable<T> Values { get; }
 
         IEnumerable<int> Indexes { get; }
 
@@ -18,16 +18,16 @@ namespace Mews.Fiscalization.Core.Model
 
     public sealed class SequentialEnumerable<T> : ISequentialEnumerable<T>
     {
-        private IReadOnlyList<IIndexedItem<T>> Values { get; }
+        private IReadOnlyList<IIndexedItem<T>> Items { get; }
 
-        public IEnumerable<T> Items
+        public IEnumerable<T> Values
         {
-            get { return Values.Select(v => v.Item); }
+            get { return Items.Select(v => v.Value); }
         }
 
         public IEnumerable<int> Indexes
         {
-            get { return Values.Select(v => v.Index); }
+            get { return Items.Select(v => v.Index); }
         }
 
         public int StartIndex
@@ -37,9 +37,9 @@ namespace Mews.Fiscalization.Core.Model
 
         public SequentialEnumerable(IEnumerable<IndexedItem<T>> indexedItems)
         {
-            Values = indexedItems.OrderBy(i => i.Index).AsList();
+            Items = indexedItems.OrderBy(i => i.Index).AsList();
 
-            if (!Values.NonEmpty() || !Values.IsSequential(startIndex: Indexes.Min()))
+            if (!Items.NonEmpty() || !Items.IsSequential(startIndex: Indexes.Min()))
             {
                 throw new ArgumentException("Item indexes are not sequential.", nameof(indexedItems));
             }
@@ -47,7 +47,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public IEnumerator<IIndexedItem<T>> GetEnumerator()
         {
-            return Values.GetEnumerator();
+            return Items.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -57,12 +57,12 @@ namespace Mews.Fiscalization.Core.Model
 
         public int Count
         {
-            get { return Values.Count; }
+            get { return Items.Count; }
         }
 
         public IIndexedItem<T> this[int index]
         {
-            get { return Values.ElementAt(index - StartIndex); }
+            get { return Items.ElementAt(index - StartIndex); }
         }
     }
 
