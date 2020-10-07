@@ -40,6 +40,10 @@ jobs:
       DOTNET_NOLOGO: true
       DOTNET_CLI_TELEMETRY_OPTOUT: true
 
+    defaults:
+      run:
+        working-directory: src
+
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     steps:
     - name: Checkout
