@@ -17,6 +17,9 @@ jobs:
         working-directory: src
 
     steps:
+    - name: Clean-up
+      uses: AutoModality/action-clean@v1
+
     - name: Checkout
       uses: actions/checkout@v1
 
