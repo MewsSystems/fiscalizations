@@ -8,8 +8,6 @@
         <RepositoryUrl>https://github.com/MewsSystems/fiscalization-core</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>fiscalization core</PackageTags>
-        <PackageVersion>0.0.1-prerelease</PackageVersion>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
