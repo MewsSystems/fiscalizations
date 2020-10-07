@@ -2,10 +2,10 @@ using System;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class Limitation<TValue>
+    public class Limitation<TValue>
         where TValue : struct, IComparable<TValue>
     {
-        private Limitation(TValue? minimum = null, TValue? maximum = null)
+        public Limitation(TValue? minimum = null, TValue? maximum = null)
         {
             Min = minimum;
             Max = maximum;
@@ -15,7 +15,12 @@ namespace Mews.Fiscalization.Core.Model
 
         public TValue? Max { get; }
 
-        internal void CheckValidity(TValue value, string label)
+        public virtual bool IsValid(TValue value)
+        {
+            return (!Min.HasValue || value.CompareTo(Min.Value) >= 0) && (!Max.HasValue || value.CompareTo(Max.Value) <= 0);
+        }
+
+        internal virtual void CheckValidity(TValue value, string label)
         {
             if (Min.HasValue && value.CompareTo(Min.Value) < 0)
             {
@@ -26,29 +31,6 @@ namespace Mews.Fiscalization.Core.Model
             {
                 throw new ArgumentException($"Max {label} is {Max}.");
             }
-        }
-
-        public bool IsValid(TValue value)
-        {
-            return (!Min.HasValue || value.CompareTo(Min.Value) >= 0) && (!Max.HasValue || value.CompareTo(Max.Value) <= 0);
-        }
-
-        public static Limitation<T> Create<T>(T minimum, T maximum)
-            where T : struct, IComparable<T>
-        {
-            return new Limitation<T>(minimum, maximum);
-        }
-
-        public static Limitation<T> Minimum<T>(T minimum)
-            where T : struct, IComparable<T>
-        {
-            return new Limitation<T>(minimum: minimum);
-        }
-
-        public static Limitation<T> Maximum<T>(T maximum)
-            where T : struct, IComparable<T>
-        {
-            return new Limitation<T>(maximum: maximum);
         }
     }
 }
