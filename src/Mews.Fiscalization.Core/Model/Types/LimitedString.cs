@@ -1,14 +1,12 @@
 ﻿﻿namespace Mews.Fiscalization.Core.Model
 {
-    public abstract class LimitedString
+    public abstract class LimitedString : ValueWrapper<string>
     {
         protected LimitedString(string value, StringLimitation limitation)
+            : base(value)
         {
             limitation.CheckValidity(value);
-            Value = value;
         }
-
-        public string Value { get; }
 
         protected static bool IsValid(string value, StringLimitation limitation)
         {

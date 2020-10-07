@@ -1,14 +1,12 @@
 namespace Mews.Fiscalization.Core.Model
 {
-    public abstract class LimitedDecimal
+    public abstract class LimitedDecimal : ValueWrapper<decimal>
     {
         protected LimitedDecimal(decimal value, DecimalLimitation limitation)
+            : base(value)
         {
             limitation.CheckValidity(value);
-            Value = value;
         }
-
-        public decimal Value { get; }
 
         protected static bool IsValid(decimal value, DecimalLimitation limitation)
         {
