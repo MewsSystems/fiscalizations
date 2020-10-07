@@ -17,9 +17,6 @@ jobs:
         working-directory: src
 
     steps:
-    - name: Clean-up
-      uses: AutoModality/action-clean@v1
-
     - name: Checkout
       uses: actions/checkout@v1
 
@@ -36,4 +33,4 @@ jobs:
       run: dotnet pack --output ./artifacts --configuration Release -p:Version=${{ steps.vars.outputs.tag }}
 
     - name: Publish packages
-      run: dotnet nuget push ./artifacts/**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push ./artifacts/**${{ steps.vars.outputs.tag }}**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
