@@ -16,7 +16,7 @@ namespace Mews.Fiscalization.Core.Model
         int StartIndex { get; }
     }
 
-    public sealed class SequentialEnumerable<T> : ISequentialEnumerable<T>
+    public class SequentialEnumerable<T> : ISequentialEnumerable<T>
     {
         private IReadOnlyList<IIndexedItem<T>> Items { get; }
 
