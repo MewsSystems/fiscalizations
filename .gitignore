@@ -1,5 +1,6 @@
 [Oo]bj
 [Bb]in
+artifacts
 *.user
 *.suo
 *.vs
