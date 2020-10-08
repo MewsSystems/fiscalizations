@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace Mews.Fiscalization.Core.Tests.Model.LimitedTypes
 {
-    public sealed class NonNegativeAmount : LimitedDecimal
+    public sealed class PositiveAmount : LimitedDecimal
     {
-        private static readonly DecimalLimitation Limitation = new DecimalLimitation(min: 0, maxDecimalPlaces: 2);
+        private static readonly DecimalLimitation Limitation = new DecimalLimitation(min: 0, includeMin: false, maxDecimalPlaces: 2);
 
-        public NonNegativeAmount(decimal value)
+        public PositiveAmount(decimal value)
             : base(value, Limitation)
         {
         }
@@ -26,8 +26,16 @@ namespace Mews.Fiscalization.Core.Tests.Model.LimitedTypes
         public void TooManyDecimalPlacesNotAllowed()
         {
             var value = 1.102m;
-            Assert.IsFalse(NonNegativeAmount.IsValid(value));
-            Assert.Throws<ArgumentException>(() => new NonNegativeAmount(value));
+            Assert.IsFalse(PositiveAmount.IsValid(value));
+            Assert.Throws<ArgumentException>(() => new PositiveAmount(value));
+        }
+
+        [Test]
+        public void BoundaryValueNotAllowed()
+        {
+            var zeroValue = 0m;
+            Assert.IsFalse(PositiveAmount.IsValid(zeroValue));
+            Assert.Throws<ArgumentException>(() => new PositiveAmount(zeroValue));
         }
     }
 }
