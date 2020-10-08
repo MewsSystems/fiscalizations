@@ -1,4 +1,4 @@
-﻿﻿using Mews.Fiscalization.Greece.Model.Collections;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,11 +16,14 @@ namespace Mews.Fiscalization.Core.Extensions
             return source != null && source.FirstOrDefault() != null;
         }
 
-        internal static bool IsSequential<T>(this IReadOnlyList<IIndexedItem<T>> source, int startIndex)
+        public static bool IsSequential<T>(this IEnumerable<T> source, Func<T, int> indexGetter, int startIndex)
         {
-            var expectedIndices = new HashSet<int>(Enumerable.Range(start: startIndex, count: source.Count));
-            var actualIndices = source.Select(i => i.Index);
-            return expectedIndices.SetEquals(actualIndices);
+            return source.Select(indexGetter).IsSequential(startIndex);
+        }
+
+        public static bool IsSequential(this IEnumerable<int> source, int startIndex)
+        {
+            return source.Select((value, index) => (value, index)).All(x => x.value == startIndex + x.index);
         }
     }
 }

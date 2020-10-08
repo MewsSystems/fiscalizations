@@ -11,8 +11,6 @@ namespace Mews.Fiscalization.Core.Model
     {
         IEnumerable<T> Values { get; }
 
-        IEnumerable<int> Indexes { get; }
-
         int StartIndex { get; }
     }
 
@@ -25,21 +23,16 @@ namespace Mews.Fiscalization.Core.Model
             get { return Items.Select(v => v.Value); }
         }
 
-        public IEnumerable<int> Indexes
-        {
-            get { return Items.Select(v => v.Index); }
-        }
-
         public int StartIndex
         {
-            get { return Indexes.Min(); }
+            get { return Items.First().Index; }
         }
 
         public SequentialEnumerable(IEnumerable<IndexedItem<T>> indexedItems)
         {
             Items = indexedItems.OrderBy(i => i.Index).AsList();
 
-            if (!Items.NonEmpty() || !Items.IsSequential(startIndex: Indexes.Min()))
+            if (!Items.NonEmpty() || !Items.IsSequential(i => i.Index, startIndex: StartIndex))
             {
                 throw new ArgumentException("Item indexes are not sequential.", nameof(indexedItems));
             }
