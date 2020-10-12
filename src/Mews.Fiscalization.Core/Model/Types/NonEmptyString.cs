@@ -1,6 +1,6 @@
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class NonEmptyString : LimitedString
+    public class NonEmptyString : LimitedString
     {
         private static readonly StringLimitation Limitation = new StringLimitation(allowEmptyOrWhiteSpace: false);
 

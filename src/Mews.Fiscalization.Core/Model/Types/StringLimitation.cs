@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class StringLimitation
+    public class StringLimitation
     {
         public StringLimitation(int? minLength = null, int? maxLength = null, string pattern = null, bool allowEmptyOrWhiteSpace = true)
         {

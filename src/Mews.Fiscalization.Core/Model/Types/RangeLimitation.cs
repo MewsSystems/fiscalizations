@@ -2,24 +2,24 @@ using System;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class RangeLimitation<TValue>
+    public class RangeLimitation<TValue>
         where TValue : struct, IComparable<TValue>
     {
-        public RangeLimitation(TValue? min = null, TValue? max = null, bool includeMin = true, bool includeMax = true)
+        public RangeLimitation(TValue? min = null, TValue? max = null, bool minIsAllowed = true, bool maxIsAllowed = true)
         {
             Min = min;
             Max = max;
-            IncludeMin = includeMin;
-            IncludeMax = includeMax;
+            MinIsAllowed = minIsAllowed;
+            MaxIsAllowed = maxIsAllowed;
         }
 
         private TValue? Min { get; }
 
         private TValue? Max { get; }
 
-        private bool IncludeMin { get; }
+        private bool MinIsAllowed { get; }
 
-        private bool IncludeMax { get; }
+        private bool MaxIsAllowed { get; }
 
         public bool IsValid(TValue value)
         {
@@ -41,12 +41,12 @@ namespace Mews.Fiscalization.Core.Model
 
         private bool FitsMin(TValue value)
         {
-            return !Min.HasValue || value.CompareTo(Min.Value) > 0 || (IncludeMin && value.CompareTo(Min.Value) == 0);
+            return !Min.HasValue || value.CompareTo(Min.Value) > 0 || (MinIsAllowed && value.CompareTo(Min.Value) == 0);
         }
 
         private bool FitsMax(TValue value)
         {
-            return !Max.HasValue || value.CompareTo(Max.Value) < 0 || (IncludeMax && value.CompareTo(Max.Value) == 0);
+            return !Max.HasValue || value.CompareTo(Max.Value) < 0 || (MaxIsAllowed && value.CompareTo(Max.Value) == 0);
         }
     }
 }

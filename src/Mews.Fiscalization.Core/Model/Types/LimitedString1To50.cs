@@ -1,6 +1,6 @@
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class LimitedString1To50 : LimitedString
+    public class LimitedString1To50 : LimitedString
     {
         private static readonly StringLimitation Limitation = new StringLimitation(minLength: 1, maxLength: 50);
 

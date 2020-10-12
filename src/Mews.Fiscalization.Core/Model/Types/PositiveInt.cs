@@ -1,6 +1,6 @@
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class PositiveInt : LimitedInt
+    public class PositiveInt : LimitedInt
     {
         private static readonly RangeLimitation<int> Limitation = new RangeLimitation<int>(min: 1);
 

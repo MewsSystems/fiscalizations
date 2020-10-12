@@ -2,11 +2,11 @@ using System;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class DecimalLimitation
+    public class DecimalLimitation
     {
         public DecimalLimitation(decimal? min = null, decimal? max = null, int? maxDecimalPlaces = null, bool includeMin = true, bool includeMax = true)
         {
-            Range = new RangeLimitation<decimal>(min: min, max: max, includeMin: includeMin, includeMax: includeMax);
+            Range = new RangeLimitation<decimal>(min: min, max: max, minIsAllowed: includeMin, maxIsAllowed: includeMax);
             MaxDecimalPlaces = maxDecimalPlaces;
         }
 
