@@ -11,6 +11,11 @@ namespace Mews.Fiscalization.Core.Extensions
             return source as List<TSource> ?? source.ToList();
         }
 
+        public static bool IsEmpty<T>(this IEnumerable<T> source)
+        {
+            return source == null || !source.Any();
+        }
+
         public static bool NonEmpty<T>(this IEnumerable<T> source)
         {
             return source != null && source.FirstOrDefault() != null;

@@ -14,12 +14,17 @@ namespace Mews.Fiscalization.Core.Model.Collections
 
     public static class SequentialEnumerableStartingWithOne
     {
-        public static ISequentialEnumerable<T> FromPreordered<T>(IEnumerable<T> source)
+        public static SequentialEnumerableStartingWithOne<T> FromPreordered<T>(params T[] source)
         {
-            return new SequentialEnumerable<T>(source.Select((item, index) => new IndexedItem<T>(index + 1, item)));
+            return FromPreordered(source.AsEnumerable());
         }
 
-        public static ISequentialEnumerable<T> Create<T>(IEnumerable<IndexedItem<T>> source)
+        public static SequentialEnumerableStartingWithOne<T> FromPreordered<T>(IEnumerable<T> source)
+        {
+            return Create(source.Select((item, index) => new IndexedItem<T>(index + 1, item)));
+        }
+
+        public static SequentialEnumerableStartingWithOne<T> Create<T>(IEnumerable<IndexedItem<T>> source)
         {
             return new SequentialEnumerableStartingWithOne<T>(source);
         }
