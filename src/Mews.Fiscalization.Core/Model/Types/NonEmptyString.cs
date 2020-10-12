@@ -1,17 +1,19 @@
+using Mews.Fiscalization.Core.Extensions;
+
 namespace Mews.Fiscalization.Core.Model
 {
     public class NonEmptyString : LimitedString
     {
         private static readonly StringLimitation Limitation = new StringLimitation(allowEmptyOrWhiteSpace: false);
 
-        public NonEmptyString(string value)
-            : base(value, Limitation)
+        public NonEmptyString(string value, StringLimitation limitation = null)
+            : base(value, Limitation.Concat(limitation.ToEnumerable()).ExceptNulls())
         {
         }
 
-        public static bool IsValid(string value)
+        public new static bool IsValid(string value, StringLimitation limitation = null)
         {
-            return Limitation.IsValid(value);
+            return LimitedString.IsValid(value, Limitation.Concat(limitation.ToEnumerable()).ExceptNulls());
         }
     }
 }

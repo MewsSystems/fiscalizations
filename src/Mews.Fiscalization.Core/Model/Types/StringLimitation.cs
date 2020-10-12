@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using Mews.Fiscalization.Core.Extensions;
 
 namespace Mews.Fiscalization.Core.Model
 {
@@ -26,20 +27,16 @@ namespace Mews.Fiscalization.Core.Model
 
         internal void CheckValidity(string value)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
+            Check.IsNotNull(value, nameof(value));
 
-            if (!AllowEmptyOrWhiteSpace && String.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Empty value is not allowed.");
-            }
+            var isEmptyAndNotAllowed = !AllowEmptyOrWhiteSpace && String.IsNullOrWhiteSpace(value);
+            Check.Condition(!isEmptyAndNotAllowed, "Empty value is not allowed.");
 
             LengthLimitation.CheckValidity(value.Length, label: "length of string");
-            if (!Pattern?.IsMatch(value) ?? false)
+
+            if (Pattern.IsNotNull())
             {
-                throw new ArgumentException($"The value '{value}' does not match the pattern '{Pattern}'");
+                Check.Regex(Pattern, value, $"The value '{value}' does not match the pattern '{Pattern}'");
             }
         }
     }

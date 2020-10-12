@@ -6,9 +6,14 @@ namespace Mews.Fiscalization.Core.Extensions
 {
     public static class CollectionExtensions
     {
-        public static List<TSource> AsList<TSource>(this IEnumerable<TSource> source)
+        public static List<T> AsList<T>(this IEnumerable<T> source)
         {
-            return source as List<TSource> ?? source.ToList();
+            return source as List<T> ?? source.ToList();
+        }
+
+        public static IEnumerable<T> ExceptNulls<T>(this IEnumerable<T> source)
+        {
+            return source.Where(x => x.IsNotNull());
         }
 
         public static bool IsEmpty<T>(this IEnumerable<T> source)

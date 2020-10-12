@@ -28,15 +28,8 @@ namespace Mews.Fiscalization.Core.Model
 
         internal void CheckValidity(TValue value, string label)
         {
-            if (!FitsMin(value))
-            {
-                throw new ArgumentException($"Min {label} is {Min}.");
-            }
-
-            if (!FitsMax(value))
-            {
-                throw new ArgumentException($"Max {label} is {Max}.");
-            }
+            Check.Condition(FitsMin(value), $"Min {label} is {Min}.");
+            Check.Condition(FitsMax(value), $"Max {label} is {Max}.");
         }
 
         private bool FitsMin(TValue value)
