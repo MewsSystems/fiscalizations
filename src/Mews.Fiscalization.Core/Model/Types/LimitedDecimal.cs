@@ -1,16 +1,17 @@
+using System.Collections.Generic;
+
 namespace Mews.Fiscalization.Core.Model
 {
-    public abstract class LimitedDecimal : ValueWrapper<decimal>
+    public abstract class LimitedDecimal : ValueWrapper<decimal, DecimalLimitation>
     {
         protected LimitedDecimal(decimal value, DecimalLimitation limitation)
-            : base(value)
+            : base(value, limitation)
         {
-            limitation.CheckValidity(value);
         }
 
-        protected static bool IsValid(decimal value, DecimalLimitation limitation)
+        protected LimitedDecimal(decimal value, IEnumerable<DecimalLimitation> limitations)
+            : base(value, limitations)
         {
-            return limitation.IsValid(value);
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Mews.Fiscalization.Core.Model
 {
     public class PositiveInt : LimitedInt
@@ -12,6 +14,16 @@ namespace Mews.Fiscalization.Core.Model
         public static bool IsValid(int value)
         {
             return IsValid(value, Limitation);
+        }
+
+        public new static bool IsValid(int value, RangeLimitation<int> limitation = null)
+        {
+            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()).ExceptNulls());
+        }
+
+        public new static bool IsValid(int value, IEnumerable<RangeLimitation<int>> limitation)
+        {
+            return LimitedInt.IsValid(value, Limitation.Concat(limitation));
         }
     }
 }

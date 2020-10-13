@@ -2,7 +2,7 @@ using System;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public class RangeLimitation<TValue>
+    public class RangeLimitation<TValue> : ILimitation<TValue>
         where TValue : struct, IComparable<TValue>
     {
         public RangeLimitation(TValue? min = null, TValue? max = null, bool minIsAllowed = true, bool maxIsAllowed = true)
@@ -24,6 +24,11 @@ namespace Mews.Fiscalization.Core.Model
         public bool IsValid(TValue value)
         {
             return FitsMin(value) && FitsMax(value);
+        }
+
+        public void CheckValidity(TValue value)
+        {
+            CheckValidity(value, "value");
         }
 
         internal void CheckValidity(TValue value, string label)

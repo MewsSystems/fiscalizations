@@ -2,7 +2,7 @@ using System;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public class DecimalLimitation
+    public class DecimalLimitation : ILimitation<decimal>
     {
         public DecimalLimitation(decimal? min = null, decimal? max = null, int? maxDecimalPlaces = null, bool minIsAllowed = true, bool maxIsAllowed = true)
         {
@@ -19,7 +19,7 @@ namespace Mews.Fiscalization.Core.Model
             return Range.IsValid(value) && PrecisionIsValid(value);
         }
 
-        internal void CheckValidity(decimal value)
+        public void CheckValidity(decimal value)
         {
             Range.CheckValidity(value, label: "value");
             if (!PrecisionIsValid(value))

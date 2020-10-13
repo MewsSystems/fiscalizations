@@ -1,16 +1,10 @@
 namespace Mews.Fiscalization.Core.Model
 {
-    public abstract class LimitedInt : ValueWrapper<int>
+    public abstract class LimitedInt : ValueWrapper<int, RangeLimitation<int>>
     {
         protected LimitedInt(int value, RangeLimitation<int> limitation)
-            : base(value)
+            : base(value, limitation)
         {
-            limitation.CheckValidity(value, label: "value");
-        }
-
-        protected static bool IsValid(int value, RangeLimitation<int> limitation)
-        {
-            return limitation.IsValid(value);
         }
     }
 }
