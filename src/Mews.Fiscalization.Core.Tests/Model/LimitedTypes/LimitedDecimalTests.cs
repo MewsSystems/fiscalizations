@@ -6,7 +6,7 @@ namespace Mews.Fiscalization.Core.Tests.Model.LimitedTypes
 {
     public sealed class PositiveAmount : LimitedDecimal
     {
-        private static readonly DecimalLimitation Limitation = new DecimalLimitation(min: 0, includeMin: false, maxDecimalPlaces: 2);
+        private static readonly DecimalLimitation Limitation = new DecimalLimitation(min: 0, minIsAllowed: false, maxDecimalPlaces: 2);
 
         public PositiveAmount(decimal value)
             : base(value, Limitation)

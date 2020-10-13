@@ -4,9 +4,9 @@ namespace Mews.Fiscalization.Core.Model
 {
     public class DecimalLimitation
     {
-        public DecimalLimitation(decimal? min = null, decimal? max = null, int? maxDecimalPlaces = null, bool includeMin = true, bool includeMax = true)
+        public DecimalLimitation(decimal? min = null, decimal? max = null, int? maxDecimalPlaces = null, bool minIsAllowed = true, bool maxIsAllowed = true)
         {
-            Range = new RangeLimitation<decimal>(min: min, max: max, minIsAllowed: includeMin, maxIsAllowed: includeMax);
+            Range = new RangeLimitation<decimal>(min: min, max: max, minIsAllowed: minIsAllowed, maxIsAllowed: maxIsAllowed);
             MaxDecimalPlaces = maxDecimalPlaces;
         }
 
