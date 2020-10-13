@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mews.Fiscalization.Core.Extensions;
 
 namespace Mews.Fiscalization.Core.Model
 {

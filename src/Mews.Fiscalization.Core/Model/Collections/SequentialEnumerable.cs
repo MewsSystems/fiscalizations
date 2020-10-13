@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Mews.Fiscalization.Core.Extensions;
-using Mews.Fiscalization.Greece.Model.Collections;
 
 namespace Mews.Fiscalization.Core.Model
 {

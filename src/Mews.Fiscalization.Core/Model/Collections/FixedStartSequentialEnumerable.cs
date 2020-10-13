@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Mews.Fiscalization.Greece.Model.Collections;
 
-namespace Mews.Fiscalization.Core.Model.Collections
+namespace Mews.Fiscalization.Core.Model
 {
     public abstract class FixedStartSequentialEnumerable<T> : SequentialEnumerable<T>
     {

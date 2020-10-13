@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using Mews.Fiscalization.Greece.Model.Collections;
 
-namespace Mews.Fiscalization.Core.Model.Collections
+namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class SequentialEnumerableStartingWithOne<T> : FixedStartSequentialEnumerable<T>
+    public interface ISequentialEnumerableStartingWithOne<out T> : ISequentialEnumerable<T>
+    {
+    }
+
+    public sealed class SequentialEnumerableStartingWithOne<T> : FixedStartSequentialEnumerable<T>, ISequentialEnumerableStartingWithOne<T>
     {
         public SequentialEnumerableStartingWithOne(IEnumerable<IndexedItem<T>> indexedItems)
             : base(indexedItems, startIndex: 1)

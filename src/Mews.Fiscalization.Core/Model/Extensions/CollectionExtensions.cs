@@ -1,8 +1,8 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mews.Fiscalization.Core.Extensions
+namespace Mews.Fiscalization.Core.Model
 {
     public static class CollectionExtensions
     {

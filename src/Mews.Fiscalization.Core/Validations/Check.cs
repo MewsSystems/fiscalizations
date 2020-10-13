@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Mews.Fiscalization.Core.Extensions;
 
 namespace Mews.Fiscalization.Core.Model
 {

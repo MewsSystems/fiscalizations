@@ -1,5 +1,3 @@
-using Mews.Fiscalization.Core.Extensions;
-
 namespace Mews.Fiscalization.Core.Model
 {
     public class NonEmptyString : LimitedString

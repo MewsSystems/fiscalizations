@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Mews.Fiscalization.Core.Model;
 
-namespace Mews
+namespace Mews.Fiscalization.Core.Model
 {
     public interface INonEmptyEnumerable<out T> : IEnumerable<T>
     {

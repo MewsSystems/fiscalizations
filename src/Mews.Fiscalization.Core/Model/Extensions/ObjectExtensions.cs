@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mews.Fiscalization.Core.Extensions
+namespace Mews.Fiscalization.Core.Model
 {
     public static class ObjectExtensions
     {
