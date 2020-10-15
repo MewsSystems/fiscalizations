@@ -11,9 +11,14 @@ namespace Mews.Fiscalization.Core.Model
         {
         }
 
-        public new static bool IsValid(string value, StringLimitation limitation = null)
+        public static bool IsValid(string value)
         {
-            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()).ExceptNulls());
+            return IsValid(value, Limitation.ToEnumerable());
+        }
+
+        public new static bool IsValid(string value, StringLimitation limitation)
+        {
+            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()));
         }
 
         public new static bool IsValid(string value, IEnumerable<StringLimitation> limitation)

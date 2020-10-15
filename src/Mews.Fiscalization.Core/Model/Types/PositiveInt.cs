@@ -13,12 +13,12 @@ namespace Mews.Fiscalization.Core.Model
 
         public static bool IsValid(int value)
         {
-            return IsValid(value, Limitation);
+            return IsValid(value, Limitation.ToEnumerable());
         }
 
-        public new static bool IsValid(int value, RangeLimitation<int> limitation = null)
+        public new static bool IsValid(int value, RangeLimitation<int> limitation)
         {
-            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()).ExceptNulls());
+            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()));
         }
 
         public new static bool IsValid(int value, IEnumerable<RangeLimitation<int>> limitation)

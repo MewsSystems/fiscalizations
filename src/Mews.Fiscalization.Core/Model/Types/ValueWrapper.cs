@@ -37,5 +37,17 @@ namespace Mews.Fiscalization.Core.Model
         {
             return Value.ToString();
         }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj is ValueWrapper<T, ILimitation<T>> other && Value.Equals(other.Value);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
     }
 }

@@ -17,11 +17,6 @@ namespace Mews.Fiscalization.Core.Model
 
     public static class SequentialEnumerableStartingWithZero
     {
-        public static SequentialEnumerableStartingWithZero<T> FromPreordered<T>(params T[] source)
-        {
-            return FromPreordered(source.AsEnumerable());
-        }
-
         public static SequentialEnumerableStartingWithZero<T> FromPreordered<T>(IEnumerable<T> source)
         {
             return Create(source.Select((item, index) => new IndexedItem<T>(index, item)));
