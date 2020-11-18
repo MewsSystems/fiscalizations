@@ -41,6 +41,6 @@ namespace Mews.Fiscalization.Core.Model
         private static Exception GetArgumentError(string message)
         {
             return new ArgumentException(message);
-        }   
+        }
     }
 }
