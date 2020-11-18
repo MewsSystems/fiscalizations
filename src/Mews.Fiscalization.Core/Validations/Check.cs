@@ -7,16 +7,7 @@ namespace Mews.Fiscalization.Core.Model
 {
     public static class Check
     {
-        public static void IsNotNull<T>(T value, string valueName)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException(valueName);
-            }
-        }
-
-        public static T NotNull<T>(T value, string valueName)
-            where T : class
+        public static T IsNotNull<T>(T value, string valueName)
         {
             return value ?? throw new ArgumentNullException(valueName);
         }
@@ -50,6 +41,6 @@ namespace Mews.Fiscalization.Core.Model
         private static Exception GetArgumentError(string message)
         {
             return new ArgumentException(message);
-        }
+        }   
     }
 }
