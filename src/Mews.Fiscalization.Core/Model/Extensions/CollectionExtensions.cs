@@ -35,5 +35,18 @@ namespace Mews.Fiscalization.Core.Model
         {
             return source.Select((value, index) => (value, index)).All(x => x.value == startIndex + x.index);
         }
+
+        /// <summary>
+        /// Retuns an empty Enumerable if source is null, otherwise source.
+        /// </summary>
+        public static IEnumerable<TSource> Defined<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                return Enumerable.Empty<TSource>();
+            }
+
+            return source;
+        }
     }
 }
