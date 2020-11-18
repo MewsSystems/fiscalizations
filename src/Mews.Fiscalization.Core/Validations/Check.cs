@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalization.Core.Model
@@ -12,6 +13,12 @@ namespace Mews.Fiscalization.Core.Model
             {
                 throw new ArgumentNullException(valueName);
             }
+        }
+
+        public static T NotNull<T>(T value, string valueName)
+            where T : class
+        {
+            return value ?? throw new ArgumentNullException(valueName);
         }
 
         public static void NonEmpty<T>(IEnumerable<T> collection, string message)
@@ -29,6 +36,14 @@ namespace Mews.Fiscalization.Core.Model
             if (!value)
             {
                 throw GetArgumentError(message);
+            }
+        }
+
+        public static void In<T>(T value, IEnumerable<T> values, string name)
+        {
+            if (!values.Contains(value))
+            {
+                throw new ArgumentOutOfRangeException($"Value ({value}) is not allowed.", name);
             }
         }
 

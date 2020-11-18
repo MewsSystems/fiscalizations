@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Mews.Fiscalization.Core.Model
 {
@@ -12,6 +13,11 @@ namespace Mews.Fiscalization.Core.Model
         public static bool IsNull<T>(this T value)
         {
             return value == null;
+        }
+
+        public static bool Implies(this bool a, Func<bool> b)
+        {
+            return !a || b();
         }
 
         public static INonEmptyEnumerable<T> ToEnumerable<T>(this T value)

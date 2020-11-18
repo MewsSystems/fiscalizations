@@ -35,5 +35,15 @@ namespace Mews.Fiscalization.Core.Model
         {
             return source.Select((value, index) => (value, index)).All(x => x.value == startIndex + x.index);
         }
+
+        public static IEnumerable<TSource> NullToEmpty<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                return Enumerable.Empty<TSource>();
+            }
+
+            return source;
+        }
     }
 }
