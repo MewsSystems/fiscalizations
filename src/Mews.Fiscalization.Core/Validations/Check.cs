@@ -38,6 +38,22 @@ namespace Mews.Fiscalization.Core.Model
             }
         }
 
+        public static void Digits(decimal value, int maxdigitCount)
+        {
+            if (!value.HasFewerDigitsThan(maxdigitCount))
+            {
+                throw new ArgumentOutOfRangeException($"Value cannot have more than {maxdigitCount} digits.");
+            }
+        }
+
+        public static void Precision(decimal value, int maxPrecision)
+        {
+            if (!value.PrecisionSmallerThanOrEqualTo(maxPrecision))
+            {
+                throw new ArgumentOutOfRangeException($"Precision cannot be higher than {maxPrecision}.");
+            }
+        }
+
         private static Exception GetArgumentError(string message)
         {
             return new ArgumentException(message);
