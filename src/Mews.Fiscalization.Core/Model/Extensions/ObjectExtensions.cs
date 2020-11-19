@@ -29,5 +29,16 @@ namespace Mews.Fiscalization.Core.Model
         {
             return NonEmptyEnumerable.Create(value, others);
         }
+
+        public static bool HasFewerDigitsThan(this decimal value, int maxDigitCount)
+        {
+            return value < (decimal)Math.Pow(10, maxDigitCount);
+        }
+
+        public static bool PrecisionSmallerThanOrEqualTo(this decimal value, int maxPrecision)
+        {
+            var minAllowedFraction = (decimal)Math.Pow(10, -1 * maxPrecision);
+            return value % minAllowedFraction == 0;
+        }
     }
 }
