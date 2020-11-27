@@ -46,7 +46,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
             Assert.IsFalse(EuropeanTaxIdentifier.IsValid("ES", "ABC1234567"), "Invalid tax identifier shouldn't pass the validation.");
 
             var invalidCountryCodeException = Assert.Throws<ArgumentException>(() => EuropeanTaxIdentifier.IsValid("INVALID", "99999"));
-            Assert.AreEqual(invalidCountryCodeException.Message, "Invalid or not implemented country code.");
+            Assert.AreEqual(invalidCountryCodeException.Message, "Country code format must be alpha-2.");
 
             var nullCountryCodeException = Assert.Throws<ArgumentException>(() => EuropeanTaxIdentifier.IsValid(null, "99999"));
             Assert.AreEqual(nullCountryCodeException.Message, "Country code cannot be null or empty.");

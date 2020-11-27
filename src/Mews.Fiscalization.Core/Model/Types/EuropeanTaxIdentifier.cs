@@ -20,6 +20,7 @@ namespace Mews.Fiscalization.Core.Model
         private static void ValidateTaxIdentifier(string alpha2CountryCode, string taxIdentifier)
         {
             Check.Condition(alpha2CountryCode.IsNotNullNorWhitespace(), "Country code cannot be null or empty.");
+            Check.Condition(alpha2CountryCode.Length.Equals(2), "Country code format must be alpha-2.");
             Check.Condition(EuropeanTaxIdentifierPatterns.ContainsKey(alpha2CountryCode), "Invalid or not implemented country code.");
             Check.Condition(taxIdentifier.IsNotNullNorWhitespace(), "Tax identifier cannot be null or empty.");
         }
