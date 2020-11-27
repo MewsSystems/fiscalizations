@@ -5,7 +5,7 @@ using System;
 namespace Mews.Fiscalization.Core.Tests.Model
 {
     [TestFixture]
-    public sealed class EuropeanTaxIdentifierTests
+    public sealed class EuropeanTaxpayerIdentificationNumberTests
     {
         [Test]
         [TestCase("AT", "U99999999")]
@@ -37,21 +37,21 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("SK", "9999999999")]
         public void ValidTaxIdentifierPassesValidation(string countryCode, string taxIdentifier)
         {
-            Assert.IsTrue(EuropeanTaxIdentifier.IsValid(countryCode, taxIdentifier), $"Tax identifier: {taxIdentifier}, must be valid for country code {countryCode}.");
+            Assert.IsTrue(EuropeanTaxpayerIdentificationNumber.IsValid(countryCode, taxIdentifier), $"Tax identifier: {taxIdentifier}, must be valid for country code {countryCode}.");
         }
 
         [Test]
         public void InvalidTaxIdentifierFailsValidation()
         {
-            Assert.IsFalse(EuropeanTaxIdentifier.IsValid("ES", "ABC1234567"), "Invalid tax identifier shouldn't pass the validation.");
+            Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid("ES", "ABC1234567"), "Invalid tax identifier shouldn't pass the validation.");
 
-            var invalidCountryCodeException = Assert.Throws<ArgumentException>(() => EuropeanTaxIdentifier.IsValid("INVALID", "99999"));
+            var invalidCountryCodeException = Assert.Throws<ArgumentException>(() => EuropeanTaxpayerIdentificationNumber.IsValid("INVALID", "99999"));
             Assert.AreEqual(invalidCountryCodeException.Message, "Country code format must be alpha-2.");
 
-            var nullCountryCodeException = Assert.Throws<ArgumentException>(() => EuropeanTaxIdentifier.IsValid(null, "99999"));
+            var nullCountryCodeException = Assert.Throws<ArgumentException>(() => EuropeanTaxpayerIdentificationNumber.IsValid(null, "99999"));
             Assert.AreEqual(nullCountryCodeException.Message, "Country code cannot be null or empty.");
 
-            var invalidTaxIdentifierException = Assert.Throws<ArgumentException>(() => EuropeanTaxIdentifier.IsValid("CZ", ""));
+            var invalidTaxIdentifierException = Assert.Throws<ArgumentException>(() => EuropeanTaxpayerIdentificationNumber.IsValid("CZ", ""));
             Assert.AreEqual(invalidTaxIdentifierException.Message, "Tax identifier cannot be null or empty.");
         }
     }

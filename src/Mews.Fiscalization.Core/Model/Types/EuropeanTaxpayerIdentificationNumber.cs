@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class EuropeanTaxIdentifier
+    public sealed class EuropeanTaxpayerIdentificationNumber
     {
-        public EuropeanTaxIdentifier(string alpha2CountryCode, string taxIdentifier)
+        public EuropeanTaxpayerIdentificationNumber(string alpha2CountryCode, string taxIdentifier)
         {
             ValidateTaxIdentifier(alpha2CountryCode, taxIdentifier);
             Check.Condition(IsValid(alpha2CountryCode, taxIdentifier), "Invalid tax identifier.");
