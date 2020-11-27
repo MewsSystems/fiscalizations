@@ -5,27 +5,27 @@ namespace Mews.Fiscalization.Core.Model
 {
     public sealed class EuropeanTaxpayerIdentificationNumber
     {
-        public EuropeanTaxpayerIdentificationNumber(string alpha2CountryCode, string taxIdentifier)
+        public EuropeanTaxpayerIdentificationNumber(string alpha2CountryCode, string taxpayerNumber)
         {
-            ValidateTaxIdentifier(alpha2CountryCode, taxIdentifier);
-            Check.Condition(IsValid(alpha2CountryCode, taxIdentifier), "Invalid tax identifier.");
+            ValidateTaxpayerNumber(alpha2CountryCode, taxpayerNumber);
+            Check.Condition(IsValid(alpha2CountryCode, taxpayerNumber), "Invalid taxpayer identification number.");
         }
 
-        public static bool IsValid(string alpha2CountryCode, string taxIdentifier)
+        public static bool IsValid(string alpha2CountryCode, string taxpayerNumber)
         {
-            ValidateTaxIdentifier(alpha2CountryCode, taxIdentifier);
-            return Regex.IsMatch(taxIdentifier, EuropeanTaxIdentifierPatterns[alpha2CountryCode]);
+            ValidateTaxpayerNumber(alpha2CountryCode, taxpayerNumber);
+            return Regex.IsMatch(taxpayerNumber, EuropeanTaxpayerNumberPatterns[alpha2CountryCode]);
         }
 
-        private static void ValidateTaxIdentifier(string alpha2CountryCode, string taxIdentifier)
+        private static void ValidateTaxpayerNumber(string alpha2CountryCode, string taxpayerNumber)
         {
             Check.Condition(alpha2CountryCode.IsNotNullNorWhitespace(), "Country code cannot be null or empty.");
             Check.Condition(alpha2CountryCode.Length.Equals(2), "Country code format must be alpha-2.");
-            Check.Condition(EuropeanTaxIdentifierPatterns.ContainsKey(alpha2CountryCode), "Invalid or not implemented country code.");
-            Check.Condition(taxIdentifier.IsNotNullNorWhitespace(), "Tax identifier cannot be null or empty.");
+            Check.Condition(EuropeanTaxpayerNumberPatterns.ContainsKey(alpha2CountryCode), "Invalid or not implemented country code.");
+            Check.Condition(taxpayerNumber.IsNotNullNorWhitespace(), "Taxpayer identification number cannot be null or empty.");
         }
         
-        private static readonly IReadOnlyDictionary<string, string> EuropeanTaxIdentifierPatterns = new Dictionary<string, string>
+        private static readonly IReadOnlyDictionary<string, string> EuropeanTaxpayerNumberPatterns = new Dictionary<string, string>
         {
             { "AT", "(AT)?U[0-9]{8}" },
             { "BE", "(BE)?0[0-9]{9}" },

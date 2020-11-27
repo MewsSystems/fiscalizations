@@ -35,15 +35,15 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("SE", "999999999999")]
         [TestCase("SI", "99999999")]
         [TestCase("SK", "9999999999")]
-        public void ValidTaxIdentifierPassesValidation(string countryCode, string taxIdentifier)
+        public void ValidTaxpayerNumberPassesValidation(string countryCode, string taxpayerNumber)
         {
-            Assert.IsTrue(EuropeanTaxpayerIdentificationNumber.IsValid(countryCode, taxIdentifier), $"Tax identifier: {taxIdentifier}, must be valid for country code {countryCode}.");
+            Assert.IsTrue(EuropeanTaxpayerIdentificationNumber.IsValid(countryCode, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
         }
 
         [Test]
-        public void InvalidTaxIdentifierFailsValidation()
+        public void InvalidTaxpayerNumberFailsValidation()
         {
-            Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid("ES", "ABC1234567"), "Invalid tax identifier shouldn't pass the validation.");
+            Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid("ES", "ABC1234567"), "Invalid taxpayer identification number shouldn't pass the validation.");
 
             var invalidCountryCodeException = Assert.Throws<ArgumentException>(() => EuropeanTaxpayerIdentificationNumber.IsValid("INVALID", "99999"));
             Assert.AreEqual(invalidCountryCodeException.Message, "Country code format must be alpha-2.");
@@ -52,7 +52,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
             Assert.AreEqual(nullCountryCodeException.Message, "Country code cannot be null or empty.");
 
             var invalidTaxIdentifierException = Assert.Throws<ArgumentException>(() => EuropeanTaxpayerIdentificationNumber.IsValid("CZ", ""));
-            Assert.AreEqual(invalidTaxIdentifierException.Message, "Tax identifier cannot be null or empty.");
+            Assert.AreEqual(invalidTaxIdentifierException.Message, "Taxpayer identification number cannot be null or empty.");
         }
     }
 }
