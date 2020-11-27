@@ -1,0 +1,94 @@
+﻿using Mews.Fiscalization.Core.Model;
+using NUnit.Framework;
+using System;
+
+namespace Mews.Fiscalization.Core.Tests.Model
+{
+    [TestFixture]
+    public sealed class TaxpayerIdentificationNumberTests
+    {
+        [Test]
+        [TestCase("AT", "U99999999")]
+        [TestCase("BE", "0999999999")]
+        [TestCase("BG", "999999999")]
+        [TestCase("CY", "99999999L")]
+        [TestCase("CZ", "99999999")]
+        [TestCase("DE", "999999999")]
+        [TestCase("DK", "99999999")]
+        [TestCase("EE", "999999999")]
+        [TestCase("GR", "999999999")]
+        [TestCase("ES", "X9999999X")]
+        [TestCase("FI", "99999999")]
+        [TestCase("FR", "XX999999999")]
+        [TestCase("GB", "999999999")]
+        [TestCase("HU", "99999999")]
+        [TestCase("IE", "9S99999L")]
+        [TestCase("IT", "99999999999")]
+        [TestCase("LT", "999999999")]
+        [TestCase("LU", "99999999")]
+        [TestCase("LV", "99999999999")]
+        [TestCase("MT", "99999999")]
+        [TestCase("NL", "999999999B99")]
+        [TestCase("PL", "9999999999")]
+        [TestCase("PT", "999999999")]
+        [TestCase("RO", "99")]
+        [TestCase("SE", "999999999999")]
+        [TestCase("SI", "99999999")]
+        [TestCase("SK", "9999999999")]
+        public void CreatingValidEuropeanTaxpayerNumberSucceeds(string countryCode, string taxpayerNumber)
+        {
+            var country = new EuropeanCountry(countryCode);
+            Assert.DoesNotThrow(() => new EuropeanTaxpayerIdentificationNumber(country, taxpayerNumber));
+            Assert.IsTrue(EuropeanTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
+        }
+
+        [Test]
+        [TestCase("US", "123456789")]
+        [TestCase("AU", "ABCD12345111")]
+        public void CreatingValidNonEuropeanTaxpayerNumberSucceeds(string countryCode, string taxpayerNumber)
+        {
+            var country = new Country(countryCode);
+            Assert.DoesNotThrow(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
+            Assert.IsTrue(TaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
+        }
+
+        [Test]
+        public void CreatingInvalidEuropeanTaxpayerNumberFails()
+        {
+            var country = new EuropeanCountry("CZ");
+            Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid(country, "ABC1234567"), "Invalid taxpayer identification number shouldn't pass the validation.");
+            Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid(country, ""));
+            Assert.Throws<ArgumentException>(() => new EuropeanTaxpayerIdentificationNumber(country, "ABC1234567"));
+            Assert.Throws<ArgumentException>(() => new EuropeanTaxpayerIdentificationNumber(country, ""));
+        }
+
+        [Test]
+        public void CreatingInvalidNonEuropeanTaxpayerNumberFails()
+        {
+            var country = new Country("US");
+            Assert.IsFalse(TaxpayerIdentificationNumber.IsValid(country, ""));
+            Assert.IsFalse(TaxpayerIdentificationNumber.IsValid(country, null), "Invalid taxpayer identification number shouldn't pass the validation.");
+            Assert.Throws<ArgumentNullException>(() => new TaxpayerIdentificationNumber(null, "ABC1234567"));
+            Assert.Throws<ArgumentNullException>(() => new TaxpayerIdentificationNumber(country, null));
+        }
+
+        [Test]
+        public void CreatingCountryWithInvalidCountryCodeFails()
+        {
+            Assert.Throws<ArgumentException>(() => new EuropeanCountry("US"));
+            Assert.Throws<ArgumentException>(() => new Country(""));
+            Assert.Throws<ArgumentNullException>(() => new Country(null));
+        }
+
+        [Test]
+        public void CreatingCountryWithValidCountryCodeSucceeds()
+        {
+            Assert.DoesNotThrow(() => new EuropeanCountry("CZ"));
+            Assert.DoesNotThrow(() => new Country("CZ"));
+            Assert.DoesNotThrow(() => new Country("US"));
+            Assert.IsTrue(EuropeanCountry.IsValid("CZ"));
+            Assert.IsTrue(Country.IsValid("CZ"));
+            Assert.IsTrue(Country.IsValid("US"));
+        }
+    }
+}

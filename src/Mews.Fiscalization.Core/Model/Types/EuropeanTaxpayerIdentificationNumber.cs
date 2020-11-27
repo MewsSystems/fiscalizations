@@ -3,26 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public sealed class EuropeanTaxpayerIdentificationNumber
+    public sealed class EuropeanTaxpayerIdentificationNumber : TaxpayerIdentificationNumber
     {
-        public EuropeanTaxpayerIdentificationNumber(string alpha2CountryCode, string taxpayerNumber)
+        public EuropeanTaxpayerIdentificationNumber(Country country, string taxpayerNumber)
+            : base(country, taxpayerNumber)
         {
-            ValidateTaxpayerNumber(alpha2CountryCode, taxpayerNumber);
-            Check.Condition(IsValid(alpha2CountryCode, taxpayerNumber), "Invalid taxpayer identification number.");
         }
 
-        public static bool IsValid(string alpha2CountryCode, string taxpayerNumber)
+        public new static bool IsValid(Country country, string taxpayerNumber)
         {
-            ValidateTaxpayerNumber(alpha2CountryCode, taxpayerNumber);
-            return Regex.IsMatch(taxpayerNumber, EuropeanTaxpayerNumberPatterns[alpha2CountryCode]);
-        }
-
-        private static void ValidateTaxpayerNumber(string alpha2CountryCode, string taxpayerNumber)
-        {
-            Check.Condition(alpha2CountryCode.IsNotNullNorWhitespace(), "Country code cannot be null or empty.");
-            Check.Condition(alpha2CountryCode.Length.Equals(2), "Country code format must be alpha-2.");
-            Check.Condition(EuropeanTaxpayerNumberPatterns.ContainsKey(alpha2CountryCode), "Invalid or not implemented country code.");
-            Check.Condition(taxpayerNumber.IsNotNullNorWhitespace(), "Taxpayer identification number cannot be null or empty.");
+            return Regex.IsMatch(taxpayerNumber, EuropeanTaxpayerNumberPatterns[country.Value]);
         }
         
         private static readonly IReadOnlyDictionary<string, string> EuropeanTaxpayerNumberPatterns = new Dictionary<string, string>
