@@ -2,7 +2,7 @@
 {
     public class Country : NonEmptyString
     {
-        private static readonly StringLimitation Limitation = new StringLimitation(allowedValues: CountryCodes.All);
+        private static readonly StringLimitation Limitation = new StringLimitation(allowedValues: CountryInfo.AllCountryCodes);
 
         public Country(string alpha2Code)
             : base(alpha2Code, Limitation)

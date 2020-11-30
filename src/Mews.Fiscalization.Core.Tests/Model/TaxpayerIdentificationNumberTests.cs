@@ -39,6 +39,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         {
             var country = new EuropeanCountry(countryCode);
             Assert.DoesNotThrow(() => new EuropeanTaxpayerIdentificationNumber(country, taxpayerNumber));
+            Assert.DoesNotThrow(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
             Assert.IsTrue(EuropeanTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
         }
 
@@ -60,6 +61,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
             Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid(country, ""));
             Assert.Throws<ArgumentException>(() => new EuropeanTaxpayerIdentificationNumber(country, "ABC1234567"));
             Assert.Throws<ArgumentException>(() => new EuropeanTaxpayerIdentificationNumber(country, ""));
+            Assert.Throws<ArgumentException>(() => new TaxpayerIdentificationNumber(country, ""));
         }
 
         [Test]

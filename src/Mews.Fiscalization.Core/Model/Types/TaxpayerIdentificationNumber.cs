@@ -11,7 +11,7 @@
         public static bool IsValid(Country country, string taxpayerNumber)
         {
             Check.IsNotNull(country, $"{nameof(country)} cannot be null.");
-            if (CountryCodes.EuropeanCountryCodes.Contains(country.Value))
+            if (CountryInfo.EuropeanCountryCodes.Contains(country.Value))
             {
                 return EuropeanTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber);
             }

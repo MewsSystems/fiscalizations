@@ -10,7 +10,7 @@
 
         public new static bool IsValid(string alpha2Code)
         {
-            return Country.IsValid(alpha2Code) && CountryCodes.EuropeanCountryCodes.Contains(alpha2Code);
+            return Country.IsValid(alpha2Code) && CountryInfo.EuropeanCountryCodes.Contains(alpha2Code);
         }
     }
 }
