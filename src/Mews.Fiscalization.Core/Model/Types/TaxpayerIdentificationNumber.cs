@@ -5,15 +5,19 @@
         public TaxpayerIdentificationNumber(Country country, string taxpayerNumber)
             : base(taxpayerNumber)
         {
+            Check.IsNotNull(country, nameof(country));
             Check.Condition(IsValid(country, taxpayerNumber), "Invalid taxpayer identification number.");
         }
 
         public static bool IsValid(Country country, string taxpayerNumber)
         {
-            Check.IsNotNull(country, $"{nameof(country)} cannot be null.");
-            if (CountryInfo.EuropeanCountryCodes.Contains(country.Value))
+            if (country.IsNull())
             {
-                return EuropeanTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber);
+                return false;
+            }
+            if (country is EuropeanUnionCountry europeanCountry)
+            {
+                return EuropeanUnionTaxpayerIdentificationNumber.IsValid(europeanCountry, taxpayerNumber);
             }
 
             return IsValid(taxpayerNumber);

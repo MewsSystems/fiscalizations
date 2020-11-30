@@ -10,7 +10,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [Test]
         public void CreatingCountryWithInvalidCountryCodeFails()
         {
-            Assert.Throws<ArgumentException>(() => new EuropeanCountry("US"));
+            Assert.Throws<ArgumentException>(() => new EuropeanUnionCountry("US"));
             Assert.Throws<ArgumentException>(() => new Country(""));
             Assert.Throws<ArgumentNullException>(() => new Country(null));
         }
@@ -18,10 +18,10 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [Test]
         public void CreatingCountryWithValidCountryCodeSucceeds()
         {
-            Assert.DoesNotThrow(() => new EuropeanCountry("CZ"));
+            Assert.DoesNotThrow(() => new EuropeanUnionCountry("CZ"));
             Assert.DoesNotThrow(() => new Country("CZ"));
             Assert.DoesNotThrow(() => new Country("US"));
-            Assert.IsTrue(EuropeanCountry.IsValid("CZ"));
+            Assert.IsTrue(EuropeanUnionCountry.IsValid("CZ"));
             Assert.IsTrue(Country.IsValid("CZ"));
             Assert.IsTrue(Country.IsValid("US"));
         }

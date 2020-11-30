@@ -7,7 +7,6 @@
         public Country(string alpha2Code)
             : base(alpha2Code, Limitation)
         {
-            Check.Condition(IsValid(alpha2Code), "Invalid country code.");
         }
 
         public new static bool IsValid(string alpha2Code)

@@ -37,10 +37,10 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("SK", "9999999999")]
         public void CreatingValidEuropeanTaxpayerNumberSucceeds(string countryCode, string taxpayerNumber)
         {
-            var country = new EuropeanCountry(countryCode);
-            Assert.DoesNotThrow(() => new EuropeanTaxpayerIdentificationNumber(country, taxpayerNumber));
+            var country = new EuropeanUnionCountry(countryCode);
+            Assert.DoesNotThrow(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber));
             Assert.DoesNotThrow(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
-            Assert.IsTrue(EuropeanTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
+            Assert.IsTrue(EuropeanUnionTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
         }
 
         [Test]
@@ -54,14 +54,15 @@ namespace Mews.Fiscalization.Core.Tests.Model
         }
 
         [Test]
-        public void CreatingInvalidEuropeanTaxpayerNumberFails()
+        [TestCase("CZ", "ABC1234567")]
+        [TestCase("CZ", "")]
+        public void CreatingInvalidEuropeanTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var country = new EuropeanCountry("CZ");
-            Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid(country, "ABC1234567"), "Invalid taxpayer identification number shouldn't pass the validation.");
-            Assert.IsFalse(EuropeanTaxpayerIdentificationNumber.IsValid(country, ""));
-            Assert.Throws<ArgumentException>(() => new EuropeanTaxpayerIdentificationNumber(country, "ABC1234567"));
-            Assert.Throws<ArgumentException>(() => new EuropeanTaxpayerIdentificationNumber(country, ""));
-            Assert.Throws<ArgumentException>(() => new TaxpayerIdentificationNumber(country, ""));
+            var test = CountryInfo.EuropeanUnionCountryCodes;
+            var country = new EuropeanUnionCountry(countryCode);
+            Assert.IsFalse(EuropeanUnionTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
+            Assert.Throws<ArgumentException>(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber));
+            Assert.Throws<ArgumentException>(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
         }
 
         [Test]

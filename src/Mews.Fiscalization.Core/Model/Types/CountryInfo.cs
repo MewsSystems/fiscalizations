@@ -7,16 +7,11 @@ namespace Mews.Fiscalization.Core.Model
     {
         static CountryInfo()
         {
-            Check.Condition(EuropeanCountryCodes.All(i => AllCountryCodes.Contains(i)), "All European country codes should be a part of all country codes.");
+            EuropeanUnionCountryCodes = EuropeanUnionTaxpayerNumberPatterns.Keys.ToHashSet();
+            Check.Condition(EuropeanUnionCountryCodes.All(i => AllCountryCodes.Contains(i)), "All European Union country codes should be a part of all country codes.");
         }
 
-        public static HashSet<string> EuropeanCountryCodes
-        {
-            get
-            {
-                return EuropeanTaxpayerNumberPatterns.Keys.ToHashSet();
-            }
-        }
+        public static HashSet<string> EuropeanUnionCountryCodes { get; }
 
         public static readonly HashSet<string> AllCountryCodes = new HashSet<string>
         {
@@ -268,7 +263,7 @@ namespace Mews.Fiscalization.Core.Model
             "ZW"
         };
 
-        public static readonly IReadOnlyDictionary<string, string> EuropeanTaxpayerNumberPatterns = new Dictionary<string, string>
+        public static readonly IReadOnlyDictionary<string, string> EuropeanUnionTaxpayerNumberPatterns = new Dictionary<string, string>
         {
             { "AT", "(AT)?U[0-9]{8}" },
             { "BE", "(BE)?0[0-9]{9}" },
