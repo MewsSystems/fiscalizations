@@ -81,14 +81,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("ABC1234567", null)]
         public void CreateTaxpayerNumberWithInvalidCountryFails(string countryCode, string taxpayerNumber)
         {
-            if (countryCode.IsNull())
-            {
-                Assert.Throws<ArgumentNullException>(() => new TaxpayerIdentificationNumber(new Country(countryCode), taxpayerNumber));
-            }
-            else
-            {
-                Assert.Throws<ArgumentException>(() => new TaxpayerIdentificationNumber(new Country(countryCode), taxpayerNumber));
-            }
+            Assert.That(() => new TaxpayerIdentificationNumber(new Country(countryCode), taxpayerNumber), Throws.Exception);
         }
     }
 }
