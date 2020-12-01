@@ -6,8 +6,13 @@ namespace Mews.Fiscalization.Core.Model
     {
         private static readonly StringLimitation Limitation = new StringLimitation(allowEmptyOrWhiteSpace: false);
 
-        public NonEmptyString(string value, StringLimitation limitation = null)
-            : base(value, Limitation.Concat(limitation.ToEnumerable()).ExceptNulls())
+        public NonEmptyString(string value)
+            : base(value, Limitation.ToEnumerable())
+        {
+        }
+
+        protected NonEmptyString(string value, IEnumerable<StringLimitation> limitations = null)
+            : base(value, Limitation.Concat(limitations))
         {
         }
 

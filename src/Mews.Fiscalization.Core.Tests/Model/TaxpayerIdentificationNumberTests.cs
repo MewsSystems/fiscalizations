@@ -65,13 +65,30 @@ namespace Mews.Fiscalization.Core.Tests.Model
         }
 
         [Test]
-        public void CreatingInvalidNonEuropeanTaxpayerNumberFails()
+        [TestCase("US", "")]
+        [TestCase("AU", "")]
+        public void CreatingInvalidTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var country = new Country("US");
-            Assert.IsFalse(TaxpayerIdentificationNumber.IsValid(country, ""));
-            Assert.IsFalse(TaxpayerIdentificationNumber.IsValid(country, null), "Invalid taxpayer identification number shouldn't pass the validation.");
-            Assert.Throws<ArgumentNullException>(() => new TaxpayerIdentificationNumber(null, "ABC1234567"));
-            Assert.Throws<ArgumentNullException>(() => new TaxpayerIdentificationNumber(country, null));
+            var country = new Country(countryCode);
+            Assert.IsFalse(TaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
+            Assert.Throws<ArgumentException>(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
+        }
+
+        [Test]
+        [TestCase("", "")]
+        [TestCase(null, null)]
+        [TestCase(null, "ABC1234567")]
+        [TestCase("ABC1234567", null)]
+        public void CreateTaxpayerNumberWithInvalidCountryFails(string countryCode, string taxpayerNumber)
+        {
+            if (countryCode.IsNull())
+            {
+                Assert.Throws<ArgumentNullException>(() => new TaxpayerIdentificationNumber(new Country(countryCode), taxpayerNumber));
+            }
+            else
+            {
+                Assert.Throws<ArgumentException>(() => new TaxpayerIdentificationNumber(new Country(countryCode), taxpayerNumber));
+            }
         }
     }
 }
