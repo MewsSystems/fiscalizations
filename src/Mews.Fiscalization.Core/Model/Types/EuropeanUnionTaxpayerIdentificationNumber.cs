@@ -9,7 +9,7 @@ namespace Mews.Fiscalization.Core.Model
         {
         }
 
-        public new static bool IsValid(EuropeanUnionCountry country, string taxpayerNumber)
+        public static bool IsValid(EuropeanUnionCountry country, string taxpayerNumber)
         {
             return Regex.IsMatch(taxpayerNumber, CountryInfo.EuropeanUnionTaxpayerNumberPatterns[country.Value]);
         }

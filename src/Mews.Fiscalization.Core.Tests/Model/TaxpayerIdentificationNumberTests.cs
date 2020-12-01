@@ -58,7 +58,6 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("CZ", "")]
         public void CreatingInvalidEuropeanTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var test = CountryInfo.EuropeanUnionCountryCodes;
             var country = new EuropeanUnionCountry(countryCode);
             Assert.IsFalse(EuropeanUnionTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
             Assert.Throws<ArgumentException>(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber));
