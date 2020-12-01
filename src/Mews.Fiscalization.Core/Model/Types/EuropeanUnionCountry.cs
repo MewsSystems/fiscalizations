@@ -14,7 +14,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public new static bool IsValid(string alpha2Code)
         {
-            return Country.IsValid(alpha2Code);
+            return Country.IsValid(alpha2Code, Limitation);
         }
 
         public new static bool IsValid(string alpha2Code, IEnumerable<StringLimitation> limitations)
