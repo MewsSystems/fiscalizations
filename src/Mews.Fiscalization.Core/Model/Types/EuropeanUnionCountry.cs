@@ -4,7 +4,7 @@ namespace Mews.Fiscalization.Core.Model
 {
     public sealed class EuropeanUnionCountry : Country
     {
-        private static readonly StringLimitation Limitation = new StringLimitation(allowedValues: CountryInfo.EuropeanUnionCountryCodes);
+        private static readonly StringLimitation Limitation = new StringLimitation(allowEmptyOrWhiteSpace: false, allowedValues: CountryInfo.EuropeanUnionCountryCodes);
 
         public EuropeanUnionCountry(string alpha2Code) 
             : base(alpha2Code, Limitation.ToEnumerable())
@@ -14,7 +14,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public new static bool IsValid(string alpha2Code)
         {
-            return Country.IsValid(alpha2Code, Limitation);
+            return IsValid(alpha2Code, Limitation.ToEnumerable());
         }
 
         public new static bool IsValid(string alpha2Code, IEnumerable<StringLimitation> limitations)

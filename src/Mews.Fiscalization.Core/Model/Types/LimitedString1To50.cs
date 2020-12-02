@@ -11,7 +11,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public static bool IsValid(string value)
         {
-            return IsValid(value, Limitation);
+            return IsValid(value, Limitation.ToEnumerable());
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public class Country : NonEmptyString
+    public class Country : LimitedString
     {
-        private static readonly StringLimitation Limitation = new StringLimitation(allowedValues: CountryInfo.AllCountryCodes);
+        private static readonly StringLimitation Limitation = new StringLimitation(allowEmptyOrWhiteSpace: false, allowedValues: CountryInfo.AllCountryCodes);
 
         public Country(string alpha2Code)
             : this(alpha2Code, Limitation.ToEnumerable())
@@ -16,14 +16,14 @@ namespace Mews.Fiscalization.Core.Model
         {
         }
 
-        public new static bool IsValid(string alpha2Code)
+        public static bool IsValid(string alpha2Code)
         {
-            return IsValid(alpha2Code, Limitation);
+            return IsValid(alpha2Code, Limitation.ToEnumerable());
         }
 
         public new static bool IsValid(string alpha2Code, IEnumerable<StringLimitation> limitations)
         {
-            return NonEmptyString.IsValid(alpha2Code, Limitation.Concat(limitations));
+            return LimitedString.IsValid(alpha2Code, Limitation.Concat(limitations));
         }
     }
 }

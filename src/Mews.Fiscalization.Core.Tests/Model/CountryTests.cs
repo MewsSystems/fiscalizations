@@ -8,22 +8,42 @@ namespace Mews.Fiscalization.Core.Tests.Model
     public sealed class CountryTests
     {
         [Test]
-        public void CreatingCountryWithInvalidCountryCodeFails()
+        [TestCase("US")]
+        [TestCase("invalid")]
+        [TestCase("")]
+        [TestCase(null)]
+        public void CreatingEuropeanCountryWithInvalidCountryCodeFails(string countryCode)
         {
-            Assert.Throws<ArgumentException>(() => new EuropeanUnionCountry("US"));
-            Assert.Throws<ArgumentException>(() => new Country(""));
-            Assert.Throws<ArgumentNullException>(() => new Country(null));
+            Assert.That(() => new EuropeanUnionCountry(countryCode), Throws.Exception);
         }
 
         [Test]
-        public void CreatingCountryWithValidCountryCodeSucceeds()
+        [TestCase("invalid")]
+        [TestCase("")]
+        [TestCase(null)]
+        public void CreatingCountryWithInvalidCountryCodeFails(string countryCode)
         {
-            Assert.DoesNotThrow(() => new EuropeanUnionCountry("CZ"));
-            Assert.DoesNotThrow(() => new Country("CZ"));
-            Assert.DoesNotThrow(() => new Country("US"));
-            Assert.IsTrue(EuropeanUnionCountry.IsValid("CZ"));
-            Assert.IsTrue(Country.IsValid("CZ"));
-            Assert.IsTrue(Country.IsValid("US"));
+            Assert.That(() => new Country(countryCode), Throws.Exception);
+        }
+
+        [Test]
+        [TestCase("CZ")]
+        [TestCase("PL")]
+        public void CreatingEuropeanCountryWithValidCountryCodeSucceeds(string countryCode)
+        {
+            Assert.DoesNotThrow(() => new EuropeanUnionCountry(countryCode));
+            Assert.DoesNotThrow(() => new Country(countryCode));
+            Assert.IsTrue(EuropeanUnionCountry.IsValid(countryCode));
+            Assert.IsTrue(Country.IsValid(countryCode));
+        }
+
+        [Test]
+        [TestCase("CZ")]
+        [TestCase("PL")]
+        public void CreatingCountryWithValidCountryCodeSucceeds(string countryCode)
+        {
+            Assert.DoesNotThrow(() => new Country(countryCode));
+            Assert.IsTrue(Country.IsValid(countryCode));
         }
     }
 }
