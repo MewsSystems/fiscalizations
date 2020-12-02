@@ -15,6 +15,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         public void CreatingEuropeanCountryWithInvalidCountryCodeFails(string countryCode)
         {
             Assert.That(() => new EuropeanUnionCountry(countryCode), Throws.Exception);
+            Assert.IsFalse(EuropeanUnionCountry.IsValid(countryCode));
         }
 
         [Test]
@@ -24,6 +25,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         public void CreatingCountryWithInvalidCountryCodeFails(string countryCode)
         {
             Assert.That(() => new Country(countryCode), Throws.Exception);
+            Assert.IsFalse(Country.IsValid(countryCode));
         }
 
         [Test]
