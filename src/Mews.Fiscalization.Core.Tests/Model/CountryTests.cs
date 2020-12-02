@@ -38,8 +38,8 @@ namespace Mews.Fiscalization.Core.Tests.Model
         }
 
         [Test]
-        [TestCase("CZ")]
-        [TestCase("PL")]
+        [TestCase("US")]
+        [TestCase("AU")]
         public void CreatingCountryWithValidCountryCodeSucceeds(string countryCode)
         {
             Assert.DoesNotThrow(() => new Country(countryCode));
