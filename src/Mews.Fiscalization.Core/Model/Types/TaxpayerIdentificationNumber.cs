@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Mews.Fiscalization.Core.Model
 {
@@ -24,9 +25,10 @@ namespace Mews.Fiscalization.Core.Model
                 return EuropeanUnionTaxpayerIdentificationNumber.IsValid(europeanCountry, taxpayerNumber);
             }
 
-            return IsValid(taxpayerNumber);
+            return IsValid(taxpayerNumber, Limitation.ToEnumerable());
         }
 
+        [Obsolete("This will be removed later.")]
         public static bool IsValid(string taxpayerNumber)
         {
             return IsValid(taxpayerNumber, Limitation.ToEnumerable());
