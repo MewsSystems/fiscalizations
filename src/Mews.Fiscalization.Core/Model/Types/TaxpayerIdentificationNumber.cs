@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Mews.Fiscalization.Core.Model
+﻿namespace Mews.Fiscalization.Core.Model
 {
     public class TaxpayerIdentificationNumber : LimitedString
     {
@@ -26,17 +23,6 @@ namespace Mews.Fiscalization.Core.Model
             }
 
             return IsValid(taxpayerNumber, Limitation.ToEnumerable());
-        }
-
-        [Obsolete("This will be removed later.")]
-        public static bool IsValid(string taxpayerNumber)
-        {
-            throw new Exception("Use IsValid that takes country and tapayerNumber as a parameter.");
-        }
-
-        public new static bool IsValid(string taxpayerNumber, IEnumerable<StringLimitation> limitations)
-        {
-            return LimitedString.IsValid(taxpayerNumber, Limitation.Concat(limitations));
         }
     }
 }
