@@ -11,6 +11,11 @@ namespace Mews.Fiscalization.Core.Model
             return source as List<T> ?? source.ToList();
         }
 
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer = null)
+        {
+            return new HashSet<T>(source, comparer);
+        }
+
         public static IEnumerable<T> ExceptNulls<T>(this IEnumerable<T> source)
         {
             return source.Where(x => x.IsNotNull());

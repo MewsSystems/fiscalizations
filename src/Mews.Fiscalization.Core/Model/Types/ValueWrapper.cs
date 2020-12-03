@@ -21,11 +21,6 @@ namespace Mews.Fiscalization.Core.Model
             }
         }
 
-        protected static bool IsValid(T value, TLimitation limitation)
-        {
-            return limitation.IsValid(value);
-        }
-
         protected static bool IsValid(T value, IEnumerable<TLimitation> limitations)
         {
             return limitations.All(l => l.IsValid(value));

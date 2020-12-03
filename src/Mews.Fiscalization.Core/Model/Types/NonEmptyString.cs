@@ -6,8 +6,13 @@ namespace Mews.Fiscalization.Core.Model
     {
         private static readonly StringLimitation Limitation = new StringLimitation(allowEmptyOrWhiteSpace: false);
 
-        public NonEmptyString(string value, StringLimitation limitation = null)
-            : base(value, Limitation.Concat(limitation.ToEnumerable()).ExceptNulls())
+        public NonEmptyString(string value)
+            : base(value, Limitation.ToEnumerable())
+        {
+        }
+
+        protected NonEmptyString(string value, IEnumerable<StringLimitation> limitations = null)
+            : base(value, Limitation.Concat(limitations))
         {
         }
 
@@ -16,12 +21,7 @@ namespace Mews.Fiscalization.Core.Model
             return IsValid(value, Limitation.ToEnumerable());
         }
 
-        public new static bool IsValid(string value, StringLimitation limitation)
-        {
-            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()));
-        }
-
-        public new static bool IsValid(string value, IEnumerable<StringLimitation> limitation)
+        protected new static bool IsValid(string value, IEnumerable<StringLimitation> limitation)
         {
             return LimitedString.IsValid(value, Limitation.Concat(limitation));
         }
