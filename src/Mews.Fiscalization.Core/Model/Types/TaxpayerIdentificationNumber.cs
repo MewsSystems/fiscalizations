@@ -31,7 +31,7 @@ namespace Mews.Fiscalization.Core.Model
         [Obsolete("This will be removed later.")]
         public static bool IsValid(string taxpayerNumber)
         {
-            return IsValid(taxpayerNumber, Limitation.ToEnumerable());
+            throw new Exception("Use IsValid that takes country and tapayerNumber as a parameter.");
         }
 
         public new static bool IsValid(string taxpayerNumber, IEnumerable<StringLimitation> limitations)
