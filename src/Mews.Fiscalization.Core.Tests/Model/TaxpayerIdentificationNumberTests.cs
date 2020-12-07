@@ -54,25 +54,27 @@ namespace Mews.Fiscalization.Core.Tests.Model
         }
 
         [Test]
+        [TestCase(null, "ABCD12344")]
+        [TestCase("", "ABCD12344")]
         [TestCase("CZ", "")]
         [TestCase("CZ", null)]
         [TestCase(null, null)]
-        [TestCase(null, "ABC1234567")]
         public void CreatingInvalidEuropeanTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var country = countryCode.IsNotNull() ? new EuropeanUnionCountry(countryCode) : null;
+            var country = countryCode.IsNotNullNorWhitespace() ? new EuropeanUnionCountry(countryCode) : null;
             Assert.IsFalse(EuropeanUnionTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
             Assert.That(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber), Throws.Exception);
         }
 
         [Test]
+        [TestCase(null, "ABCD12345")]
+        [TestCase("", "ABCD12345")]
         [TestCase("US", "")]
         [TestCase("US", null)]
         [TestCase(null, null)]
-        [TestCase(null, "ABC1234567")]
         public void CreatingInvalidTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var country = countryCode.IsNotNull() ? new Country(countryCode) : null;
+            var country = countryCode.IsNotNullNorWhitespace() ? new Country(countryCode) : null;
             Assert.That(() => new TaxpayerIdentificationNumber(country, taxpayerNumber), Throws.Exception);
             Assert.IsFalse(TaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
         }
