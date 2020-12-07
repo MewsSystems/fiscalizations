@@ -54,6 +54,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         }
 
         [Test]
+        [TestCase("CZ", "ABC1234567")]
         [TestCase(null, "ABCD12344")]
         [TestCase("CZ", "")]
         [TestCase("CZ", null)]
