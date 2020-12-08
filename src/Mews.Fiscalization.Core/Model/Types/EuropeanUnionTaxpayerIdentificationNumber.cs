@@ -15,9 +15,11 @@ namespace Mews.Fiscalization.Core.Model
 
         public static bool IsValid(EuropeanUnionCountry country, string taxpayerNumber)
         {
-            var matchesRegex = Regex.IsMatch(taxpayerNumber, CountryInfo.EuropeanUnionTaxpayerNumberPatterns[country.Value]);
-
-            return matchesRegex && IsValid(taxpayerNumber, Limitation.ToEnumerable());
+            if (!IsValid(taxpayerNumber, Limitation.ToEnumerable()) || country.IsNull())
+            {
+                return false;
+            }
+            return Regex.IsMatch(taxpayerNumber, CountryInfo.EuropeanUnionTaxpayerNumberPatterns[country.Value]);
         }
     }
 }

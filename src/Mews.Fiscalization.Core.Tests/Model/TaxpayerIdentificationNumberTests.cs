@@ -55,20 +55,22 @@ namespace Mews.Fiscalization.Core.Tests.Model
 
         [Test]
         [TestCase("CZ", "ABC1234567")]
+        [TestCase(null, "ABCD12344")]
         [TestCase("CZ", "")]
+        [TestCase("CZ", null)]
+        [TestCase(null, null)]
         public void CreatingInvalidEuropeanTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var country = new EuropeanUnionCountry(countryCode);
+            var country = countryCode.IsNotNull() ? new EuropeanUnionCountry(countryCode) : null;
             Assert.IsFalse(EuropeanUnionTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
-            Assert.Throws<ArgumentException>(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber));
-            Assert.Throws<ArgumentException>(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
+            Assert.That(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber), Throws.Exception);
         }
 
         [Test]
+        [TestCase(null, "ABCD12345")]
         [TestCase("US", "")]
         [TestCase("US", null)]
         [TestCase(null, null)]
-        [TestCase(null, "ABC1234567")]
         public void CreatingInvalidTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
             var country = countryCode.IsNotNull() ? new Country(countryCode) : null;
