@@ -1,29 +1,46 @@
-using System.Collections.Generic;
+using System;
+using System.Linq;
+using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public class NonNegativeInt : LimitedInt
+    public struct NonNegativeInt
     {
-        private static readonly RangeLimitation<int> Limitation = new RangeLimitation<int>(min: 0);
-
-        public NonNegativeInt(int value)
-            : base(value, Limitation)
+        private NonNegativeInt(int value)
         {
+            Value = value;
         }
 
-        public static bool IsValid(int value)
+        public int Value { get; }
+
+        public static implicit operator int(NonNegativeInt i)
         {
-            return IsValid(value, Limitation.ToEnumerable());
+            return i.Value;
         }
 
-        public static bool IsValid(int value, RangeLimitation<int> limitation)
+        public static NonNegativeInt operator +(NonNegativeInt a, NonNegativeInt b)
         {
-            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()));
+            return a.Sum(b);
         }
 
-        public new static bool IsValid(int value, IEnumerable<RangeLimitation<int>> limitation)
+        public static ITry<NonNegativeInt, string> Create(int value)
         {
-            return LimitedInt.IsValid(value, Limitation.Concat(limitation));
+            return IntValidations.HigherThanOrEqual(value, 0).Map(v => new NonNegativeInt(v));
+        }
+
+        public static NonNegativeInt CreateUnsafe(int value)
+        {
+            return Create(value).Get(errorMessage => new ArgumentException(errorMessage));
+        }
+
+        public NonNegativeInt Sum(params NonNegativeInt[] values)
+        {
+            return new NonNegativeInt(values.Aggregate(Value, (a, b) => a + b));
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 }

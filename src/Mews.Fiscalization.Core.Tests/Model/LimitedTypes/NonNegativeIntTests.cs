@@ -11,24 +11,21 @@ namespace Mews.Fiscalization.Core.Tests.Model.LimitedTypes
         public void NegativeNotAllowed()
         {
             var negativeValue = -1;
-            Assert.IsFalse(NonNegativeInt.IsValid(negativeValue));
-            Assert.Throws<ArgumentException>(() => new NonNegativeInt(negativeValue));
+            Assert.IsFalse(NonNegativeInt.Create(negativeValue).IsSuccess);
         }
 
         [Test]
         public void ZeroAllowed()
         {
             var zeroValue = 0;
-            Assert.IsTrue(NonNegativeInt.IsValid(zeroValue));
-            new NonNegativeInt(zeroValue);
+            Assert.IsTrue(NonNegativeInt.Create(zeroValue).IsSuccess);
         }
 
         [Test]
         public void PositiveAllowed()
         {
             var positiveValue = 1;
-            Assert.IsTrue(NonNegativeInt.IsValid(positiveValue));
-            new NonNegativeInt(positiveValue);
+            Assert.IsTrue(NonNegativeInt.Create(positiveValue).IsSuccess);
         }
     }
 }

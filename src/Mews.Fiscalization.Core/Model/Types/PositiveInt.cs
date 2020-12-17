@@ -1,29 +1,61 @@
-using System.Collections.Generic;
+using System;
+using System.Linq;
+using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public class PositiveInt : LimitedInt
+    public struct PositiveInt
     {
-        private static readonly RangeLimitation<int> Limitation = new RangeLimitation<int>(min: 1);
-
-        public PositiveInt(int value)
-            : base(value, Limitation)
+        private PositiveInt(int value)
         {
+            Value = value;
         }
 
-        public static bool IsValid(int value)
+        public int Value { get; }
+
+        public static implicit operator int(PositiveInt i)
         {
-            return IsValid(value, Limitation.ToEnumerable());
+            return i.Value;
         }
 
-        public static bool IsValid(int value, RangeLimitation<int> limitation)
+        public static implicit operator NonNegativeInt(PositiveInt i)
         {
-            return IsValid(value, Limitation.Concat(limitation.ToEnumerable()));
+            return NonNegativeInt.CreateUnsafe(i.Value);
         }
 
-        public new static bool IsValid(int value, IEnumerable<RangeLimitation<int>> limitation)
+        public static PositiveInt operator +(PositiveInt a, NonNegativeInt b)
         {
-            return LimitedInt.IsValid(value, Limitation.Concat(limitation));
+            return a.Sum(b);
+        }
+
+        public static PositiveInt operator *(PositiveInt a, PositiveInt b)
+        {
+            return a.Multiply(b);
+        }
+
+        public static ITry<PositiveInt, string> Create(int value)
+        {
+            return IntValidations.HigherThan(value, 0).Map(v => new PositiveInt(v));
+        }
+
+        public static PositiveInt CreateUnsafe(int value)
+        {
+            return Create(value).Get(errorMessage => new ArgumentException(errorMessage));
+        }
+
+        public PositiveInt Sum(params NonNegativeInt[] values)
+        {
+            return new PositiveInt(values.Aggregate(Value, (a, b) => a + b));
+        }
+
+        public PositiveInt Multiply(params PositiveInt[] values)
+        {
+            return new PositiveInt(values.Aggregate(Value, (a, b) => a * b));
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 }

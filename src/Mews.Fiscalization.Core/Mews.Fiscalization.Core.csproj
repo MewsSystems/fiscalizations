@@ -19,4 +19,8 @@
     <ItemGroup>
       <PackageReference Include="FuncSharp" Version="[1.7.1]" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Model\Validations" />
+    </ItemGroup>
 </Project>
