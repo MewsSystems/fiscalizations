@@ -16,8 +16,8 @@ namespace Mews.Fiscalization.Core.Model
     {
         protected Sequence(INonEmptyEnumerable<Indexed<T>> values)
         {
-            Values = values;
             Check.Condition(values.IsSequential(v => v.Index, startIndex: values.First().Index), "Item indexes are not sequential.");
+            Values = values;
         }
 
         public INonEmptyEnumerable<Indexed<T>> Values { get; }
@@ -61,7 +61,7 @@ namespace Mews.Fiscalization.Core.Model
         }
     }
 
-    public static class SequentialEnumerable
+    public static class Sequence
     {
         public static IOption<ISequence<T>> FromPreordered<T>(IEnumerable<T> values, int startIndex)
         {
