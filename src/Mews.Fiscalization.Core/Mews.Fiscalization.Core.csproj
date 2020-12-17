@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>net472</TargetFramework>
         <Authors>Mews</Authors>
         <Copyright>Mews</Copyright>
         <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-core</PackageProjectUrl>
