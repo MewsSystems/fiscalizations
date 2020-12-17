@@ -38,6 +38,11 @@ namespace Mews.Fiscalization.Core.Model
             return new NonNegativeInt(values.Aggregate(Value, (a, b) => a + b));
         }
 
+        public NonNegativeInt Multiply(params NonNegativeInt[] values)
+        {
+            return new NonNegativeInt(values.Aggregate(Value, (a, b) => a * b));
+        }
+
         public override string ToString()
         {
             return Value.ToString();

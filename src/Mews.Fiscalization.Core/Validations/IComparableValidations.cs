@@ -12,13 +12,10 @@ namespace Mews.Fiscalization.Core.Model
                 t => HigherThanOrEqual(value, min),
                 f => HigherThan(value, min)
             );
-            return minCheckedValue.FlatMap(_ =>
-            {
-                return maxIsAllowed.Match(
-                    t => SmallerThanOrEqual(value, max),
-                    f => SmallerThan(value, max)
-                );
-            });
+            return minCheckedValue.FlatMap(_ => maxIsAllowed.Match(
+                t => SmallerThanOrEqual(value, max),
+                f => SmallerThan(value, max)
+            ));
         }
 
         public static ITry<T, string> SmallerThan<T>(T value, T limit)
