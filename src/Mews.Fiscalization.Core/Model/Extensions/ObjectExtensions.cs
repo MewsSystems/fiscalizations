@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
 {
@@ -13,6 +14,14 @@ namespace Mews.Fiscalization.Core.Model
         public static bool IsNull<T>(this T value)
         {
             return value == null;
+        }
+
+        public static ITry<T, E> ToTry<T, E>(this T value, Func<T, bool> condition, Func<Unit, E> error)
+        {
+            return condition(value).Match(
+                t => Try.Success<T, E>(value),
+                f => Try.Error<T, E>(error(Unit.Value))
+            );
         }
 
         public static bool Implies(this bool a, Func<bool> b)
