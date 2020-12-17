@@ -10,9 +10,15 @@
         <PackageTags>fiscalization core</PackageTags>
         <PackageLicenseUrl>https://github.com/MewsSystems/fiscalization-core/blob/master/LICENSE</PackageLicenseUrl>
         <LangVersion>8.0</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>1.0.2</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <OutputPath>bin\</OutputPath>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FuncSharp" Version="[1.7.1]" />
+    </ItemGroup>
 </Project>

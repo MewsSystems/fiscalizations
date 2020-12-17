@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
 {
@@ -19,6 +20,11 @@ namespace Mews.Fiscalization.Core.Model
         public static IEnumerable<T> ExceptNulls<T>(this IEnumerable<T> source)
         {
             return source.Where(x => x.IsNotNull());
+        }
+
+        public static IOption<INonEmptyEnumerable<T>> AsNonEmpty<T>(this IEnumerable<T> source)
+        {
+            return NonEmptyEnumerable.Create(source);
         }
 
         public static bool IsEmpty<T>(this IEnumerable<T> source)

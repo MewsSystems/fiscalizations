@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
 {
@@ -9,6 +11,9 @@ namespace Mews.Fiscalization.Core.Model
         T Head { get; }
 
         IReadOnlyList<T> Tail { get; }
+
+        INonEmptyEnumerable<TResult> Select<TResult>(Func<T, TResult> func);
+        INonEmptyEnumerable<TResult> Select<TResult>(Func<T, int, TResult> func);
     }
 
     public static class NonEmptyEnumerable
@@ -23,11 +28,14 @@ namespace Mews.Fiscalization.Core.Model
             return new NonEmptyEnumerable<T>(head, tail);
         }
 
-        public static INonEmptyEnumerable<T> Create<T>(IEnumerable<T> values)
+        public static IOption<INonEmptyEnumerable<T>> Create<T>(IEnumerable<T> values)
         {
-            var enumeratedValues = values.ToList();
-            Check.NonEmpty(enumeratedValues, "Enumerable was empty.");
-            return new NonEmptyEnumerable<T>(enumeratedValues.First(), enumeratedValues.Skip(1));
+            return Create(values.ToList());
+        }
+
+        public static IOption<INonEmptyEnumerable<T>> Create<T>(List<T> values)
+        {
+            return values.FirstOption().Map(h => new NonEmptyEnumerable<T>(h, values.Skip(1)));
         }
     }
 
@@ -46,6 +54,15 @@ namespace Mews.Fiscalization.Core.Model
         public T Head { get; }
 
         public IReadOnlyList<T> Tail { get; }
+        public INonEmptyEnumerable<TResult> Select<TResult>(Func<T, TResult> func)
+        {
+            return new NonEmptyEnumerable<TResult>(func(Head), Values.Select(func));
+        }
+
+        public INonEmptyEnumerable<TResult> Select<TResult>(Func<T, int, TResult> func)
+        {
+            return new NonEmptyEnumerable<TResult>(func(Head, 0), Values.Select((v, i) => func(v, i + 1)));
+        }
 
         public IReadOnlyList<T> Values { get; }
 
