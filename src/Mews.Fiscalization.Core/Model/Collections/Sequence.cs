@@ -14,7 +14,7 @@ namespace Mews.Fiscalization.Core.Model
 
     public class Sequence<T> : ISequence<T>
     {
-        protected Sequence(INonEmptyEnumerable<Indexed<T>> values)
+        private Sequence(INonEmptyEnumerable<Indexed<T>> values)
         {
             Check.Condition(values.IsSequential(v => v.Index, startIndex: values.First().Index), "Item indexes are not sequential.");
             Values = values;
