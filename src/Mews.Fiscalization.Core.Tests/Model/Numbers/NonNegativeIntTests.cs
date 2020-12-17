@@ -4,24 +4,24 @@ using Mews.Fiscalization.Core.Model;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
-namespace Mews.Fiscalization.Core.Tests.Model.LimitedTypes
+namespace Mews.Fiscalization.Core.Tests.Model
 {
     [TestFixture]
-    public sealed class PositiveIntTests
+    public sealed class NonNegativeIntTests
     {
         [Test]
         [TestCase(-1, false)]
-        [TestCase(0, false)]
+        [TestCase(0, true)]
         [TestCase(1, true)]
-        public void PositiveIntValidatesCorrectly(int value, bool isSuccess)
+        public void NonNegativeIntValidatesCorrectly(int value, bool isSuccess)
         {
-            Assert.AreEqual(isSuccess, PositiveInt.Create(value).IsSuccess);
+            Assert.AreEqual(isSuccess, NonNegativeInt.Create(value).IsSuccess);
 
             var exceptionConstraint = isSuccess.Match<IConstraint>(
                 t => Throws.Nothing,
                 f => Throws.TypeOf<ArgumentException>()
             );
-            Assert.That(() => PositiveInt.CreateUnsafe(value), exceptionConstraint);
+            Assert.That(() => NonNegativeInt.CreateUnsafe(value), exceptionConstraint);
         }
     }
 }
