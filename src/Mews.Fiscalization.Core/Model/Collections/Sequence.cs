@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FuncSharp;
@@ -16,13 +17,12 @@ namespace Mews.Fiscalization.Core.Model
     {
         private Sequence(INonEmptyEnumerable<Indexed<T>> values)
         {
-            Check.Condition(values.IsSequential(v => v.Index, startIndex: values.First().Index), "Item indexes are not sequential.");
             Values = values;
         }
 
         public INonEmptyEnumerable<Indexed<T>> Values { get; }
 
-        public int StartIndex => Values.First().Index;
+        public int StartIndex => Values.Head.Index;
 
         public int Count => Values.Count();
 
@@ -57,7 +57,8 @@ namespace Mews.Fiscalization.Core.Model
 
         public static ISequence<T> FromPreordered(INonEmptyEnumerable<T> values, int startIndex)
         {
-            return new Sequence<T>(values.Select((value, index) => new Indexed<T>(startIndex + index, value)));
+            var result = Create(values.Select((value, index) => new Indexed<T>(startIndex + index, value)));
+            return result.Get(e => throw new Exception($"{nameof(FromPreordered)} resulted in an invalid sequence."));
         }
     }
 
