@@ -15,7 +15,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("   ", true)]
         [TestCase("01234567890123456789012345678901234567890123456789", true)]
         [TestCase("012345678901234567890123456789012345678901234567890", false)]
-        public void NonNegativeIntValidatesCorrectly(string value, bool isSuccess)
+        public void String1To50ValidatesCorrectly(string value, bool isSuccess)
         {
             Assert.AreEqual(isSuccess, String1To50.Create(value).IsSuccess);
 

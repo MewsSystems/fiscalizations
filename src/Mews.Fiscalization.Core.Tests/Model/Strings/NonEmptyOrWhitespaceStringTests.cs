@@ -16,6 +16,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase(".", true)]
         [TestCase("/", true)]
         [TestCase("-", true)]
+        [TestCase("ASDF", true)]
         public void NonEmptyOrWhitespaceStringValidatesCorrectly(string value, bool isSuccess)
         {
             Assert.AreEqual(isSuccess, NonEmptyOrWhitespaceString.Create(value).IsSuccess);
