@@ -16,6 +16,30 @@ namespace Mews.Fiscalization.Core.Model
             return value == null;
         }
 
+        public static bool Preceeds<T>(this T x, T y)
+            where T : struct, IComparable
+        {
+            return x.CompareTo(y) < 0;
+        }
+
+        public static bool PreceedsOrEquals<T>(this T x, T y)
+            where T : struct, IComparable
+        {
+            return x.CompareTo(y) <= 0;
+        }
+
+        public static bool Succeeds<T>(this T x, T y)
+            where T : struct, IComparable
+        {
+            return x.CompareTo(y) > 0;
+        }
+
+        public static bool SucceedsOrEquals<T>(this T x, T y)
+            where T : struct, IComparable
+        {
+            return x.CompareTo(y) >= 0;
+        }
+
         public static ITry<T, E> ToTry<T, E>(this T value, Func<T, bool> condition, Func<Unit, E> error)
         {
             return condition(value).Match(
