@@ -10,6 +10,7 @@
         <PackageTags>fiscalization core</PackageTags>
         <PackageLicenseUrl>https://github.com/MewsSystems/fiscalization-core/blob/master/LICENSE</PackageLicenseUrl>
         <LangVersion>8.0</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
