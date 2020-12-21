@@ -1,6 +1,5 @@
 ﻿using Mews.Fiscalization.Core.Model;
 using NUnit.Framework;
-using System;
 
 namespace Mews.Fiscalization.Core.Tests.Model
 {
@@ -37,10 +36,10 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("SK", "9999999999")]
         public void CreatingValidEuropeanTaxpayerNumberSucceeds(string countryCode, string taxpayerNumber)
         {
-            var country = new EuropeanUnionCountry(countryCode);
-            Assert.DoesNotThrow(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber));
-            Assert.DoesNotThrow(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
-            Assert.IsTrue(EuropeanUnionTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
+            var country = Country.GetByCode(countryCode).Get();
+            var europeanCountry = EuropeanUnionCountry.GetByCode(countryCode).Get();
+            Assert.IsTrue(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsSuccess);
+            Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsSuccess);
         }
 
         [Test]
@@ -48,9 +47,8 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("AU", "ABCD12345111")]
         public void CreatingValidNonEuropeanTaxpayerNumberSucceeds(string countryCode, string taxpayerNumber)
         {
-            var country = new Country(countryCode);
-            Assert.DoesNotThrow(() => new TaxpayerIdentificationNumber(country, taxpayerNumber));
-            Assert.IsTrue(TaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), $"Taxpayer number: {taxpayerNumber}, must be valid for country code {countryCode}.");
+            var country = Country.GetByCode(countryCode).Get();
+            Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsSuccess);
         }
 
         [Test]
@@ -61,10 +59,10 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase(null, null)]
         public void CreatingInvalidEuropeanTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var country = countryCode.IsNotNull() ? new EuropeanUnionCountry(countryCode) : null;
-            Assert.IsFalse(EuropeanUnionTaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
-            Assert.That(() => new EuropeanUnionTaxpayerIdentificationNumber(country, taxpayerNumber), Throws.Exception);
-            Assert.That(() => new TaxpayerIdentificationNumber(country, taxpayerNumber), Throws.Exception);
+            var country = countryCode.IsNotNull() ? Country.GetByCode(countryCode).Get() : null;
+            var europeanCountry = countryCode.IsNotNull() ? EuropeanUnionCountry.GetByCode(countryCode).Get() : null;
+            Assert.IsTrue(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsError);
+            Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
         }
 
         [Test]
@@ -74,9 +72,8 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase(null, null)]
         public void CreatingInvalidTaxpayerNumberFails(string countryCode, string taxpayerNumber)
         {
-            var country = countryCode.IsNotNull() ? new Country(countryCode) : null;
-            Assert.That(() => new TaxpayerIdentificationNumber(country, taxpayerNumber), Throws.Exception);
-            Assert.IsFalse(TaxpayerIdentificationNumber.IsValid(country, taxpayerNumber), "Invalid taxpayer identification number shouldn't pass the validation.");
+            var country = countryCode.IsNotNull() ? Country.GetByCode(countryCode).Get() : null;
+            Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
         }
     }
 }

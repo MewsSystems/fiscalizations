@@ -14,8 +14,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase(null)]
         public void CreatingEuropeanCountryWithInvalidCountryCodeFails(string countryCode)
         {
-            Assert.That(() => new EuropeanUnionCountry(countryCode), Throws.Exception);
-            Assert.IsFalse(EuropeanUnionCountry.IsValid(countryCode));
+            Assert.IsTrue(EuropeanUnionCountry.GetByCode(countryCode).IsEmpty);
         }
 
         [Test]
@@ -24,8 +23,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase(null)]
         public void CreatingCountryWithInvalidCountryCodeFails(string countryCode)
         {
-            Assert.That(() => new Country(countryCode), Throws.Exception);
-            Assert.IsFalse(Country.IsValid(countryCode));
+            Assert.IsTrue(Country.GetByCode(countryCode).IsEmpty);
         }
 
         [Test]
@@ -33,10 +31,8 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("PL")]
         public void CreatingEuropeanCountryWithValidCountryCodeSucceeds(string countryCode)
         {
-            Assert.DoesNotThrow(() => new EuropeanUnionCountry(countryCode));
-            Assert.DoesNotThrow(() => new Country(countryCode));
-            Assert.IsTrue(EuropeanUnionCountry.IsValid(countryCode));
-            Assert.IsTrue(Country.IsValid(countryCode));
+            Assert.IsTrue(Country.GetByCode(countryCode).NonEmpty);
+            Assert.IsTrue(EuropeanUnionCountry.GetByCode(countryCode).NonEmpty);
         }
 
         [Test]
@@ -44,8 +40,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("AU")]
         public void CreatingCountryWithValidCountryCodeSucceeds(string countryCode)
         {
-            Assert.DoesNotThrow(() => new Country(countryCode));
-            Assert.IsTrue(Country.IsValid(countryCode));
+            Assert.IsTrue(Country.GetByCode(countryCode).NonEmpty);
         }
     }
 }

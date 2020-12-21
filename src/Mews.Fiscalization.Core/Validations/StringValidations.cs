@@ -17,9 +17,9 @@ namespace Mews.Fiscalization.Core.Model
             });
         }
 
-        public static ITry<string, Error> RegexMatch(string value, string pattern)
+        public static ITry<string, Error> RegexMatch(string value, Regex pattern)
         {
-            return value.ToTry(v => v.IsNotNull() && new Regex(pattern).IsMatch(value), _ => new Error($"Value '{value}' doesn't match the regex pattern '{pattern}'."));
+            return value.ToTry(v => v.IsNotNull() && pattern.IsMatch(v), _ => new Error($"Value '{value}' doesn't match the regex pattern '{pattern}'."));
         }
 
         public static ITry<string, Error> In(string value, IEnumerable<string> allowedValues)

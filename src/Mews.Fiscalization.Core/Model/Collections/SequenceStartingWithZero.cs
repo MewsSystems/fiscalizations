@@ -22,20 +22,6 @@ namespace Mews.Fiscalization.Core.Model
 
         public int StartIndex => Sequence.StartIndex;
 
-        public int Count => Sequence.Count;
-
-        public Indexed<T> this[int index] => Sequence[index];
-
-        public IEnumerator<Indexed<T>> GetEnumerator()
-        {
-            return Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
         public static ITry<ISequenceStartingWithZero<T>, Error> Create(IEnumerable<Indexed<T>> values)
         {
             var sequence = Sequence<T>.Create(values);

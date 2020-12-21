@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
 {
-    public interface ISequence<T> : IReadOnlyList<Indexed<T>>
+    public interface ISequence<T>
     {
         INonEmptyEnumerable<Indexed<T>> Values { get; }
 
@@ -23,20 +22,6 @@ namespace Mews.Fiscalization.Core.Model
         public INonEmptyEnumerable<Indexed<T>> Values { get; }
 
         public int StartIndex => Values.Head.Index;
-
-        public int Count => Values.Count();
-
-        public Indexed<T> this[int index] => Values.ElementAt(index - StartIndex);
-
-        public IEnumerator<Indexed<T>> GetEnumerator()
-        {
-            return Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
 
         public static ITry<ISequence<T>, Error> Create(IEnumerable<Indexed<T>> indexedValues)
         {
