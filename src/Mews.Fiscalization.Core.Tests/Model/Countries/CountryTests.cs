@@ -1,6 +1,5 @@
 ﻿using Mews.Fiscalization.Core.Model;
 using NUnit.Framework;
-using System;
 
 namespace Mews.Fiscalization.Core.Tests.Model
 {

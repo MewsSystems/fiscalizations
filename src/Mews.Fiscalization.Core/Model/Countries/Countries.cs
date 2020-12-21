@@ -268,6 +268,7 @@ namespace Mews.Fiscalization.Core.Model
         public static IReadOnlyList<Country> All { get; }
 
         public static IReadOnlyDictionary<string, Country> AllByCodes { get; }
+
         public static IReadOnlyDictionary<string, EuropeanUnionCountry> EuropeanUnionByCodes { get; }
 
         public static IOption<Country> GetByCode(string code)
