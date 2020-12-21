@@ -27,14 +27,14 @@ namespace Mews.Fiscalization.Core.Model
             return NonEmptyEnumerable.Create(source);
         }
 
+        public static bool NonEmpty<T>(this IEnumerable<T> source)
+        {
+            return !source.IsEmpty();
+        }
+
         public static bool IsEmpty<T>(this IEnumerable<T> source)
         {
             return source == null || !source.Any();
-        }
-
-        public static bool NonEmpty<T>(this IEnumerable<T> source)
-        {
-            return source != null && source.FirstOrDefault() != null;
         }
 
         public static bool IsSequential<T>(this IEnumerable<T> source, Func<T, int> indexGetter, int startIndex)
@@ -50,7 +50,7 @@ namespace Mews.Fiscalization.Core.Model
         /// <summary>
         /// Retuns an empty Enumerable if source is null, otherwise source.
         /// </summary>
-        public static IEnumerable<TSource> Defined<TSource>(this IEnumerable<TSource> source)
+        public static IEnumerable<TSource> OrEmptyIfNull<TSource>(this IEnumerable<TSource> source)
         {
             if (source == null)
             {
