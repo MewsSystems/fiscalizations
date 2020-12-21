@@ -12,7 +12,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("BG", "999999999")]
         [TestCase("CY", "99999999L")]
         [TestCase("CZ", "99999999")]
-        [TestCase("DE", "999999999A")]
+        [TestCase("DE", "999999999")]
         [TestCase("DK", "99999999")]
         [TestCase("EE", "999999999")]
         [TestCase("GR", "999999999")]
