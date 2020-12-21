@@ -37,7 +37,7 @@ namespace Mews.Fiscalization.Core.Model
             return value.ToTry(v => !string.IsNullOrEmpty(v), _ => new Error("Value cannot be null or empty."));
         }
 
-        public static ITry<string, Error> NonEmptyOrWhitespace(string value)
+        public static ITry<string, Error> NonEmptyNorWhitespace(string value)
         {
             return value.ToTry(v => !string.IsNullOrWhiteSpace(v), _ => new Error("Value cannot be null, empty or whitespace."));
         }
