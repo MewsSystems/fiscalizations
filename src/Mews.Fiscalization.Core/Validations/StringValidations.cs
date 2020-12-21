@@ -9,7 +9,7 @@ namespace Mews.Fiscalization.Core.Model
     {
         public static ITry<string, Error> LengthInRange(string value, int min, int max)
         {
-            var nonNullValue = NonNull(value);
+            var nonNullValue = ObjectValidations.NotNull(value);
             return nonNullValue.FlatMap(v =>
             {
                 var validLength = IntValidations.InRange(v.Length, min: min, max: max);
@@ -25,11 +25,6 @@ namespace Mews.Fiscalization.Core.Model
         public static ITry<string, Error> In(string value, IEnumerable<string> allowedValues)
         {
             return value.ToTry(v => allowedValues.Contains(v), _ => new Error($"Value '{value}' is not in allowed values."));
-        }
-
-        public static ITry<string, Error> NonNull(string value)
-        {
-            return value.ToTry(v => v.IsNotNull(), _ => new Error("Value cannot be null."));
         }
 
         public static ITry<string, Error> NonEmpty(string value)
