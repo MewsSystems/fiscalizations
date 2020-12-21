@@ -2,7 +2,8 @@ name: Build and test
 
 on:
   push:
-    branches: master
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -10,26 +11,29 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
+    
     env:
       DOTNET_NOLOGO: true
       DOTNET_CLI_TELEMETRY_OPTOUT: true
-
+      
     defaults:
       run:
         working-directory: src
-
+        
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-
+        
+    - name: Install dependencies
+      run: dotnet restore
+    
     - name: Build
-      run: dotnet build --configuration Release 
-      
+      run: dotnet build --configuration Release --no-restore
+    
     - name: Test
-      run: dotnet test --verbosity normal
+      run: dotnet test --no-restore --verbosity normal
