@@ -7,39 +7,39 @@ namespace Mews.Fiscalization.Core.Model
 {
     public static class StringValidations
     {
-        public static ITry<string, string> LengthInRange(string value, int min, int max)
+        public static ITry<string, Error> LengthInRange(string value, int min, int max)
         {
             var nonNullValue = NonNull(value);
             return nonNullValue.FlatMap(v =>
             {
                 var validLength = IntValidations.InRange(v.Length, min: min, max: max);
-                return validLength.Map(val => v).MapError(e => $"Length must be between {min} and {max}");
+                return validLength.Map(val => v).MapError(e => new Error($"Length must be between {min} and {max}"));
             });
         }
 
-        public static ITry<string, string> RegexMatch(string value, string pattern)
+        public static ITry<string, Error> RegexMatch(string value, string pattern)
         {
-            return value.ToTry(v => v.IsNotNull() && new Regex(pattern).IsMatch(value), _ => $"Value '{value}' doesn't match the regex pattern '{pattern}'.");
+            return value.ToTry(v => v.IsNotNull() && new Regex(pattern).IsMatch(value), _ => new Error($"Value '{value}' doesn't match the regex pattern '{pattern}'."));
         }
 
-        public static ITry<string, string> In(string value, IEnumerable<string> allowedValues)
+        public static ITry<string, Error> In(string value, IEnumerable<string> allowedValues)
         {
-            return value.ToTry(v => allowedValues.Contains(v), _ => $"Value '{value}' is not in allowed values.");
+            return value.ToTry(v => allowedValues.Contains(v), _ => new Error($"Value '{value}' is not in allowed values."));
         }
 
-        public static ITry<string, string> NonNull(string value)
+        public static ITry<string, Error> NonNull(string value)
         {
-            return value.ToTry(v => v.IsNotNull(), _ => "Value cannot be null.");
+            return value.ToTry(v => v.IsNotNull(), _ => new Error("Value cannot be null."));
         }
 
-        public static ITry<string, string> NonEmpty(string value)
+        public static ITry<string, Error> NonEmpty(string value)
         {
-            return value.ToTry(v => !string.IsNullOrEmpty(v), _ => "Value cannot be null or empty.");
+            return value.ToTry(v => !string.IsNullOrEmpty(v), _ => new Error("Value cannot be null or empty."));
         }
 
-        public static ITry<string, string> NonEmptyOrWhitespace(string value)
+        public static ITry<string, Error> NonEmptyOrWhitespace(string value)
         {
-            return value.ToTry(v => !string.IsNullOrWhiteSpace(v), _ => "Value cannot be null, empty or whitespace.");
+            return value.ToTry(v => !string.IsNullOrWhiteSpace(v), _ => new Error("Value cannot be null, empty or whitespace."));
         }
     }
 }
