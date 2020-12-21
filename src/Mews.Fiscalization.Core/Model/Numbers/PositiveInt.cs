@@ -33,14 +33,14 @@ namespace Mews.Fiscalization.Core.Model
             return a.Multiply(b);
         }
 
-        public static ITry<PositiveInt, string> Create(int value)
+        public static ITry<PositiveInt, Error> Create(int value)
         {
             return IntValidations.HigherThan(value, 0).Map(v => new PositiveInt(v));
         }
 
         public static PositiveInt CreateUnsafe(int value)
         {
-            return Create(value).Get(errorMessage => new ArgumentException(errorMessage));
+            return Create(value).Get(error => new ArgumentException(error.Message));
         }
 
         public PositiveInt Sum(params NonNegativeInt[] values)
