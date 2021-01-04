@@ -13,6 +13,7 @@ namespace Mews.Fiscalization.Core.Model
         IReadOnlyList<T> Tail { get; }
 
         INonEmptyEnumerable<TResult> Select<TResult>(Func<T, TResult> func);
+
         INonEmptyEnumerable<TResult> Select<TResult>(Func<T, int, TResult> func);
     }
 
@@ -54,6 +55,7 @@ namespace Mews.Fiscalization.Core.Model
         public T Head { get; }
 
         public IReadOnlyList<T> Tail { get; }
+
         public INonEmptyEnumerable<TResult> Select<TResult>(Func<T, TResult> func)
         {
             return new NonEmptyEnumerable<TResult>(func(Head), Tail.Select(func));
