@@ -12,31 +12,14 @@
         <LangVersion>8.0</LangVersion>
         <PackageOutputPath>bin</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>1.0.0</PackageVersion>
     </PropertyGroup>
 
-  <Target Name="ReadPackageVersionFromOutputAssemblySingleTfm" Returns="@(PackAssembly)" Condition="'$(IsCrossTargetingBuild)' != 'true'">
-    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-      <Output TaskParameter="Assemblies" ItemName="PackAssembly" />
-    </GetAssemblyIdentity>
-    <PropertyGroup>
-      <PackageVersion>%(PackAssembly.Version)</PackageVersion>
-    </PropertyGroup>
+  <Target Name="CustomPack" AfterTargets="build" Condition="'$(Configuration)'=='Release'">
+    <Message Text="Custom Pack command starts ..." Importance="high"/>
+    <Exec Command="nuget pack -Properties Configuration=Release"/>
   </Target>
-
-  <Target Name="ReadPackageVersionFromOutputAssemblyMultipleTfms" Condition="'$(IsCrossTargetingBuild)' == 'true'">
-    <PropertyGroup>
-      <FirstTargetFramework>$([System.String]::Copy($(TargetFrameworks)).Split(';').GetValue(0))</FirstTargetFramework>
-    </PropertyGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="ReadPackageVersionFromOutputAssemblySingleTfm" Properties="TargetFramework=$(FirstTargetFramework)">
-      <Output TaskParameter="TargetOutputs" ItemName="PackAssembly" />
-    </MSBuild>
-    <PropertyGroup>
-      <PackageVersion>%(PackAssembly.Version)</PackageVersion>
-    </PropertyGroup>
-  </Target>
-
-  <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build;ReadPackageVersionFromOutputAssemblySingleTfm;ReadPackageVersionFromOutputAssemblyMultipleTfms" />
-
+  
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <OutputPath>bin\</OutputPath>
     </PropertyGroup>
