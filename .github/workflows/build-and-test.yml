@@ -26,10 +26,10 @@ jobs:
 
     - name: Set output
       id: vars
-      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
 
     - name: Debug
-      run: echo ${{ steps.vars.outputs.tag }}
+      run: echo "${{ steps.vars.outputs.tag }}"
       
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
