@@ -30,7 +30,6 @@ jobs:
 
     - name: Debug
       run: echo ${{ steps.vars.outputs.tag }}
-      run: echo steps.vars.outputs.tag
       
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
