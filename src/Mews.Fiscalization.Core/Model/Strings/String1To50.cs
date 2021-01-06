@@ -21,7 +21,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public static String1To50 CreateUnsafe(string value)
         {
-            return Create(value).Get(errors => new ArgumentException(errors.Select(e => e.Message).MkString()));
+            return Create(value).Get(errors => new ArgumentException(errors.Select(e => e.Message).MkString(",")));
         }
     }
 }

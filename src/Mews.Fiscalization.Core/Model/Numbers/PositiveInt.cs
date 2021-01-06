@@ -41,7 +41,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public static PositiveInt CreateUnsafe(int value)
         {
-            return Create(value).Get(errors => new ArgumentException(errors.Select(e => e.Message).MkString()));
+            return Create(value).Get(errors => new ArgumentException(errors.Select(e => e.Message).MkString(",")));
         }
 
         public PositiveInt Sum(params NonNegativeInt[] values)
