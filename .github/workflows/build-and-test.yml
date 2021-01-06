@@ -35,7 +35,7 @@ jobs:
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
     - name: Pack
-      run: msbuild -t:Pack -p:PackageVersion=${{ steps.vars.outputs.tag }}
+      run: msbuild -t:Pack -p:PackageVersion=${{ steps.vars.outputs.tag }} -v:diag
 
     - name: Publish packages
       run: dotnet nuget push ./artifacts/**${{ steps.vars.outputs.tag }}**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
