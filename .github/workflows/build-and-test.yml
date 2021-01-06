@@ -33,17 +33,17 @@ jobs:
       run: dotnet clean ./Mews.Fiscalization.Core/Mews.Fiscalization.Core.csproj -c Release
       
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore ./Mews.Fiscalization.Core/Mews.Fiscalization.Core.csproj
     
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build ./Mews.Fiscalization.Core/Mews.Fiscalization.Core.csproj --configuration Release --no-restore
       
     - name: Set output
       id: vars
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
     - name: Pack
-      run: dotnet pack --no-build --output ./artifacts --configuration Release -p:PackageVersion=${{ steps.vars.outputs.tag }}
+      run: dotnet pack ./Mews.Fiscalization.Core/Mews.Fiscalization.Core.csproj --no-build --output ./artifacts --configuration Release -p:PackageVersion=${{ steps.vars.outputs.tag }}
 
     - name: Publish packages
       run: dotnet nuget push ./artifacts/**${{ steps.vars.outputs.tag }}**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
