@@ -28,7 +28,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Clean
-      run: msbuild ./Mews.Fiscalization.Core.sln -t:Clean;Compile
+      run: msbuild ./Mews.Fiscalization.Core/Mews.Fiscalization.Core.csproj -t:Clean;Compile
       
     - name: Set output
       id: vars
