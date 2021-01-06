@@ -12,6 +12,7 @@
         <LangVersion>8.0</LangVersion>
         <PackageOutputPath>bin</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <PackageVersion>1.0.0</PackageVersion>
     </PropertyGroup>
 
