@@ -31,7 +31,7 @@ jobs:
       run: msbuild -t:restore
 
     - name: Pack
-      run: msbuild -t:Pack -p:NuspecProperties="version=${{ steps.vars.outputs.tag }}" -p:PackageVersion=${{ steps.vars.outputs.tag }}
+      run: msbuild -t:Pack -p:OutputPath=./artifacts -p:NuspecProperties="version=${{ steps.vars.outputs.tag }}" -p:PackageVersion=${{ steps.vars.outputs.tag }}
 
     - name: Publish packages
       run: dotnet nuget push ./artifacts/**${{ steps.vars.outputs.tag }}**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
