@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - master
-      
+
 jobs:
   publish:
     runs-on: windows-latest
@@ -32,7 +32,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalization.Core.sln --configuration Release && dotnet nuget locals al
+      run: dotnet clean ./Mews.Fiscalization.Core.sln --configuration Release && dotnet nuget locals all --clear
       
     - name: Install dependencies
       run: dotnet restore
@@ -45,7 +45,7 @@ jobs:
         arrTag=(${GITHUB_REF//\// })
         VERSION="${arrTag[2]}"
         VERSION="${VERSION//v}"
-        dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION 
+        dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME/$PROJECT_NAME.*proj
 
     - name: Push to NuGet Feed
       run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
