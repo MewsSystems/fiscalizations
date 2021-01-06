@@ -29,6 +29,12 @@ jobs:
 
     - name: Debug
       run: echo ${{ steps.get_version.outputs.version-without-v }}
+
+    - name: Debug2
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+    - name: Debug3
+      run: ${GITHUB_REF/refs\/tags\//}
       
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2

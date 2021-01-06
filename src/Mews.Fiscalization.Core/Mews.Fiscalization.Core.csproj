@@ -12,15 +12,7 @@
         <LangVersion>8.0</LangVersion>
         <PackageOutputPath>bin</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <PackageVersion>1.0.0</PackageVersion>
-        <Version>1.0.0</Version>
     </PropertyGroup>
-
-  <Target Name="CustomPack" AfterTargets="build" Condition="'$(Configuration)'=='Release'">
-    <Message Text="Custom Pack command starts ..." Importance="high"/>
-    <Exec Command="nuget pack -Properties Configuration=Release"/>
-  </Target>
   
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <OutputPath>bin\</OutputPath>
