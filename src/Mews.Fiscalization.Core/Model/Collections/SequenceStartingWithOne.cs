@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using FuncSharp;
 
@@ -22,7 +21,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public int StartIndex => Sequence.StartIndex;
 
-        public static ITry<ISequenceStartingWithOne<T>, Error> Create(IEnumerable<Indexed<T>> values)
+        public static ITry<ISequenceStartingWithOne<T>, INonEmptyEnumerable<Error>> Create(IEnumerable<Indexed<T>> values)
         {
             var sequence = Sequence<T>.Create(values);
             var sequenceStartingWithOne = sequence.Where(
@@ -57,7 +56,7 @@ namespace Mews.Fiscalization.Core.Model
             return SequenceStartingWithOne<T>.FromPreordered(values);
         }
 
-        public static ITry<ISequenceStartingWithOne<T>, Error> Create<T>(IEnumerable<Indexed<T>> values)
+        public static ITry<ISequenceStartingWithOne<T>, INonEmptyEnumerable<Error>> Create<T>(IEnumerable<Indexed<T>> values)
         {
             return SequenceStartingWithOne<T>.Create(values);
         }

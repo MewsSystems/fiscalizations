@@ -25,15 +25,12 @@ namespace Mews.Fiscalization.Core.Model
             }
         }
 
-        public static ITry<TaxpayerIdentificationNumber, Error> Create(Country country, string taxpayerNumber)
+        public static ITry<TaxpayerIdentificationNumber, INonEmptyEnumerable<Error>> Create(Country country, string taxpayerNumber)
         {
-            return ObjectValidations.NotNull(country).FlatMap(c =>
-            {
-                return c.Match(
-                    europeanUnionCountry => EuropeanUnionTaxpayerIdentificationNumber.Create(europeanUnionCountry, taxpayerNumber).Map(n => new TaxpayerIdentificationNumber(n)),
-                    nonEuropeanUnionCountry => NonEuropeanUnionTaxpayerIdentificationNumber.Create(nonEuropeanUnionCountry, taxpayerNumber).Map(n => new TaxpayerIdentificationNumber(n))
-                );
-            });
+            return ObjectValidations.NotNull(country).FlatMap(c => c.Match(
+                europeanUnionCountry => EuropeanUnionTaxpayerIdentificationNumber.Create(europeanUnionCountry, taxpayerNumber).Map(n => new TaxpayerIdentificationNumber(n)),
+                nonEuropeanUnionCountry => NonEuropeanUnionTaxpayerIdentificationNumber.Create(nonEuropeanUnionCountry, taxpayerNumber).Map(n => new TaxpayerIdentificationNumber(n))
+            ));
         }
     }
 }

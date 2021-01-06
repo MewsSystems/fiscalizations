@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using FuncSharp;
 
@@ -45,6 +46,13 @@ namespace Mews.Fiscalization.Core.Model
         public static bool IsSequential(this IEnumerable<int> source, int startIndex)
         {
             return source.Select((value, index) => (value, index)).All(x => x.value == startIndex + x.index);
+        }
+
+        public static string MkString(this IEnumerable<string> values, string separator = "", string prefix = "", string suffix = "", bool skipEmpty = false)
+        {
+            var allItems = values.OrEmptyIfNull().Select(i => Convert.ToString(i, CultureInfo.InvariantCulture));
+            var items = skipEmpty.Match(t => allItems.Where(s => s.NonEmpty()), f => allItems);
+            return $"{prefix}{String.Join(separator, items)}{suffix}";
         }
 
         /// <summary>

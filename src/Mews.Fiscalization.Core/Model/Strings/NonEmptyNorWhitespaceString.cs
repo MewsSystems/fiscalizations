@@ -12,14 +12,14 @@ namespace Mews.Fiscalization.Core.Model
 
         public string Value { get; }
 
-        public static ITry<NonEmptyNorWhitespaceString, Error> Create(string value)
+        public static ITry<NonEmptyNorWhitespaceString, INonEmptyEnumerable<Error>> Create(string value)
         {
             return StringValidations.NonEmptyNorWhitespace(value).Map(v => new NonEmptyNorWhitespaceString(v));
         }
 
         public static NonEmptyNorWhitespaceString CreateUnsafe(string value)
         {
-            return Create(value).Get(error => new ArgumentException(error.Message));
+            return Create(value).GetUnsafe();
         }
     }
 }
