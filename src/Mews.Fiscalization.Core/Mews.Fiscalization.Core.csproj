@@ -20,9 +20,6 @@
 
     <ItemGroup>
       <PackageReference Include="FuncSharp" Version="[1.7.1]" />
-      <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.8.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+      <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0"></PackageReference>
     </ItemGroup>
 </Project>
