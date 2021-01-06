@@ -16,6 +16,11 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
+  <Target Name="CustomPack" AfterTargets="build" Condition="'$(Configuration)'=='Release'">
+    <Message Text="Custom Pack command starts ..." Importance="high"/>
+    <Exec Command="nuget pack $(MSBuildProjectFile) -Properties Configuration=Release"/>
+  </Target>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <OutputPath>bin\</OutputPath>
     </PropertyGroup>
