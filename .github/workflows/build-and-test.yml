@@ -24,18 +24,22 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
+    - name: Debug
+      run: echo ${{ steps.vars.outputs.tag }}
+      run: echo steps.vars.outputs.tag
+      
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Restore
       run: msbuild -t:restore
-      
-    - name: Set output
-      id: vars
-      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
     - name: Pack
-      run: msbuild -t:Pack -p:PackageVersion=${{ steps.vars.outputs.tag }} -v:diag
+      run: msbuild -t:Pack -p:NuspecProperties="version=${{ steps.vars.outputs.tag }}" -p:PackageVersion=${{ steps.vars.outputs.tag }}
 
     - name: Publish packages
       run: dotnet nuget push ./artifacts/**${{ steps.vars.outputs.tag }}**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
