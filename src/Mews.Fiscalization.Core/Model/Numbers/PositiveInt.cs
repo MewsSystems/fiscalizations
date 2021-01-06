@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FuncSharp;
 
@@ -33,14 +34,14 @@ namespace Mews.Fiscalization.Core.Model
             return a.Multiply(b);
         }
 
-        public static ITry<PositiveInt, Error> Create(int value)
+        public static ITry<PositiveInt, IEnumerable<Error>> Create(int value)
         {
             return IntValidations.HigherThan(value, 0).Map(v => new PositiveInt(v));
         }
 
         public static PositiveInt CreateUnsafe(int value)
         {
-            return Create(value).Get(error => new ArgumentException(error.Message));
+            return Create(value).Get(errors => new ArgumentException(errors.Select(e => e.Message).MkString()));
         }
 
         public PositiveInt Sum(params NonNegativeInt[] values)

@@ -23,7 +23,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public int StartIndex => Values.Head.Index;
 
-        public static ITry<ISequence<T>, Error> Create(IEnumerable<Indexed<T>> indexedValues)
+        public static ITry<ISequence<T>, IEnumerable<Error>> Create(IEnumerable<Indexed<T>> indexedValues)
         {
             var orderedItems = indexedValues.OrderBy(item => item.Index).AsNonEmpty();
             var items = orderedItems.ToTry(_ => new Error("Sequence cannot be empty."));
@@ -59,7 +59,7 @@ namespace Mews.Fiscalization.Core.Model
             return Sequence<T>.FromPreordered(values, startIndex);
         }
 
-        public static ITry<ISequence<T>, Error> Create<T>(IEnumerable<Indexed<T>> indexedItems)
+        public static ITry<ISequence<T>, IEnumerable<Error>> Create<T>(IEnumerable<Indexed<T>> indexedItems)
         {
             return Sequence<T>.Create(indexedItems);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
@@ -13,12 +14,14 @@ namespace Mews.Fiscalization.Core.Model
             ));
         }
 
-        public static ITry<T, E> Where<T, E>(this ITry<T, E> value, Func<T, bool> evaluator, Func<Unit, E> error)
+        public static ITry<T, IEnumerable<E>> Where<T, E>(this ITry<T, E> value, Func<T, bool> evaluator, Func<Unit, E> error)
         {
-            return value.FlatMap(v => evaluator(v).ToTry(
+            var result = value.FlatMap(v => evaluator(v).ToTry(
                 t => v,
                 f => error(Unit.Value)
             ));
+
+            return result.MapError(e => e.ToEnumerable());
         }
     }
 }
