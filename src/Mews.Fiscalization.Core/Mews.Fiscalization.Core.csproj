@@ -10,9 +10,6 @@
         <PackageTags>fiscalization core</PackageTags>
         <PackageLicenseUrl>https://github.com/MewsSystems/fiscalization-core/blob/master/LICENSE</PackageLicenseUrl>
         <LangVersion>8.0</LangVersion>
-        <PackageVersion>1.0.0</PackageVersion>
-        <PackageOutputPath>bin</PackageOutputPath>
-        <Version>1.0.0</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
