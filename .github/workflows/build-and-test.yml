@@ -10,7 +10,7 @@ on:
 
 jobs:
   publish:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     env:
       DOTNET_NOLOGO: true
@@ -44,7 +44,9 @@ jobs:
       run: |
         arrTag=(${GITHUB_REF//\// })
         VERSION="${arrTag[2]}"
+        echo Version: $VERSION
         VERSION="${VERSION//v}"
+        echo Clean Version: $VERSION
         dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME/$PROJECT_NAME.*proj
 
     - name: Push to NuGet Feed
