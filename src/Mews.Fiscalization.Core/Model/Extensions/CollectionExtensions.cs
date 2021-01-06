@@ -48,11 +48,6 @@ namespace Mews.Fiscalization.Core.Model
             return source.Select((value, index) => (value, index)).All(x => x.value == startIndex + x.index);
         }
 
-        public static IEnumerable<T> Flatten<T>(this IEnumerable<IEnumerable<T>> e)
-        {
-            return e.SelectMany(i => i);
-        }
-
         public static string MkString(this IEnumerable<string> values, string separator = "", string prefix = "", string suffix = "", bool skipEmpty = false)
         {
             var allItems = values.OrEmptyIfNull().Select(i => Convert.ToString(i, CultureInfo.InvariantCulture));

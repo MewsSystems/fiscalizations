@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
@@ -14,14 +14,17 @@ namespace Mews.Fiscalization.Core.Model
             ));
         }
 
-        public static ITry<T, IEnumerable<E>> Where<T, E>(this ITry<T, E> value, Func<T, bool> evaluator, Func<Unit, E> error)
+        public static ITry<T, INonEmptyEnumerable<E>> Where<T, E>(this ITry<T, INonEmptyEnumerable<E>> value, Func<T, bool> evaluator, Func<Unit, E> error)
         {
-            var result = value.FlatMap(v => evaluator(v).ToTry(
+            return value.FlatMap(v => evaluator(v).ToTry(
                 t => v,
-                f => error(Unit.Value)
+                f => error(Unit.Value).ToEnumerable()
             ));
+        }
 
-            return result.MapError(e => e.ToEnumerable());
+        public static T GetUnsafe<T>(this ITry<T, INonEmptyEnumerable<Error>> value)
+        {
+            return value.Get(errors => new ArgumentException(errors.Select(e => e.Message).MkString(",")));
         }
     }
 }

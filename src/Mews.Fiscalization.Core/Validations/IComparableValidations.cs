@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
 {
     public static class IComparableValidations
     {
-        public static ITry<T, IEnumerable<Error>> InRange<T>(T value, T min, T max, bool minIsAllowed = true, bool maxIsAllowed = true)
+        public static ITry<T, INonEmptyEnumerable<Error>> InRange<T>(T value, T min, T max, bool minIsAllowed = true, bool maxIsAllowed = true)
             where T : struct, IComparable
         {
             var minCheckedValue = minIsAllowed.Match(
@@ -19,28 +18,28 @@ namespace Mews.Fiscalization.Core.Model
             ));
         }
 
-        public static ITry<T, IEnumerable<Error>> SmallerThan<T>(T value, T limit)
+        public static ITry<T, INonEmptyEnumerable<Error>> SmallerThan<T>(T value, T limit)
             where T : struct, IComparable
         {
-            return value.ToTry(v => v.Preceeds(limit), _ => new Error($"Value must be smaller than {limit}").ToEnumerable());
+            return value.ToTry(v => v.Preceeds(limit), _ => Error.Create($"Value must be smaller than {limit}"));
         }
 
-        public static ITry<T, IEnumerable<Error>> SmallerThanOrEqual<T>(T value, T limit)
+        public static ITry<T, INonEmptyEnumerable<Error>> SmallerThanOrEqual<T>(T value, T limit)
             where T : struct, IComparable
         {
-            return value.ToTry(v => v.PreceedsOrEquals(limit), _ => new Error($"Value must be smaller than or equal to {limit}").ToEnumerable());
+            return value.ToTry(v => v.PreceedsOrEquals(limit), _ => Error.Create($"Value must be smaller than or equal to {limit}"));
         }
 
-        public static ITry<T, IEnumerable<Error>> HigherThan<T>(T value, T limit)
+        public static ITry<T, INonEmptyEnumerable<Error>> HigherThan<T>(T value, T limit)
             where T : struct, IComparable
         {
-            return value.ToTry(v => v.Succeeds(limit), _ => new Error($"Value must be higher than {limit}").ToEnumerable());
+            return value.ToTry(v => v.Succeeds(limit), _ => Error.Create($"Value must be higher than {limit}"));
         }
 
-        public static ITry<T, IEnumerable<Error>> HigherThanOrEqual<T>(T value, T limit)
+        public static ITry<T, INonEmptyEnumerable<Error>> HigherThanOrEqual<T>(T value, T limit)
             where T : struct, IComparable
         {
-            return value.ToTry(v => v.SucceedsOrEquals(limit), _ => new Error($"Value must be higher than or equal to {limit}").ToEnumerable());
+            return value.ToTry(v => v.SucceedsOrEquals(limit), _ => Error.Create($"Value must be higher than or equal to {limit}"));
         }
     }
 }

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using FuncSharp;
 
 namespace Mews.Fiscalization.Core.Model
@@ -23,14 +21,14 @@ namespace Mews.Fiscalization.Core.Model
 
         public int StartIndex => Sequence.StartIndex;
 
-        public static ITry<ISequenceStartingWithZero<T>, IEnumerable<Error>> Create(IEnumerable<Indexed<T>> values)
+        public static ITry<ISequenceStartingWithZero<T>, INonEmptyEnumerable<Error>> Create(IEnumerable<Indexed<T>> values)
         {
             var sequence = Sequence<T>.Create(values);
             var sequenceStartingWithZero = sequence.Where(
                 evaluator: s => s.Values.Head.Index == 0,
-                error: _ => new Error("Indexes must start with zero.").ToEnumerable()
+                error: _ => new Error("Indexes must start with zero.")
             );
-            return sequenceStartingWithZero.Map(s => new SequenceStartingWithZero<T>(s)).MapError(e => e.Flatten());
+            return sequenceStartingWithZero.Map(s => new SequenceStartingWithZero<T>(s));
         }
 
         public static IOption<ISequenceStartingWithZero<T>> FromPreordered(IEnumerable<T> values)
@@ -58,7 +56,7 @@ namespace Mews.Fiscalization.Core.Model
             return SequenceStartingWithZero<T>.FromPreordered(values);
         }
 
-        public static ITry<ISequenceStartingWithZero<T>, IEnumerable<Error>> Create<T>(IEnumerable<Indexed<T>> values)
+        public static ITry<ISequenceStartingWithZero<T>, INonEmptyEnumerable<Error>> Create<T>(IEnumerable<Indexed<T>> values)
         {
             return SequenceStartingWithZero<T>.Create(values);
         }

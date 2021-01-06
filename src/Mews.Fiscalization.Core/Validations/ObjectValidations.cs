@@ -1,13 +1,12 @@
 using FuncSharp;
-using System.Collections.Generic;
 
 namespace Mews.Fiscalization.Core.Model
 {
     public static class ObjectValidations
     {
-        public static ITry<T, IEnumerable<Error>> NotNull<T>(T value)
+        public static ITry<T, INonEmptyEnumerable<Error>> NotNull<T>(T value)
         {
-            return value.ToTry(v => v.IsNotNull(), _ => new Error("Value cannot be null.").ToEnumerable());
+            return value.ToTry(v => v.IsNotNull(), _ => Error.Create("Value cannot be null."));
         }
     }
 }

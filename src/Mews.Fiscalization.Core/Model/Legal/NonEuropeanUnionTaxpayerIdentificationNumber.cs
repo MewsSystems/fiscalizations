@@ -1,5 +1,4 @@
 ﻿using FuncSharp;
-using System.Collections.Generic;
 
 namespace Mews.Fiscalization.Core.Model
 {
@@ -15,7 +14,7 @@ namespace Mews.Fiscalization.Core.Model
 
         public string TaxpayerNumber { get; }
 
-        public static ITry<NonEuropeanUnionTaxpayerIdentificationNumber, IEnumerable<Error>> Create(NonEuropeanUnionCountry country, string taxpayerNumber)
+        public static ITry<NonEuropeanUnionTaxpayerIdentificationNumber, INonEmptyEnumerable<Error>> Create(NonEuropeanUnionCountry country, string taxpayerNumber)
         {
             return ObjectValidations.NotNull(country).FlatMap(c =>
             {
