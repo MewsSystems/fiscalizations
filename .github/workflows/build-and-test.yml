@@ -24,19 +24,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalization.Core.sln --configuration Release && dotnet nuget locals all --clear
-      
-    - name: Install dependencies
-      run: dotnet restore
-    
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: msbuild ./Mews.Fiscalization.Core.sln -t:Clean;Compile
       
     - name: Set output
       id: vars
