@@ -10,7 +10,7 @@
         <PackageTags>fiscalization core</PackageTags>
         <PackageLicenseUrl>https://github.com/MewsSystems/fiscalization-core/blob/master/LICENSE</PackageLicenseUrl>
         <LangVersion>8.0</LangVersion>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageOutputPath>bin</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
@@ -20,5 +20,6 @@
 
     <ItemGroup>
       <PackageReference Include="FuncSharp" Version="[1.7.1]" />
+      <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0"></PackageReference>
     </ItemGroup>
 </Project>
