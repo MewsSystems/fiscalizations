@@ -1,25 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <Authors>Mews</Authors>
+    <Copyright>Mews</Copyright>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-core</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalization-core/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-core</RepositoryUrl>
+    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>fiscalization core</PackageTags>
+    <LangVersion>8.0</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
-        <Authors>Mews</Authors>
-        <Copyright>Mews</Copyright>
-        <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-core</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/MewsSystems/fiscalization-core</RepositoryUrl>
-        <RepositoryType>Git</RepositoryType>
-        <PackageTags>fiscalization core</PackageTags>
-        <PackageLicenseUrl>https://github.com/MewsSystems/fiscalization-core/blob/master/LICENSE</PackageLicenseUrl>
-        <LangVersion>8.0</LangVersion>
-        <PackageOutputPath>bin</PackageOutputPath>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FuncSharp" Version="[1.7.1]" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <OutputPath>bin\</OutputPath>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="FuncSharp" Version="[1.7.1]" />
-      <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0"></PackageReference>
-    </ItemGroup>
+  <PropertyGroup>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+  
 </Project>

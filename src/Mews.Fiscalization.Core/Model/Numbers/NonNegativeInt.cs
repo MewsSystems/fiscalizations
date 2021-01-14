@@ -33,6 +33,11 @@ namespace Mews.Fiscalization.Core.Model
             return Create(value).GetUnsafe();
         }
 
+        public static NonNegativeInt Zero()
+        {
+            return CreateUnsafe(0);
+        }
+
         public NonNegativeInt Sum(params NonNegativeInt[] values)
         {
             return new NonNegativeInt(values.Aggregate(Value, (a, b) => a + b));
