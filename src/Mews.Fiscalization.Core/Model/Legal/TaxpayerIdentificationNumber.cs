@@ -25,6 +25,17 @@ namespace Mews.Fiscalization.Core.Model
             }
         }
 
+        public Country Country
+        {
+            get
+            {
+                return Match(
+                    europeanUnionCountry => new Country(europeanUnionCountry.Country),
+                    nonEuropeanUnionCountry => new Country(nonEuropeanUnionCountry.Country)
+                );
+            }
+        }
+
         public static ITry<TaxpayerIdentificationNumber, INonEmptyEnumerable<Error>> Create(Country country, string taxpayerNumber)
         {
             return ObjectValidations.NotNull(country).FlatMap(c => c.Match(
