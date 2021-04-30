@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <Authors>Mews</Authors>
     <Copyright>Mews</Copyright>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-core</PackageProjectUrl>
@@ -13,16 +13,16 @@
     <LangVersion>8.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FuncSharp" Version="[1.7.1]" />
-  </ItemGroup>
   
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="FuncSharp" Version="3.0.1" />
   </ItemGroup>
 
   <PropertyGroup>
