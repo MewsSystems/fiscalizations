@@ -22,6 +22,7 @@ namespace Mews.Fiscalization.Core.Tests.Model
         [TestCase("GB", "999999999")]
         [TestCase("HU", "99999999")]
         [TestCase("IE", "9S99999L")]
+        [TestCase("IE", "IE1111111L")]
         [TestCase("IT", "99999999999")]
         [TestCase("LT", "999999999")]
         [TestCase("LU", "99999999")]
