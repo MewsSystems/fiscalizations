@@ -1,0 +1,14 @@
+ name: Move to ready to test in tech.review.qa board
+ on:	
+   pull_request:
+     types: [closed]
+ jobs:	
+   move-to-ready-to-test:	
+     runs-on: ubuntu-latest	
+     steps:	
+       - name: Move to ready to test in tech.review.qa board
+         uses: alex-page/github-project-automation-plus@v0.3.0
+         with:
+           project: tech.review.qa
+           column: Ready to test
+           repo-token: ${{ secrets.TECH_ACCOUNT_PERSONAL_ACCESS_TOKEN }}
