@@ -1,0 +1,47 @@
+name: Publish
+
+on:
+  push:
+    tags: '**'
+
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: src
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+
+    - name: Clean
+      run: dotnet clean ./Mews.Fiscalization.Italy.sln --configuration Release && dotnet nuget locals all --clear
+      
+    - name: Install dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Get the version
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+      shell: bash
+
+    - name: Pack
+      run: dotnet pack --output ./artifacts --configuration Release -p:Version=${{ steps.vars.outputs.tag }}
+
+    - name: Publish packages
+      run: dotnet nuget push ./artifacts/**${{ steps.vars.outputs.tag }}**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
