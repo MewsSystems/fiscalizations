@@ -1,0 +1,10 @@
+[Oo]bj
+[Bb]in
+*.user
+*.suo
+*.vs
+*.idea
+*.[Cc]ache
+*.bak
+*.ncb
+src/packages
