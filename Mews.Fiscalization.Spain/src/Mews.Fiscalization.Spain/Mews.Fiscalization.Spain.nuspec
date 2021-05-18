@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Mews.Fiscalization.Spain</id>
+    <version>0.9.9-alpha</version>
+    <title></title>
+    <authors>Pavel Kalandra, Miroslav Veith</authors>
+    <owners>MewsSystems</owners>
+    <licenseUrl>https://github.com/MewsSystems/fiscalization-spain/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/MewsSystems/fiscalization-spain</projectUrl>
+    <description>A package for issued invoices for spanish fiscalization. (Sii)</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>Fiscal, Sii</tags>
+  </metadata>
+</package>
