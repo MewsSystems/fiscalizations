@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Mews</Authors>
+    <Copyright>Mews</Copyright>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-italy</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalization-italy/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-italy</RepositoryUrl>
+    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>sdi fiscalization italy</PackageTags>
+    <Description>Client for SDI - Italian fiscal registry.</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+</Project>
