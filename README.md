@@ -1,15 +1,8 @@
-# Mews.Fiscalization.Core
+# Mews fiscalizations
 
-![Build](https://github.com/MewsSystems/fiscalization-core/workflows/Build/badge.svg)
-
-Core library for implementing other fiscalization libraries.
-
-## Content
-
-There is a Check class which has various methods for validating conditions. In case a condition is not met, an exception is thrown.
-
-There are various data types that serve for early validation. For example an instance of `LimitedString1To50` is always guaranteed to have a string that has length between 1 and 50 characters. You can use this to create a strongly-typed model that guarantees it is valid on creation.
+This is a repo with all the fiscalizations.
+It is a work in progress at this moment. You will find the individual fiscalizations in their folder and each of them has their own readme file and nuget package.
 
 # NuGet
 
-We have published the library as [Mews.Fiscalization.Core](https://www.nuget.org/packages/Mews.Fiscalization.Core/).
+So far we didn't publish the package containing all fiscalizations.
