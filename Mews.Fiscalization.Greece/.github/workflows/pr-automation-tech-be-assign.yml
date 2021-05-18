@@ -1,0 +1,16 @@
+name: Assign tech.be project
+on: 
+  pull_request:
+    types: [opened]
+env:
+  MY_GITHUB_TOKEN: ${{ secrets.TECH_ACCOUNT_PERSONAL_ACCESS_TOKEN }}
+
+jobs:
+  assign-be-project:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Assign tech.be project
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      with:
+        project: 'https://github.com/orgs/MewsSystems/projects/3'
+        column_name: 'Review level 1'

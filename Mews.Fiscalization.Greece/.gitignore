@@ -1,0 +1,11 @@
+[Oo]bj
+[Bb]in
+*.user
+*.suo
+*.[Cc]ache
+*.bak
+*.ncb
+*.dtbcache.v2
+src/packages
+src/.idea
+src/.vs
