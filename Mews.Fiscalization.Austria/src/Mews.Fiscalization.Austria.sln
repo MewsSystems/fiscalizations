@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Austria", "Mews.Fiscalization.Austria\Mews.Fiscalization.Austria.csproj", "{E038F032-1AF9-4344-8761-620050D5ED15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalization.Austria.Tests", "Mews.Fiscalization.Austria.Tests\Mews.Fiscalization.Austria.Tests.csproj", "{3629C158-BD38-4CA0-AF81-7827889E0E10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E038F032-1AF9-4344-8761-620050D5ED15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E038F032-1AF9-4344-8761-620050D5ED15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E038F032-1AF9-4344-8761-620050D5ED15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E038F032-1AF9-4344-8761-620050D5ED15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3629C158-BD38-4CA0-AF81-7827889E0E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3629C158-BD38-4CA0-AF81-7827889E0E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3629C158-BD38-4CA0-AF81-7827889E0E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3629C158-BD38-4CA0-AF81-7827889E0E10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7F4D0CB-ACE5-4398-8FB1-018192BD00F2}
+	EndGlobalSection
+EndGlobal
