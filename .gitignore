@@ -3,6 +3,7 @@
 !*.dll
 [Oo]bj
 [Bb]in
+artifacts
 *.user
 *.suo
 *.[Cc]ache
