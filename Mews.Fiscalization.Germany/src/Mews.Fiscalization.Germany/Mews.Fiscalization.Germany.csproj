@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Authors>Mews</Authors>
+    <Copyright>Mews</Copyright>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-germany</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalization-germany/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-germany</RepositoryUrl>
+    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>fiscalization germany</PackageTags>
+    <Description>Client for Fiskaly - German Fiscalization.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mews.Fiscalization.Core" Version="2.0.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+</Project>
