@@ -39,4 +39,24 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Test
+      env:
+        client_Id: ${{secrets.client_Id}}
+        tss_id: ${{secrets.tss_id}}
+        api_key: ${{secrets.api_key}}
+        api_secret: ${{secrets.api_secret}}
+
+        user_id: ${{secrets.UserId}}
+        user_subscription_key: ${{secrets.UserSubscriptionKey}}
+        user_vat_number: ${{secrets.UserVatNumber}}
+
+        certificate_data: ${{secrets.certificate_data}}
+        certificate_password: ${{secrets.certificate_password}}
+        issuer_tax_number: ${{secrets.issuer_tax_number}}
+        receiver_tax_number: ${{secrets.receiver_tax_number}}
+
+        login: ${{secrets.login}}
+        password: ${{secrets.password}}
+        signing_key: ${{secrets.signing_key}}
+        tax_payer_id: ${{secrets.tax_payer_id}}
+        encryption_key: ${{secrets.encryption_key}}
       run: dotnet test --no-restore --verbosity normal

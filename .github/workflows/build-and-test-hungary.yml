@@ -18,7 +18,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Hungary/Mews.Fiscalization.Hungary
+        working-directory: src/Hungary/Mews.Fiscalization.Hungary.Tests
         
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalization.Hungary.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalization.Hungary.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore
