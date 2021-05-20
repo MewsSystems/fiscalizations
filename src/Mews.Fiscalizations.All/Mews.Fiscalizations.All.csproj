@@ -13,17 +13,6 @@
     <Description>All Mews Fiscalizations</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Mews.Fiscalization.Austria\Mews.Fiscalization.Austria.csproj" />
-    <ProjectReference Include="..\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
-    <ProjectReference Include="..\Mews.Fiscalization.Czechia\Mews.Fiscalization.Czechia.csproj" />
-    <ProjectReference Include="..\Mews.Fiscalization.Germany\Mews.Fiscalization.Germany.csproj" />
-    <ProjectReference Include="..\Mews.Fiscalization.Greece\Mews.Fiscalization.Greece.csproj" />
-    <ProjectReference Include="..\Mews.Fiscalization.Italy\Mews.Fiscalization.Italy.csproj" />
-    <ProjectReference Include="..\Mews.Fiscalization.Spain\Mews.Fiscalization.Spain.csproj" />
-    <ProjectReference Include="..\Mews.Fiscalization.Uniwix\Mews.Fiscalization.Uniwix.csproj" />
-  </ItemGroup>
   
   <ItemGroup>
     <Content Include="packages.config">
@@ -42,6 +31,18 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Austria\Mews.Fiscalization.Austria\Mews.Fiscalization.Austria.csproj" />
+    <ProjectReference Include="..\Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
+    <ProjectReference Include="..\Czechia\Mews.Fiscalization.Czechia\Mews.Fiscalization.Czechia.csproj" />
+    <ProjectReference Include="..\Germany\Mews.Fiscalization.Germany\Mews.Fiscalization.Germany.csproj" />
+    <ProjectReference Include="..\Greece\Mews.Fiscalization.Greece\Mews.Fiscalization.Greece.csproj" />
+    <ProjectReference Include="..\Hungary\Mews.Fiscalization.Hungary\Mews.Fiscalization.Hungary.csproj" />
+    <ProjectReference Include="..\Italy\Mews.Fiscalization.Italy\Mews.Fiscalization.Italy.csproj" />
+    <ProjectReference Include="..\Italy\Mews.Fiscalization.Uniwix\Mews.Fiscalization.Uniwix.csproj" />
+    <ProjectReference Include="..\Spain\Mews.Fiscalization.Spain\Mews.Fiscalization.Spain.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
