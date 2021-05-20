@@ -1,5 +1,0 @@
-language: csharp
-solution: src/Mews.Eet.sln
-install:
-  - nuget restore src/Mews.Eet.sln
-  - nuget install xunit.runner.console -Version 2.1.0 -OutputDirectory testrunner
