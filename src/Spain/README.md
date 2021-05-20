@@ -1,4 +1,4 @@
-![Build and test](https://github.com/MewsSystems/fiscalization-spain/workflows/Build%20and%20test/badge.svg)
+[![Build and test - Spain](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain.yml)
 
 # SII
 SII stands for Suministro Inmediato de Información del IVA, which translates to Immediate Supply of Information on VAT.
