@@ -40,7 +40,7 @@ jobs:
     
     - name: Test
       env:
-        user_id: ${{secrets.UserId}}
-        user_subscription_key: ${{secrets.UserSubscriptionKey}}
-        user_vat_number: ${{secrets.UserVatNumber}}
+        user_id: ${{secrets.greek_user_id}}
+        user_subscription_key: ${{secrets.greek_user_subscription_key}}
+        user_vat_number: ${{secrets.greek_user_vat_number}}
       run: dotnet test --no-restore --verbosity normal

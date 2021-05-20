@@ -40,8 +40,8 @@ jobs:
     
     - name: Test
       env:
-        certificate_data: ${{secrets.certificate_data}}
-        certificate_password: ${{secrets.certificate_password}}
-        issuer_tax_number: ${{secrets.issuer_tax_number}}
-        receiver_tax_number: ${{secrets.receiver_tax_number}}
+        certificate_data: ${{secrets.spanish_certificate_data}}
+        certificate_password: ${{secrets.spanish_certificate_password}}
+        issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
+        receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
       run: dotnet test --no-restore --verbosity normal

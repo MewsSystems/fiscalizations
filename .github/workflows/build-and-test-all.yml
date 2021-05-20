@@ -40,23 +40,23 @@ jobs:
     
     - name: Test
       env:
-        client_Id: ${{secrets.client_Id}}
-        tss_id: ${{secrets.tss_id}}
-        api_key: ${{secrets.api_key}}
-        api_secret: ${{secrets.api_secret}}
+        client_Id: ${{secrets.german_client_Id}}
+        tss_id: ${{secrets.german_tss_id}}
+        api_key: ${{secrets.german_api_key}}
+        api_secret: ${{secrets.german_api_secret}}
 
-        user_id: ${{secrets.UserId}}
-        user_subscription_key: ${{secrets.UserSubscriptionKey}}
-        user_vat_number: ${{secrets.UserVatNumber}}
+        user_id: ${{secrets.greek_user_id}}
+        user_subscription_key: ${{secrets.greek_user_subscription_key}}
+        user_vat_number: ${{secrets.greek_user_vat_number}}
 
-        certificate_data: ${{secrets.certificate_data}}
-        certificate_password: ${{secrets.certificate_password}}
-        issuer_tax_number: ${{secrets.issuer_tax_number}}
-        receiver_tax_number: ${{secrets.receiver_tax_number}}
+        certificate_data: ${{secrets.spanish_certificate_data}}
+        certificate_password: ${{secrets.spanish_certificate_password}}
+        issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
+        receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
 
-        login: ${{secrets.login}}
-        password: ${{secrets.password}}
-        signing_key: ${{secrets.signing_key}}
-        tax_payer_id: ${{secrets.tax_payer_id}}
-        encryption_key: ${{secrets.encryption_key}}
+        login: ${{secrets.hungarian_login}}
+        password: ${{secrets.hungarian_password}}
+        signing_key: ${{secrets.hungarian_signing_key}}
+        tax_payer_id: ${{secrets.hungarian_tax_payer_id}}
+        encryption_key: ${{secrets.hungarian_encryption_key}}
       run: dotnet test --no-restore --verbosity normal
