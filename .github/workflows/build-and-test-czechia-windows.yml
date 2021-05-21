@@ -1,4 +1,4 @@
-name: Build and test - Germany
+name: Build and test - Czechia (Windows)
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     env:
       DOTNET_NOLOGO: true
@@ -18,7 +18,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Germany/Mews.Fiscalizations.Germany.Tests
+        working-directory: src/Czechia/Mews.Fiscalizations.Czechia.Tests
         
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.Germany.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Czechia.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore
@@ -39,9 +39,4 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Test
-      env:
-        client_Id: ${{secrets.german_client_Id}}
-        tss_id: ${{secrets.german_tss_id}}
-        api_key: ${{secrets.german_api_key}}
-        api_secret: ${{secrets.german_api_secret}}
       run: dotnet test --no-restore --verbosity normal
