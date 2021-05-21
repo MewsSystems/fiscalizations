@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mews</Authors>
-    <Copyright>Mews</Copyright>
-    <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
+    <Description>Client for NAV - Online Szamla.</Description>
+    <PackageTags>fiscalization hungary nav</PackageTags>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-hungary</PackageProjectUrl>
     <License>https://github.com/MewsSystems/fiscalization-hungary/blob/master/LICENSE</License>
     <RepositoryUrl>https://github.com/MewsSystems/fiscalization-hungary</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
-    <PackageTags>fiscalization hungary nav</PackageTags>
-    <Description>Client for NAV - Online Szamla.</Description>
+    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
   </PropertyGroup>
   
   <ItemGroup>
@@ -36,5 +35,4 @@
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
-
 </Project>

@@ -2,17 +2,15 @@
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Mews</Authors>
+    <Description>Client for ATrust - Austrian Registrierkassen</Description>
+    <PackageTags>fiscalization austria Registrierkassen</PackageTags>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-austria</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/registrierkassen/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/registrierkassen</RepositoryUrl>
+    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
-    <Authors>Mews Systems</Authors>
-    <Company>Mews Systems</Company>
-    <PackageTags>fiscalization austria Registrierkassen</PackageTags>
-    <Description>Client for ATrust - Austrian Registrierkassen</Description>
-    <Copyright>Copyright 2021</Copyright>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-austria</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/MewsSystems/registrierkassen</RepositoryUrl>
-    <License>https://github.com/MewsSystems/registrierkassen/blob/master/LICENSE</License>
-    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,5 +29,4 @@
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
-
 </Project>

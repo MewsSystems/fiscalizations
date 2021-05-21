@@ -2,18 +2,16 @@
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     <Authors>Mews</Authors>
-    <Copyright>Mews</Copyright>
+    <Description>Client for Uniwix.</Description>
+    <PackageTags>uniwix fiscalization italy</PackageTags>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-italy</PackageProjectUrl>
     <License>https://github.com/MewsSystems/fiscalization-italy/blob/master/LICENSE</License>
     <RepositoryUrl>https://github.com/MewsSystems/fiscalization-italy</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
-    <RepositoryType>Git</RepositoryType>
-    <PackageTags>uniwix fiscalization italy</PackageTags>
-    <Description>Client for Uniwix.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   
   <ItemGroup>

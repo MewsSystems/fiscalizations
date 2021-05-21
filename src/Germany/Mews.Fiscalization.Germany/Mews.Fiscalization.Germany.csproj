@@ -1,16 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mews</Authors>
-    <Copyright>Mews</Copyright>
+    <Description>Client for Fiskaly - German Fiscalization.</Description>
+    <PackageTags>fiscalization germany</PackageTags>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-germany</PackageProjectUrl>
     <License>https://github.com/MewsSystems/fiscalization-germany/blob/master/LICENSE</License>
     <RepositoryUrl>https://github.com/MewsSystems/fiscalization-germany</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
-    <RepositoryType>Git</RepositoryType>
-    <PackageTags>fiscalization germany</PackageTags>
-    <Description>Client for Fiskaly - German Fiscalization.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
   </PropertyGroup>
@@ -27,18 +25,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
-  </ItemGroup>
   
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
-
 </Project>
