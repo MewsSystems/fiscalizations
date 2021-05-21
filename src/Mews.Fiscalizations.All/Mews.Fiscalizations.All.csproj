@@ -35,7 +35,6 @@
     <ProjectReference Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj" />
     <ProjectReference Include="..\Czechia\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj" />
     <ProjectReference Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj" />
-    <ProjectReference Include="..\Greece\Mews.Fiscalizations.Greece\Mews.Fiscalizations.Greece.csproj" />
     <ProjectReference Include="..\Hungary\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj" />
     <ProjectReference Include="..\Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj" />
     <ProjectReference Include="..\Italy\Mews.Fiscalizations.Uniwix\Mews.Fiscalizations.Uniwix.csproj" />
