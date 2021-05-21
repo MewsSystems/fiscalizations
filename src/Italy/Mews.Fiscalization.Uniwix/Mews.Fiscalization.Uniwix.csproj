@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mews</Authors>
-    <Description>Client for Uniwix.</Description>
+    <Description>Client for Uniwix. Used in italy for fiscal compliance.</Description>
     <PackageTags>uniwix fiscalization italy</PackageTags>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
     <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
