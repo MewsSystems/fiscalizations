@@ -21,12 +21,12 @@ namespace Mews.Fiscalization.Spain.Tests.IssuedInvoices
         public static readonly Client Client = new Client(Certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
 
         public static readonly LocalCompany IssuingCompany = new LocalCompany(
-            name: Name.CreateUnsafe(System.Environment.GetEnvironmentVariable("issuer_name") ?? "INSERT_ISSUER_NAME"),
+            name: Name.CreateUnsafe(System.Environment.GetEnvironmentVariable("spanish_issuer_name") ?? "INSERT_ISSUER_NAME"),
             taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER").Success.Get()
         );
 
         public static readonly LocalCompany ReceivingCompany = new LocalCompany(
-            name: Name.CreateUnsafe(System.Environment.GetEnvironmentVariable("receiver_name") ?? "INSERT_RECEIVER_NAME"),
+            name: Name.CreateUnsafe(System.Environment.GetEnvironmentVariable("spanish_receiver_name") ?? "INSERT_RECEIVER_NAME"),
             taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER").Success.Get()
         );
 
