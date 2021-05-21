@@ -18,7 +18,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Greece/Mews.Fiscalization.Greece.Tests
+        working-directory: src/Greece/Mews.Fiscalizations.Greece.Tests
         
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalization.Greece.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Greece.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore
