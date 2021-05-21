@@ -19,11 +19,17 @@ Windows | Linux | Notes
 # Projects
 
 [Core](https://github.com/MewsSystems/fiscalizations/tree/master/src/Core)
+
 [Austria](https://github.com/MewsSystems/fiscalizations/tree/master/src/Austria)
+
 [Czechia](https://github.com/MewsSystems/fiscalizations/tree/master/src/Czechia)
+
 [Germany](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany)
+
 [Hungary](https://github.com/MewsSystems/fiscalizations/tree/master/src/Hungary)
+
 [Italy](https://github.com/MewsSystems/fiscalizations/tree/master/src/Italy)
+
 [Spain](https://github.com/MewsSystems/fiscalizations/tree/master/src/Spain)
 
 # NuGet packages
