@@ -25,21 +25,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Austria\Mews.Fiscalization.Austria\Mews.Fiscalizations.Austria.csproj" />
-    <ProjectReference Include="..\Czechia\Mews.Fiscalization.Czechia\Mews.Fiscalizations.Czechia.csproj" />
-    <ProjectReference Include="..\Germany\Mews.Fiscalization.Germany\Mews.Fiscalizations.Germany.csproj" />
-    <ProjectReference Include="..\Greece\Mews.Fiscalization.Greece\Mews.Fiscalizations.Greece.csproj" />
-    <ProjectReference Include="..\Hungary\Mews.Fiscalization.Hungary\Mews.Fiscalizations.Hungary.csproj" />
-    <ProjectReference Include="..\Italy\Mews.Fiscalization.Italy\Mews.Fiscalizations.Italy.csproj" />
-    <ProjectReference Include="..\Italy\Mews.Fiscalization.Uniwix\Mews.Fiscalizations.Uniwix.csproj" />
-    <ProjectReference Include="..\Spain\Mews.Fiscalization.Spain\Mews.Fiscalizations.Spain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj" />
+    <ProjectReference Include="..\Czechia\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj" />
+    <ProjectReference Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj" />
+    <ProjectReference Include="..\Greece\Mews.Fiscalizations.Greece\Mews.Fiscalizations.Greece.csproj" />
+    <ProjectReference Include="..\Hungary\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj" />
+    <ProjectReference Include="..\Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj" />
+    <ProjectReference Include="..\Italy\Mews.Fiscalizations.Uniwix\Mews.Fiscalizations.Uniwix.csproj" />
+    <ProjectReference Include="..\Spain\Mews.Fiscalizations.Spain\Mews.Fiscalizations.Spain.csproj" />
   </ItemGroup>
   
   <PropertyGroup>

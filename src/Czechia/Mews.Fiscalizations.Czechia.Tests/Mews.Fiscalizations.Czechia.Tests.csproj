@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mews.Fiscalization.Czechia\Mews.Fiscalizations.Czechia.csproj" />
+    <ProjectReference Include="..\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj" />
   </ItemGroup>
 
   <ItemGroup>
