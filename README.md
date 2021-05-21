@@ -8,19 +8,12 @@ It is a work in progress at this moment. You will find the individual fiscalizat
 Windows | Linux
 ------------ | -------------
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-all-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-all-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-all-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-all-linux.yml)
-
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core-linux.yml)
-
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria-linux.yml)
-
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia-linux.yml)
-
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany-linux.yml)
-
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary-linux.yml)
-
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-linux.yml)
-
 [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-windows.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-windows.yml) | [![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-linux.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-linux.yml)
 
 # Projects
