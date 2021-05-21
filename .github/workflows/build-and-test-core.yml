@@ -18,7 +18,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Core/Mews.Fiscalization.Core.Tests
+        working-directory: src/Core/Mews.Fiscalizations.Core.Tests
         
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalization.Core.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Core.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore

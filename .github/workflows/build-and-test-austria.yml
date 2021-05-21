@@ -18,7 +18,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Austria/Mews.Fiscalization.Austria.Tests
+        working-directory: src/Austria/Mews.Fiscalizations.Austria.Tests
         
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalization.Austria.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Austria.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore
