@@ -3,14 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <Authors>Mews</Authors>
-    <Copyright>Mews</Copyright>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-all</PackageProjectUrl>
-    <License>https://github.com/MewsSystems/fiscalization-all/blob/master/LICENSE</License>
-    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-all</RepositoryUrl>
-    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
-    <RepositoryType>Git</RepositoryType>
-    <PackageTags>fiscalizations</PackageTags>
     <Description>All Mews Fiscalizations</Description>
+    <PackageTags>fiscalizations</PackageTags>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
+    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
@@ -27,13 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Austria\Mews.Fiscalization.Austria\Mews.Fiscalization.Austria.csproj" />
     <ProjectReference Include="..\Czechia\Mews.Fiscalization.Czechia\Mews.Fiscalization.Czechia.csproj" />
     <ProjectReference Include="..\Germany\Mews.Fiscalization.Germany\Mews.Fiscalization.Germany.csproj" />
@@ -44,8 +35,14 @@
     <ProjectReference Include="..\Spain\Mews.Fiscalization.Spain\Mews.Fiscalization.Spain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
-
 </Project>

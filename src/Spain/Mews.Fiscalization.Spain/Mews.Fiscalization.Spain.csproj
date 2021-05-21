@@ -1,15 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Authors>Mews Systems</Authors>
-    <Company>Mews Systems</Company>
-    <PackageTags>sii fiscalization spain</PackageTags>
-    <Copyright>Copyright 2021</Copyright>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Mews</Authors>
     <Description>A package for issued invoices for spanish fiscalization. (Sii)</Description>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-spain</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-spain</RepositoryUrl>
-    <License>https://github.com/MewsSystems/fiscalization-spain/blob/master/LICENSE</License>
+    <PackageTags>sii fiscalization spain</PackageTags>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
@@ -27,18 +25,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
-  </ItemGroup>
-
+  
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
-
 </Project>

@@ -2,7 +2,6 @@
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -15,5 +14,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Mews.Fiscalization.Germany\Mews.Fiscalization.Germany.csproj" />
   </ItemGroup>
-
 </Project>

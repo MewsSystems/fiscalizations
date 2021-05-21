@@ -14,5 +14,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Mews.Fiscalization.Hungary\Mews.Fiscalization.Hungary.csproj" />
   </ItemGroup>
-
 </Project>
