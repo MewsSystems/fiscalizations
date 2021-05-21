@@ -23,10 +23,17 @@ Windows | Linux
 # NuGet packages
 
 [Mews.Fiscalizations.All](https://www.nuget.org/packages/Mews.Fiscalization.All)
+
 [Mews.Fiscalizations.Core](https://www.nuget.org/packages/Mews.Fiscalization.Core)
+
 [Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalization.Austria)
+
 [Mews.Fiscalizations.Czechia](https://www.nuget.org/packages/Mews.Fiscalization.Czechia)
+
 [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalization.Germany)
+
 [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalization.Hungary)
+
 [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalization.Italy)
+
 [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalization.Spain)
