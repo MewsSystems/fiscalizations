@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+  <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <Authors>Mews</Authors>
@@ -14,12 +14,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Reference Include="FuncSharp">
-      <HintPath>..\..\packages\FuncSharp.3.0.1\lib\netstandard2.0\FuncSharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\..\LICENSE">

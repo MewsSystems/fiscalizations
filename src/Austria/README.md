@@ -1,5 +1,7 @@
 # Mews.Fiscalization.Austria
 
+[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria.yml)
+
 A client library that allows you to generate QR codes compliant with Austrian fiscal law (RKSV2017). Currently offers a signer based on A-Trust WS RK.Online API.
 
 ## Usage example
