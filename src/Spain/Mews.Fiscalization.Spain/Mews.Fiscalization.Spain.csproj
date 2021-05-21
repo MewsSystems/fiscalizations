@@ -5,9 +5,9 @@
     <Authors>Mews</Authors>
     <Description>A package for issued invoices for spanish fiscalization. (Sii)</Description>
     <PackageTags>sii fiscalization spain</PackageTags>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-spain</PackageProjectUrl>
-    <License>https://github.com/MewsSystems/fiscalization-spain/blob/master/LICENSE</License>
-    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-spain</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>

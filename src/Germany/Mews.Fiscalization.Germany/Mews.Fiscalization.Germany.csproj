@@ -5,9 +5,9 @@
     <Authors>Mews</Authors>
     <Description>Client for Fiskaly - German Fiscalization.</Description>
     <PackageTags>fiscalization germany</PackageTags>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-germany</PackageProjectUrl>
-    <License>https://github.com/MewsSystems/fiscalization-germany/blob/master/LICENSE</License>
-    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-germany</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>

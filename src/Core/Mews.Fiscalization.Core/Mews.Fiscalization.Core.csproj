@@ -6,9 +6,9 @@
     <Authors>Mews</Authors>
     <Description>Core library for implementing other fiscalization libraries.</Description>
     <PackageTags>fiscalization core</PackageTags>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-core</PackageProjectUrl>
-    <License>https://github.com/MewsSystems/fiscalization-core/blob/master/LICENSE</License>
-    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-core</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>

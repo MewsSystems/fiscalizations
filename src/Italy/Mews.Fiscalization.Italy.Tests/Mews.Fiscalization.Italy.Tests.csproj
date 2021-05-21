@@ -14,5 +14,4 @@
     <ItemGroup>
       <ProjectReference Include="..\Mews.Fiscalization.Italy\Mews.Fiscalization.Italy.csproj" />
     </ItemGroup>
-
 </Project>

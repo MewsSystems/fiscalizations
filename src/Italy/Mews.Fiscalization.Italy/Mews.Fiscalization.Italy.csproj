@@ -5,9 +5,9 @@
     <Authors>Mews</Authors>
     <Description>Client for SDI - Italian fiscal registry.</Description>
     <PackageTags>sdi fiscalization italy</PackageTags>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-italy</PackageProjectUrl>
-    <License>https://github.com/MewsSystems/fiscalization-italy/blob/master/LICENSE</License>
-    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-italy</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
   </PropertyGroup>
 
@@ -25,5 +25,4 @@
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
-
 </Project>
