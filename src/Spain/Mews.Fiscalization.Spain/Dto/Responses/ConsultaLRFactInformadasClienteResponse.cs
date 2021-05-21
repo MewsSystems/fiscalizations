@@ -1,6 +1,6 @@
-﻿using Mews.Fiscalization.Spain.Dto.XSD.RespuestaConsultaLR;
+﻿using Mews.Fiscalizations.Spain.Dto.XSD.RespuestaConsultaLR;
 
-namespace Mews.Fiscalization.Spain.Dto.Responses
+namespace Mews.Fiscalizations.Spain.Dto.Responses
 {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

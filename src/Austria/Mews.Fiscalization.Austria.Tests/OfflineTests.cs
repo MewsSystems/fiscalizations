@@ -2,13 +2,13 @@
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
-using Mews.Fiscalization.Austria.Dto;
-using Mews.Fiscalization.Austria.Dto.Identifiers;
-using Mews.Fiscalization.Austria.Offline;
+using Mews.Fiscalizations.Austria.Dto;
+using Mews.Fiscalizations.Austria.Dto.Identifiers;
+using Mews.Fiscalizations.Austria.Offline;
 using NUnit.Framework;
 using TimeZoneConverter;
 
-namespace Mews.Fiscalization.Austria.Tests
+namespace Mews.Fiscalizations.Austria.Tests
 {
     public class OfflineTests
     {

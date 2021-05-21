@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Mews.Fiscalization.Core.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public static class Check
     {

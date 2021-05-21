@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Mews.Fiscalization.Italy.Dto
+namespace Mews.Fiscalizations.Italy.Dto
 {
     internal static class DtoUtils
     {

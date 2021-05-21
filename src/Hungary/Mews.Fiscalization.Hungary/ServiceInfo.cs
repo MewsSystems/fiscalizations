@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Mews.Fiscalization.Hungary
+namespace Mews.Fiscalizations.Hungary
 {
     public static class ServiceInfo
     {

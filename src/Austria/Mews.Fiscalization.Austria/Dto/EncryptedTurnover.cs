@@ -1,4 +1,4 @@
-namespace Mews.Fiscalization.Austria.Dto
+namespace Mews.Fiscalizations.Austria.Dto
 {
     public sealed class EncryptedTurnover : ByteValue
     {

@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Spain.Dto.XSD.ConsultaLR;
-using Mews.Fiscalization.Spain.Dto.XSD.SuministroLR;
+﻿using Mews.Fiscalizations.Spain.Dto.XSD.ConsultaLR;
+using Mews.Fiscalizations.Spain.Dto.XSD.SuministroLR;
 
-namespace Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion
+namespace Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion
 {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRFiltroAgenciasViajesType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRFiltroCobrosMetalicoType))]

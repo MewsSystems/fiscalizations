@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Italy.Communication
+﻿namespace Mews.Fiscalizations.Italy.Communication
 {
     public class SdiNotificationAction
     {

@@ -1,6 +1,6 @@
-﻿using Mews.Fiscalization.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalization.Spain.Model.Request
+namespace Mews.Fiscalizations.Spain.Model.Request
 {
     public sealed class ForeignCompany
     {

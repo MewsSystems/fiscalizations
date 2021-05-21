@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion
+﻿namespace Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion
 {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FacturaRecibidaType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FacturaExpedidaType))]

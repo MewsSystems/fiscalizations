@@ -1,6 +1,6 @@
-﻿using Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion;
+﻿using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
 
-namespace Mews.Fiscalization.Spain.Dto.XSD.RespuestaConsultaLR
+namespace Mews.Fiscalizations.Spain.Dto.XSD.RespuestaConsultaLR
 {
     [System.Xml.Serialization.XmlTypeAttribute(TypeName="RespuestaOperacionesSegurosType", Namespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaConsultaLR.xsd")]
     public class RespuestaOperacionesSegurosType1

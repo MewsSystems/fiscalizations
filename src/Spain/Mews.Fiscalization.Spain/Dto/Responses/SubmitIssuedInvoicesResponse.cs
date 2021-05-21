@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
-using Mews.Fiscalization.Spain.Dto.XSD.RespuestaSuministro;
+using Mews.Fiscalizations.Spain.Dto.XSD.RespuestaSuministro;
 
-namespace Mews.Fiscalization.Spain.Dto.Responses
+namespace Mews.Fiscalizations.Spain.Dto.Responses
 {
     [System.SerializableAttribute]
     [XmlRoot(ElementName = "RespuestaLRFacturasEmitidas", Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaSuministro.xsd")]

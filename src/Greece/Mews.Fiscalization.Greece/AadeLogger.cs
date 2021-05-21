@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mews.Fiscalization.Greece
+namespace Mews.Fiscalizations.Greece
 {
     public class AadeLogger
     {

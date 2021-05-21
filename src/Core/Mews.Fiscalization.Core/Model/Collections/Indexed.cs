@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Core.Model
+﻿namespace Mews.Fiscalizations.Core.Model
 {
     public sealed class Indexed<T>
     {

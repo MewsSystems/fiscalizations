@@ -2,14 +2,14 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FuncSharp;
-using Mews.Fiscalization.Spain.Communication;
-using Mews.Fiscalization.Spain.Converters;
-using Mews.Fiscalization.Spain.Dto.Requests;
-using Mews.Fiscalization.Spain.Dto.Responses;
-using Mews.Fiscalization.Spain.Model.Request;
-using Mews.Fiscalization.Spain.Model.Response;
+using Mews.Fiscalizations.Spain.Communication;
+using Mews.Fiscalizations.Spain.Converters;
+using Mews.Fiscalizations.Spain.Dto.Requests;
+using Mews.Fiscalizations.Spain.Dto.Responses;
+using Mews.Fiscalizations.Spain.Model.Request;
+using Mews.Fiscalizations.Spain.Model.Response;
 
-namespace Mews.Fiscalization.Spain
+namespace Mews.Fiscalizations.Spain
 {
     public class Client
     {

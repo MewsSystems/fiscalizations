@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models
 {
     public class ResponseResult<TResult, TCode>
         where TResult : class

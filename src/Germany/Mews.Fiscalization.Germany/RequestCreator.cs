@@ -1,9 +1,9 @@
-﻿using Mews.Fiscalization.Germany.Model;
+﻿using Mews.Fiscalizations.Germany.Model;
 using System;
 using System.Globalization;
 using System.Linq;
 
-namespace Mews.Fiscalization.Germany
+namespace Mews.Fiscalizations.Germany
 {
     internal static class RequestCreator
     {

@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Mews.Fiscalization.Greece\Mews.Fiscalization.Greece.csproj" />
+      <ProjectReference Include="..\Mews.Fiscalization.Greece\Mews.Fiscalizations.Greece.csproj" />
     </ItemGroup>
 
 </Project>

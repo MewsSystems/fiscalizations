@@ -26,39 +26,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Greece", "Greece", "{599F63
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hungary", "Hungary", "{131BAEDD-D268-4F57-9E34-8FD7BFAEAD47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Austria", "Austria\Mews.Fiscalization.Austria\Mews.Fiscalization.Austria.csproj", "{2BE395D1-8709-4E2A-B615-72899E8044AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Austria", "Austria\Mews.Fiscalization.Austria\Mews.Fiscalizations.Austria.csproj", "{2BE395D1-8709-4E2A-B615-72899E8044AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Austria.Tests", "Austria\Mews.Fiscalization.Austria.Tests\Mews.Fiscalization.Austria.Tests.csproj", "{3657B7B7-26FD-41B9-803A-7EF1B98A10F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Austria.Tests", "Austria\Mews.Fiscalization.Austria.Tests\Mews.Fiscalizations.Austria.Tests.csproj", "{3657B7B7-26FD-41B9-803A-7EF1B98A10F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Czechia", "Czechia\Mews.Fiscalization.Czechia\Mews.Fiscalization.Czechia.csproj", "{8F8B3998-4A39-4201-A909-3895D763DA7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Czechia", "Czechia\Mews.Fiscalization.Czechia\Mews.Fiscalizations.Czechia.csproj", "{8F8B3998-4A39-4201-A909-3895D763DA7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Czechia.Tests", "Czechia\Mews.Fiscalization.Czechia.Tests\Mews.Fiscalization.Czechia.Tests.csproj", "{1D975494-92D7-4E55-8E0B-C968AF0F8A74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Czechia.Tests", "Czechia\Mews.Fiscalization.Czechia.Tests\Mews.Fiscalizations.Czechia.Tests.csproj", "{1D975494-92D7-4E55-8E0B-C968AF0F8A74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Germany", "Germany\Mews.Fiscalization.Germany\Mews.Fiscalization.Germany.csproj", "{7DD44AF6-6334-4D67-8C7A-99C35118C933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Germany", "Germany\Mews.Fiscalization.Germany\Mews.Fiscalizations.Germany.csproj", "{7DD44AF6-6334-4D67-8C7A-99C35118C933}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Germany.Tests", "Germany\Mews.Fiscalization.Germany.Tests\Mews.Fiscalization.Germany.Tests.csproj", "{30A4B03D-E67B-4C1F-9C5C-06F9F0704263}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Germany.Tests", "Germany\Mews.Fiscalization.Germany.Tests\Mews.Fiscalizations.Germany.Tests.csproj", "{30A4B03D-E67B-4C1F-9C5C-06F9F0704263}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Greece", "Greece\Mews.Fiscalization.Greece\Mews.Fiscalization.Greece.csproj", "{A5159888-104C-45A7-A43D-C007C0067805}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Greece", "Greece\Mews.Fiscalization.Greece\Mews.Fiscalizations.Greece.csproj", "{A5159888-104C-45A7-A43D-C007C0067805}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Greece.Tests", "Greece\Mews.Fiscalization.Greece.Tests\Mews.Fiscalization.Greece.Tests.csproj", "{3DABFD4D-072B-44DC-8736-91A4FE5D9E70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Greece.Tests", "Greece\Mews.Fiscalization.Greece.Tests\Mews.Fiscalizations.Greece.Tests.csproj", "{3DABFD4D-072B-44DC-8736-91A4FE5D9E70}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Hungary", "Hungary\Mews.Fiscalization.Hungary\Mews.Fiscalization.Hungary.csproj", "{8B17D3FA-A101-4B6A-89DF-7C8E413D121F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Hungary", "Hungary\Mews.Fiscalization.Hungary\Mews.Fiscalizations.Hungary.csproj", "{8B17D3FA-A101-4B6A-89DF-7C8E413D121F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Hungary.Tests", "Hungary\Mews.Fiscalization.Hungary.Tests\Mews.Fiscalization.Hungary.Tests.csproj", "{4C08A63A-DBDF-46E3-A597-0633EFD8E075}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Hungary.Tests", "Hungary\Mews.Fiscalization.Hungary.Tests\Mews.Fiscalizations.Hungary.Tests.csproj", "{4C08A63A-DBDF-46E3-A597-0633EFD8E075}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Italy", "Italy\Mews.Fiscalization.Italy\Mews.Fiscalization.Italy.csproj", "{9A89EE7E-B594-4305-A740-AD2A1DF97106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy", "Italy\Mews.Fiscalization.Italy\Mews.Fiscalizations.Italy.csproj", "{9A89EE7E-B594-4305-A740-AD2A1DF97106}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Italy.Tests", "Italy\Mews.Fiscalization.Italy.Tests\Mews.Fiscalization.Italy.Tests.csproj", "{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy.Tests", "Italy\Mews.Fiscalization.Italy.Tests\Mews.Fiscalizations.Italy.Tests.csproj", "{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Uniwix", "Italy\Mews.Fiscalization.Uniwix\Mews.Fiscalization.Uniwix.csproj", "{856667A0-459D-40CF-B47D-D25E6F90B308}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Uniwix", "Italy\Mews.Fiscalization.Uniwix\Mews.Fiscalizations.Uniwix.csproj", "{856667A0-459D-40CF-B47D-D25E6F90B308}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Spain", "Spain\Mews.Fiscalization.Spain\Mews.Fiscalization.Spain.csproj", "{B343EDE4-2D03-48AD-B3EF-4E131422BEC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Spain", "Spain\Mews.Fiscalization.Spain\Mews.Fiscalizations.Spain.csproj", "{B343EDE4-2D03-48AD-B3EF-4E131422BEC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Spain.Tests", "Spain\Mews.Fiscalization.Spain.Tests\Mews.Fiscalization.Spain.Tests.csproj", "{357AEF46-CC32-4AE6-98E2-64A84009C831}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Spain.Tests", "Spain\Mews.Fiscalization.Spain.Tests\Mews.Fiscalizations.Spain.Tests.csproj", "{357AEF46-CC32-4AE6-98E2-64A84009C831}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Core", "Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj", "{71B9B118-D325-4790-95C3-EDFF47F203BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Core", "Core\Mews.Fiscalization.Core\Mews.Fiscalizations.Core.csproj", "{71B9B118-D325-4790-95C3-EDFF47F203BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalization.Core.Tests", "Core\Mews.Fiscalization.Core.Tests\Mews.Fiscalization.Core.Tests.csproj", "{CE9F292B-409D-4C38-B528-C55ADB4056FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Core.Tests", "Core\Mews.Fiscalization.Core.Tests\Mews.Fiscalizations.Core.Tests.csproj", "{CE9F292B-409D-4C38-B528-C55ADB4056FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

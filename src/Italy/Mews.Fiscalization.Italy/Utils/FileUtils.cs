@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Mews.Fiscalization.Italy.Utils
+namespace Mews.Fiscalizations.Italy.Utils
 {
     public static class FileUtils
     {

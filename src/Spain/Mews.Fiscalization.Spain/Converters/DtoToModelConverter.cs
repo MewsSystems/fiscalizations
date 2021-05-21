@@ -2,13 +2,13 @@
 using System.Globalization;
 using System.Linq;
 using FuncSharp;
-using Mews.Fiscalization.Spain.Dto.Responses;
-using Mews.Fiscalization.Spain.Dto.XSD.RespuestaSuministro;
-using Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion;
-using Mews.Fiscalization.Spain.Model;
-using Mews.Fiscalization.Spain.Model.Response;
+using Mews.Fiscalizations.Spain.Dto.Responses;
+using Mews.Fiscalizations.Spain.Dto.XSD.RespuestaSuministro;
+using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
+using Mews.Fiscalizations.Spain.Model;
+using Mews.Fiscalizations.Spain.Model.Response;
 
-namespace Mews.Fiscalization.Spain.Converters
+namespace Mews.Fiscalizations.Spain.Converters
 {
     internal class DtoToModelConverter
     {

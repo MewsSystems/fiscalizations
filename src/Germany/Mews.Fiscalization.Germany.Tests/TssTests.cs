@@ -1,8 +1,8 @@
-﻿using Mews.Fiscalization.Germany.Model;
+﻿using Mews.Fiscalizations.Germany.Model;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalization.Germany.Tests
+namespace Mews.Fiscalizations.Germany.Tests
 {
     [TestFixture]
     public class TssTests

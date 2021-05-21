@@ -1,12 +1,12 @@
 ﻿using AutoFixture;
-using Mews.Fiscalization.Greece.Dto.Xsd;
+using Mews.Fiscalizations.Greece.Dto.Xsd;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Xml.Schema;
 using Xunit;
 
-namespace Mews.Fiscalization.Greece.Tests.UnitTests
+namespace Mews.Fiscalizations.Greece.Tests.UnitTests
 {
     public class OutboundRequestSerializationTests
     {

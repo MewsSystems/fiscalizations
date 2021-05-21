@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using Mews.Fiscalization.Austria.Dto.Identifiers;
+using Mews.Fiscalizations.Austria.Dto.Identifiers;
 
-namespace Mews.Fiscalization.Austria.Dto
+namespace Mews.Fiscalizations.Austria.Dto
 {
     public sealed class QrData
     {

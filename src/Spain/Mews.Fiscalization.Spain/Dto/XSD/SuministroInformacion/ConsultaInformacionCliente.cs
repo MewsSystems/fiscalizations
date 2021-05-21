@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Spain.Dto.XSD.ConsultaLR;
-using Mews.Fiscalization.Spain.Dto.XSD.RespuestaConsultaLR;
+﻿using Mews.Fiscalizations.Spain.Dto.XSD.ConsultaLR;
+using Mews.Fiscalizations.Spain.Dto.XSD.RespuestaConsultaLR;
 
-namespace Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion
+namespace Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion
 {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RespuestaConsultaLRFacturasAgrupadasClienteType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RespuestaConsultaLRFactInformadasAgrupadasClienteType))]

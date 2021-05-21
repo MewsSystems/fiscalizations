@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Mews.Fiscalization.Germany.Dto
+namespace Mews.Fiscalizations.Germany.Dto
 {
     public sealed class TssRequest
     {

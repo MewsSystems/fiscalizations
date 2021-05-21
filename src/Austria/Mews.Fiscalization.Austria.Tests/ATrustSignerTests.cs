@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using Mews.Fiscalization.Austria.ATrust;
-using Mews.Fiscalization.Austria.Dto;
-using Mews.Fiscalization.Austria.Dto.Identifiers;
+using Mews.Fiscalizations.Austria.ATrust;
+using Mews.Fiscalizations.Austria.Dto;
+using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using NUnit.Framework;
 using TimeZoneConverter;
 
-namespace Mews.Fiscalization.Austria.Tests
+namespace Mews.Fiscalizations.Austria.Tests
 {
     public class ATrustSignerTests
     {

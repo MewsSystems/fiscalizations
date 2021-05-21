@@ -2,12 +2,12 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Mews.Fiscalization.Italy.Communication;
-using Mews.Fiscalization.Italy.Dto.Invoice;
-using Mews.Fiscalization.Italy.Dto.Receive;
-using Mews.Fiscalization.Italy.Http;
+using Mews.Fiscalizations.Italy.Communication;
+using Mews.Fiscalizations.Italy.Dto.Invoice;
+using Mews.Fiscalizations.Italy.Dto.Receive;
+using Mews.Fiscalizations.Italy.Http;
 
-namespace Mews.Fiscalization.Italy
+namespace Mews.Fiscalizations.Italy
 {
     public class SdiClient
     {

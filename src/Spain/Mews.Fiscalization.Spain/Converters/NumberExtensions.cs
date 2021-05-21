@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Mews.Fiscalization.Spain.Converters
+namespace Mews.Fiscalizations.Spain.Converters
 {
     public static class NumberExtensions
     {

@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Spain.Dto.Responses;
-using Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion;
+﻿using Mews.Fiscalizations.Spain.Dto.Responses;
+using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
 
-namespace Mews.Fiscalization.Spain.Dto.XSD.RespuestaSuministro
+namespace Mews.Fiscalizations.Spain.Dto.XSD.RespuestaSuministro
 {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RespuestaLRBajaOperacionesSegurosType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RespuestaLRBajaAgenciasViajesType))]

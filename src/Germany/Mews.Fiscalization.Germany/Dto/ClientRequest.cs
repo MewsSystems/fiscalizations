@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Germany.Dto
+﻿namespace Mews.Fiscalizations.Germany.Dto
 {
     internal sealed class ClientRequest
     {

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using FuncSharp;
-using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Spain.Dto.Requests;
-using Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion;
-using Mews.Fiscalization.Spain.Dto.XSD.SuministroLR;
-using Mews.Fiscalization.Spain.Model;
-using Mews.Fiscalization.Spain.Model.Request;
+using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Spain.Dto.Requests;
+using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
+using Mews.Fiscalizations.Spain.Dto.XSD.SuministroLR;
+using Mews.Fiscalizations.Spain.Model;
+using Mews.Fiscalizations.Spain.Model.Request;
 
-namespace Mews.Fiscalization.Spain.Converters
+namespace Mews.Fiscalizations.Spain.Converters
 {
     internal class ModelToDtoConverter
     {

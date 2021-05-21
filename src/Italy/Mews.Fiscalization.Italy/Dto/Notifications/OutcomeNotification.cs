@@ -1,7 +1,7 @@
 ﻿using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalization.Italy.Dto.Notifications
+namespace Mews.Fiscalizations.Italy.Dto.Notifications
 {
     [XmlType(Namespace = "http://www.fatturapa.gov.it/sdi/messaggi/v1.0")]
     [XmlRoot("NotificaEsito", Namespace = "http://www.fatturapa.gov.it/sdi/messaggi/v1.0", IsNullable = false)]

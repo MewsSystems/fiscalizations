@@ -1,8 +1,8 @@
 ﻿using System.Xml.Serialization;
-using Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion;
-using Mews.Fiscalization.Spain.Dto.XSD.SuministroLR;
+using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
+using Mews.Fiscalizations.Spain.Dto.XSD.SuministroLR;
 
-namespace Mews.Fiscalization.Spain.Dto.Requests
+namespace Mews.Fiscalizations.Spain.Dto.Requests
 {
     [System.SerializableAttribute]
     [XmlRoot(ElementName = "BajaLRFacturasEmitidas", Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroLR.xsd")]

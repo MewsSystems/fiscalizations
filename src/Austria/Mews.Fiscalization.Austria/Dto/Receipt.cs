@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Mews.Fiscalization.Austria.Dto.Identifiers;
+using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 
-namespace Mews.Fiscalization.Austria.Dto
+namespace Mews.Fiscalizations.Austria.Dto
 {
     public sealed class Receipt
     {

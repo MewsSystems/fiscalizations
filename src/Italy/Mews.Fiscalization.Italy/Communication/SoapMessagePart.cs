@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace Mews.Fiscalization.Italy.Communication
+namespace Mews.Fiscalizations.Italy.Communication
 {
     public class SoapMessagePart
     {

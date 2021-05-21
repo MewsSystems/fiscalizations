@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 
-namespace Mews.Fiscalization.Hungary
+namespace Mews.Fiscalizations.Hungary
 {
     public static class RequestId
     {

@@ -1,8 +1,8 @@
-﻿using Mews.Fiscalization.Germany.Model;
-using Mews.Fiscalization.Germany.Utils;
+﻿using Mews.Fiscalizations.Germany.Model;
+using Mews.Fiscalizations.Germany.Utils;
 using System;
 
-namespace Mews.Fiscalization.Germany
+namespace Mews.Fiscalizations.Germany
 {
     internal static class ModelMapper
     {

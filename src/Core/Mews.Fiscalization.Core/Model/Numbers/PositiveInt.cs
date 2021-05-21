@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Core.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public struct PositiveInt
     {

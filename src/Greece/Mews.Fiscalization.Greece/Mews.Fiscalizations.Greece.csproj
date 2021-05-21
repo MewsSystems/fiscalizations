@@ -1,21 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>Mews</Authors>
-    <Description>A package for issued invoices for spanish fiscalization. (Sii)</Description>
-    <PackageTags>sii fiscalization spain</PackageTags>
-    <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
-    <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
-    <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
-    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <LangVersion>7.3</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
+    <Authors>Mews Systems</Authors>
+    <Company>Mews Systems</Company>
+    <PackageTags>fiscalization greece mydata</PackageTags>
+    <PackageProjectUrl>https://github.com/MewsSystems/fiscalization-greece</PackageProjectUrl>
+    <License>https://github.com/MewsSystems/fiscalization-greece/blob/master/LICENSE</License>
+    <RepositoryUrl>https://github.com/MewsSystems/fiscalization-greece</RepositoryUrl>
+    <Description>Client for MyData - Greek e-books platform.</Description>
+    <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="4.8.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,17 +26,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalizations.Core.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+  
 </Project>

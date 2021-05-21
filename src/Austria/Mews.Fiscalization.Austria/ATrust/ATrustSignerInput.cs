@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Austria.Dto;
+﻿using Mews.Fiscalizations.Austria.Dto;
 using Newtonsoft.Json;
 
-namespace Mews.Fiscalization.Austria.ATrust
+namespace Mews.Fiscalizations.Austria.ATrust
 {
     public sealed class ATrustSignerInput
     {

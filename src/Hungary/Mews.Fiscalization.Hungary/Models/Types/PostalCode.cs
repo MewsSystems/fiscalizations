@@ -1,8 +1,8 @@
 ﻿using FuncSharp;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 using System.Text.RegularExpressions;
 
-namespace Mews.Fiscalization.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models
 {
     public sealed class PostalCode
     {

@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion
+﻿namespace Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion
 {
     [System.SerializableAttribute]
     [System.Xml.Serialization.XmlTypeAttribute(TypeName = "TipoPeriodoType", Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroInformacion.xsd")]

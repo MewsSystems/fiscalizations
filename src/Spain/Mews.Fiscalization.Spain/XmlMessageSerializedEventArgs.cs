@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace Mews.Fiscalization.Spain
+namespace Mews.Fiscalizations.Spain
 {
     public class XmlMessageSerializedEventArgs : EventArgs
     {

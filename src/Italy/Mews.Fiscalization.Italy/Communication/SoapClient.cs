@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using Mews.Fiscalization.Italy.Http;
+using Mews.Fiscalizations.Italy.Http;
 
-namespace Mews.Fiscalization.Italy.Communication
+namespace Mews.Fiscalizations.Italy.Communication
 {
     class SoapClient
     {

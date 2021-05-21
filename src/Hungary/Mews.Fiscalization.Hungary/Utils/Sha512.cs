@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Mews.Fiscalization.Hungary.Utils
+namespace Mews.Fiscalizations.Hungary.Utils
 {
     internal static class Sha512
     {

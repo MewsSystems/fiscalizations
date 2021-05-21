@@ -1,9 +1,9 @@
 ﻿using System;
-using Mews.Fiscalization.Hungary.Models;
-using Mews.Fiscalization.Hungary.Utils;
+using Mews.Fiscalizations.Hungary.Models;
+using Mews.Fiscalizations.Hungary.Utils;
 using System.Linq;
 
-namespace Mews.Fiscalization.Hungary
+namespace Mews.Fiscalizations.Hungary
 {
     internal static class ModelMapper
     {

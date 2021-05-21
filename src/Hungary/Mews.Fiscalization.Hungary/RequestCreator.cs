@@ -1,11 +1,11 @@
-﻿using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Hungary.Models;
-using Mews.Fiscalization.Hungary.Utils;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Hungary.Models;
+using Mews.Fiscalizations.Hungary.Utils;
 using System;
 using System.Linq;
 using System.Text;
 
-namespace Mews.Fiscalization.Hungary
+namespace Mews.Fiscalizations.Hungary
 {
     internal static class RequestCreator
     {

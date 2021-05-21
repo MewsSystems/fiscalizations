@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Core.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public interface INonEmptyEnumerable<out T> : IEnumerable<T>
     {

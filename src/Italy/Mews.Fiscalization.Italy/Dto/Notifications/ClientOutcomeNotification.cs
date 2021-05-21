@@ -1,8 +1,8 @@
 ﻿using System.Xml.Schema;
 using System.Xml.Serialization;
-using Mews.Fiscalization.Italy.Dto.XmlSignature;
+using Mews.Fiscalizations.Italy.Dto.XmlSignature;
 
-namespace Mews.Fiscalization.Italy.Dto.Notifications
+namespace Mews.Fiscalizations.Italy.Dto.Notifications
 {
     public class ClientOutcomeNotification
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mews.Fiscalization.Germany.Utils
+namespace Mews.Fiscalizations.Germany.Utils
 {
     internal static class Extensions
     {

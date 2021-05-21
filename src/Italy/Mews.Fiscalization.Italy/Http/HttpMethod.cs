@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Italy.Http
+﻿namespace Mews.Fiscalizations.Italy.Http
 {
     public enum HttpMethod
     {

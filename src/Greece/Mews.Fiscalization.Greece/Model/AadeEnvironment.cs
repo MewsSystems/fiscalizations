@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Greece.Model
+﻿namespace Mews.Fiscalizations.Greece.Model
 {
     public enum AadeEnvironment
     {

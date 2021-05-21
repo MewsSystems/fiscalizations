@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mews.Fiscalization.Greece.Dto.Xsd
+namespace Mews.Fiscalizations.Greece.Dto.Xsd
 {
     [Serializable]
     public enum Country

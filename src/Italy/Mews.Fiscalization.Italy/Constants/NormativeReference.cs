@@ -1,7 +1,7 @@
 ﻿using System;
-using Mews.Fiscalization.Italy.Dto.Invoice;
+using Mews.Fiscalizations.Italy.Dto.Invoice;
 
-namespace Mews.Fiscalization.Italy.Constants
+namespace Mews.Fiscalizations.Italy.Constants
 {
     public static class NormativeReference
     {

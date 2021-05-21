@@ -20,12 +20,12 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Mews.Fiscalization.Italy\Mews.Fiscalization.Italy.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Mews.Fiscalization.Italy\Mews.Fiscalizations.Italy.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
     <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))" />
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')-&gt;WithMetadataValue('PrivateAssets', 'All'))" />
     </ItemGroup>
   </Target>
 

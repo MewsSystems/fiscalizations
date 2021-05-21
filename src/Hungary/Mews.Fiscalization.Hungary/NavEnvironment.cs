@@ -1,4 +1,4 @@
-namespace Mews.Fiscalization.Hungary
+namespace Mews.Fiscalizations.Hungary
 {
     public enum NavEnvironment
     {

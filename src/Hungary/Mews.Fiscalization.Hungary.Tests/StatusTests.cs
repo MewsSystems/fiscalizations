@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace Mews.Fiscalization.Hungary.Tests
+namespace Mews.Fiscalizations.Hungary.Tests
 {
     [TestFixture]
     public class StatusTests

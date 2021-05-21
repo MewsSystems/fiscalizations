@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Spain.Model
+﻿namespace Mews.Fiscalizations.Spain.Model
 {
     public enum CauseOfExemption
     {

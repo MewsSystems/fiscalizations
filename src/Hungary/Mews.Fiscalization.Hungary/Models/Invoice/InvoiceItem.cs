@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 using System;
 
-namespace Mews.Fiscalization.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models
 {
     public sealed class InvoiceItem
     {

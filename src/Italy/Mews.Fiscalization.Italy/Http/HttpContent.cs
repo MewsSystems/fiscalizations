@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Mews.Fiscalization.Italy.Http
+namespace Mews.Fiscalizations.Italy.Http
 {
     public sealed class HttpContent
     {

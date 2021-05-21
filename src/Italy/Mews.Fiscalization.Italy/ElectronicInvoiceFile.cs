@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Xml.Serialization;
-using Mews.Fiscalization.Italy.Dto.Invoice;
-using Mews.Fiscalization.Italy.Utils;
+using Mews.Fiscalizations.Italy.Dto.Invoice;
+using Mews.Fiscalizations.Italy.Utils;
 
-namespace Mews.Fiscalization.Italy
+namespace Mews.Fiscalizations.Italy
 {
     public class ElectronicInvoiceFile
     {

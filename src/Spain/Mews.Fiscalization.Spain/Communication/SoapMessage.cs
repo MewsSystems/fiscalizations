@@ -1,8 +1,8 @@
-﻿using Mews.Fiscalization.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 using System;
 using System.Xml;
 
-namespace Mews.Fiscalization.Spain.Communication
+namespace Mews.Fiscalizations.Spain.Communication
 {
     internal class SoapMessage
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 
-namespace Mews.Fiscalization.Italy.Http
+namespace Mews.Fiscalizations.Italy.Http
 {
     public sealed class HttpResponse
     {

@@ -1,6 +1,6 @@
 ﻿using FuncSharp;
 
-namespace Mews.Fiscalization.Greece.Model
+namespace Mews.Fiscalizations.Greece.Model
 {
     public sealed class Amount : Coproduct3<NonPositiveAmount, NonNegativeAmount, NegativeAmount>
     {

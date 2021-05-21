@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Italy.Dto.Invoice
+﻿namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
     public enum SdiError
     {

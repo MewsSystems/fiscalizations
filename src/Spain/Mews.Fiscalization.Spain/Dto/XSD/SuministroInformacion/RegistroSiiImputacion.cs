@@ -1,6 +1,6 @@
-﻿using Mews.Fiscalization.Spain.Dto.XSD.ConsultaLR;
+﻿using Mews.Fiscalizations.Spain.Dto.XSD.ConsultaLR;
 
-namespace Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion
+namespace Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion
 {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRFiltroFactInformadasAgrupadasProveedorType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRFiltroFactInformadasProveedorType))]

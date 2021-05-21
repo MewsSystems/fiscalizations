@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Core.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public interface ISequenceStartingWithOne<T> : ISequence<T>
     {

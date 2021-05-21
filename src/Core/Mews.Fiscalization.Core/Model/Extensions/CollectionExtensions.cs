@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Core.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public static class CollectionExtensions
     {

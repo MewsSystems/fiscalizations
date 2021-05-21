@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalization.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models
 {
     public class Invoice
     {

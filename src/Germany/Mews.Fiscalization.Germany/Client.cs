@@ -1,4 +1,4 @@
-﻿using Mews.Fiscalization.Germany.Model;
+﻿using Mews.Fiscalizations.Germany.Model;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalization.Germany
+namespace Mews.Fiscalizations.Germany
 {
     internal class Client
     {

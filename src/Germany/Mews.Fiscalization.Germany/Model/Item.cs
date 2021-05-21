@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Germany.Model
+﻿namespace Mews.Fiscalizations.Germany.Model
 {
     public sealed class Item
     {

@@ -1,11 +1,11 @@
 ﻿using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using Mews.Fiscalization.Austria.Dto;
-using Mews.Fiscalization.Austria.Dto.Identifiers;
+using Mews.Fiscalizations.Austria.Dto;
+using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Mews.Fiscalization.Austria.Offline
+namespace Mews.Fiscalizations.Austria.Offline
 {
     public class OfflineSigner : ISigner
     {

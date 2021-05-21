@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Greece.Model.Result
+﻿namespace Mews.Fiscalizations.Greece.Model.Result
 {
     public class CheckUserCredentialsSuccess
     {

@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Greece.Model.Types;
+﻿using Mews.Fiscalizations.Greece.Model.Types;
 using System;
 
-namespace Mews.Fiscalization.Greece.Model.Result
+namespace Mews.Fiscalizations.Greece.Model.Result
 {
     public class ResultError
     {

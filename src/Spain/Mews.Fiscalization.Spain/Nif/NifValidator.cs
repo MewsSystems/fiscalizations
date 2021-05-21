@@ -4,10 +4,10 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FuncSharp;
-using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Spain.Communication;
+using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Spain.Communication;
 
-namespace Mews.Fiscalization.Spain.Nif
+namespace Mews.Fiscalizations.Spain.Nif
 {
     public class NifValidator
     {

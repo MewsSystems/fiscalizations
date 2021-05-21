@@ -3,13 +3,13 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FuncSharp;
-using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Spain.Model;
-using Mews.Fiscalization.Spain.Model.Request;
-using Mews.Fiscalization.Spain.Nif;
+using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Spain.Model;
+using Mews.Fiscalizations.Spain.Model.Request;
+using Mews.Fiscalizations.Spain.Nif;
 using NUnit.Framework;
 
-namespace Mews.Fiscalization.Spain.Tests.IssuedInvoices
+namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
 {
     public class Basics
     {

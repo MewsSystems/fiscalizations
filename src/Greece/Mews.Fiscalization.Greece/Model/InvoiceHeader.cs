@@ -1,8 +1,8 @@
-﻿using Mews.Fiscalization.Greece.Model.Types;
+﻿using Mews.Fiscalizations.Greece.Model.Types;
 using System;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalization.Greece.Model
+namespace Mews.Fiscalizations.Greece.Model
 {
     public class InvoiceHeader
     {

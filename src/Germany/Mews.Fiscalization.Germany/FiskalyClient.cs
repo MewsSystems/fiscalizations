@@ -1,11 +1,11 @@
-﻿using Mews.Fiscalization.Germany.Model;
+﻿using Mews.Fiscalizations.Germany.Model;
 using System;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalization.Germany
+namespace Mews.Fiscalizations.Germany
 {
     public sealed class FiskalyClient
     {

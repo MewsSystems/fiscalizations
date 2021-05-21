@@ -1,8 +1,8 @@
 ﻿using FuncSharp;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 using System.Collections.Generic;
 
-namespace Mews.Fiscalization.Greece.Model
+namespace Mews.Fiscalizations.Greece.Model
 {
     public sealed class SalesInvoice
     {

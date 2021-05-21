@@ -1,11 +1,11 @@
-﻿using Mews.Fiscalization.Greece.Dto.Xsd;
+﻿using Mews.Fiscalizations.Greece.Dto.Xsd;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Greece.Model
+namespace Mews.Fiscalizations.Greece.Model
 {
     public sealed class CurrencyCode
     {

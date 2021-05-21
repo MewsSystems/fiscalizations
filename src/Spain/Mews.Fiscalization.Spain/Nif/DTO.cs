@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Mews.Fiscalization.Spain.Nif
+namespace Mews.Fiscalizations.Spain.Nif
 {
     [XmlType(AnonymousType = true, Namespace = "http://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/burt/jdit/ws/VNifV2Ent.xsd")]
     public class VNifV2EntContribuyente

@@ -1,9 +1,9 @@
-﻿using Mews.Fiscalization.Greece.Dto.Xsd;
+﻿using Mews.Fiscalizations.Greece.Dto.Xsd;
 using System.Linq;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Greece.Model.Result
+namespace Mews.Fiscalizations.Greece.Model.Result
 {
     public class SendInvoicesResult
     {

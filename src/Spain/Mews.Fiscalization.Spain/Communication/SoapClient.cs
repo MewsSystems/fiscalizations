@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Mews.Fiscalization.Spain.Communication
+namespace Mews.Fiscalizations.Spain.Communication
 {
     internal class SoapClient
     {

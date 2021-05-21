@@ -1,7 +1,7 @@
 ﻿using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalization.Italy.Dto.Notifications
+namespace Mews.Fiscalizations.Italy.Dto.Notifications
 {
     [XmlRoot("attestazioneTrasmissioneFattura", Namespace = "http://www.fatturapa.gov.it/sdi/ws/trasmissione/v1.0/types")]
     public class SdiNotificationMessage

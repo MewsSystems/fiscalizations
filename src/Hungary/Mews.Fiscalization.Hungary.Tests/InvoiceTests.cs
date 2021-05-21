@@ -1,11 +1,11 @@
-﻿using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Hungary.Models;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Hungary.Models;
 using NUnit.Framework;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalization.Hungary.Tests
+namespace Mews.Fiscalizations.Hungary.Tests
 {
     [TestFixture]
     public class InvoiceTests

@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text;
 
-namespace Mews.Fiscalization.Austria.ATrust
+namespace Mews.Fiscalizations.Austria.ATrust
 {
     public class SimpleHttpClient
     {

@@ -1,10 +1,10 @@
-﻿using Mews.Fiscalization.Hungary.Models;
+﻿using Mews.Fiscalizations.Hungary.Models;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalization.Hungary.Utils
+namespace Mews.Fiscalizations.Hungary.Utils
 {
     internal class Client
     {

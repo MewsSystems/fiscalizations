@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mews.Fiscalization.Germany.Model
+namespace Mews.Fiscalizations.Germany.Model
 {
     public enum PaymentType
     {

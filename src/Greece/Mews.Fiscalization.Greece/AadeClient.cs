@@ -1,10 +1,10 @@
-﻿using Mews.Fiscalization.Greece.Mapper;
-using Mews.Fiscalization.Greece.Model;
-using Mews.Fiscalization.Greece.Model.Result;
+﻿using Mews.Fiscalizations.Greece.Mapper;
+using Mews.Fiscalizations.Greece.Model;
+using Mews.Fiscalizations.Greece.Model.Result;
 using System.Threading.Tasks;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalization.Greece
+namespace Mews.Fiscalizations.Greece
 {
     public sealed class AadeClient
     {

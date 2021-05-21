@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace Mews.Fiscalization.Germany.Dto
+namespace Mews.Fiscalizations.Germany.Dto
 {
     internal partial class TransactionRequest
     {

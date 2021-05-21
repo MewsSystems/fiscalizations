@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mews</Authors>
-    <Description>Client for Fiskaly - German Fiscalization.</Description>
-    <PackageTags>fiscalization germany</PackageTags>
+    <Description>Client for NAV - Online Szamla.</Description>
+    <PackageTags>fiscalization hungary nav</PackageTags>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
     <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
@@ -12,9 +12,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Mews.Fiscalizations.All/bin/$(Configuration)/</PackageOutputPath>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.6" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
@@ -25,16 +25,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalization.Core.csproj" />
+    <ProjectReference Include="..\..\Core\Mews.Fiscalization.Core\Mews.Fiscalizations.Core.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
+
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>

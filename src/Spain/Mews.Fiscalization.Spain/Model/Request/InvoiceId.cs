@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 using System;
 
-namespace Mews.Fiscalization.Spain.Model.Request
+namespace Mews.Fiscalizations.Spain.Model.Request
 {
     public sealed class InvoiceId
     {

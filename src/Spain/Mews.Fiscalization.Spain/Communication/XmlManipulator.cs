@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalization.Spain.Communication
+namespace Mews.Fiscalizations.Spain.Communication
 {
     internal class XmlManipulator
     {

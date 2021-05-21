@@ -1,9 +1,9 @@
-﻿using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Hungary.Models;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Hungary.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mews.Fiscalization.Hungary
+namespace Mews.Fiscalizations.Hungary
 {
     internal static class RequestMapper
     {

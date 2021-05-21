@@ -1,11 +1,11 @@
-﻿using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Greece.Model;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Greece.Model;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mews.Fiscalization.Greece.Tests.IntegrationTests
+namespace Mews.Fiscalizations.Greece.Tests.IntegrationTests
 {
     public class AadeClientTests
     {

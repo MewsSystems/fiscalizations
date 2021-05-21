@@ -1,6 +1,6 @@
 ﻿using Org.BouncyCastle.Security;
 
-namespace Mews.Fiscalization.Austria
+namespace Mews.Fiscalizations.Austria
 {
     public sealed class AesKeyGenerator
     {

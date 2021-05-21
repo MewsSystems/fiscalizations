@@ -2,7 +2,7 @@
 using System.Security.Cryptography.Xml;
 using System.Xml;
 
-namespace Mews.Fiscalization.Italy
+namespace Mews.Fiscalizations.Italy
 {
     public static class XmlSigner
     {

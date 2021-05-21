@@ -1,7 +1,7 @@
 ﻿using System;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalization.Greece.Model
+namespace Mews.Fiscalizations.Greece.Model
 {
     public class Address
     {

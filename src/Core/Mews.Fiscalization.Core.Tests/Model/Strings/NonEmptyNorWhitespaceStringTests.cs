@@ -1,10 +1,10 @@
 using System;
 using FuncSharp;
-using Mews.Fiscalization.Core.Model;
+using Mews.Fiscalizations.Core.Model;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
-namespace Mews.Fiscalization.Core.Tests.Model
+namespace Mews.Fiscalizations.Core.Tests.Model
 {
     [TestFixture]
     public sealed class NonEmptyNorWhitespaceStringTests

@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Austria.Dto.Identifiers
+﻿namespace Mews.Fiscalizations.Austria.Dto.Identifiers
 {
     public abstract class Identifier<T>
     {

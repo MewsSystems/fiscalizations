@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Spain
+﻿namespace Mews.Fiscalizations.Spain
 {
     public enum Environment
     {

@@ -2,7 +2,7 @@
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 
-namespace Mews.Fiscalization.Hungary.Utils
+namespace Mews.Fiscalizations.Hungary.Utils
 {
     internal static class Aes
     {

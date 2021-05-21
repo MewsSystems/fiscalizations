@@ -1,11 +1,11 @@
-﻿using Mews.Fiscalization.Greece.Model;
+﻿using Mews.Fiscalizations.Greece.Model;
 using System;
 using System.Linq;
-using Mews.Fiscalization.Core.Model;
-using TaxType = Mews.Fiscalization.Greece.Model.TaxType;
+using Mews.Fiscalizations.Core.Model;
+using TaxType = Mews.Fiscalizations.Greece.Model.TaxType;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Greece.Mapper
+namespace Mews.Fiscalizations.Greece.Mapper
 {
     public static class InvoiceDocumentMapper
     {

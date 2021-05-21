@@ -1,6 +1,6 @@
-﻿using Mews.Fiscalization.Austria.Dto;
+﻿using Mews.Fiscalizations.Austria.Dto;
 
-namespace Mews.Fiscalization.Austria
+namespace Mews.Fiscalizations.Austria
 {
     public interface ISigner
     {

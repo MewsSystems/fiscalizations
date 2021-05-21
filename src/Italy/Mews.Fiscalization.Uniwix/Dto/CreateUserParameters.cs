@@ -1,4 +1,4 @@
-namespace Mews.Fiscalization.Uniwix.Dto
+namespace Mews.Fiscalizations.Uniwix.Dto
 {
     public class CreateUserParameters
     {

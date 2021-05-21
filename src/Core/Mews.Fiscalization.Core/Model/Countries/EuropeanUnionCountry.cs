@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using FuncSharp;
 
-namespace Mews.Fiscalization.Core.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public class EuropeanUnionCountry
     {

@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 using NUnit.Framework;
 
-namespace Mews.Fiscalization.Core.Tests.Model
+namespace Mews.Fiscalizations.Core.Tests.Model
 {
     [TestFixture]
     public sealed class TaxpayerIdentificationNumberTests

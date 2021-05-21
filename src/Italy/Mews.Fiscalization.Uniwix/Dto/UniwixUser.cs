@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Mews.Fiscalization.Uniwix.Dto
+namespace Mews.Fiscalizations.Uniwix.Dto
 {
     public class UniwixUser
     {

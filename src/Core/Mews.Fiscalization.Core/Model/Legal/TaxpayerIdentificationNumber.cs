@@ -1,6 +1,6 @@
 ﻿using FuncSharp;
 
-namespace Mews.Fiscalization.Core.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public class TaxpayerIdentificationNumber : Coproduct2<EuropeanUnionTaxpayerIdentificationNumber, NonEuropeanUnionTaxpayerIdentificationNumber>
     {

@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Mews.Fiscalization.Uniwix.Communication.Dto
+namespace Mews.Fiscalizations.Uniwix.Communication.Dto
 {
     internal class InvoiceStateResult
     {

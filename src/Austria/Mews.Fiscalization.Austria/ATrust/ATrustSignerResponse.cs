@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Mews.Fiscalization.Austria.ATrust
+namespace Mews.Fiscalizations.Austria.ATrust
 {
     public sealed class ATrustSignerResponse
     {

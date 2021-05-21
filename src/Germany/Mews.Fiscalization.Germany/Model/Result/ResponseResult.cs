@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Germany.Model
+﻿namespace Mews.Fiscalizations.Germany.Model
 {
     public class ResponseResult<TResult>
         where TResult : class

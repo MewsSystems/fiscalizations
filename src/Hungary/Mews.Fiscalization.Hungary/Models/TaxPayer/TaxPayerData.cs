@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mews.Fiscalization.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models
 {
     public sealed class TaxPayerData
     {

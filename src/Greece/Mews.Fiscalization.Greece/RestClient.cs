@@ -1,7 +1,7 @@
-﻿using Mews.Fiscalization.Greece.Dto.Xsd;
-using Mews.Fiscalization.Greece.Model;
-using Mews.Fiscalization.Greece.Model.Result;
-using Mews.Fiscalization.Greece.Model.Types;
+﻿using Mews.Fiscalizations.Greece.Dto.Xsd;
+using Mews.Fiscalizations.Greece.Model;
+using Mews.Fiscalizations.Greece.Model.Result;
+using Mews.Fiscalizations.Greece.Model.Types;
 using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalization.Greece
+namespace Mews.Fiscalizations.Greece
 {
     internal class RestClient
     {

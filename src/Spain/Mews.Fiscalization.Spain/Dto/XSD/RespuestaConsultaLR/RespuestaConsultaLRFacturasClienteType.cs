@@ -1,6 +1,6 @@
-﻿using Mews.Fiscalization.Spain.Dto.XSD.SuministroInformacion;
+﻿using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
 
-namespace Mews.Fiscalization.Spain.Dto.XSD.RespuestaConsultaLR
+namespace Mews.Fiscalizations.Spain.Dto.XSD.RespuestaConsultaLR
 {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RespuestaConsultaLRFactInformadasClienteType))]
     [System.SerializableAttribute]

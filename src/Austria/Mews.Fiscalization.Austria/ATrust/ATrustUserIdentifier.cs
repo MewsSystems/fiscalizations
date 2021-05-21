@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Mews.Fiscalization.Austria.Dto.Identifiers;
+using Mews.Fiscalizations.Austria.Dto.Identifiers;
 
-namespace Mews.Fiscalization.Austria.ATrust
+namespace Mews.Fiscalizations.Austria.ATrust
 {
     public sealed class ATrustUserIdentifier : StringIdentifier
     {

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Mews.Fiscalization.Austria.Dto.Identifiers
+namespace Mews.Fiscalizations.Austria.Dto.Identifiers
 {
     public class RegisterIdentifier : StringIdentifier
     {

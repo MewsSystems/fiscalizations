@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalization.Greece.Model.Types
+﻿namespace Mews.Fiscalizations.Greece.Model.Types
 {
     internal static class SendInvoiceErrorCodes
     {

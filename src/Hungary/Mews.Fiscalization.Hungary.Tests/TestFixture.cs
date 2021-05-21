@@ -1,8 +1,8 @@
-﻿using Mews.Fiscalization.Core.Model;
-using Mews.Fiscalization.Hungary.Models;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Hungary.Models;
 using System;
 
-namespace Mews.Fiscalization.Hungary.Tests
+namespace Mews.Fiscalizations.Hungary.Tests
 {
     public static class TestFixture
     {
