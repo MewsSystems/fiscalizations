@@ -1,6 +1,6 @@
 # Mews.Fiscalization.Hungary
 
-[![Build and test - Hungary](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary.yml)
+[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary.yml)
 
 ## Description
 This library uses https://onlineszamla.nav.gov.hu/ API [v2.0](https://onlineszamla.nav.gov.hu/dokumentaciok) to report invoices to the Hungarian authorities.

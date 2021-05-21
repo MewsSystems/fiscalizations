@@ -1,5 +1,5 @@
 # Mews.Fiscalization.Germany
-[![Build and test - Germany](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany.yml)
+[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany.yml)
 
 ## Description
 This library uses https://developer.fiskaly.com/api/ KassenSichV API V1 to report invoices to the German authorities.

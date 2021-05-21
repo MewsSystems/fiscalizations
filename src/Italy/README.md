@@ -1,6 +1,6 @@
 # Mews.Fiscalization.Italy
 
-[![Build and test - Italy](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy.yml)
+[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy.yml)
 
 ## Description
 A client library for reporting invoices through SDI (Sistema di interscambio). Here are the main parts of the library:

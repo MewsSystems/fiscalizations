@@ -1,6 +1,6 @@
 # Mews.Fiscalization.Greece
 
-[![Build and test - Greece](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-greece.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-greece.yml)
+[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-greece.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-greece.yml)
 
 ## Description
 This library is providing a client to submit data to greek fiscal authorities. For more info see https://www.aade.gr/mydata.

@@ -1,6 +1,6 @@
 # Mews.Fiscalization.Core
 
-[![Build and test - Core](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core.yml)
+[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core.yml)
 
 Core library for implementing other fiscalization libraries.
 

@@ -1,4 +1,4 @@
-[![Build and test - Czechia](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia.yml)
+[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia.yml)
 
 # EET
 EET stands for Elektronická Evidence Tržeb, which is Czech version of Fiscal Printers.
