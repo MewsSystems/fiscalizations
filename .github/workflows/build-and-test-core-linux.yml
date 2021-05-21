@@ -1,4 +1,4 @@
-name: Build and test - Czechia
+name: Build and test - Core (Linux)
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Czechia/Mews.Fiscalizations.Czechia.Tests
+        working-directory: src/Core/Mews.Fiscalizations.Core.Tests
         
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.Czechia.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Core.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore

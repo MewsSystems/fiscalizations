@@ -1,4 +1,4 @@
-name: Build and test - Core
+name: Build and test - Hungary (Linux)
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Core/Mews.Fiscalizations.Core.Tests
+        working-directory: src/Hungary/Mews.Fiscalizations.Hungary.Tests
         
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.Core.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Hungary.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore
@@ -39,4 +39,10 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Test
+      env:
+        login: ${{secrets.hungarian_login}}
+        password: ${{secrets.hungarian_password}}
+        signing_key: ${{secrets.hungarian_signing_key}}
+        tax_payer_id: ${{secrets.hungarian_tax_payer_id}}
+        encryption_key: ${{secrets.hungarian_encryption_key}}
       run: dotnet test --no-restore --verbosity normal
