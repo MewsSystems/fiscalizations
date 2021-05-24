@@ -7,10 +7,13 @@ on:
   pull_request:
     branches:
       - master
+    workflow_run:
+      workflows: [ test ]
+      branches: [ master ]
+      types: [ completed ]
 
 jobs:
   publish:
-    needs: ["Build and test - Hungary (Linux)"]
     runs-on: ubuntu-latest
 
     env:
@@ -22,8 +25,8 @@ jobs:
         working-directory: src/Hungary/Mews.Fiscalizations.Hungary
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+    - uses: ahmadnassri/action-workflow-run-wait@v1
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -41,7 +44,3 @@ jobs:
 
     - name: Publish packages
       run: echo "Testing publish depedency on build."
-
-  no-publish:
-    runs-on: ubuntu-latest
-    - run: echo "Package cannot be published because the build/test didn't finish successfully."
