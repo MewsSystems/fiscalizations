@@ -4,17 +4,17 @@ on:
   push:
     branches:
       - master
-    pull_request:
+  pull_request:
     branches:
       - master
   workflow_run:
+    workflows: 
       - "Build and test - Hungary (Linux)"
       - "Build and test - Hungary (Windows)"
-    types:
-      - completed
+    types: [completed]
 
 jobs:
-  publish:
+  on-success:
     runs-on: ubuntu-latest
 
     env:
