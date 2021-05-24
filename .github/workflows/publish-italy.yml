@@ -20,7 +20,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/Italy/Mews.Fiscalizations.Italy
+        working-directory: src/Italy/Mews.Fiscalizations.Uniwix
 
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
