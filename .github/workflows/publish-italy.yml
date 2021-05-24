@@ -2,8 +2,12 @@ name: Publish - Italy
 
 on:
   push:
-    branches:
-      - master
+    workflows:
+      - "Build and test - Italy (Linux)"
+      - "Build and test - Italy (Windows)"
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   publish:

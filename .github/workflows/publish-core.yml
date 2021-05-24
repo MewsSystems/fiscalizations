@@ -2,8 +2,12 @@ name: Publish - Core
 
 on:
   push:
-    branches:
-      - master
+    workflows:
+      - "Build and test - Core (Linux)"
+      - "Build and test - Core (Windows)"
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   publish:

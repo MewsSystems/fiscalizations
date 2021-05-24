@@ -2,8 +2,12 @@ name: Publish - Spain
 
 on:
   push:
-    branches:
-      - master
+    workflows:
+      - "Build and test - Spain (Linux)"
+      - "Build and test - Spain (Windows)"
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   publish:

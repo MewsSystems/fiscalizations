@@ -2,8 +2,12 @@ name: Publish - Czechia
 
 on:
   push:
-    branches:
-      - master
+    workflows:
+      - "Build and test - Czechia (Linux)"
+      - "Build and test - Czechia (Windows)"
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   publish:
