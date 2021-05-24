@@ -41,5 +41,7 @@ jobs:
 
     - name: Publish packages
       run: echo "Testing publish depedency on build."
+      
   no-publish:
+    - name: Print
     - run: echo "Package cannot be published because the build/test didn't finish successfully."
