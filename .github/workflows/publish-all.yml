@@ -1,9 +1,27 @@
-name: Publish - Czechia
+name: Publish - All
 
 on:
   push:
-    branches:
-      - master
+    workflows:
+      - "Build and test - All (Linux)"
+      - "Build and test - All (Windows)"
+      - "Build and test - Austria (Linux)"
+      - "Build and test - Austria (Windows)"
+      - "Build and test - Core (Linux)"
+      - "Build and test - Core (Windows)"
+      - "Build and test - Czechia (Linux)"
+      - "Build and test - Czechia (Windows)"
+      - "Build and test - Germany (Linux)"
+      - "Build and test - Germany (Windows)"
+      - "Build and test - Hungary (Linux)"
+      - "Build and test - Hungary (Windows)"
+      - "Build and test - Italy (Linux)"
+      - "Build and test - Italy (Windows)"
+      - "Build and test - Spain (Linux)"
+      - "Build and test - Spain (Windows)"
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   publish:

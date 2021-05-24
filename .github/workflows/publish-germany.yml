@@ -2,8 +2,12 @@ name: Publish - Germany
 
 on:
   push:
-    branches:
-      - master
+    workflows:
+      - "Build and test - Germany (Linux)"
+      - "Build and test - Germany (Windows)"
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   publish:
