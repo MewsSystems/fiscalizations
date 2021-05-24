@@ -2,11 +2,12 @@ name: Publish - Hungary
 
 on:
   push:
-    workflows:
+    branches:
+      - master
+  workflow_run:
       - "Build and test - Hungary (Linux)"
       - "Build and test - Hungary (Windows)"
-    branches: [master]
-    types: 
+    types:
       - completed
 
 jobs:
@@ -21,6 +22,7 @@ jobs:
       run:
         working-directory: src/Hungary/Mews.Fiscalizations.Hungary
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -40,4 +42,4 @@ jobs:
       run: dotnet pack -c Release -o out
 
     - name: Publish packages
-      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true --source nuget.org --api-key "test-api-key"
