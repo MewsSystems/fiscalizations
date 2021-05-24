@@ -2,11 +2,12 @@ name: Publish - Czechia
 
 on:
   push:
-    workflows:
+    branches:
+      - master
+  workflow_run:
       - "Build and test - Czechia (Linux)"
       - "Build and test - Czechia (Windows)"
-    branches: [master]
-    types: 
+    types:
       - completed
 
 jobs:
@@ -21,6 +22,7 @@ jobs:
       run:
         working-directory: src/Czechia/Mews.Fiscalizations.Czechia
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1

@@ -2,11 +2,12 @@ name: Publish - Core
 
 on:
   push:
-    workflows:
+    branches:
+      - master
+  workflow_run:
       - "Build and test - Core (Linux)"
       - "Build and test - Core (Windows)"
-    branches: [master]
-    types: 
+    types:
       - completed
 
 jobs:
@@ -21,6 +22,7 @@ jobs:
       run:
         working-directory: src/Core/Mews.Fiscalizations.Core
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1

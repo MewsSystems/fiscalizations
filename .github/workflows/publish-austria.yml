@@ -2,11 +2,12 @@ name: Publish - Austria
 
 on:
   push:
-    workflows:
+    branches:
+      - master
+  workflow_run:
       - "Build and test - Austria (Linux)"
       - "Build and test - Austria (Windows)"
-    branches: [master]
-    types: 
+    types:
       - completed
 
 jobs:
@@ -21,6 +22,7 @@ jobs:
       run:
         working-directory: src/Austria/Mews.Fiscalizations.Austria
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1

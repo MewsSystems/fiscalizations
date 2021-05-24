@@ -2,11 +2,12 @@ name: Publish - Italy
 
 on:
   push:
-    workflows:
+    branches:
+      - master
+  workflow_run:
       - "Build and test - Italy (Linux)"
       - "Build and test - Italy (Windows)"
-    branches: [master]
-    types: 
+    types:
       - completed
 
 jobs:
@@ -21,6 +22,7 @@ jobs:
       run:
         working-directory: src/Italy/Mews.Fiscalizations.Italy
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1

@@ -2,7 +2,9 @@ name: Publish - All
 
 on:
   push:
-    workflows:
+    branches:
+      - master
+  workflow_run:
       - "Build and test - All (Linux)"
       - "Build and test - All (Windows)"
       - "Build and test - Austria (Linux)"
@@ -19,12 +21,11 @@ on:
       - "Build and test - Italy (Windows)"
       - "Build and test - Spain (Linux)"
       - "Build and test - Spain (Windows)"
-    branches: [master]
-    types: 
+    types:
       - completed
 
 jobs:
-  publish:
+  on-success:
     runs-on: ubuntu-latest
 
     env:
@@ -35,6 +36,7 @@ jobs:
       run:
         working-directory: src
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1
