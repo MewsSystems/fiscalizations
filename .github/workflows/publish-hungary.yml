@@ -42,4 +42,4 @@ jobs:
       run: dotnet pack -c Release -o out
 
     - name: Publish packages
-      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true --source nuget.org --api-key "test-api-key"
+      run: echo "Testing publish depedency on build."
