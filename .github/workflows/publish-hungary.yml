@@ -1,16 +1,16 @@
 name: Publish - Hungary
 
 on:
+  workflow_run:
+    workflows: [ "Build and test - Hungary (Linux)" ]
+    branches: [ master ]
+    types: [ completed ]
   push:
     branches:
       - master
   pull_request:
     branches:
       - master
-    workflow_run:
-      workflows: [ build ]
-      branches: [ master ]
-      types: [ completed ]
 
 jobs:
   publish:
