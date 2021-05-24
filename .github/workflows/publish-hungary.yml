@@ -2,9 +2,10 @@ name: Publish - Hungary
 
 on:
   workflow_run:
-    workflows: [ "Build and test - Hungary (Linux)" ]
-    branches: [ master ]
-    types: [ completed ]
+    workflows: ["Build and test - Hungary (Linux)"]
+    branches: master
+    types:
+      - completed
   push:
     branches:
       - master
@@ -26,7 +27,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: ahmadnassri/action-workflow-run-wait@v1
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
