@@ -10,7 +10,7 @@ on:
 
 jobs:
   publish:
-    needs: Build-and-test
+    needs: ["Build and test - Hungary (Linux)"]
     runs-on: ubuntu-latest
 
     env:
@@ -41,3 +41,5 @@ jobs:
 
     - name: Publish packages
       run: echo "Testing publish depedency on build."
+  no-publish:
+    - run: echo "Package cannot be published because the build/test didn't finish successfully."
