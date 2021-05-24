@@ -6,6 +6,7 @@ on:
     branches: "*"
     types:
       - completed
+      - requested
   push:
     branches:
       - master
@@ -16,6 +17,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     env:
       DOTNET_NOLOGO: true
