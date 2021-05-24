@@ -34,18 +34,18 @@ It is a work in progress at this moment. You will find the individual fiscalizat
 
 # NuGet packages
 
-[Mews.Fiscalizations.All](https://www.nuget.org/packages/Mews.Fiscalization.All)
+[Mews.Fiscalizations.All](https://www.nuget.org/packages/Mews.Fiscalizations.All)
 
-[Mews.Fiscalizations.Core](https://www.nuget.org/packages/Mews.Fiscalization.Core)
+[Mews.Fiscalizations.Core](https://www.nuget.org/packages/Mews.Fiscalizations.Core)
 
-[Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalization.Austria)
+[Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalizations.Austria)
 
-[Mews.Fiscalizations.Czechia](https://www.nuget.org/packages/Mews.Fiscalization.Czechia)
+[Mews.Fiscalizations.Czechia](https://www.nuget.org/packages/Mews.Fiscalizations.Czechia)
 
-[Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalization.Germany)
+[Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany)
 
-[Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalization.Hungary)
+[Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary)
 
-[Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalization.Italy)
+[Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy)
 
-[Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalization.Spain)
+[Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain)

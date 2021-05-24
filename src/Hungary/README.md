@@ -1,8 +1,5 @@
 # Mews.Fiscalization.Hungary
 
-[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary.yml)
-
-## Description
 This library uses https://onlineszamla.nav.gov.hu/ API [v2.0](https://onlineszamla.nav.gov.hu/dokumentaciok) to report invoices to the Hungarian authorities.
 
 ## Key features
@@ -17,4 +14,4 @@ That is why we even introduce wrappers for simple datatypes.
 
 # NuGet
 
-We have published the library as [Mews.Fiscalization.Hungary](https://www.nuget.org/packages/Mews.Fiscalization.Hungary/).
+We have published the library as [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary/).

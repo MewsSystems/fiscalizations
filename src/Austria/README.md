@@ -1,6 +1,4 @@
-# Mews.Fiscalization.Austria
-
-[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-austria.yml)
+# Mews.Fiscalizations.Austria
 
 A client library that allows you to generate QR codes compliant with Austrian fiscal law (RKSV2017). Currently offers a signer based on A-Trust WS RK.Online API.
 
@@ -46,4 +44,4 @@ ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityPro
 
 # NuGet
 
-We have published the library as [Mews.Fiscalization.Austria](https://www.nuget.org/packages/Mews.Fiscalization.Austria/).
+We have published the library as [Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalizations.Austria/).
