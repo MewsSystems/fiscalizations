@@ -1,4 +1,4 @@
-name: Build and test - Hungary (Linux)
+name: Build-and-test
 
 on:
   push:
