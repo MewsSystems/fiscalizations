@@ -1,4 +1,4 @@
-name: test
+name: Build and test - Hungary (Linux)
 
 on:
   push:
@@ -37,3 +37,12 @@ jobs:
     
     - name: Build
       run: dotnet build --configuration Release --no-restore
+      
+    - name: Test
+      env:
+        login: ${{secrets.hungarian_login}}
+        password: ${{secrets.hungarian_password}}
+        signing_key: ${{secrets.hungarian_signing_key}}
+        tax_payer_id: ${{secrets.hungarian_tax_payer_id}}
+        encryption_key: ${{secrets.hungarian_encryption_key}}
+      run: dotnet test --no-restore --verbosity normal
