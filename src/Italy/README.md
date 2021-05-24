@@ -1,8 +1,5 @@
-# Mews.Fiscalization.Italy
+# Mews.Fiscalizations.Italy & Mews.Fiscalizations.Uniwix
 
-[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy.yml)
-
-## Description
 A client library for reporting invoices through SDI (Sistema di interscambio). Here are the main parts of the library:
 - **SDI Client** that handles communication with the SDI.
 - **DTOs** that can be serialized into XML conforming to the FatturaPA format (the official format in which all invoices need to be reported).
@@ -26,4 +23,4 @@ ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls;
 
 # NuGet
 
-We have published the library as [Mews.Fiscalization.Italy](https://www.nuget.org/packages/Mews.Fiscalization.Italy/).
+We have published the library as [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy/).

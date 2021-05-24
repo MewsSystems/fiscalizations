@@ -1,6 +1,4 @@
-# Mews.Fiscalization.Core
-
-[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-core.yml)
+# Mews.Fiscalizations.Core
 
 Core library for implementing other fiscalization libraries.
 
@@ -12,4 +10,4 @@ There are various data types that serve for early validation. For example an ins
 
 # NuGet
 
-We have published the library as [Mews.Fiscalization.Core](https://www.nuget.org/packages/Mews.Fiscalization.Core/).
+We have published the library as [Mews.Fiscalizations.Core](https://www.nuget.org/packages/Mews.Fiscalizations.Core/).

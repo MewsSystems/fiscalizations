@@ -1,7 +1,5 @@
-# Mews.Fiscalization.Germany
-[![Build](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany.yml/badge.svg)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany.yml)
+# Mews.Fiscalizations.Germany
 
-## Description
 This library uses https://developer.fiskaly.com/api/ KassenSichV API V1 to report invoices to the German authorities.
 
 ## Key features
@@ -16,4 +14,4 @@ That is why we even introduce wrappers for simple datatypes.
 
 # NuGet
 
-We have published the library as [Mews.Fiscalization.Germany](https://www.nuget.org/packages/Mews.Fiscalization.Germany/).
+We have published the library as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
