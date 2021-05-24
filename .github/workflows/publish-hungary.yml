@@ -10,7 +10,7 @@ on:
 
 jobs:
   publish:
-    needs: ["Build and test - Hungary (Linux)"]
+    needs: Build and test - Hungary (Linux)
     runs-on: ubuntu-latest
 
     env:
