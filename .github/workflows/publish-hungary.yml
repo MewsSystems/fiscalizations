@@ -7,10 +7,6 @@ on:
   pull_request:
     branches:
       - master
-  workflow_run:
-    workflows: [Build and test - Hungary (Linux)]
-    branches: [master]
-    types: [completed]
 
 jobs:
   publish:
@@ -28,9 +24,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-
-    - name: Wait for build
-      uses: ahmadnassri/action-workflow-run-wait@v1
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
