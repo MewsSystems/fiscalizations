@@ -8,7 +8,7 @@ on:
     branches:
       - master
     workflow_run:
-      workflows: [ test ]
+      workflows: [ "Build and test - Hungary (Linux)" ]
       branches: [ master ]
       types: [ completed ]
 
