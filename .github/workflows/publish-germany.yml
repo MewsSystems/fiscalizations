@@ -2,16 +2,52 @@ name: Publish - Germany
 
 on:
   push:
-    workflows:
-      - "Build and test - Germany (Linux)"
-      - "Build and test - Germany (Windows)"
-    branches: [master]
-    types: 
-      - completed
+    branches:
+      - master
 
 jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      
+    defaults:
+      run:
+        working-directory: src/Germany/Mews.Fiscalizations.Germany.Tests
+        
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+
+    - name: Clean
+      run: dotnet clean ./Mews.Fiscalizations.Germany.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+        
+    - name: Install dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      env:
+        client_Id: ${{secrets.german_client_Id}}
+        tss_id: ${{secrets.german_tss_id}}
+        api_key: ${{secrets.german_api_key}}
+        api_secret: ${{secrets.german_api_secret}}
+      run: dotnet test --no-restore --verbosity normal
+
   publish:
     runs-on: ubuntu-latest
+    needs: build-and-test
 
     env:
       DOTNET_NOLOGO: true
@@ -20,16 +56,16 @@ jobs:
     defaults:
       run:
         working-directory: src/Germany/Mews.Fiscalizations.Germany
-
+        
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-
+      uses: actions/checkout@v2
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-      
+
     - name: Install dependencies
       run: dotnet restore
     

@@ -2,30 +2,67 @@ name: Publish - All
 
 on:
   push:
-    workflows:
-      - "Build and test - All (Linux)"
-      - "Build and test - All (Windows)"
-      - "Build and test - Austria (Linux)"
-      - "Build and test - Austria (Windows)"
-      - "Build and test - Core (Linux)"
-      - "Build and test - Core (Windows)"
-      - "Build and test - Czechia (Linux)"
-      - "Build and test - Czechia (Windows)"
-      - "Build and test - Germany (Linux)"
-      - "Build and test - Germany (Windows)"
-      - "Build and test - Hungary (Linux)"
-      - "Build and test - Hungary (Windows)"
-      - "Build and test - Italy (Linux)"
-      - "Build and test - Italy (Windows)"
-      - "Build and test - Spain (Linux)"
-      - "Build and test - Spain (Windows)"
-    branches: [master]
-    types: 
-      - completed
+    branches:
+      - master
 
 jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      
+    defaults:
+      run:
+        working-directory: src
+        
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+
+    - name: Clean
+      run: dotnet clean ./Mews.Fiscalizations.All.sln --configuration Release && dotnet nuget locals all --clear
+        
+    - name: Install dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      env:
+        client_Id: ${{secrets.german_client_Id}}
+        tss_id: ${{secrets.german_tss_id}}
+        api_key: ${{secrets.german_api_key}}
+        api_secret: ${{secrets.german_api_secret}}
+
+        user_id: ${{secrets.greek_user_id}}
+        user_subscription_key: ${{secrets.greek_user_subscription_key}}
+        user_vat_number: ${{secrets.greek_user_vat_number}}
+
+        certificate_data: ${{secrets.spanish_certificate_data}}
+        certificate_password: ${{secrets.spanish_certificate_password}}
+        issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
+        receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
+
+        login: ${{secrets.hungarian_login}}
+        password: ${{secrets.hungarian_password}}
+        signing_key: ${{secrets.hungarian_signing_key}}
+        tax_payer_id: ${{secrets.hungarian_tax_payer_id}}
+        encryption_key: ${{secrets.hungarian_encryption_key}}
+      run: dotnet test --no-restore --verbosity normal
+
   publish:
     runs-on: ubuntu-latest
+    needs: build-and-test
 
     env:
       DOTNET_NOLOGO: true
@@ -34,16 +71,16 @@ jobs:
     defaults:
       run:
         working-directory: src
-
+        
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-
+      uses: actions/checkout@v2
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-      
+
     - name: Install dependencies
       run: dotnet restore
     
@@ -54,4 +91,4 @@ jobs:
       run: dotnet pack -c Release -o out
 
     - name: Publish packages
-      run: dotnet nuget push ./out/Mews.Fiscalizations.All.*.nupkg --skip-duplicate --no-symbols true --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
