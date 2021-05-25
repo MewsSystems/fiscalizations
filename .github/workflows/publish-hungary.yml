@@ -50,9 +50,17 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/Hungary/Mews.Fiscalizations.Hungary
+        working-directory: src/Hungary/Mews.Fiscalizations.Hungary
         
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+        
     - name: Install dependencies
       run: dotnet restore
     
