@@ -44,10 +44,6 @@ jobs:
         api_key: ${{secrets.german_api_key}}
         api_secret: ${{secrets.german_api_secret}}
 
-        user_id: ${{secrets.greek_user_id}}
-        user_subscription_key: ${{secrets.greek_user_subscription_key}}
-        user_vat_number: ${{secrets.greek_user_vat_number}}
-
         certificate_data: ${{secrets.spanish_certificate_data}}
         certificate_password: ${{secrets.spanish_certificate_password}}
         issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
