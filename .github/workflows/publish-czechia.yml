@@ -2,16 +2,47 @@ name: Publish - Czechia
 
 on:
   push:
-    workflows:
-      - "Build and test - Czechia (Linux)"
-      - "Build and test - Czechia (Windows)"
-    branches: [master]
-    types: 
-      - completed
+    branches:
+      - master
 
 jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      
+    defaults:
+      run:
+        working-directory: src/Czechia/Mews.Fiscalizations.Czechia.Tests
+        
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+
+    - name: Clean
+      run: dotnet clean ./Mews.Fiscalizations.Czechia.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+        
+    - name: Install dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
   publish:
     runs-on: ubuntu-latest
+    needs: build-and-test
 
     env:
       DOTNET_NOLOGO: true
@@ -20,16 +51,16 @@ jobs:
     defaults:
       run:
         working-directory: src/Czechia/Mews.Fiscalizations.Czechia
-
+        
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-
+      uses: actions/checkout@v2
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-      
+
     - name: Install dependencies
       run: dotnet restore
     
