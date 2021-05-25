@@ -61,6 +61,7 @@ jobs:
       run:
         working-directory: src/Hungary/Mews.Fiscalizations.Hungary
         
+      steps:
     - name: Install dependencies
       run: dotnet restore
     
