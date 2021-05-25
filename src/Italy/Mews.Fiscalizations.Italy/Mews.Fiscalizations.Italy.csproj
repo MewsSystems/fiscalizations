@@ -9,6 +9,8 @@
     <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageVersion>5.0.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
