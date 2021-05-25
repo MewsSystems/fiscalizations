@@ -77,4 +77,4 @@ jobs:
       run: dotnet pack -c Release -o out
 
     - name: Publish packages
-      run: echo "Test publish"
+      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
