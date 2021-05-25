@@ -50,7 +50,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/Hungary/Mews.Fiscalizations.Hungary
+        working-directory: ../Mews.Fiscalizations.Hungary
         
     steps:
     - name: Install dependencies
