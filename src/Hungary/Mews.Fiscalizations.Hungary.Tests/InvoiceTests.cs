@@ -281,17 +281,15 @@ namespace Mews.Fiscalizations.Hungary.Tests
 
         private CustomerInfo CreateCustomerInfo(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
         {
-            if (type.Equals(CustomerVatStatusType.PrivatePerson))
-            {
-                return new CustomerInfo(type: type);
-            }
             var country = Countries.GetByCode(countryCode).Get();
             var taxpayerId = taxpayerNumber.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
-            return new CustomerInfo(
-                taxpayerId: taxpayerId.GetOrNull(),
-                name: Name.Create("Vev Kft").Success.Get(),
-                address: CreateAddress(country),
-                type: type
+            var name = Name.Create("Vev Kft").Success.Get();
+            var address = CreateAddress(country);
+
+            return type.Match(
+                CustomerVatStatusType.PrivatePerson, _ => new CustomerInfo(new PrivatePersonCustomerInfo()),
+                CustomerVatStatusType.Domestic, _ => new CustomerInfo(new DomesticCustomerInfo(taxpayerId.GetOrNull(), name, address)),
+                CustomerVatStatusType.Other, _ => new CustomerInfo(new OtherCustomerInfo(name, address))
             );
         }
 

@@ -3,43 +3,69 @@ using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
-    public sealed class CustomerInfo
+    public sealed class CustomerInfo : Coproduct3<DomesticCustomerInfo, PrivatePersonCustomerInfo, OtherCustomerInfo>
     {
-        // TODO: Change to coproduct
-        public CustomerInfo(CustomerVatStatusType type, TaxpayerIdentificationNumber taxpayerId = null, Name name = null, SimpleAddress address = null)
+        public CustomerInfo(DomesticCustomerInfo domesticCustomerInfo)
+            : base(domesticCustomerInfo)
         {
-            if (type == CustomerVatStatusType.PrivatePerson)
-            {
-                Check.Condition(name.IsNull(), $"{nameof(Name)} must be empty when the customer is of type {type}");
-                Check.Condition(address.IsNull(), $"{nameof(SimpleAddress)} must be empty when the custoemr is of type {type}");
-                Check.Condition(taxpayerId.IsNull(), $"{nameof(TaxpayerIdentificationNumber)} must be empty when the customer is of type {type}");
-            }
-            if (type == CustomerVatStatusType.Domestic)
-            {
-                Check.IsNotNull(taxpayerId, nameof(taxpayerId)).ToOption();
-                Check.IsNotNull(name, nameof(name)).ToOption();
-                Check.IsNotNull(address, nameof(address)).ToOption();
-
-                Check.Condition(taxpayerId.Country.Alpha2Code == Countries.Hungary.Alpha2Code, "Domestic customers must have a Hungarian tax payer number.");
-            }
-            if (type == CustomerVatStatusType.Other)
-            {
-                Check.IsNotNull(name, nameof(name)).ToOption();
-                Check.IsNotNull(address, nameof(address)).ToOption();
-            }
-
-            CustomerVatStatusType = type;
-            TaxpayerId = taxpayerId.ToOption();
-            Name = name.ToOption();
-            Address = address.ToOption();
         }
 
-        public CustomerVatStatusType CustomerVatStatusType { get; }
+        public CustomerInfo(PrivatePersonCustomerInfo privatePersonCustomerInfo)
+            : base(privatePersonCustomerInfo)
+        {
+        }
 
-        public IOption<TaxpayerIdentificationNumber> TaxpayerId { get; }
+        public CustomerInfo(OtherCustomerInfo otherCustomerInfo)
+            : base(otherCustomerInfo)
+        {
+        }
 
-        public IOption<Name> Name { get; }
+        public CustomerVatStatusType CustomerVatStatusType
+        {
+            get
+            {
+                return Match(
+                    domestic => domestic.CustomerVatStatusType,
+                    privatePerson => privatePerson.CustomerVatStatusType,
+                    other => other.CustomerVatStatusType
+                );
+            }
+        }
 
-        public IOption<SimpleAddress> Address { get; }
+        public IOption<Name> Name
+        {
+            get
+            {
+                return Match(
+                    domestic => domestic.Name.ToOption(),
+                    privatePerson => Option.Empty<Name>(),
+                    other => other.Name.ToOption()
+                );
+            }
+        }
+
+        public IOption<SimpleAddress> Address
+        {
+            get
+            {
+                return Match(
+                    domestic => domestic.Address.ToOption(),
+                    privatePerson => Option.Empty<SimpleAddress>(),
+                    other => other.Address.ToOption()
+                );
+            }
+        }
+
+        public IOption<TaxpayerIdentificationNumber> TaxpayerId
+        {
+            get
+            {
+                return Match(
+                    domestic => domestic.TaxpayerId.ToOption(),
+                    privatePerson => Option.Empty<TaxpayerIdentificationNumber>(),
+                    other => other.TaxpayerId
+                );
+            }
+        }
     }
 }
