@@ -5,9 +5,9 @@ namespace Mews.Fiscalizations.Hungary.Models
 {
     public sealed class CustomerInfo
     {
+        // TODO: Change to coproduct
         public CustomerInfo(CustomerVatStatusType type, TaxpayerIdentificationNumber taxpayerId = null, Name name = null, SimpleAddress address = null)
         {
-            // Change to coproduct?
             if (type == CustomerVatStatusType.PrivatePerson)
             {
                 Check.Condition(name.IsNull(), $"{nameof(Name)} must be empty when the customer is of type {type}");
@@ -20,7 +20,7 @@ namespace Mews.Fiscalizations.Hungary.Models
                 Check.IsNotNull(name, nameof(name)).ToOption();
                 Check.IsNotNull(address, nameof(address)).ToOption();
 
-                Check.Condition(taxpayerId.Country.Alpha2Code == "HU", "Domestic customers must have HU country.");
+                Check.Condition(taxpayerId.Country.Alpha2Code == Countries.Hungary.Alpha2Code, "Domestic customers must have a Hungarian tax payer number.");
             }
             if (type == CustomerVatStatusType.Other)
             {
