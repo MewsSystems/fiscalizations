@@ -16,9 +16,9 @@ namespace Mews.Fiscalizations.Hungary.Tests
         private int Number = random.Next(1, 10000);
 
         [Test, Order(0)]
-        [TestCase("HU", "14750636", CustomerVatStatusType.Domestic)]
+        [TestCase("HU", "11111111", CustomerVatStatusType.Domestic)]
 
-        [TestCase("HU", "14750636", CustomerVatStatusType.Other)]
+        [TestCase("HU", "99999999", CustomerVatStatusType.Other)]
         [TestCase("CZ", "CZ12345678", CustomerVatStatusType.Other)]
         [TestCase("US", "UsTaxId", CustomerVatStatusType.Other)]
 
@@ -55,8 +55,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
 
             var value = transactionStatus.SuccessResult.InvoiceStatuses.First().Value;
             Assert.AreEqual(value.Status, InvoiceState.Done);
-            // Disabled till we have a tax id that works (other than the supplier tax id).
-            //Assert.IsEmpty(value.ValidationResults);
+            Assert.IsEmpty(value.ValidationResults);
         }
 
         [Test, Order(1)]
@@ -77,9 +76,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
 
             var value = transactionStatus.SuccessResult.InvoiceStatuses.First().Value;
             Assert.AreEqual(value.Status, InvoiceState.Done);
-
-            // Disabled till we have a tax id that works (other than the supplier tax id).
-            //Assert.IsEmpty(value.ValidationResults);
+            Assert.IsEmpty(value.ValidationResults);
         }
 
         private Invoice CreateInvoice(string countryCode, string taxId, CustomerVatStatusType type)
@@ -174,7 +171,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             return new ModificationInvoice(
                 number: InvoiceNumber.Create($"INVOICE-{Number}-REBATE").Success.Get(),
                 supplierInfo: CreateSupplierInfo(),
-                customerInfo: CreateCustomerInfo("HU", "10630433", CustomerVatStatusType.Domestic),
+                customerInfo: CreateCustomerInfo(Countries.Hungary.Alpha2Code, "99999999", CustomerVatStatusType.Domestic),
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
                 currencyCode: CurrencyCode.Create("EUR").Success.Get(),
                 issueDate: DateTime.UtcNow.Date,
