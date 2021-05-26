@@ -2,6 +2,7 @@
 using Mews.Fiscalizations.Hungary.Models;
 using Mews.Fiscalizations.Hungary.Utils;
 using System.Linq;
+using FuncSharp;
 
 namespace Mews.Fiscalizations.Hungary
 {
@@ -38,7 +39,8 @@ namespace Mews.Fiscalizations.Hungary
                     name: taxPayerData.taxpayerName,
                     address: MapAddress(addressItem),
                     vatCode: taxNumberDetail.vatCode,
-                    infoDate: response.infoDate
+                    infoDate: response.infoDate,
+                    incorporationType: MapIncorporationType(taxPayerData.incorporation)
                 ));
             }
             else
@@ -69,6 +71,15 @@ namespace Mews.Fiscalizations.Hungary
         internal static ResponseResult<string, ResultErrorCode> MapManageInvoice(Dto.ManageInvoiceResponse response)
         {
             return new ResponseResult<string, ResultErrorCode>(successResult: response.transactionId);
+        }
+
+        private static IncorporationType MapIncorporationType(Dto.IncorporationType incorporationType)
+        {
+            return incorporationType.Match(
+                Dto.IncorporationType.ORGANIZATION, _ => IncorporationType.Organization,
+                Dto.IncorporationType.SELF_EMPLOYED, _ => IncorporationType.SelfEmployed,
+                Dto.IncorporationType.TAXABLE_PERSON, _ => IncorporationType.TaxablePerson
+            );
         }
 
         private static Address MapAddress(Dto.TaxpayerAddressItemType addressItem)

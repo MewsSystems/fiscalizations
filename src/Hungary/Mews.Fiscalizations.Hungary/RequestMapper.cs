@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Hungary.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,10 @@ namespace Mews.Fiscalizations.Hungary
             {
                 invoiceIssueDate = invoice.IssueDate,
                 invoiceNumber = invoice.Number.Value,
+                completenessIndicator = invoice.CustomerInfo.CustomerVatStatusType.Match(
+                    CustomerVatStatusType.PrivatePerson, _ => false,
+                    _ => true
+                ),
                 invoiceMain = new Dto.InvoiceMainType
                 {
                     Items = new object[] { invoiceDto }
@@ -47,10 +52,26 @@ namespace Mews.Fiscalizations.Hungary
             var invoiceAmountHUF = Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.AmountHUF));
             var supplierInfo = invoice.SupplierInfo;
             var customerInfo = invoice.CustomerInfo;
+            var taxpayerIdType = customerInfo.TaxpayerId.Map(i => i.Match(
+                european => european.Country.Alpha2Code.Equals(Countries.Hungary.Alpha2Code).Match(
+                    t => Dto.ItemChoiceType.customerTaxNumber,
+                    f => Dto.ItemChoiceType.communityVatNumber
+                ),
+                nonEuropean => Dto.ItemChoiceType.thirdStateTaxId
+            ));
+            var customerVatData = taxpayerIdType.Map(t => new Dto.CustomerVatDataType
+            {
+                Item = GetTaxIdItem(customerInfo, t),
+                ItemElementName = t
+            });
             return new Dto.InvoiceType
             {
                 invoiceReference = invoiceReference,
-                invoiceLines = lines.ToArray(),
+                invoiceLines = new Dto.LinesType
+                {
+                    line = lines.ToArray(),
+                    mergedItemIndicator = false
+                },
                 invoiceHead = new Dto.InvoiceHeadType
                 {
                     invoiceDetail = new Dto.InvoiceDetailType
@@ -76,12 +97,10 @@ namespace Mews.Fiscalizations.Hungary
                     },
                     customerInfo = new Dto.CustomerInfoType
                     {
-                        customerName = customerInfo.Name.Value,
-                        customerAddress = MapAddress(customerInfo.Address),
-                        customerTaxNumber = new Dto.TaxNumberType
-                        {
-                            taxpayerId = customerInfo.TaxpayerId.TaxpayerNumber
-                        }
+                        customerName = customerInfo.Name.Map(n => n.Value).GetOrNull(),
+                        customerAddress = customerInfo.Address.Map(a =>MapAddress(a)).GetOrNull(),
+                        customerVatStatus = MapCustomerVatStatusType(customerInfo.CustomerVatStatusType),
+                        customerVatData = customerVatData.GetOrNull()
                     },
                 },
                 invoiceSummary = new Dto.SummaryType
@@ -98,6 +117,20 @@ namespace Mews.Fiscalizations.Hungary
                 }
             };
 
+        }
+
+        private static object GetTaxIdItem(CustomerInfo info, Dto.ItemChoiceType type)
+        {
+            var taxpayerId = info.TaxpayerId.Map(i => i.TaxpayerNumber);
+            if (type == Dto.ItemChoiceType.customerTaxNumber)
+            {
+                return new Dto.CustomerTaxNumberType
+                {
+                    taxpayerId = taxpayerId.GetOrNull()
+                };
+            }
+
+            return taxpayerId.GetOrNull();
         }
 
         private static Dto.SummaryNormalType MapTaxSummary(Invoice invoice, Amount amount, Amount amountHUF)
@@ -164,6 +197,15 @@ namespace Mews.Fiscalizations.Hungary
             };
         }
 
+        private static Dto.CustomerVatStatusType MapCustomerVatStatusType(CustomerVatStatusType type)
+        {
+            return type.Match(
+                CustomerVatStatusType.Domestic, _ => Dto.CustomerVatStatusType.DOMESTIC,
+                CustomerVatStatusType.PrivatePerson, _ => Dto.CustomerVatStatusType.PRIVATE_PERSON,
+                CustomerVatStatusType.Other, _ => Dto.CustomerVatStatusType.OTHER
+            );
+        }
+
         private static IEnumerable<Dto.LineType> MapItems(ISequence<InvoiceItem> items, int? modificationIndexOffset = null)
         {
             return items.Values.Select(i => new Dto.LineType
@@ -206,14 +248,14 @@ namespace Mews.Fiscalizations.Hungary
                 return new Dto.VatRateType
                 {
                     Item = taxRatePercentage,
-                    ItemElementName = Dto.ItemChoiceType1.vatPercentage
+                    ItemElementName = Dto.ItemChoiceType2.vatPercentage
                 };
             }
 
             return new Dto.VatRateType
             {
                 Item = true,
-                ItemElementName = Dto.ItemChoiceType1.vatOutOfScope
+                ItemElementName = Dto.ItemChoiceType2.noVatCharge
             };
         }
     }

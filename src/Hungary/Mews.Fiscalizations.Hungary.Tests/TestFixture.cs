@@ -1,5 +1,6 @@
 ﻿using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Hungary.Models;
+using NUnit.Framework;
 using System;
 
 namespace Mews.Fiscalizations.Hungary.Tests
@@ -30,6 +31,15 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 developerContact: "test@test.com"
             );
             return new NavClient(technicalUser, softwareIdentification, NavEnvironment.Test);
+        }
+
+        public static void AssertResponse<TResult, TCode>(ResponseResult<TResult, TCode> responseResult)
+            where TResult : class
+            where TCode : struct
+        {
+            Assert.IsNotNull(responseResult.SuccessResult);
+            Assert.IsNull(responseResult.GeneralErrorResult);
+            Assert.IsNull(responseResult.OperationalErrorResult);
         }
     }
 }

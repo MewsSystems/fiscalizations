@@ -1,7 +1,9 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Hungary.Models;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,173 +12,214 @@ namespace Mews.Fiscalizations.Hungary.Tests
     [TestFixture]
     public class InvoiceTests
     {
-        [Test]
-        public async Task SendInvoiceSucceeds()
+        private static readonly Random random = new Random();
+        private int Number = random.Next(1, 10000);
+
+        [Test, Order(0)]
+        [TestCase("HU", "14750636", CustomerVatStatusType.Domestic)]
+
+        [TestCase("HU", "14750636", CustomerVatStatusType.Other)]
+        [TestCase("CZ", "CZ12345678", CustomerVatStatusType.Other)]
+        [TestCase("US", "UsTaxId", CustomerVatStatusType.Other)]
+
+        [TestCase("HU", "10630433", CustomerVatStatusType.PrivatePerson)]
+        [TestCase("CZ", "CZ12345678", CustomerVatStatusType.PrivatePerson)]
+        [TestCase("US", "UsTaxId", CustomerVatStatusType.PrivatePerson)]
+
+        [TestCase("HU", null, CustomerVatStatusType.Other)]
+        [TestCase("CZ", null, CustomerVatStatusType.Other)]
+        [TestCase("US", null, CustomerVatStatusType.Other)]
+
+        [TestCase("HU", null, CustomerVatStatusType.PrivatePerson)]
+        [TestCase("CZ", null, CustomerVatStatusType.PrivatePerson)]
+        [TestCase("US", null, CustomerVatStatusType.PrivatePerson)]
+        public async Task SendInvoiceSucceeds(string countryCode, string taxId, CustomerVatStatusType type)
         {
+            Number = random.Next(1, 10000);
+
             var navClient = TestFixture.GetNavClient();
             var exchangeToken = await navClient.GetExchangeTokenAsync();
-            var invoiceTransactionId = await navClient.SendInvoicesAsync(exchangeToken.SuccessResult, Sequence.FromPreordered(new[] { GetInvoice() }, startIndex: 1).Get());
+            var responseResult = await navClient.SendInvoicesAsync(
+                token: exchangeToken.SuccessResult,
+                invoices: Sequence.FromPreordered(new[] { CreateInvoice(countryCode, taxId, type) }, startIndex: 1).Get()
+            );
 
-            Thread.Sleep(3000);
+            TestFixture.AssertResponse(responseResult);
 
-            var transactionStatus = await navClient.GetTransactionStatusAsync(invoiceTransactionId.SuccessResult);
-            Assert.IsNotNull(transactionStatus.SuccessResult);
-            Assert.IsNotNull(exchangeToken.SuccessResult);
-            Assert.IsNotNull(invoiceTransactionId.SuccessResult);
-            AssertError(transactionStatus);
-            AssertError(exchangeToken);
-            AssertError(invoiceTransactionId);
+            Thread.Sleep(2000);
+
+            var transactionId = responseResult.SuccessResult;
+            var transactionStatus = await navClient.GetTransactionStatusAsync(transactionId);
+
+            TestFixture.AssertResponse(transactionStatus);
+
+            var value = transactionStatus.SuccessResult.InvoiceStatuses.First().Value;
+            Assert.AreEqual(value.Status, InvoiceState.Done);
+            // Disabled till we have a tax id that works (other than the supplier tax id).
+            //Assert.IsEmpty(value.ValidationResults);
         }
 
-        [Test]
+        [Test, Order(1)]
         public async Task SendCorrectionInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
             var exchangeToken = await navClient.GetExchangeTokenAsync();
             var response = await navClient.SendModificationDocumentsAsync(
                 token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { GetModificationInvoice() }, startIndex: 1).Get()
+                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice() }, startIndex: 1).Get()
             );
 
             Thread.Sleep(3000);
 
             var transactionStatus = await navClient.GetTransactionStatusAsync(response.SuccessResult);
-            Assert.IsNotNull(transactionStatus.SuccessResult);
-            AssertError(transactionStatus);
+
+            TestFixture.AssertResponse(transactionStatus);
+
+            var value = transactionStatus.SuccessResult.InvoiceStatuses.First().Value;
+            Assert.AreEqual(value.Status, InvoiceState.Done);
+
+            // Disabled till we have a tax id that works (other than the supplier tax id).
+            //Assert.IsEmpty(value.ValidationResults);
         }
 
-        private Invoice GetInvoice()
+        private Invoice CreateInvoice(string countryCode, string taxId, CustomerVatStatusType type)
         {
-            var item1Amount = new Amount(new AmountValue(1), new AmountValue(1), new AmountValue(0));
-            var item2Amount = new Amount(new AmountValue(20m), new AmountValue(16.81m), new AmountValue(3.19m));
-            var unitAmount1 = new ItemAmounts(item1Amount, item2Amount, 0.05m);
+            var item1Amount = new Amount(net: new AmountValue(1694.92m), gross: new AmountValue(2000), tax: new AmountValue(305.08m));
+            var item2Amount = new Amount(new AmountValue(2362.20m), new AmountValue(3000), new AmountValue(637.8m));
+            var item3Amount = new Amount(new AmountValue(952.38m), new AmountValue(1000), new AmountValue(47.62m));
+            var unitAmount1 = new ItemAmounts(item1Amount, item1Amount, 0.18m);
+            var unitAmount2 = new ItemAmounts(item2Amount, item2Amount, 0.27m);
+            var unitAmount3 = new ItemAmounts(item3Amount, item3Amount, 0.05m);
             var items = new[]
             {
                 new InvoiceItem(
-                    consumptionDate: new DateTime(2020, 06, 30),
-                    totalAmounts: new ItemAmounts(item1Amount, item1Amount, 0.05m),
-                    description: Description.Create("Httt hzi serts (fl)").Success.Get(),
+                    consumptionDate: DateTime.UtcNow.Date,
+                    totalAmounts: new ItemAmounts(item1Amount, item1Amount, 0.18m),
+                    description: Description.Create("Item 1 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
-                    quantity: 15,
+                    quantity: 1,
                     unitAmounts: unitAmount1,
                     exchangeRate: ExchangeRate.Create(1).Success.Get()
                 ),
                 new InvoiceItem(
-                    consumptionDate: new DateTime(2020, 06, 30),
-                    totalAmounts: new ItemAmounts(item2Amount, item2Amount, 0.05m),
-                    description: Description.Create("Httt hzi serts (fl)").Success.Get(),
+                    consumptionDate: DateTime.UtcNow.Date,
+                    totalAmounts: new ItemAmounts(item2Amount, item2Amount, 0.27m),
+                    description: Description.Create("Item 2 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
-                    quantity: -15,
-                    unitAmounts: unitAmount1,
+                    quantity: 1,
+                    unitAmounts: unitAmount2,
                     exchangeRate: ExchangeRate.Create(1).Success.Get()
                 ),
+                new InvoiceItem(
+                    consumptionDate: DateTime.UtcNow.Date,
+                    totalAmounts: new ItemAmounts(item3Amount, item3Amount, 0.05m),
+                    description: Description.Create("Item 3 description").Success.Get(),
+                    measurementUnit: MeasurementUnit.Night,
+                    quantity: 1,
+                    unitAmounts: unitAmount3,
+                    exchangeRate: ExchangeRate.Create(1).Success.Get()
+                )
             };
 
-            var address = GetAddress();
             return new Invoice(
-                number: InvoiceNumber.Create("ABC-18a").Success.Get(),
-                issueDate: new DateTime(2020, 06, 30),
-                supplierInfo: GetSupplierInfo(),
-                customerInfo: GetCustomerInfo(),
+                number: InvoiceNumber.Create($"INVOICE-{Number}").Success.Get(),
+                issueDate: DateTime.UtcNow.Date,
+                supplierInfo: CreateSupplierInfo(),
+                customerInfo: CreateCustomerInfo(countryCode, taxId, type),
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-                paymentDate: new DateTime(2020, 06, 14),
+                paymentDate: DateTime.UtcNow.Date,
                 currencyCode: CurrencyCode.Create("EUR").Success.Get()
             );
         }
 
-        private ModificationInvoice GetModificationInvoice()
+        private ModificationInvoice CreateModificationInvoice()
         {
-            var amounts = GetItemAmounts(amount: 100, exchangeRate: 300);
-            var unitAmounts = GetItemAmounts(amount: 100, exchangeRate: 300);
-            var item = new InvoiceItem(
-                consumptionDate: new DateTime(2020, 08, 30),
-                totalAmounts: amounts,
-                description: Description.Create("NIGHT 8/30/2020").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: -1,
-                unitAmounts: unitAmounts,
-                exchangeRate: ExchangeRate.Create(300).Success.Get()
-            );
-
-            var amounts1 = GetItemAmounts(amount: 100, exchangeRate: 300);
-            var unitAmounts1 = GetItemAmounts(amount: 100, exchangeRate: 300);
-            var item1 = new InvoiceItem(
-                consumptionDate: new DateTime(2020, 08, 31),
-                totalAmounts: amounts1,
-                description: Description.Create("NIGHT2 8/31/2020").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: 1,
-                unitAmounts: unitAmounts1,
-                exchangeRate: ExchangeRate.Create(300).Success.Get()
-            );
+            var item1Amount = new Amount(net: new AmountValue(-1694.92m), gross: new AmountValue(-2000), tax: new AmountValue(-305.08m));
+            var item2Amount = new Amount(new AmountValue(-2362.20m), new AmountValue(-3000), new AmountValue(-637.8m));
+            var item3Amount = new Amount(new AmountValue(-952.38m), new AmountValue(-1000), new AmountValue(-47.62m));
+            var unitAmount1 = new ItemAmounts(item1Amount, item1Amount, 0.18m);
+            var unitAmount2 = new ItemAmounts(item2Amount, item2Amount, 0.27m);
+            var unitAmount3 = new ItemAmounts(item3Amount, item3Amount, 0.05m);
+            var items = new[]
+            {
+                new InvoiceItem(
+                    consumptionDate: DateTime.UtcNow.Date,
+                    totalAmounts: new ItemAmounts(item1Amount, item1Amount, 0.18m),
+                    description: Description.Create("Item 1 description").Success.Get(),
+                    measurementUnit: MeasurementUnit.Night,
+                    quantity: -1,
+                    unitAmounts: unitAmount1,
+                    exchangeRate: ExchangeRate.Create(1).Success.Get()
+                ),
+                new InvoiceItem(
+                    consumptionDate: DateTime.UtcNow.Date,
+                    totalAmounts: new ItemAmounts(item2Amount, item2Amount, 0.27m),
+                    description: Description.Create("Item 2 description").Success.Get(),
+                    measurementUnit: MeasurementUnit.Night,
+                    quantity: -1,
+                    unitAmounts: unitAmount2,
+                    exchangeRate: ExchangeRate.Create(1).Success.Get()
+                ),
+                new InvoiceItem(
+                    consumptionDate: DateTime.UtcNow.Date,
+                    totalAmounts: new ItemAmounts(item3Amount, item3Amount, 0.05m),
+                    description: Description.Create("Item 3 description").Success.Get(),
+                    measurementUnit: MeasurementUnit.Night,
+                    quantity: -1,
+                    unitAmounts: unitAmount3,
+                    exchangeRate: ExchangeRate.Create(1).Success.Get()
+                )
+            };
 
             return new ModificationInvoice(
-                number: InvoiceNumber.Create("ABC-18abfcefsaa").Success.Get(),
-                supplierInfo: GetSupplierInfo(),
-                customerInfo: GetCustomerInfo(),
-                items: Sequence.FromPreordered(new[] { item, item1 }, startIndex: 1).Get(),
-                currencyCode: CurrencyCode.Create("USD").Success.Get(),
-                issueDate: new DateTime(2020, 08, 31),
-                paymentDate: new DateTime(2020, 08, 31),
-                itemIndexOffset: 4,
-                modificationIndex: 4,
+                number: InvoiceNumber.Create($"INVOICE-{Number}-REBATE").Success.Get(),
+                supplierInfo: CreateSupplierInfo(),
+                customerInfo: CreateCustomerInfo("HU", "10630433", CustomerVatStatusType.Domestic),
+                items: Sequence.FromPreordered(items, startIndex: 1).Get(),
+                currencyCode: CurrencyCode.Create("EUR").Success.Get(),
+                issueDate: DateTime.UtcNow.Date,
+                paymentDate: DateTime.UtcNow.Date,
+                itemIndexOffset: 3,
+                modificationIndex: 1,
                 modifyWithoutMaster: true,
-                originalDocumentNumber: InvoiceNumber.Create("ABC-18afasadafa").Success.Get()
+                originalDocumentNumber: InvoiceNumber.Create($"INVOICE-{Number}").Success.Get()
             );
         }
 
-        private CustomerInfo GetCustomerInfo()
+        private CustomerInfo CreateCustomerInfo(string countryCode, string taxId, CustomerVatStatusType type)
         {
+            if (type == CustomerVatStatusType.PrivatePerson)
+            {
+                return new CustomerInfo(type: type);
+            }
+            var country = Countries.GetByCode(countryCode).Get();
+            var taxpayerId = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
             return new CustomerInfo(
-                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "14750636").Success.Get(),
+                taxpayerId: taxpayerId.GetOrNull(),
                 name: Name.Create("Vev Kft").Success.Get(),
-                address: GetAddress()
+                address: CreateAddress(country),
+                type: type
             );
         }
 
-        private SupplierInfo GetSupplierInfo()
+        private SupplierInfo CreateSupplierInfo()
         {
             return new SupplierInfo(
-                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "14750636").Success.Get(),
+                taxpayerId: TestFixture.TaxPayerId,
                 vatCode: VatCode.Create("2").Success.Get(),
                 name: Name.Create("BUDAPESTI MSZAKI S GAZDASGTUDOMNYI EGYETEM").Success.Get(),
-                address: GetAddress()
+                address: CreateAddress(Countries.Hungary)
             );
         }
 
-        private SimpleAddress GetAddress()
+        private SimpleAddress CreateAddress(Country country)
         {
             return new SimpleAddress(
                 city: City.Create("Budapest").Success.Get(),
-                country: Countries.Hungary,
-                additionalAddressDetail: AdditionalAddressDetail.Create("Test").Success.Get(),
+                country: country,
+                additionalAddressDetail: AdditionalAddressDetail.Create("Additional address detail").Success.Get(),
                 postalCode: PostalCode.Create("1111").Success.Get()
             );
-        }
-
-        private ItemAmounts GetItemAmounts(decimal amount, decimal exchangeRate = 1)
-        {
-            var amountHUF = amount * exchangeRate;
-            return new ItemAmounts(
-                amount: new Amount(
-                    net: new AmountValue(amount),
-                    gross: new AmountValue(amount),
-                    tax: new AmountValue(amount)
-                ),
-                amountHUF: new Amount(
-                    net: new AmountValue(amountHUF),
-                    gross: new AmountValue(amountHUF),
-                    tax: new AmountValue(amountHUF)
-                )
-            );
-        }
-
-        private void AssertError<TResult, TCode>(ResponseResult<TResult, TCode> result)
-            where TResult : class
-            where TCode : struct
-        {
-            Assert.IsNull(result.OperationalErrorResult);
-            Assert.IsNull(result.GeneralErrorResult);
         }
     }
 }

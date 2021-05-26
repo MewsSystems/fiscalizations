@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Hungary.Models;
 using Mews.Fiscalizations.Hungary.Utils;
 using System;
@@ -9,6 +10,11 @@ namespace Mews.Fiscalizations.Hungary
 {
     internal static class RequestCreator
     {
+        private static readonly string RequestVersion = "3.0";
+        private static readonly string HeaderVersion = "1.0";
+        private static readonly string RequestEncryptionAlgorithm = "SHA3-512";
+        private static readonly string PasswordEncryptionAlgorithm = "SHA-512";
+
         internal static Dto.TokenExchangeRequest CreateTokenExchangeRequest(TechnicalUser user, SoftwareIdentification software)
         {
             return CreateRequest<Dto.TokenExchangeRequest>(user, software);
@@ -38,14 +44,33 @@ namespace Mews.Fiscalizations.Hungary
             return CreateManageInvoicesRequest(user, software, token, Dto.ManageInvoiceOperationType.MODIFY, invoices, d => RequestMapper.MapModificationInvoice(d));
         }
 
-        private static Dto.ManageInvoiceRequest CreateManageInvoicesRequest<T>(TechnicalUser user, SoftwareIdentification software, ExchangeToken token, Dto.ManageInvoiceOperationType operation, ISequence<T> invoices, Func<T, Dto.InvoiceData> mapper)
+        private static Dto.ManageInvoiceRequest CreateManageInvoicesRequest<T>(
+            TechnicalUser user,
+            SoftwareIdentification software,
+            ExchangeToken token,
+            Dto.ManageInvoiceOperationType operation,
+            ISequence<T> invoices,
+            Func<T, Dto.InvoiceData> invoiceDataGetter)
         {
-            var operations = invoices.Values.Select(item => new Dto.InvoiceOperationType
+            var operations = invoices.Values.Select(item =>
             {
-                index = item.Index,
-                invoiceData = Encoding.UTF8.GetBytes(XmlManipulator.Serialize(mapper(item.Value))),
-                invoiceOperation = operation
-            });
+                var invoiceData = invoiceDataGetter(item.Value);
+                var invoiceDataBytes = Encoding.UTF8.GetBytes(XmlManipulator.Serialize(invoiceData));
+                return new Dto.InvoiceOperationType
+                {
+                    index = item.Index,
+                    invoiceData = invoiceDataBytes,
+                    invoiceOperation = operation,
+                    electronicInvoiceHash = invoiceData.completenessIndicator.Match(
+                        t => new Dto.CryptoType
+                        {
+                            cryptoType = RequestEncryptionAlgorithm,
+                            Value = Sha512.GetSha3Hash(Convert.ToBase64String(invoiceDataBytes))
+                        },
+                        f => null
+                    )
+                };
+             });
             var invoiceHashes = operations.Select(t => Sha512.GetSha3Hash($"{t.invoiceOperation}{Convert.ToBase64String(t.invoiceData)}"));
             var invoiceSignatureData = string.Join("", invoiceHashes);
 
@@ -61,25 +86,34 @@ namespace Mews.Fiscalizations.Hungary
         }
 
         private static T CreateRequest<T>(TechnicalUser user, SoftwareIdentification software, string additionalSignatureData = null)
-            where T : Dto.BasicRequestType, new()
+            where T : Dto.BasicOnlineInvoiceRequestType, new()
         {
             var requestId = RequestId.CreateRandom();
-            var timestamp = DateTime.UtcNow;
+            var nowUtc = DateTime.UtcNow;
+            var timestamp = new DateTime(nowUtc.Year, nowUtc.Month, nowUtc.Day, nowUtc.Hour, nowUtc.Minute, nowUtc.Second, DateTimeKind.Utc);
             return new T
             {
                 header = new Dto.BasicHeaderType
                 {
                     requestId = requestId,
-                    timestamp = timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ"),
-                    requestVersion = Dto.RequestVersionType.Item20,
-                    headerVersion = Dto.HeaderVersionType.Item10
+                    timestamp = timestamp,
+                    requestVersion = RequestVersion,
+                    headerVersion = HeaderVersion
                 },
                 user = new Dto.UserHeaderType
                 {
                     login = user.Login.Value,
-                    passwordHash = user.PasswordHash,
+                    passwordHash = new Dto.CryptoType
+                    {
+                        cryptoType = PasswordEncryptionAlgorithm,
+                        Value = user.PasswordHash
+                    },
                     taxNumber = user.TaxId.TaxpayerNumber,
-                    requestSignature = GetRequestSignature(user, requestId, timestamp, additionalSignatureData)
+                    requestSignature = new Dto.CryptoType
+                    {
+                        cryptoType = RequestEncryptionAlgorithm,
+                        Value = GetRequestSignature(user, requestId, timestamp, additionalSignatureData)
+                    }
                 },
                 software = new Dto.SoftwareType
                 {
