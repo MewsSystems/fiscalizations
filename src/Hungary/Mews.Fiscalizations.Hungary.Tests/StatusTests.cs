@@ -13,10 +13,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         {
             var client = TestFixture.GetNavClient();
             var status = await client.GetTransactionStatusAsync("30NKOUNC66LSDD4Z");
-
-            Assert.IsNotNull(status.SuccessResult);
-            Assert.IsNull(status.OperationalErrorResult);
-            Assert.IsNull(status.GeneralErrorResult);
+            AssertResponse(status);
         }
 
         [Test]
@@ -25,7 +22,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var client = TestFixture.GetNavClient();
             var taxpayer = TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get();
             var taxpayerData = await client.GetTaxPayerDataAsync(taxpayer);
-
             AssertResponse(taxpayerData);
         }
 
@@ -34,7 +30,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
         {
             var navClient = TestFixture.GetNavClient();
             var exchangeToken = await navClient.GetExchangeTokenAsync();
-
             AssertResponse(exchangeToken);
         }
 
