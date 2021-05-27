@@ -35,11 +35,7 @@ namespace Mews.Fiscalizations.Hungary
             {
                 invoiceIssueDate = invoice.IssueDate,
                 invoiceNumber = invoice.Number.Value,
-                completenessIndicator = invoice.CustomerInfo.Match(
-                    domestic  => true,
-                    privatePerson => false,
-                    other => true
-                ),
+                completenessIndicator = true,
                 invoiceMain = new Dto.InvoiceMainType
                 {
                     Items = new object[] { invoiceDto }
