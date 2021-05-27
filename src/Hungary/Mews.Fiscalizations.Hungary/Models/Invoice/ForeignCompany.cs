@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
-    public sealed class OtherCustomerInfo
+    public sealed class ForeignCompany
     {
-        public OtherCustomerInfo(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
+        private ForeignCompany(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
         {
             Name = name;
             Address = address;
@@ -19,12 +19,12 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public IOption<TaxpayerIdentificationNumber> TaxpayerId { get; }
 
-        public static ITry<OtherCustomerInfo, IEnumerable<Error>> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
+        public static ITry<ForeignCompany, IEnumerable<Error>> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
         {
             return Try.Aggregate(
                 ObjectValidations.NotNull(name),
                 ObjectValidations.NotNull(address),
-                (n, a) => new OtherCustomerInfo(name, address, taxpayerId) 
+                (n, a) => new ForeignCompany(n, a, taxpayerId)
             );
         }
     }

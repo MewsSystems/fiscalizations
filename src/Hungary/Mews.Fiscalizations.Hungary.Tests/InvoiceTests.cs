@@ -13,11 +13,11 @@ namespace Mews.Fiscalizations.Hungary.Tests
     public sealed class InvoiceTests
     {
         [Test]
-        [TestCase("HU", "11111111", CustomerVatStatusType.Domestic)]
-        public async Task SendInvoiceWithDomesticCustomerVatTypeSucceeds(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        public async Task SendCustomerInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
-            var responseResult = await SendInvoices(navClient, countryCode, taxpayerNumber, type);
+            var receiver = new Receiver(new Customer());
+            var responseResult = await SendInvoices(navClient, receiver);
             TestFixture.AssertResponse(responseResult);
 
             Thread.Sleep(2000);
@@ -29,13 +29,16 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
-        [TestCase("HU", null, CustomerVatStatusType.PrivatePerson)]
-        [TestCase("CZ", null, CustomerVatStatusType.PrivatePerson)]
-        [TestCase("US", null, CustomerVatStatusType.PrivatePerson)]
-        public async Task SendInvoiceWithPrivatePersonCustomerVatTypeSucceeds(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        public async Task SendLocalCompanyInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
-            var responseResult = await SendInvoices(navClient, countryCode, taxpayerNumber, type);
+            var localCompany = LocalCompany.Create(
+                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "99999999").Success.Get(),
+                name: Name.Create("Hungarian test company ltd.").Success.Get(),
+                address: CreateAddress(Countries.Hungary)
+            );
+            var receiver = new Receiver(new Company(localCompany.Success.Get()));
+            var responseResult = await SendInvoices(navClient, receiver);
             TestFixture.AssertResponse(responseResult);
 
             Thread.Sleep(2000);
@@ -47,16 +50,22 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
-        [TestCase("HU", "99999999", CustomerVatStatusType.Other)]
-        [TestCase("CZ", "CZ12345678", CustomerVatStatusType.Other)]
-        [TestCase("US", "UsTaxId", CustomerVatStatusType.Other)]
-        [TestCase("HU", null, CustomerVatStatusType.Other)]
-        [TestCase("CZ", null, CustomerVatStatusType.Other)]
-        [TestCase("US", null, CustomerVatStatusType.Other)]
-        public async Task SendInvoiceWithOtherCustomerVatTypeSucceeds(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        [TestCase("CZ", "CZ12345678")]
+        [TestCase("US", "UsTaxId")]
+        [TestCase("CZ", null)]
+        [TestCase("US", null)]
+        public async Task SendForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
         {
             var navClient = TestFixture.GetNavClient();
-            var responseResult = await SendInvoices(navClient, countryCode, taxpayerNumber, type);
+            var country = Countries.GetByCode(countryCode).Get();
+            var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
+            var foreignCompany = ForeignCompany.Create(
+                name: Name.Create("Foreign test company ltd.").Success.Get(),
+                address: CreateAddress(country),
+                taxpayerId: taxpayerNumber.GetOrNull()
+            );
+            var receiver = new Receiver(new Company(foreignCompany.Success.Get()));
+            var responseResult = await SendInvoices(navClient, receiver);
             TestFixture.AssertResponse(responseResult);
 
             Thread.Sleep(2000);
@@ -68,12 +77,12 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
-        [TestCase("HU", "11111111", CustomerVatStatusType.Domestic)]
-        public async Task SendCorrectionInvoiceWithDomesticCustomerVatTypeSucceeds(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        public async Task SendCorrectionCustomerInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
             var exchangeToken = await navClient.GetExchangeTokenAsync();
-            var invoice = CreateInvoice(countryCode, taxpayerNumber, type);
+            var receiver = new Receiver(new Customer());
+            var invoice = CreateInvoice(receiver);
             var sendInvoiceResponse = await navClient.SendInvoicesAsync(
                 token: exchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { invoice }, startIndex: 1).Get()
@@ -87,7 +96,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
 
             var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
                 token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, countryCode, taxpayerNumber, type) }, startIndex: 1).Get()
+                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
             );
 
             Thread.Sleep(2000);
@@ -98,14 +107,17 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
-        [TestCase("HU", null, CustomerVatStatusType.PrivatePerson)]
-        [TestCase("CZ", null, CustomerVatStatusType.PrivatePerson)]
-        [TestCase("US", null, CustomerVatStatusType.PrivatePerson)]
-        public async Task SendCorrectionInvoiceWithPrivatePersonCustomerVatTypeSucceeds(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
             var exchangeToken = await navClient.GetExchangeTokenAsync();
-            var invoice = CreateInvoice(countryCode, taxpayerNumber, type);
+            var localCompany = LocalCompany.Create(
+                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "99999999").Success.Get(),
+                name: Name.Create("Hungarian test company ltd.").Success.Get(),
+                address: CreateAddress(Countries.Hungary)
+            );
+            var receiver = new Receiver(new Company(localCompany.Success.Get()));
+            var invoice = CreateInvoice(receiver);
             var sendInvoiceResponse = await navClient.SendInvoicesAsync(
                 token: exchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { invoice }, startIndex: 1).Get()
@@ -119,7 +131,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
 
             var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
                 token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, countryCode, taxpayerNumber, type) }, startIndex: 1).Get()
+                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
             );
 
             Thread.Sleep(2000);
@@ -130,17 +142,23 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
-        [TestCase("HU", "99999999", CustomerVatStatusType.Other)]
-        [TestCase("CZ", "CZ12345678", CustomerVatStatusType.Other)]
-        [TestCase("US", "UsTaxId", CustomerVatStatusType.Other)]
-        [TestCase("HU", null, CustomerVatStatusType.Other)]
-        [TestCase("CZ", null, CustomerVatStatusType.Other)]
-        [TestCase("US", null, CustomerVatStatusType.Other)]
-        public async Task SendCorrectionInvoiceWithOtherCustomerVatTypeSucceeds(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        [TestCase("CZ", "CZ12345678")]
+        [TestCase("US", "UsTaxId")]
+        [TestCase("CZ", null)]
+        [TestCase("US", null)]
+        public async Task SendCorrectionForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
         {
             var navClient = TestFixture.GetNavClient();
             var exchangeToken = await navClient.GetExchangeTokenAsync();
-            var invoice = CreateInvoice(countryCode, taxpayerNumber, type);
+            var country = Countries.GetByCode(countryCode).Get();
+            var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
+            var foreignCompany = ForeignCompany.Create(
+                name: Name.Create("Foreign test company ltd.").Success.Get(),
+                address: CreateAddress(country),
+                taxpayerId: taxpayerNumber.GetOrNull()
+            );
+            var receiver = new Receiver(new Company(foreignCompany.Success.Get()));
+            var invoice = CreateInvoice(receiver);
             var sendInvoiceResponse = await navClient.SendInvoicesAsync(
                 token: exchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { invoice }, startIndex: 1).Get()
@@ -154,7 +172,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
 
             var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
                 token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, countryCode, taxpayerNumber, type) }, startIndex: 1).Get()
+                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
             );
 
             Thread.Sleep(2000);
@@ -164,16 +182,16 @@ namespace Mews.Fiscalizations.Hungary.Tests
             AssertInvoiceStatuses(sendModificationInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
         }
 
-        private async Task<ResponseResult<string, ResultErrorCode>> SendInvoices(NavClient client, string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        private async Task<ResponseResult<string, ResultErrorCode>> SendInvoices(NavClient client, Receiver receiver)
         {
             var exchangeToken = await client.GetExchangeTokenAsync();
             return await client.SendInvoicesAsync(
                 token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateInvoice(countryCode, taxpayerNumber, type) }, startIndex: 1).Get()
+                invoices: Sequence.FromPreordered(new[] { CreateInvoice(receiver) }, startIndex: 1).Get()
             );
         }
 
-        private Invoice CreateInvoice(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        private Invoice CreateInvoice(Receiver receiver)
         {
             var item1Amount = new Amount(net: new AmountValue(1694.92m), gross: new AmountValue(2000), tax: new AmountValue(305.08m));
             var item2Amount = new Amount(new AmountValue(2362.20m), new AmountValue(3000), new AmountValue(637.8m));
@@ -217,14 +235,14 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 number: InvoiceNumber.Create($"INVOICE-{number}").Success.Get(),
                 issueDate: DateTime.UtcNow.Date,
                 supplierInfo: CreateSupplierInfo(),
-                customerInfo: CreateCustomerInfo(countryCode, taxpayerNumber, type),
+                receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
                 paymentDate: DateTime.UtcNow.Date,
                 currencyCode: CurrencyCode.Create("EUR").Success.Get()
             );
         }
 
-        private ModificationInvoice CreateModificationInvoice(InvoiceNumber originalDocumentNumber, string countryCode, string taxpayerNumber, CustomerVatStatusType type)
+        private ModificationInvoice CreateModificationInvoice(InvoiceNumber originalDocumentNumber, Receiver receiver)
         {
             var item1Amount = new Amount(net: new AmountValue(-1694.92m), gross: new AmountValue(-2000), tax: new AmountValue(-305.08m));
             var item2Amount = new Amount(new AmountValue(-2362.20m), new AmountValue(-3000), new AmountValue(-637.8m));
@@ -267,7 +285,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             return new ModificationInvoice(
                 number: InvoiceNumber.Create($"INVOICE-{number}-REBATE").Success.Get(),
                 supplierInfo: CreateSupplierInfo(),
-                customerInfo: CreateCustomerInfo(countryCode, taxpayerNumber, type),
+                receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
                 currencyCode: CurrencyCode.Create("EUR").Success.Get(),
                 issueDate: DateTime.UtcNow.Date,
@@ -276,20 +294,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 modificationIndex: 1,
                 modifyWithoutMaster: true,
                 originalDocumentNumber: originalDocumentNumber
-            );
-        }
-
-        private CustomerInfo CreateCustomerInfo(string countryCode, string taxpayerNumber, CustomerVatStatusType type)
-        {
-            var country = Countries.GetByCode(countryCode).Get();
-            var taxpayerId = taxpayerNumber.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
-            var name = Name.Create("Vev Kft").Success.Get();
-            var address = CreateAddress(country);
-
-            return type.Match(
-                CustomerVatStatusType.PrivatePerson, _ => new CustomerInfo(new PrivatePersonCustomerInfo()),
-                CustomerVatStatusType.Domestic, _ => new CustomerInfo(new DomesticCustomerInfo(taxpayerId.GetOrNull(), name, address)),
-                CustomerVatStatusType.Other, _ => new CustomerInfo(new OtherCustomerInfo(name, address))
             );
         }
 

@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             DateTime issueDate,
             DateTime paymentDate,
             SupplierInfo supplierInfo,
-            CustomerInfo customerInfo,
+            Receiver receiver,
             CurrencyCode currencyCode,
             ISequence<InvoiceItem> items,
             bool isSelfBilling = false,
@@ -22,7 +22,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             IssueDate = issueDate;
             PaymentDate = paymentDate;
             SupplierInfo = supplierInfo;
-            CustomerInfo = customerInfo;
+            Receiver = receiver;
             CurrencyCode = currencyCode;
             Items = items;
             DeliveryDate = Items.Values.Max(i => i.Value.ConsumptionDate);
@@ -44,7 +44,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public SupplierInfo SupplierInfo { get; }
 
-        public CustomerInfo CustomerInfo { get; }
+        public Receiver Receiver { get; }
 
         public CurrencyCode CurrencyCode { get; }
 

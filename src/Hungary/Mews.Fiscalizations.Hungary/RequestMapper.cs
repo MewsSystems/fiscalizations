@@ -35,10 +35,9 @@ namespace Mews.Fiscalizations.Hungary
             {
                 invoiceIssueDate = invoice.IssueDate,
                 invoiceNumber = invoice.Number.Value,
-                completenessIndicator = invoice.CustomerInfo.Match(
-                    domestic  => true,
-                    privatePerson => false,
-                    other => true
+                completenessIndicator = invoice.Receiver.Match(
+                    customer  => false,
+                    company => true
                 ),
                 invoiceMain = new Dto.InvoiceMainType
                 {
@@ -52,7 +51,7 @@ namespace Mews.Fiscalizations.Hungary
             var invoiceAmount = Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.Amount));
             var invoiceAmountHUF = Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.AmountHUF));
             var supplierInfo = invoice.SupplierInfo;
-            var customerInfo = invoice.CustomerInfo;
+            var receiver = invoice.Receiver;
             return new Dto.InvoiceType
             {
                 invoiceReference = invoiceReference,
@@ -86,22 +85,28 @@ namespace Mews.Fiscalizations.Hungary
                     },
                     customerInfo = new Dto.CustomerInfoType
                     {
-                        customerName = customerInfo.Match(
-                            domestic => domestic.Name.Value,
-                            privatePeson => null,
-                            other => other.Name.Value
+                        customerName = receiver.Match(
+                            customer => null,
+                            company => company.Match(
+                                local => local.Name.Value,
+                                foreign => foreign.Name.Value
+                            )
                         ),
-                        customerAddress = customerInfo.Match(
-                            domestic => MapAddress(domestic.Address),
-                            privatePerson => null,
-                            other => MapAddress(other.Address)
+                        customerAddress = receiver.Match(
+                            customer => null,
+                            company => company.Match(
+                                local => MapAddress(local.Address),
+                                foreign => MapAddress(foreign.Address)
+                            )
                         ),
-                        customerVatStatus = customerInfo.Match(
-                            domestic => Dto.CustomerVatStatusType.DOMESTIC,
-                            privatePerson => Dto.CustomerVatStatusType.PRIVATE_PERSON,
-                            other => Dto.CustomerVatStatusType.OTHER
+                        customerVatStatus = receiver.Match(
+                            customer => Dto.CustomerVatStatusType.PRIVATE_PERSON,
+                            company => company.Match(
+                                local => Dto.CustomerVatStatusType.DOMESTIC,
+                                foreign => Dto.CustomerVatStatusType.OTHER
+                            )
                         ),
-                        customerVatData = GetCustomerVatDataType(customerInfo).GetOrNull()
+                        customerVatData = GetCustomerVatDataType(receiver).GetOrNull()
                     },
                 },
                 invoiceSummary = new Dto.SummaryType
@@ -120,12 +125,14 @@ namespace Mews.Fiscalizations.Hungary
 
         }
 
-        private static IOption<Dto.CustomerVatDataType> GetCustomerVatDataType(CustomerInfo info)
+        private static IOption<Dto.CustomerVatDataType> GetCustomerVatDataType(Receiver receiver)
         {
-            return info.Match(
-                domestic => GetCustomerVatDataType(domestic.TaxpayerId).ToOption(),
-                privatePerson => Option.Empty<Dto.CustomerVatDataType>(),
-                other => other.TaxpayerId.Map(i => GetCustomerVatDataType(i))
+            return receiver.Match(
+                customer => Option.Empty<Dto.CustomerVatDataType>(),
+                company => company.Match(
+                    local => GetCustomerVatDataType(local.TaxpayerId).ToOption(),
+                    foreign => foreign.TaxpayerId.Map(i => GetCustomerVatDataType(i))
+                )
             );
         }
 
