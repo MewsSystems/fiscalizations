@@ -13,11 +13,6 @@ namespace Mews.Fiscalizations.Hungary.Models
             Address = address;
         }
 
-        public CustomerVatStatusType CustomerVatStatusType
-        {
-            get { return CustomerVatStatusType.Domestic; }
-        }
-
         public TaxpayerIdentificationNumber TaxpayerId { get; }
 
         public Name Name { get; }

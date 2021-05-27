@@ -5,10 +5,5 @@
         public PrivatePersonCustomerInfo()
         {
         }
-
-        public CustomerVatStatusType CustomerVatStatusType
-        {
-            get { return CustomerVatStatusType.PrivatePerson; }
-        }
     }
 }

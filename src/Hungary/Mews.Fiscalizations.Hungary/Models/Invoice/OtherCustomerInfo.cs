@@ -13,11 +13,6 @@ namespace Mews.Fiscalizations.Hungary.Models
             TaxpayerId = taxpayerId.ToOption();
         }
 
-        public CustomerVatStatusType CustomerVatStatusType
-        {
-            get { return CustomerVatStatusType.Other; }
-        }
-
         public Name Name { get; }
 
         public SimpleAddress Address { get; }

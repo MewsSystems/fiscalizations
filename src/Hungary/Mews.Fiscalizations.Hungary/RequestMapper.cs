@@ -219,15 +219,6 @@ namespace Mews.Fiscalizations.Hungary
             };
         }
 
-        private static Dto.CustomerVatStatusType MapCustomerVatStatusType(CustomerVatStatusType type)
-        {
-            return type.Match(
-                CustomerVatStatusType.Domestic, _ => Dto.CustomerVatStatusType.DOMESTIC,
-                CustomerVatStatusType.PrivatePerson, _ => Dto.CustomerVatStatusType.PRIVATE_PERSON,
-                CustomerVatStatusType.Other, _ => Dto.CustomerVatStatusType.OTHER
-            );
-        }
-
         private static IEnumerable<Dto.LineType> MapItems(ISequence<InvoiceItem> items, int? modificationIndexOffset = null)
         {
             return items.Values.Select(i => new Dto.LineType
