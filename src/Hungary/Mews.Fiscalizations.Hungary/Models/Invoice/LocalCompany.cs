@@ -25,7 +25,7 @@ namespace Mews.Fiscalizations.Hungary.Models
                 ObjectValidations.NotNull(taxpayerId),
                 ObjectValidations.NotNull(name),
                 ObjectValidations.NotNull(address),
-                (i, n, a) => IsValidTaxpayerNumber(i).ToTry(
+                (i, n, a) => IsLocalTaxpayerNumber(i).ToTry(
                     t => new LocalCompany(i, n, a),
                     f => new Error($"{nameof(TaxpayerIdentificationNumber)} must be a Hungarian taxpayer number.").ToEnumerable()
                 )
@@ -34,7 +34,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             return result.FlatMap(r => r);
         }
 
-        private static bool IsValidTaxpayerNumber(TaxpayerIdentificationNumber number)
+        private static bool IsLocalTaxpayerNumber(TaxpayerIdentificationNumber number)
         {
             return number.Country.Alpha2Code.Equals(Countries.Hungary.Alpha2Code);
         }

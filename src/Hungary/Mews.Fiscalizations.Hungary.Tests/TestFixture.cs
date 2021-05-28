@@ -7,11 +7,11 @@ namespace Mews.Fiscalizations.Hungary.Tests
 {
     public static class TestFixture
     {
-        public static readonly TaxpayerIdentificationNumber TaxPayerId = TaxpayerIdentificationNumber.Create(Countries.Hungary, Environment.GetEnvironmentVariable("tax_payer_id") ?? "INSERT_TAX_PAYER_ID").Success.Get();
-        private static readonly Login Login = Login.Create(Environment.GetEnvironmentVariable("login") ?? "INSERT_LOGIN").Success.Get();
-        private static readonly string Password = Environment.GetEnvironmentVariable("password") ?? "INSERT_PASSWORD";
-        private static readonly SigningKey SigningKey = SigningKey.Create(Environment.GetEnvironmentVariable("signing_key") ?? "INSERT_SIGNING_KEY").Success.Get();
-        private static readonly EncryptionKey EncryptionKey = EncryptionKey.Create(Environment.GetEnvironmentVariable("encryption_key") ?? "INSERT_ENCRYPTION_KEY").Success.Get();
+        public static readonly TaxpayerIdentificationNumber TaxPayerId = TaxpayerIdentificationNumber.Create(Countries.Hungary, Environment.GetEnvironmentVariable("tax_payer_id") ?? "14750636").Success.Get();
+        private static readonly Login Login = Login.Create(Environment.GetEnvironmentVariable("login") ?? "w07wwgv843rnwso").Success.Get();
+        private static readonly string Password = Environment.GetEnvironmentVariable("password") ?? "MewsTest459";
+        private static readonly SigningKey SigningKey = SigningKey.Create(Environment.GetEnvironmentVariable("signing_key") ?? "f8-a9d1-73227923aeb7281AVZXJHZM8").Success.Get();
+        private static readonly EncryptionKey EncryptionKey = EncryptionKey.Create(Environment.GetEnvironmentVariable("encryption_key") ?? "6090281AVZXM3GM9").Success.Get();
 
         public static NavClient GetNavClient()
         {

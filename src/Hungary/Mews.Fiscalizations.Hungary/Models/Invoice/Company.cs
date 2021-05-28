@@ -13,5 +13,27 @@ namespace Mews.Fiscalizations.Hungary.Models
             : base(foreignCompany)
         {
         }
+
+        public Name Name
+        {
+            get
+            {
+                return Match(
+                    local => local.Name,
+                    foreign => foreign.Name
+                );
+            }
+        }
+
+        public SimpleAddress Address
+        {
+            get
+            {
+                return Match(
+                    local => local.Address,
+                    foreign => foreign.Address
+                );
+            }
+        }
     }
 }

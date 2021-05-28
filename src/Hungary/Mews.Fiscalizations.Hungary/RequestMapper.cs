@@ -57,8 +57,7 @@ namespace Mews.Fiscalizations.Hungary
                 invoiceReference = invoiceReference,
                 invoiceLines = new Dto.LinesType
                 {
-                    line = lines.ToArray(),
-                    mergedItemIndicator = false
+                    line = lines.ToArray()
                 },
                 invoiceHead = new Dto.InvoiceHeadType
                 {
@@ -87,17 +86,11 @@ namespace Mews.Fiscalizations.Hungary
                     {
                         customerName = receiver.Match(
                             customer => null,
-                            company => company.Match(
-                                local => local.Name.Value,
-                                foreign => foreign.Name.Value
-                            )
+                            company => company.Name.Value
                         ),
                         customerAddress = receiver.Match(
                             customer => null,
-                            company => company.Match(
-                                local => MapAddress(local.Address),
-                                foreign => MapAddress(foreign.Address)
-                            )
+                            company => MapAddress(company.Address)
                         ),
                         customerVatStatus = receiver.Match(
                             customer => Dto.CustomerVatStatusType.PRIVATE_PERSON,
@@ -106,7 +99,13 @@ namespace Mews.Fiscalizations.Hungary
                                 foreign => Dto.CustomerVatStatusType.OTHER
                             )
                         ),
-                        customerVatData = GetCustomerVatDataType(receiver).GetOrNull()
+                        customerVatData = receiver.Match(
+                            customer => Option.Empty<Dto.CustomerVatDataType>(),
+                            company => company.Match(
+                                local => GetCustomerVatDataType(local.TaxpayerId).ToOption(),
+                                foreign => foreign.TaxpayerId.Map(i => GetCustomerVatDataType(i))
+                            )
+                        ).GetOrNull()
                     },
                 },
                 invoiceSummary = new Dto.SummaryType
@@ -123,17 +122,6 @@ namespace Mews.Fiscalizations.Hungary
                 }
             };
 
-        }
-
-        private static IOption<Dto.CustomerVatDataType> GetCustomerVatDataType(Receiver receiver)
-        {
-            return receiver.Match(
-                customer => Option.Empty<Dto.CustomerVatDataType>(),
-                company => company.Match(
-                    local => GetCustomerVatDataType(local.TaxpayerId).ToOption(),
-                    foreign => foreign.TaxpayerId.Map(i => GetCustomerVatDataType(i))
-                )
-            );
         }
 
         private static Dto.CustomerVatDataType GetCustomerVatDataType(TaxpayerIdentificationNumber taxpayerNumber)
