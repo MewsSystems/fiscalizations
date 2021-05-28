@@ -36,7 +36,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         private static bool IsLocalTaxpayerNumber(TaxpayerIdentificationNumber number)
         {
-            return number.Country.Alpha2Code.Equals(Countries.Hungary.Alpha2Code);
+            return number.Country.Equals(Countries.Hungary);
         }
     }
 }
