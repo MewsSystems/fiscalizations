@@ -11,6 +11,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
     public class InvoiceTests
     {
         [Test]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -29,6 +30,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendCorrectionInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
