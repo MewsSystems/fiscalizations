@@ -21,24 +21,15 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public static ITry<ForeignCompany, IEnumerable<Error>> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
         {
-            var result = Try.Aggregate(
+            var validatedTaxpayerId = taxpayerId.ToOption().Where(i => !i.Country.Equals(Countries.Hungary)).ToTry(
+                _ => Error.Create($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")
+            );
+            return Try.Aggregate(
+                validatedTaxpayerId,
                 ObjectValidations.NotNull(name),
                 ObjectValidations.NotNull(address),
-                (n, a) => taxpayerId.ToOption().Match(
-                    i => IsForeignTaxpayerNumber(i).ToTry(
-                        t => new ForeignCompany(n, a, i),
-                        f => new Error($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.").ToEnumerable()
-                    ),
-                    _ => Try.Success<ForeignCompany, IEnumerable<Error>>(new ForeignCompany(n, a))
-                )
+                (i, n, a) => new ForeignCompany(n, a, i)
             );
-
-            return result.FlatMap(r => r);
-        }
-
-        private static bool IsForeignTaxpayerNumber(TaxpayerIdentificationNumber number)
-        {
-            return !number.Country.Equals(Countries.Hungary);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Mews.Fiscalizations.Hungary.Models
                 ObjectValidations.NotNull(address),
                 (i, n, a) => IsLocalTaxpayerNumber(i).ToTry(
                     t => new LocalCompany(i, n, a),
-                    f => new Error($"{nameof(TaxpayerIdentificationNumber)} must be a Hungarian taxpayer number.").ToEnumerable()
+                    f => Error.Create($"{nameof(TaxpayerIdentificationNumber)} must be a Hungarian taxpayer number.")
                 )
             );
 
