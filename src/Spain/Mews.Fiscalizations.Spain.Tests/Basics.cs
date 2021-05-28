@@ -14,20 +14,20 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
     public class Basics
     {
         public static readonly X509Certificate2 Certificate = new X509Certificate2(
-            rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
-            password: System.Environment.GetEnvironmentVariable("certificate_password") ?? "INSERT_CERTIFICATE_PASSWORD",
+            rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("spanish_certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
+            password: System.Environment.GetEnvironmentVariable("spanish_certificate_password") ?? "INSERT_CERTIFICATE_PASSWORD",
             keyStorageFlags: X509KeyStorageFlags.DefaultKeySet
         );
         public static readonly Client Client = new Client(Certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
 
         public static readonly LocalCompany IssuingCompany = new LocalCompany(
-            name: Name.CreateUnsafe(System.Environment.GetEnvironmentVariable("spanish_issuer_name") ?? "INSERT_ISSUER_NAME"),
-            taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER").Success.Get()
+            name: Name.CreateUnsafe("Issuing company"),
+            taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER").Success.Get()
         );
 
         public static readonly LocalCompany ReceivingCompany = new LocalCompany(
-            name: Name.CreateUnsafe(System.Environment.GetEnvironmentVariable("spanish_receiver_name") ?? "INSERT_RECEIVER_NAME"),
-            taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER").Success.Get()
+            name: Name.CreateUnsafe("Receiving company"),
+            taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER").Success.Get()
         );
 
         [Test]
