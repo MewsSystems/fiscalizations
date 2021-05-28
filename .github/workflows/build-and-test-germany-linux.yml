@@ -40,8 +40,8 @@ jobs:
     
     - name: Test
       env:
-        client_Id: ${{secrets.german_client_Id}}
-        tss_id: ${{secrets.german_tss_id}}
-        api_key: ${{secrets.german_api_key}}
-        api_secret: ${{secrets.german_api_secret}}
+        german_client_Id: ${{secrets.german_client_Id}}
+        german_tss_id: ${{secrets.german_tss_id}}
+        german_api_key: ${{secrets.german_api_key}}
+        german_api_secret: ${{secrets.german_api_secret}}
       run: dotnet test --no-restore --verbosity normal

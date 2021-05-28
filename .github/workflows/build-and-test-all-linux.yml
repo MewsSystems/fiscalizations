@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     
     env:
       DOTNET_NOLOGO: true
@@ -40,23 +40,19 @@ jobs:
     
     - name: Test
       env:
-        client_Id: ${{secrets.german_client_Id}}
-        tss_id: ${{secrets.german_tss_id}}
-        api_key: ${{secrets.german_api_key}}
-        api_secret: ${{secrets.german_api_secret}}
+        german_client_Id: ${{secrets.german_client_Id}}
+        german_tss_id: ${{secrets.german_tss_id}}
+        german_api_key: ${{secrets.german_api_key}}
+        german_api_secret: ${{secrets.german_api_secret}}
 
-        user_id: ${{secrets.greek_user_id}}
-        user_subscription_key: ${{secrets.greek_user_subscription_key}}
-        user_vat_number: ${{secrets.greek_user_vat_number}}
+        spanish_certificate_data: ${{secrets.spanish_certificate_data}}
+        spanish_certificate_password: ${{secrets.spanish_certificate_password}}
+        spanish_issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
+        spanish_receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
 
-        certificate_data: ${{secrets.spanish_certificate_data}}
-        certificate_password: ${{secrets.spanish_certificate_password}}
-        issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
-        receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
-
-        login: ${{secrets.hungarian_login}}
-        password: ${{secrets.hungarian_password}}
-        signing_key: ${{secrets.hungarian_signing_key}}
-        tax_payer_id: ${{secrets.hungarian_tax_payer_id}}
-        encryption_key: ${{secrets.hungarian_encryption_key}}
+        hungarian_login: ${{secrets.hungarian_login}}
+        hungarian_password: ${{secrets.hungarian_password}}
+        hungarian_signing_key: ${{secrets.hungarian_signing_key}}
+        hungarian_tax_payer_id: ${{secrets.hungarian_tax_payer_id}}
+        hungarian_encryption_key: ${{secrets.hungarian_encryption_key}}
       run: dotnet test --no-restore --verbosity normal
