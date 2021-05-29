@@ -13,6 +13,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
     public sealed class InvoiceTests
     {
         [Test]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendCustomerInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -29,7 +30,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
-        public async Task SendCorrectionInvoiceSucceeds()
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
+        public async Task SendLocalCompanyInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
             var localCompany = LocalCompany.Create(
@@ -50,6 +52,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         [TestCase("CZ", "CZ12345678")]
         [TestCase("US", "UsTaxId")]
         [TestCase("CZ", null)]
@@ -77,6 +80,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendCorrectionCustomerInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -107,6 +111,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -142,6 +147,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         [TestCase("CZ", "CZ12345678")]
         [TestCase("US", "UsTaxId")]
         [TestCase("CZ", null)]
