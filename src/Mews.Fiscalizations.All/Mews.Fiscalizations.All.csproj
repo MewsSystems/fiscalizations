@@ -10,7 +10,8 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   
   <ItemGroup>
@@ -33,14 +34,41 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj" />
-    <ProjectReference Include="..\Czechia\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj" />
-    <ProjectReference Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj" />
-    <ProjectReference Include="..\Hungary\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj" />
-    <ProjectReference Include="..\Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj" />
-    <ProjectReference Include="..\Italy\Mews.Fiscalizations.Uniwix\Mews.Fiscalizations.Uniwix.csproj" />
-    <ProjectReference Include="..\Spain\Mews.Fiscalizations.Spain\Mews.Fiscalizations.Spain.csproj" />
+    <ProjectReference Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Austria.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\Czechia\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Czechia.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Germany.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\Hungary\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Hungary.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Italy.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\Italy\Mews.Fiscalizations.Uniwix\Mews.Fiscalizations.Uniwix.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Uniwix.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\Spain\Mews.Fiscalizations.Spain\Mews.Fiscalizations.Spain.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Spain.dll</IncludeAssets>
+    </ProjectReference>
   </ItemGroup>
+
+  <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+    </ItemGroup>
+  </Target>
   
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

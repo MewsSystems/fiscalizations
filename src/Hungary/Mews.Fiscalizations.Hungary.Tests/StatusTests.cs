@@ -9,6 +9,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
     public class StatusTests
     {
         [Test]
+        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task StatusCheck()
         {
             var client = TestFixture.GetNavClient();

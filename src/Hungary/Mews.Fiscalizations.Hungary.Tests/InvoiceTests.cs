@@ -29,7 +29,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
-        public async Task SendLocalCompanyInvoiceSucceeds()
+        public async Task SendCorrectionInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
             var localCompany = LocalCompany.Create(
