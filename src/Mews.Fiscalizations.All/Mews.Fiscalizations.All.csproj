@@ -36,30 +36,37 @@
   <ItemGroup>
     <ProjectReference Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>All</IncludeAssets>
       <PrivateAssets>All</PrivateAssets>
     </ProjectReference>
     <ProjectReference Include="..\Czechia\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>All</IncludeAssets>
       <PrivateAssets>All</PrivateAssets>
     </ProjectReference>
     <ProjectReference Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>All</IncludeAssets>
       <PrivateAssets>All</PrivateAssets>
     </ProjectReference>
     <ProjectReference Include="..\Hungary\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>All</IncludeAssets>
       <PrivateAssets>All</PrivateAssets>
     </ProjectReference>
     <ProjectReference Include="..\Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>All</IncludeAssets>
       <PrivateAssets>All</PrivateAssets>
     </ProjectReference>
     <ProjectReference Include="..\Italy\Mews.Fiscalizations.Uniwix\Mews.Fiscalizations.Uniwix.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>All</IncludeAssets>
       <PrivateAssets>All</PrivateAssets>
     </ProjectReference>
     <ProjectReference Include="..\Spain\Mews.Fiscalizations.Spain\Mews.Fiscalizations.Spain.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>All</IncludeAssets>
       <PrivateAssets>All</PrivateAssets>
     </ProjectReference>
   </ItemGroup>
