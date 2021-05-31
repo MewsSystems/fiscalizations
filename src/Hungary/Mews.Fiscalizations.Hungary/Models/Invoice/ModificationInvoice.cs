@@ -30,13 +30,13 @@ namespace Mews.Fiscalizations.Hungary.Models
             DateTime issueDate,
             DateTime paymentDate,
             SupplierInfo supplierInfo,
-            CustomerInfo customerInfo,
+            Receiver receiver,
             CurrencyCode currencyCode,
             ISequence<InvoiceItem> items,
             bool isSelfBilling = false,
             bool isCashAccounting = false,
             bool modifyWithoutMaster = false)
-            : base(number, issueDate, paymentDate, supplierInfo, customerInfo, currencyCode, items, isSelfBilling, isCashAccounting)
+            : base(number, issueDate, paymentDate, supplierInfo, receiver, currencyCode, items, isSelfBilling, isCashAccounting)
         {
             OriginalDocumentNumber = originalDocumentNumber;
             ModificationIndex = modificationIndex;
