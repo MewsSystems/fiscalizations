@@ -25,11 +25,8 @@ namespace Mews.Fiscalizations.Hungary.Models
                 identifier => identifier.Country.Equals(Countries.Hungary),
                 _ => true
             ));
-            return Try.Aggregate(
-                optionalForeignTaxPayerId.ToTry(_ => Error.Create($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")),
-                ObjectValidations.NotNull(name),
-                ObjectValidations.NotNull(address),
-                (i, n, a) => new ForeignCompany(n, a, i.GetOrNull())
+            return optionalForeignTaxPayerId.ToTry(_ => Error.Create($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")).Map(
+                i => new ForeignCompany(name, address, i.GetOrNull())
             );
         }
     }

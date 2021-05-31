@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Hungary.Models;
 using NUnit.Framework;
 
 namespace Mews.Fiscalizations.Hungary.Tests
@@ -13,7 +12,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         {
             var client = TestFixture.GetNavClient();
             var status = await client.GetTransactionStatusAsync("30NKOUNC66LSDD4Z");
-            AssertResponse(status);
+            TestFixture.AssertResponse(status);
         }
 
         [Test]
@@ -22,7 +21,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var client = TestFixture.GetNavClient();
             var taxpayer = TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get();
             var taxpayerData = await client.GetTaxPayerDataAsync(taxpayer);
-            AssertResponse(taxpayerData);
+            TestFixture.AssertResponse(taxpayerData);
         }
 
         [Test]
@@ -30,16 +29,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         {
             var navClient = TestFixture.GetNavClient();
             var exchangeToken = await navClient.GetExchangeTokenAsync();
-            AssertResponse(exchangeToken);
-        }
-
-        private void AssertResponse<TResult, TCode>(ResponseResult<TResult, TCode> responseResult)
-            where TResult : class
-            where TCode : struct
-        {
-            Assert.IsNotNull(responseResult.SuccessResult);
-            Assert.IsNull(responseResult.GeneralErrorResult);
-            Assert.IsNull(responseResult.OperationalErrorResult);
+            TestFixture.AssertResponse(exchangeToken);
         }
     }
 }
