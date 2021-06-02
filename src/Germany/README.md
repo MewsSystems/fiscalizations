@@ -12,7 +12,7 @@ We tend to use immutable DTOs wherever possible, especially to ensure data valid
 We want the library to throw an error as soon as possible, i.e. when constructing corresponding data structures.
 That is why we even introduce wrappers for simple datatypes.
 
-## Simplest usage example
+## Code examples
 
 Fiskaly Client can be created using the **ApiKey** and **ApiSecret** which can be created through Fiskaly dashboard.
 
@@ -50,6 +50,8 @@ Creation of a new Tss id
 var tss = await client.CreateTssAsync(accessToken, TssState.Initialized, description: "Creating a test TSS.");
 var tssId = tss.SuccessResult.Id;
 ```
+
+More examples can be found in the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
 
 ## Fiskaly documentation
 https://developer.fiskaly.com/api/kassensichv/v1/
