@@ -1,6 +1,6 @@
 # Mews fiscalizations
 
-This repository contains a list of projects where each project supports reporting of e-invoices to the corrosponding country's government authority.
+This repository contains multiple projects. Each project supports reporting of e-invoices to the corresponding country's government authority.
 For now, we support reporting of e-invoices in the following countries: Austria, Czech Republic, Germany, Spain, Hungary and Italy.
 
 **Please note that we're not responsible for how these libraries are used and if the data provided is correct or not.**
