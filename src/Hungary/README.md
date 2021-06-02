@@ -2,14 +2,15 @@
 
 This library uses the [NAV Online Invoice System](https://onlineszamla.nav.gov.hu) to report e-invoices.
 
-Library supported NAV API version: **3.0**
-
 Useful links:
 [API documentation](https://onlineszamla.nav.gov.hu/api/files/container/download/Online%20Szamla_Interfesz%20specifikacio_EN_v3.0.pdf)
 [Test environment](https://onlineszamla-test.nav.gov.hu/)
 [Production environment](https://onlineszamla.nav.gov.hu/)
 
 P.S The library uses functional principles, it is recommended to check [FuncSharp](https://github.com/siroky/FuncSharp).
+
+## Supported API version
+**3.0**
 
 ## Key features
 
