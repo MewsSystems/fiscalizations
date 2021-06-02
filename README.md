@@ -1,9 +1,14 @@
 # Mews fiscalizations
 
-This is a repo with all the fiscalizations.
-It is a work in progress at this moment. You will find the individual fiscalizations in their folder and each of them has their own readme file and nuget package.
+This repository contains a list of projects where each project supports reporting of e-invoices to the government authorities.
+For now, we support reporting of e-invoices in the following countries: Austria, Czech Republic, Germany, Spain, Hungary and Italy.
 
-# Build and tests
+**Please note that we're not responsible for how these libraries are used and if the data provided is correct or not.**
+**Also, it is important to note that these libraries were created to meet our usages, so they might be missing some data that can be important in your case (feel free to extend any library and create a PR).**
+
+P.S Each project folder has it's own documentation (as described below in section **Projects**).
+
+# Builds and tests
 
 | **Project** | **Windows** | **Linux** | **Notes** |
 | ----------- | ----------- | --------- | --------- |
