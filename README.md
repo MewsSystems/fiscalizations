@@ -57,7 +57,6 @@ P.S Each project folder has it's own documentation (as described below in sectio
 
 ## About us
 
-**Mews**
 We’re building transformational technology for millions of hospitality professionals and their guests.
 
 **Hoteliers**
