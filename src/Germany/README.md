@@ -31,7 +31,7 @@ In order to report an invoice to the German authorities, we would have to start 
 **Creation of a new invoice**
 
 There are 3 required properties for creating an invoice:
-1. **Invoice type** (invoice or reciept).
+1. **Invoice type** (invoice or receipt).
 2. **Payments** which is a list of the amounts paid, type of payment, and the currency.
 3. **Items** which is a list of the item amounts and the VAT rate ("NORMAL" "REDUCED_1" "SPECIAL_RATE_1" "SPECIAL_RATE_2" "NULL") -> ("19" "7" "10.7" "5.5" "0").
 
