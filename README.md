@@ -57,12 +57,15 @@ P.S Each project folder has it's own documentation (as described below in sectio
 
 ## About us
 
+**Mews**
 We’re building transformational technology for millions of hospitality professionals and their guests.
 
 **Hoteliers**
+
 The hoteliers who choose Mews share our passion for innovation and they don’t accept the status quo. They’re using our technology to rethink physical spaces, services and guest experiences.
 
 **Guests**
+
 Hospitality brands are heavily scrutinized. The day a guest checks-out, their rating goes online. Ultimately we’re designing Mews for our customer’s customer because every guest experience must be remarkable.
 
 More information on https://www.mews.com/en/about-us
