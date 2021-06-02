@@ -12,6 +12,48 @@ We tend to use immutable DTOs wherever possible, especially to ensure data valid
 We want the library to throw an error as soon as possible, i.e. when constructing corresponding data structures.
 That is why we even introduce wrappers for simple datatypes.
 
-# NuGet
+## Simplest usage example
+
+Fiskaly Client can be created using the ApiKey and ApiSecret which can be created through Fiskaly dashboard.
+
+```csharp
+var client = new FiskalyClient(ApiKey, ApiSecret);
+```
+
+All endpoints require providing a valid accessToken
+
+```csharp
+var accessToken = await client.GetAccessTokenAsync();
+```
+
+In order to report an invoice to the German authorities, we would have to start a transaction and then finish it (change the state to FINISHED and provide the invoice to be reported.).
+
+1. To start a transaction, we would need to provide valid **ClientId** and **TssId** which can be created through fiskaly dashboard or by calling **CreateClientAsync** for creating the client and **CreateTssAsync** for creating the TSS which will be discribed below, and a unique **id** for the transaction.
+2. To finish a transaction, we would need to provide the **ClientId**, **TssId**, and the invoice to be reported and the transaction id that we specified in the step above.
+(lastRevision is used for the preservation of order of subsequent calls).
+
+Example:
+```csharp
+var transactionId = Guid.NewGuid();
+var startedTransaction = await client.StartTransactionAsync(accessToken, clientId, tssId, transactionId);
+var endedTransaction = await client.FinishTransactionAsync(accessToken, clientId, tssId, InvoiceToReport, transactionId, lastRevision: "1");
+```
+
+Creation of a new client id
+```csharp
+var client = await client.CreateClientAsync(accessToken, TssId);
+var clientId = client.SuccessResult.Id;
+```
+
+Creation of a new Tss id
+```csharp
+var tss = await client.CreateTssAsync(accessToken, TssState.Initialized, description: "Creating a test TSS.");
+var tssId = tss.SuccessResult.Id;
+```
+
+## Fiskaly documentation
+https://developer.fiskaly.com/api/kassensichv/v1/
+
+## NuGet
 
 We have published the library as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
