@@ -14,19 +14,19 @@ That is why we even introduce wrappers for simple datatypes.
 
 ## Simplest usage example
 
-Fiskaly Client can be created using the ApiKey and ApiSecret which can be created through Fiskaly dashboard.
+Fiskaly Client can be created using the **ApiKey** and **ApiSecret** which can be created through Fiskaly dashboard.
 
 ```csharp
 var client = new FiskalyClient(ApiKey, ApiSecret);
 ```
 
-All endpoints require providing a valid accessToken
+All endpoints require providing a valid **accessToken**
 
 ```csharp
 var accessToken = await client.GetAccessTokenAsync();
 ```
 
-In order to report an invoice to the German authorities, we would have to start a transaction and then finish it (change the state to FINISHED and provide the invoice to be reported.).
+In order to report an invoice to the German authorities, we would have to start a transaction and then finish it (change the state to **FINISHED** and provide the invoice to be reported.).
 
 1. To start a transaction, we would need to provide valid **ClientId** and **TssId** which can be created through fiskaly dashboard or by calling **CreateClientAsync** for creating the client and **CreateTssAsync** for creating the TSS which will be discribed below, and a unique **id** for the transaction.
 2. To finish a transaction, we would need to provide the **ClientId**, **TssId**, and the invoice to be reported and the transaction id that we specified in the step above.
