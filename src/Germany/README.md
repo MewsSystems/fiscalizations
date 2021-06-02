@@ -29,10 +29,11 @@ var accessToken = await client.GetAccessTokenAsync();
 In order to report an invoice to the German authorities, we would have to start a transaction and then finish it (change the state to **FINISHED** and provide the invoice to be reported.).
 
 **Creation of a new invoice**
+
 There are 3 required properties for creating an invoice:
-1. **invoice type** (invoice or reciept).
-2. **payments** which contains the amount paid and type of payment and the currency.
-3. **items** which contains the item amount and the VAT rate ("NORMAL" "REDUCED_1" "SPECIAL_RATE_1" "SPECIAL_RATE_2" "NULL") -> ("19" "7" "10.7" "5.5" "0").
+1. **Invoice type** (invoice or reciept).
+2. **Payments** which is a list of the amounts paid, type of payment, and the currency.
+3. **Items** which is a list of the item amounts and the VAT rate ("NORMAL" "REDUCED_1" "SPECIAL_RATE_1" "SPECIAL_RATE_2" "NULL") -> ("19" "7" "10.7" "5.5" "0").
 
 ```csharp
 var bill = new Bill(
