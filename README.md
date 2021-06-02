@@ -57,6 +57,8 @@ P.S Each project folder has it's own documentation (as described below in sectio
 
 ## About us
 
+![Mews](https://user-images.githubusercontent.com/51375082/120492363-4b530f00-c3ba-11eb-8568-6805c3eb7aca.png)
+
 We’re building transformational technology for millions of hospitality professionals and their guests.
 
 **Hoteliers**
