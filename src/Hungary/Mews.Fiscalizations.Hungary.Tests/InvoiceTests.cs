@@ -13,13 +13,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
     [TestFixture]
     public sealed class InvoiceTests
     {
-        private static readonly Random Random;
-
-        static InvoiceTests()
-        {
-            Random = new Random();
-        }
-
         [Test]
         public async Task SendCustomerInvoiceSucceeds()
         {
@@ -241,9 +234,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 )
             };
 
-            var number = Random.Next(1, 10000);
             return new Invoice(
-                number: InvoiceNumber.Create($"INVOICE-{number}").Success.Get(),
+                number: InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get(),
                 issueDate: DateTime.UtcNow.Date,
                 supplierInfo: CreateSupplierInfo(),
                 receiver: receiver,
@@ -292,9 +284,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 )
             };
 
-            var number = Random.Next(1, 10000);
             return new ModificationInvoice(
-                number: InvoiceNumber.Create($"INVOICE-{number}-REBATE").Success.Get(),
+                number: InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}-REBATE").Success.Get(),
                 supplierInfo: CreateSupplierInfo(),
                 receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
