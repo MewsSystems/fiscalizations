@@ -22,7 +22,7 @@ namespace Mews.Fiscalizations.Hungary.Models
         public static ITry<ForeignCompany, IEnumerable<Error>> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
         {
             var optionalForeignTaxPayerId = taxpayerId.ToOption().ToOption().Where(i => i.Match(
-                identifier => identifier.Country.Equals(Countries.Hungary),
+                identifier => !identifier.Country.Equals(Countries.Hungary),
                 _ => true
             ));
             return optionalForeignTaxPayerId.ToTry(_ => Error.Create($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")).Map(

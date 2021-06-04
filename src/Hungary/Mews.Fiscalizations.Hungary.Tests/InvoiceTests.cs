@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Mews.Fiscalizations.Hungary.Tests
 {
@@ -13,7 +14,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
     public sealed class InvoiceTests
     {
         [Test]
-        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendCustomerInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -30,7 +30,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
-        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendLocalCompanyInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -52,7 +51,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
-        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         [TestCase("CZ", "CZ12345678")]
         [TestCase("US", "UsTaxId")]
         [TestCase("CZ", null)]
@@ -80,7 +78,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
-        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendCorrectionCustomerInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -98,8 +95,9 @@ namespace Mews.Fiscalizations.Hungary.Tests
             TestFixture.AssertResponse(sendInvoiceTransactionStatus);
             AssertInvoiceStatuses(sendInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
 
+            var modificationExchangeToken = await navClient.GetExchangeTokenAsync();
             var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
-                token: exchangeToken.SuccessResult,
+                token: modificationExchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
             );
 
@@ -111,7 +109,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
-        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
         {
             var navClient = TestFixture.GetNavClient();
@@ -134,8 +131,9 @@ namespace Mews.Fiscalizations.Hungary.Tests
             TestFixture.AssertResponse(sendInvoiceTransactionStatus);
             AssertInvoiceStatuses(sendInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
 
+            var modificationExchangeToken = await navClient.GetExchangeTokenAsync();
             var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
-                token: exchangeToken.SuccessResult,
+                token: modificationExchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
             );
 
@@ -147,7 +145,6 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
-        [Ignore("Will be rewritten and re-enabled when upgrading to V3.0.")]
         [TestCase("CZ", "CZ12345678")]
         [TestCase("US", "UsTaxId")]
         [TestCase("CZ", null)]
@@ -172,12 +169,13 @@ namespace Mews.Fiscalizations.Hungary.Tests
 
             Thread.Sleep(2000);
 
+            var modificationExchangeToken = await navClient.GetExchangeTokenAsync();
             var sendInvoiceTransactionStatus = await navClient.GetTransactionStatusAsync(sendInvoiceResponse.SuccessResult);
             TestFixture.AssertResponse(sendInvoiceTransactionStatus);
             AssertInvoiceStatuses(sendInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
 
             var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
-                token: exchangeToken.SuccessResult,
+                token: modificationExchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
             );
 
@@ -298,7 +296,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 paymentDate: DateTime.UtcNow.Date,
                 itemIndexOffset: 3,
                 modificationIndex: 1,
-                modifyWithoutMaster: true,
+                modifyWithoutMaster: false,
                 originalDocumentNumber: originalDocumentNumber
             );
         }
@@ -329,8 +327,13 @@ namespace Mews.Fiscalizations.Hungary.Tests
             {
                 var value = status.Value;
                 Assert.AreEqual(value.Status, InvoiceState.Done);
-                Assert.IsEmpty(value.ValidationResults);
             }
+
+            var validationResults = invoiceStatuses.SelectMany(s => s.Value.ValidationResults);
+
+            // Since all tax ids are checked that they exists with the HU government, we will have to ignore this warning.
+            var applicableValidations = validationResults.Where(r => r.Message != "Customer’s tax number does not exist.");
+            Assert.IsEmpty(applicableValidations);
         }
     }
 }
