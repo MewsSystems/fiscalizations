@@ -285,7 +285,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             };
 
             return new ModificationInvoice(
-                number: InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}-REBATE").Success.Get(),
+                number: InvoiceNumber.Create($"REBATE-{Guid.NewGuid()}").Success.Get(),
                 supplierInfo: CreateSupplierInfo(),
                 receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
