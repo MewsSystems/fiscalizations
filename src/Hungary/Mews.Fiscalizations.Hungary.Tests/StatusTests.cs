@@ -7,28 +7,27 @@ namespace Mews.Fiscalizations.Hungary.Tests
     [TestFixture]
     public class StatusTests
     {
+        private static readonly NavClient NavClient = TestFixture.GetNavClient();
+
         [Test]
-        public async Task StatusCheck()
+        public async Task GetTransactionStatusSucceeds()
         {
-            var client = TestFixture.GetNavClient();
-            var status = await client.GetTransactionStatusAsync("30NKOUNC66LSDD4Z");
+            var status = await NavClient.GetTransactionStatusAsync("30NKOUNC66LSDD4Z");
             TestFixture.AssertResponse(status);
         }
 
         [Test]
-        public async Task GetTaxerpayerData()
+        public async Task GetTaxerpayerDataSucceeds()
         {
-            var client = TestFixture.GetNavClient();
             var taxpayer = TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get();
-            var taxpayerData = await client.GetTaxPayerDataAsync(taxpayer);
+            var taxpayerData = await NavClient.GetTaxPayerDataAsync(taxpayer);
             TestFixture.AssertResponse(taxpayerData);
         }
 
         [Test]
         public async Task GetExchangeTokenSucceeds()
         {
-            var navClient = TestFixture.GetNavClient();
-            var exchangeToken = await navClient.GetExchangeTokenAsync();
+            var exchangeToken = await NavClient.GetExchangeTokenAsync();
             TestFixture.AssertResponse(exchangeToken);
         }
     }
