@@ -3,7 +3,6 @@ using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Hungary.Models;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
@@ -13,41 +12,26 @@ namespace Mews.Fiscalizations.Hungary.Tests
     [TestFixture]
     public sealed class InvoiceTests
     {
+        private static readonly NavClient NavClient = TestFixture.GetNavClient();
+
         [Test]
         public async Task SendCustomerInvoiceSucceeds()
         {
-            var navClient = TestFixture.GetNavClient();
-            var receiver = new Receiver(new Customer());
-            var responseResult = await SendInvoices(navClient, receiver);
-            TestFixture.AssertResponse(responseResult);
-
-            Thread.Sleep(2000);
-
-            var transactionId = responseResult.SuccessResult;
-            var transactionStatus = await navClient.GetTransactionStatusAsync(transactionId);
-            TestFixture.AssertResponse(transactionStatus);
-            AssertInvoiceStatuses(transactionStatus.SuccessResult.InvoiceStatuses);
+            var receiver = Receiver.Customer();
+            var sendInvoicesResult = await SendInvoices(receiver);
+            await AssertInvoices(sendInvoicesResult);
         }
 
         [Test]
         public async Task SendLocalCompanyInvoiceSucceeds()
         {
-            var navClient = TestFixture.GetNavClient();
-            var localCompany = LocalCompany.Create(
-                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "99999999").Success.Get(),
+            var receiver = Receiver.LocalCompany(
+                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get(),
                 name: Name.Create("Hungarian test company ltd.").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             );
-            var receiver = new Receiver(new Company(localCompany.Success.Get()));
-            var responseResult = await SendInvoices(navClient, receiver);
-            TestFixture.AssertResponse(responseResult);
-
-            Thread.Sleep(2000);
-
-            var transactionId = responseResult.SuccessResult;
-            var transactionStatus = await navClient.GetTransactionStatusAsync(transactionId);
-            TestFixture.AssertResponse(transactionStatus);
-            AssertInvoiceStatuses(transactionStatus.SuccessResult.InvoiceStatuses);
+            var sendInvoicesResult = await SendInvoices(receiver.Success.Get());
+            await AssertInvoices(sendInvoicesResult);
         }
 
         [Test]
@@ -57,91 +41,43 @@ namespace Mews.Fiscalizations.Hungary.Tests
         [TestCase("US", null)]
         public async Task SendForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
         {
-            var navClient = TestFixture.GetNavClient();
             var country = Countries.GetByCode(countryCode).Get();
             var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
-            var foreignCompany = ForeignCompany.Create(
+            var receiver = Receiver.ForeignCompany(
                 name: Name.Create("Foreign test company ltd.").Success.Get(),
                 address: CreateAddress(country),
                 taxpayerId: taxpayerNumber.GetOrNull()
             );
-            var receiver = new Receiver(new Company(foreignCompany.Success.Get()));
-            var responseResult = await SendInvoices(navClient, receiver);
-            TestFixture.AssertResponse(responseResult);
-
-            Thread.Sleep(2000);
-
-            var transactionId = responseResult.SuccessResult;
-            var transactionStatus = await navClient.GetTransactionStatusAsync(transactionId);
-            TestFixture.AssertResponse(transactionStatus);
-            AssertInvoiceStatuses(transactionStatus.SuccessResult.InvoiceStatuses);
+            var sendInvoicesResult = await SendInvoices(receiver.Success.Get());
+            await AssertInvoices(sendInvoicesResult);
         }
 
         [Test, Order(1)]
         public async Task SendCorrectionCustomerInvoiceSucceeds()
         {
-            var navClient = TestFixture.GetNavClient();
-            var exchangeToken = await navClient.GetExchangeTokenAsync();
-            var receiver = new Receiver(new Customer());
-            var invoice = CreateInvoice(receiver);
-            var sendInvoiceResponse = await navClient.SendInvoicesAsync(
-                token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { invoice }, startIndex: 1).Get()
-            );
+            var receiver = Receiver.Customer();
+            var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
+            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
+            await AssertInvoices (sendInvoicesResult);
 
-            Thread.Sleep(2000);
-
-            var sendInvoiceTransactionStatus = await navClient.GetTransactionStatusAsync(sendInvoiceResponse.SuccessResult);
-            TestFixture.AssertResponse(sendInvoiceTransactionStatus);
-            AssertInvoiceStatuses(sendInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
-
-            var modificationExchangeToken = await navClient.GetExchangeTokenAsync();
-            var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
-                token: modificationExchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
-            );
-
-            Thread.Sleep(2000);
-
-            var sendModificationInvoiceTransactionStatus = await navClient.GetTransactionStatusAsync(sendModificationInvoiceResponse.SuccessResult);
-            TestFixture.AssertResponse(sendModificationInvoiceTransactionStatus);
-            AssertInvoiceStatuses(sendModificationInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
+            var sendModificationInvoicesResult = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
+            await AssertInvoices(sendModificationInvoicesResult);
         }
 
         [Test, Order(1)]
         public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
         {
-            var navClient = TestFixture.GetNavClient();
-            var exchangeToken = await navClient.GetExchangeTokenAsync();
-            var localCompany = LocalCompany.Create(
-                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "99999999").Success.Get(),
+            var receiver = Receiver.LocalCompany(
+                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get(),
                 name: Name.Create("Hungarian test company ltd.").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
-            );
-            var receiver = new Receiver(new Company(localCompany.Success.Get()));
-            var invoice = CreateInvoice(receiver);
-            var sendInvoiceResponse = await navClient.SendInvoicesAsync(
-                token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { invoice }, startIndex: 1).Get()
-            );
+            ).Success.Get();
+            var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
+            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
+            await AssertInvoices (sendInvoicesResult);
 
-            Thread.Sleep(2000);
-
-            var sendInvoiceTransactionStatus = await navClient.GetTransactionStatusAsync(sendInvoiceResponse.SuccessResult);
-            TestFixture.AssertResponse(sendInvoiceTransactionStatus);
-            AssertInvoiceStatuses(sendInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
-
-            var modificationExchangeToken = await navClient.GetExchangeTokenAsync();
-            var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
-                token: modificationExchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
-            );
-
-            Thread.Sleep(2000);
-
-            var sendModificationInvoiceTransactionStatus = await navClient.GetTransactionStatusAsync(sendModificationInvoiceResponse.SuccessResult);
-            TestFixture.AssertResponse(sendModificationInvoiceTransactionStatus);
-            AssertInvoiceStatuses(sendModificationInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
+            var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
+            await AssertInvoices(sendModificationInvoiceResponse);
         }
 
         [Test, Order(1)]
@@ -151,52 +87,42 @@ namespace Mews.Fiscalizations.Hungary.Tests
         [TestCase("US", null)]
         public async Task SendCorrectionForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
         {
-            var navClient = TestFixture.GetNavClient();
-            var exchangeToken = await navClient.GetExchangeTokenAsync();
             var country = Countries.GetByCode(countryCode).Get();
             var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
-            var foreignCompany = ForeignCompany.Create(
+            var receiver = Receiver.ForeignCompany(
                 name: Name.Create("Foreign test company ltd.").Success.Get(),
                 address: CreateAddress(country),
                 taxpayerId: taxpayerNumber.GetOrNull()
-            );
-            var receiver = new Receiver(new Company(foreignCompany.Success.Get()));
-            var invoice = CreateInvoice(receiver);
-            var sendInvoiceResponse = await navClient.SendInvoicesAsync(
-                token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { invoice }, startIndex: 1).Get()
-            );
+            ).Success.Get();
+            var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
+            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
+            await AssertInvoices(sendInvoicesResult);
 
-            Thread.Sleep(2000);
-
-            var modificationExchangeToken = await navClient.GetExchangeTokenAsync();
-            var sendInvoiceTransactionStatus = await navClient.GetTransactionStatusAsync(sendInvoiceResponse.SuccessResult);
-            TestFixture.AssertResponse(sendInvoiceTransactionStatus);
-            AssertInvoiceStatuses(sendInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
-
-            var sendModificationInvoiceResponse = await navClient.SendModificationDocumentsAsync(
-                token: modificationExchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(invoice.Number, receiver) }, startIndex: 1).Get()
-            );
-
-            Thread.Sleep(2000);
-
-            var sendModificationInvoiceTransactionStatus = await navClient.GetTransactionStatusAsync(sendModificationInvoiceResponse.SuccessResult);
-            TestFixture.AssertResponse(sendModificationInvoiceTransactionStatus);
-            AssertInvoiceStatuses(sendModificationInvoiceTransactionStatus.SuccessResult.InvoiceStatuses);
+            var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
+            await AssertInvoices(sendModificationInvoiceResponse);
         }
 
-        private async Task<ResponseResult<string, ResultErrorCode>> SendInvoices(NavClient client, Receiver receiver)
+        private async Task<ResponseResult<string, ResultErrorCode>> SendInvoices(Receiver receiver, InvoiceNumber invoiceNumber = null)
         {
-            var exchangeToken = await client.GetExchangeTokenAsync();
-            return await client.SendInvoicesAsync(
+            var exchangeToken = await NavClient.GetExchangeTokenAsync();
+            return await NavClient.SendInvoicesAsync(
                 token: exchangeToken.SuccessResult,
-                invoices: Sequence.FromPreordered(new[] { CreateInvoice(receiver) }, startIndex: 1).Get()
+                invoices: Sequence.FromPreordered(new[] { CreateInvoice(receiver, invoiceNumber) }, startIndex: 1).Get()
             );
         }
 
-        private Invoice CreateInvoice(Receiver receiver)
+        private async Task<ResponseResult<string, ResultErrorCode>> SendModificationInvoices(Receiver receiver, InvoiceNumber originalInvoiceNumber)
         {
+            var exchangeToken = await NavClient.GetExchangeTokenAsync();
+            return await NavClient.SendModificationDocumentsAsync(
+                token: exchangeToken.SuccessResult,
+                invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(originalInvoiceNumber, receiver) }, startIndex: 1).Get()
+            );
+        }
+
+        private Invoice CreateInvoice(Receiver receiver, InvoiceNumber invoiceNumber = null)
+        {
+            var nowUtc = DateTime.UtcNow.Date;
             var item1Amount = new Amount(net: new AmountValue(1694.92m), gross: new AmountValue(2000), tax: new AmountValue(305.08m));
             var item2Amount = new Amount(new AmountValue(2362.20m), new AmountValue(3000), new AmountValue(637.8m));
             var item3Amount = new Amount(new AmountValue(952.38m), new AmountValue(1000), new AmountValue(47.62m));
@@ -206,7 +132,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var items = new[]
             {
                 new InvoiceItem(
-                    consumptionDate: DateTime.UtcNow.Date,
+                    consumptionDate: nowUtc,
                     totalAmounts: new ItemAmounts(item1Amount, item1Amount, 0.18m),
                     description: Description.Create("Item 1 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
@@ -215,7 +141,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
                     exchangeRate: ExchangeRate.Create(1).Success.Get()
                 ),
                 new InvoiceItem(
-                    consumptionDate: DateTime.UtcNow.Date,
+                    consumptionDate: nowUtc,
                     totalAmounts: new ItemAmounts(item2Amount, item2Amount, 0.27m),
                     description: Description.Create("Item 2 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
@@ -224,7 +150,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
                     exchangeRate: ExchangeRate.Create(1).Success.Get()
                 ),
                 new InvoiceItem(
-                    consumptionDate: DateTime.UtcNow.Date,
+                    consumptionDate: nowUtc,
                     totalAmounts: new ItemAmounts(item3Amount, item3Amount, 0.05m),
                     description: Description.Create("Item 3 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
@@ -235,18 +161,19 @@ namespace Mews.Fiscalizations.Hungary.Tests
             };
 
             return new Invoice(
-                number: InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get(),
-                issueDate: DateTime.UtcNow.Date,
+                number: invoiceNumber ?? InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get(),
+                issueDate: nowUtc,
                 supplierInfo: CreateSupplierInfo(),
                 receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-                paymentDate: DateTime.UtcNow.Date,
+                paymentDate: nowUtc,
                 currencyCode: CurrencyCode.Create("EUR").Success.Get()
             );
         }
 
         private ModificationInvoice CreateModificationInvoice(InvoiceNumber originalDocumentNumber, Receiver receiver)
         {
+            var nowUtc = DateTime.UtcNow.Date;
             var item1Amount = new Amount(net: new AmountValue(-1694.92m), gross: new AmountValue(-2000), tax: new AmountValue(-305.08m));
             var item2Amount = new Amount(new AmountValue(-2362.20m), new AmountValue(-3000), new AmountValue(-637.8m));
             var item3Amount = new Amount(new AmountValue(-952.38m), new AmountValue(-1000), new AmountValue(-47.62m));
@@ -256,7 +183,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var items = new[]
             {
                 new InvoiceItem(
-                    consumptionDate: DateTime.UtcNow.Date,
+                    consumptionDate: nowUtc,
                     totalAmounts: new ItemAmounts(item1Amount, item1Amount, 0.18m),
                     description: Description.Create("Item 1 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
@@ -265,7 +192,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
                     exchangeRate: ExchangeRate.Create(1).Success.Get()
                 ),
                 new InvoiceItem(
-                    consumptionDate: DateTime.UtcNow.Date,
+                    consumptionDate: nowUtc,
                     totalAmounts: new ItemAmounts(item2Amount, item2Amount, 0.27m),
                     description: Description.Create("Item 2 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
@@ -274,7 +201,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
                     exchangeRate: ExchangeRate.Create(1).Success.Get()
                 ),
                 new InvoiceItem(
-                    consumptionDate: DateTime.UtcNow.Date,
+                    consumptionDate: nowUtc,
                     totalAmounts: new ItemAmounts(item3Amount, item3Amount, 0.05m),
                     description: Description.Create("Item 3 description").Success.Get(),
                     measurementUnit: MeasurementUnit.Night,
@@ -290,8 +217,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
                 currencyCode: CurrencyCode.Create("EUR").Success.Get(),
-                issueDate: DateTime.UtcNow.Date,
-                paymentDate: DateTime.UtcNow.Date,
+                issueDate: nowUtc,
+                paymentDate: nowUtc,
                 itemIndexOffset: 3,
                 modificationIndex: 1,
                 modifyWithoutMaster: false,
@@ -304,7 +231,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             return new SupplierInfo(
                 taxpayerId: TestFixture.TaxPayerId,
                 vatCode: VatCode.Create("2").Success.Get(),
-                name: Name.Create("BUDAPESTI MSZAKI S GAZDASGTUDOMNYI EGYETEM").Success.Get(),
+                name: Name.Create("Supplier company").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             );
         }
@@ -319,8 +246,17 @@ namespace Mews.Fiscalizations.Hungary.Tests
             );
         }
 
-        private void AssertInvoiceStatuses(IEnumerable<Indexed<InvoiceStatus>> invoiceStatuses)
+        private async Task AssertInvoices(ResponseResult<string, ResultErrorCode> sendInvoicesResults)
         {
+            TestFixture.AssertResponse(sendInvoicesResults);
+
+            Thread.Sleep(2000);
+
+            var transactionId = sendInvoicesResults.SuccessResult;
+            var transactionStatus = await NavClient.GetTransactionStatusAsync(transactionId);
+            TestFixture.AssertResponse(transactionStatus);
+
+            var invoiceStatuses = transactionStatus.SuccessResult.InvoiceStatuses;
             foreach (var status in invoiceStatuses)
             {
                 var value = status.Value;
@@ -328,10 +264,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             }
 
             var validationResults = invoiceStatuses.SelectMany(s => s.Value.ValidationResults);
-
-            // Since all tax ids are checked that they exists with the HU government, we will have to ignore this warning.
-            var applicableValidations = validationResults.Where(r => r.Message != "Customer’s tax number does not exist.");
-            Assert.IsEmpty(applicableValidations);
+            Assert.IsEmpty(validationResults);
         }
     }
 }

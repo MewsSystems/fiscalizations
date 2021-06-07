@@ -1,4 +1,6 @@
 ﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
+using System.Collections.Generic;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
@@ -12,6 +14,21 @@ namespace Mews.Fiscalizations.Hungary.Models
         public Receiver(Company company)
             : base(company)
         {
+        }
+
+        public static ITry<Receiver, IEnumerable<Error>> LocalCompany(TaxpayerIdentificationNumber taxpayerId, Name name, SimpleAddress address)
+        {
+            return Models.LocalCompany.Create(taxpayerId, name, address).Map(c => new Receiver(new Company(c)));
+        }
+
+        public static ITry<Receiver, IEnumerable<Error>> ForeignCompany(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
+        {
+            return Models.ForeignCompany.Create(name, address, taxpayerId).Map(c => new Receiver(new Company(c)));
+        }
+
+        public static Receiver Customer()
+        {
+            return new Receiver(new Customer());
         }
     }
 }
