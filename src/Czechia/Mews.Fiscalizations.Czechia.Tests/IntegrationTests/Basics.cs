@@ -40,8 +40,7 @@ namespace Mews.Eet.Tests.IntegrationTests
 
             var certificate = new Certificate(
                 password: fixture.CertificatePassword,
-                data: fixture.CertificateData,
-                true
+                data: fixture.CertificateData
             );
             var record = new RevenueRecord(
                 identification: new Identification(
