@@ -15,40 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Data\Certificates\01000003.p12">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\01000004.p12">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\01000005.p12">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\ca.cer">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\ca.cer.pem">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\ca.crl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\ca.crl.pem">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\Playground\EET_CA1_Playground-ca.crt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\Playground\EET_CA1_Playground-Tax_Id2.p12">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\Playground\EET_CA1_Playground-Tax_Id1.p12">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Certificates\Playground\EET_CA1_Playground-Tax_Id3.p12">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 </Project>

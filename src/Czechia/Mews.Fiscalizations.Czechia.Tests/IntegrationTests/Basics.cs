@@ -91,7 +91,7 @@ namespace Mews.Eet.Tests.IntegrationTests
         }
 
         [Test]
-        public async Task LoggingIsSerializable()
+        public void LoggingIsSerializable()
         {
             var certificate = CreateCertificate(Fixtures.First);
             var record = CreateSimpleRecord(certificate, Fixtures.First);
@@ -109,7 +109,7 @@ namespace Mews.Eet.Tests.IntegrationTests
         }
 
         [Test]
-        public async Task ParallelRequestsWork()
+        public void ParallelRequestsWork()
         {
             var certificate = CreateCertificate(Fixtures.First);
             var record = CreateSimpleRecord(certificate, Fixtures.First);
