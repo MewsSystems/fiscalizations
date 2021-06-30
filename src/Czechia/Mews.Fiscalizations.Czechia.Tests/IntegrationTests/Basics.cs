@@ -5,13 +5,13 @@ using System.Xml;
 using Mews.Eet.Dto;
 using Mews.Eet.Dto.Identifiers;
 using Newtonsoft.Json;
-using Xunit;
+using NUnit.Framework;
 
 namespace Mews.Eet.Tests.IntegrationTests
 {
     public class Basics
     {
-        [Fact]
+        [Test]
         public async Task SendRevenueSimple()
         {
             var certificate = CreateCertificate(Fixtures.Second);
@@ -24,23 +24,24 @@ namespace Mews.Eet.Tests.IntegrationTests
             Assert.False(response.Warnings.Any());
         }
 
-        [Fact]
-        public async Task TimeoutWorks()
+        [Test]
+        public void TimeoutWorks()
         {
             var certificate = CreateCertificate(Fixtures.Second);
             var record = CreateSimpleRecord(certificate, Fixtures.Second);
             var client = new EetClient(certificate, EetEnvironment.Playground, TimeSpan.FromMilliseconds(1));
-            await Assert.ThrowsAsync<TaskCanceledException>(async () => await client.SendRevenueAsync(record));
+            Assert.ThrowsAsync<TaskCanceledException>(async () => await client.SendRevenueAsync(record));
         }
 
-        [Fact]
+        [Test]
         public async Task SendRevenue()
         {
             var fixture = Fixtures.Third;
 
             var certificate = new Certificate(
                 password: fixture.CertificatePassword,
-                data: fixture.CertificateData
+                data: fixture.CertificateData,
+                true
             );
             var record = new RevenueRecord(
                 identification: new Identification(
@@ -68,7 +69,7 @@ namespace Mews.Eet.Tests.IntegrationTests
             Assert.False(response.Warnings.Any());
         }
 
-        [Fact]
+        [Test]
         public async Task HandlesError()
         {
             var certificate = CreateCertificate(Fixtures.First);
@@ -87,10 +88,10 @@ namespace Mews.Eet.Tests.IntegrationTests
             var client = new EetClient(certificate, EetEnvironment.Playground);
             var response = await client.SendRevenueAsync(record);
             Assert.NotNull(response.Error);
-            Assert.Equal(6, response.Error.Reason.Code);
+            Assert.AreEqual(6, response.Error.Reason.Code);
         }
 
-        [Fact]
+        [Test]
         public async Task LoggingIsSerializable()
         {
             var certificate = CreateCertificate(Fixtures.First);
@@ -102,14 +103,13 @@ namespace Mews.Eet.Tests.IntegrationTests
                 logger: new EetLogger((m, d) =>
                 {
                     var jsonString = JsonConvert.SerializeObject(d);
-                    Assert.StartsWith("{", jsonString);
+                    StringAssert.StartsWith("{", jsonString);
                 })
             );
-            var ex = await Record.ExceptionAsync(async () => await client.SendRevenueAsync(record));
-            Assert.Null(ex);
+            Assert.DoesNotThrowAsync(async () => await client.SendRevenueAsync(record));
         }
 
-        [Fact]
+        [Test]
         public async Task ParallelRequestsWork()
         {
             var certificate = CreateCertificate(Fixtures.First);
@@ -117,11 +117,10 @@ namespace Mews.Eet.Tests.IntegrationTests
             var client = new EetClient(certificate, EetEnvironment.Playground);
 
             var tasks = Enumerable.Range(0, 10).Select(i => client.SendRevenueAsync(record));
-            var ex = await Record.ExceptionAsync(async () => await Task.WhenAll(tasks).ConfigureAwait(continueOnCapturedContext: false));
-            Assert.Null(ex);
+            Assert.DoesNotThrowAsync(async () => await Task.WhenAll(tasks).ConfigureAwait(continueOnCapturedContext: false));
         }
 
-        [Fact]
+        [Test]
         public async Task TimingMeasurementWorks()
         {
             var certificate = CreateCertificate(Fixtures.First);
@@ -130,12 +129,12 @@ namespace Mews.Eet.Tests.IntegrationTests
             client.HttpRequestFinished += (sender, args) =>
             {
                 var duration = args.Duration;
-                Assert.InRange(duration, 0, 10000);
+                Assert.That(duration, Is.InRange(0, 10000));
             };
             await client.SendRevenueAsync(record);
         }
 
-        [Fact]
+        [Test]
         public async Task XmlExtractionWorks()
         {
             var certificate = CreateCertificate(Fixtures.First);
@@ -148,7 +147,7 @@ namespace Mews.Eet.Tests.IntegrationTests
             await client.SendRevenueAsync(record);
         }
 
-        [Fact]
+        [Test]
         public async Task TaxIsSerializedCorrectly()
         {
             var fixture = Fixtures.First;
@@ -192,17 +191,17 @@ namespace Mews.Eet.Tests.IntegrationTests
                 namespaceManager.AddNamespace("eet", "http://fs.mfcr.cz/eet/schema/v3");
                 var dataNode = xmlElement.SelectSingleNode("//eet:Data", namespaceManager);
                 var attributes = dataNode.Attributes;
-                Assert.Equal("300.00", attributes["zakl_dan1"].Value);
-                Assert.Equal("200.00", attributes["zakl_dan2"].Value);
-                Assert.Equal("100.00", attributes["zakl_dan3"].Value);
-                Assert.Equal("63.00", attributes["dan1"].Value);
-                Assert.Equal("30.00", attributes["dan2"].Value);
-                Assert.Equal("10.00", attributes["dan3"].Value);
-                Assert.Equal("11.00", attributes["pouzit_zboz3"].Value);
-                Assert.Equal("12.00", attributes["pouzit_zboz2"].Value);
-                Assert.Equal("13.00", attributes["pouzit_zboz1"].Value);
-                Assert.Equal("543.00", attributes["cerp_zuct"].Value);
-                Assert.Equal("432.00", attributes["urceno_cerp_zuct"].Value);
+                Assert.AreEqual("300.00", attributes["zakl_dan1"].Value);
+                Assert.AreEqual("200.00", attributes["zakl_dan2"].Value);
+                Assert.AreEqual("100.00", attributes["zakl_dan3"].Value);
+                Assert.AreEqual("63.00", attributes["dan1"].Value);
+                Assert.AreEqual("30.00", attributes["dan2"].Value);
+                Assert.AreEqual("10.00", attributes["dan3"].Value);
+                Assert.AreEqual("11.00", attributes["pouzit_zboz3"].Value);
+                Assert.AreEqual("12.00", attributes["pouzit_zboz2"].Value);
+                Assert.AreEqual("13.00", attributes["pouzit_zboz1"].Value);
+                Assert.AreEqual("543.00", attributes["cerp_zuct"].Value);
+                Assert.AreEqual("432.00", attributes["urceno_cerp_zuct"].Value);
             };
             await client.SendRevenueAsync(record);
         }
