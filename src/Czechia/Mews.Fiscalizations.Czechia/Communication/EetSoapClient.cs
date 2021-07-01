@@ -9,11 +9,6 @@ namespace Mews.Eet.Communication
 {
     public class EetSoapClient
     {
-        static EetSoapClient()
-        {
-            CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
-        }
-
         public EetSoapClient(Certificate certificate, EetEnvironment environment, TimeSpan httpTimeout, EetLogger logger = null)
         {
             Environment = environment;
