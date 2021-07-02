@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Deployment.Internal.CodeSigning;
-using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Xml;
 using Mews.Eet.Dto;
@@ -34,7 +32,6 @@ namespace Mews.Eet.Communication
 
         public XmlDocument SignMessage(XmlDocument xmlDoc)
         {
-            CryptoConfig.AddAlgorithm(typeof(RSAPKCS1SHA256SignatureDescription), "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
             var namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
             namespaceManager.AddNamespace("s", "http://schemas.xmlsoap.org/soap/envelope/");
             namespaceManager.AddNamespace("wsu", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd");
