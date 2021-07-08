@@ -1,7 +1,6 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Hungary.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
