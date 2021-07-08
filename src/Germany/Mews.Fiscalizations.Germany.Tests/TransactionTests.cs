@@ -20,7 +20,18 @@ namespace Mews.Fiscalizations.German.Tests
             Assert.IsTrue(status.IsSuccess);
         }
 
-        [Test]
+        [Test, Order(1)]
+        public async Task GetTransactionSucceeds()
+        {
+            var client = TestFixture.GetFiskalyClient();
+            var accessToken = await client.GetAccessTokenAsync();
+            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
+
+            var retrievedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
+            Assert.IsTrue(retrievedTransaction.IsSuccess);
+        }
+
+        [Test, Order(2)]
         public async Task StartTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
@@ -33,18 +44,7 @@ namespace Mews.Fiscalizations.German.Tests
             Assert.IsNotNull(successResult.Id);
         }
 
-        [Test]
-        public async Task GetTransactionSucceeds()
-        {
-            var client = TestFixture.GetFiskalyClient();
-            var accessToken = await client.GetAccessTokenAsync();
-            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
-
-            var retrievedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
-            Assert.IsTrue(retrievedTransaction.IsSuccess);
-        }
-
-        [Test]
+        [Test, Order(3)]
         public async Task StartAndFinishTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
