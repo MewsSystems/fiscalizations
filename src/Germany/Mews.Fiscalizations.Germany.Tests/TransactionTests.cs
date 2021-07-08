@@ -34,6 +34,17 @@ namespace Mews.Fiscalizations.German.Tests
         }
 
         [Test]
+        public async Task GetTransactionSucceeds()
+        {
+            var client = TestFixture.GetFiskalyClient();
+            var accessToken = await client.GetAccessTokenAsync();
+            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
+
+            var retrievedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
+            Assert.IsTrue(retrievedTransaction.IsSuccess);
+        }
+
+        [Test]
         public async Task StartAndFinishTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();

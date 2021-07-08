@@ -41,6 +41,15 @@ namespace Mews.Fiscalizations.Germany
             };
         }
 
+        internal static Dto.GetTransactionRequest GetTransaction(Guid tssId, Guid transactionId)
+        {
+            return new Dto.GetTransactionRequest
+            {
+                TransactionId = transactionId,
+                TssId = tssId
+            };
+        }
+
         internal static Dto.FinishTransactionRequest FinishTransaction(Guid clientId, Bill bill)
         {
             var groupedPayments = bill.Payments.GroupBy(p => new { p.CurrencyCode, p.Type }).Select(g => new Payment(g.Sum(p => p.Amount), g.Key.Type, g.Key.CurrencyCode));

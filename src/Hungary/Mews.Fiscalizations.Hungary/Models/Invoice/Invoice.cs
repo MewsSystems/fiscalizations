@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Hungary.Models
@@ -10,17 +11,17 @@ namespace Mews.Fiscalizations.Hungary.Models
         public Invoice(
             InvoiceNumber number,
             DateTime issueDate,
-            DateTime paymentDate,
             SupplierInfo supplierInfo,
             Receiver receiver,
             CurrencyCode currencyCode,
             ISequence<InvoiceItem> items,
+            DateTime? paymentDate = null,
+            PaymentType? paymentType = null,
             bool isSelfBilling = false,
             bool isCashAccounting = false)
         {
             Number = number;
             IssueDate = issueDate;
-            PaymentDate = paymentDate;
             SupplierInfo = supplierInfo;
             Receiver = receiver;
             CurrencyCode = currencyCode;
@@ -28,6 +29,8 @@ namespace Mews.Fiscalizations.Hungary.Models
             DeliveryDate = Items.Values.Max(i => i.Value.ConsumptionDate);
             ExchangeRate = GetExchangeRate(items);
             TaxSummary = GetTaxSummary(items);
+            PaymentDate = paymentDate.ToOption();
+            PaymentType = paymentType.ToOption();
             IsSelfBilling = isSelfBilling;
             IsCashAccounting = isCashAccounting;
 
@@ -40,8 +43,6 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public DateTime IssueDate { get; }
 
-        public DateTime PaymentDate { get; }
-
         public SupplierInfo SupplierInfo { get; }
 
         public Receiver Receiver { get; }
@@ -53,6 +54,10 @@ namespace Mews.Fiscalizations.Hungary.Models
         public List<TaxSummaryItem> TaxSummary { get; }
 
         public ISequence<InvoiceItem> Items { get; }
+
+        public IOption<DateTime> PaymentDate { get; }
+
+        public IOption<PaymentType> PaymentType { get; }
 
         public bool IsSelfBilling { get; }
 

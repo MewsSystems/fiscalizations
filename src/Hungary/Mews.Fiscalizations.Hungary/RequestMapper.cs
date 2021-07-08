@@ -1,6 +1,7 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Hungary.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -68,7 +69,10 @@ namespace Mews.Fiscalizations.Hungary
                         invoiceAppearance = Dto.InvoiceAppearanceType.ELECTRONIC,
                         invoiceCategory = Dto.InvoiceCategoryType.AGGREGATE,
                         invoiceDeliveryDate = invoice.DeliveryDate,
-                        paymentDate = invoice.PaymentDate,
+                        paymentDateSpecified = invoice.PaymentDate.NonEmpty,
+                        paymentDate = invoice.PaymentDate.GetOrElse(DateTime.Now),
+                        paymentMethodSpecified = invoice.PaymentType.NonEmpty,
+                        paymentMethod = invoice.PaymentType.Map(t => MapPaymentType(t)).GetOrElse(Dto.PaymentMethodType.OTHER),
                         selfBillingIndicator = invoice.IsSelfBilling,
                         cashAccountingIndicator = invoice.IsCashAccounting
                     },
@@ -160,6 +164,17 @@ namespace Mews.Fiscalizations.Hungary
                 invoiceVatAmountHUF = amountHUF.Tax.Value,
                 summaryByVatRate = invoice.TaxSummary.Select(s => MapSummaryByVatRate(s)).ToArray()
             };
+        }
+
+        private static Dto.PaymentMethodType MapPaymentType(PaymentType type)
+        {
+            return type.Match(
+                PaymentType.Card, _ => Dto.PaymentMethodType.CARD,
+                PaymentType.Cash, _ => Dto.PaymentMethodType.CASH,
+                PaymentType.Other, _ => Dto.PaymentMethodType.OTHER,
+                PaymentType.Transfer, _ => Dto.PaymentMethodType.TRANSFER,
+                PaymentType.Voucher, _ => Dto.PaymentMethodType.VOUCHER
+            );
         }
 
         private static Dto.SummaryByVatRateType MapSummaryByVatRate(TaxSummaryItem taxSummary)
