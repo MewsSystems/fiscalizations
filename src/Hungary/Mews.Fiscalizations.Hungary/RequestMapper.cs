@@ -176,6 +176,11 @@ namespace Mews.Fiscalizations.Hungary
                 {
                     vatRateVatAmount = taxSummary.Amount.Tax.Value,
                     vatRateVatAmountHUF = taxSummary.AmountHUF.Tax.Value
+                },
+                vatRateGrossData = new Dto.VatRateGrossDataType
+                {
+                    vatRateGrossAmount = taxSummary.Amount.Gross.Value,
+                    vatRateGrossAmountHUF = taxSummary.AmountHUF.Gross.Value
                 }
             };
         }
@@ -210,7 +215,12 @@ namespace Mews.Fiscalizations.Hungary
                     lineNetAmount = item.TotalAmounts.Amount.Net.Value,
                     lineNetAmountHUF = item.TotalAmounts.AmountHUF.Net.Value
                 },
-                lineVatRate = GetVatRate(item.TotalAmounts.TaxRatePercentage)
+                lineVatRate = GetVatRate(item.TotalAmounts.TaxRatePercentage),
+                lineVatData = new Dto.LineVatDataType
+                {
+                    lineVatAmount = item.TotalAmounts.Amount.Tax.Value,
+                    lineVatAmountHUF = item.TotalAmounts.AmountHUF.Tax.Value
+                }
             };
         }
 
