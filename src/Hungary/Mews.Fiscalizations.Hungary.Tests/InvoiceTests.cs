@@ -167,7 +167,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
                 paymentDate: nowUtc,
-                currencyCode: CurrencyCode.Create("EUR").Success.Get()
+                currencyCode: CurrencyCode.Create("EUR").Success.Get(),
+                paymentMethod: PaymentMethod.Card
             );
         }
 
@@ -222,7 +223,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 itemIndexOffset: 3,
                 modificationIndex: 1,
                 modifyWithoutMaster: false,
-                originalDocumentNumber: originalDocumentNumber
+                originalDocumentNumber: originalDocumentNumber,
+                paymentMethod: PaymentMethod.Cash
             );
         }
 

@@ -69,8 +69,11 @@ namespace Mews.Fiscalizations.Hungary
                         invoiceCategory = Dto.InvoiceCategoryType.AGGREGATE,
                         invoiceDeliveryDate = invoice.DeliveryDate,
                         paymentDate = invoice.PaymentDate,
+                        paymentDateSpecified = true,
                         selfBillingIndicator = invoice.IsSelfBilling,
-                        cashAccountingIndicator = invoice.IsCashAccounting
+                        cashAccountingIndicator = invoice.IsCashAccounting,
+                        paymentMethod = invoice.PaymentMethod.Map(m => MapPaymentMethod(m)).GetOrElse(Dto.PaymentMethodType.OTHER),
+                        paymentMethodSpecified = invoice.PaymentMethod.NonEmpty
                     },
                     supplierInfo = new Dto.SupplierInfoType
                     {
@@ -122,6 +125,17 @@ namespace Mews.Fiscalizations.Hungary
                 }
             };
 
+        }
+
+        private static Dto.PaymentMethodType MapPaymentMethod(PaymentMethod paymentMethod)
+        {
+            return paymentMethod.Match(
+                PaymentMethod.Card, _ => Dto.PaymentMethodType.CARD,
+                PaymentMethod.Cash, _ => Dto.PaymentMethodType.CASH,
+                PaymentMethod.Transfer, _ => Dto.PaymentMethodType.TRANSFER,
+                PaymentMethod.Voucher, _ => Dto.PaymentMethodType.VOUCHER,
+                PaymentMethod.Other, _ => Dto.PaymentMethodType.OTHER
+            );
         }
 
         private static Dto.CustomerVatDataType GetCustomerVatDataType(TaxpayerIdentificationNumber taxpayerNumber)

@@ -35,8 +35,9 @@ namespace Mews.Fiscalizations.Hungary.Models
             ISequence<InvoiceItem> items,
             bool isSelfBilling = false,
             bool isCashAccounting = false,
-            bool modifyWithoutMaster = false)
-            : base(number, issueDate, paymentDate, supplierInfo, receiver, currencyCode, items, isSelfBilling, isCashAccounting)
+            bool modifyWithoutMaster = false,
+            PaymentMethod? paymentMethod = null)
+            : base(number, issueDate, paymentDate, supplierInfo, receiver, currencyCode, items, isSelfBilling, isCashAccounting, paymentMethod)
         {
             OriginalDocumentNumber = originalDocumentNumber;
             ModificationIndex = modificationIndex;
