@@ -23,10 +23,8 @@ namespace Mews.Fiscalizations.Germany
 
         public async Task<ResponseResult<Model.Client>> GetClientAsync(AccessToken token, Guid clientId, Guid tssId)
         {
-            return await Client.ProcessRequestAsync<Dto.ClientRequest, Dto.ClientResponse, Model.Client>(
-                method: HttpMethod.Get,
+            return await Client.GetResponseAsync<Dto.ClientResponse, Model.Client>(
                 endpoint: $"tss/{tssId}/client/{clientId}",
-                request: null,
                 successFunc: response => ModelMapper.MapClient(response),
                 token: token
             ).ConfigureAwait(continueOnCapturedContext: false);
@@ -51,10 +49,8 @@ namespace Mews.Fiscalizations.Germany
 
         public async Task<ResponseResult<Tss>> GetTssAsync(AccessToken token, Guid tssId)
         {
-            return await Client.ProcessRequestAsync<Dto.TssRequest, Dto.TssResponse, Tss>(
-                method: HttpMethod.Get,
+            return await Client.GetResponseAsync<Dto.TssResponse, Tss>(
                 endpoint: $"tss/{tssId}",
-                request: null,
                 successFunc: response => ModelMapper.MapTss(response),
                 token: token
             ).ConfigureAwait(continueOnCapturedContext: false);
@@ -86,11 +82,8 @@ namespace Mews.Fiscalizations.Germany
 
         public async Task<ResponseResult<Transaction>> GetTransactionAsync(AccessToken token, Guid tssId, Guid transactionId)
         {
-            var request = RequestCreator.GetTransaction(tssId, transactionId);
-            return await Client.ProcessRequestAsync<Dto.GetTransactionRequest, Dto.TransactionResponse, Transaction>(
-                method: HttpMethod.Get,
+            return await Client.GetResponseAsync<Dto.TransactionResponse, Transaction>(
                 endpoint: $"tss/{tssId}/tx/{transactionId}",
-                request: request,
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token
             ).ConfigureAwait(continueOnCapturedContext: false);

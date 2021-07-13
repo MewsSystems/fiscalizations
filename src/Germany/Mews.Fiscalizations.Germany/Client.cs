@@ -29,16 +29,22 @@ namespace Mews.Fiscalizations.Germany
             return await DeserializeAsync(httpResponse, successFunc);
         }
 
+        internal async Task<ResponseResult<TResult>> GetResponseAsync<TDto, TResult>(string endpoint, Func<TDto, ResponseResult<TResult>> successFunc, AccessToken token)
+            where TDto : class
+            where TResult : class
+        {
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
+            var httpResponse = await HttpClient.GetAsync(uri).ConfigureAwait(continueOnCapturedContext: false);
+            return await DeserializeAsync(httpResponse, successFunc);
+        }
+
         private async Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token)
             where TRequest : class
         {
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
             var requestMessage = new HttpRequestMessage(method, uri);
-
-            if (request != null)
-            {
-                requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json");
-            }
+            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json");
 
             if (token != null)
             {
