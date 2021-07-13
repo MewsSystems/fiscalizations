@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Hungary.Models
@@ -16,7 +17,8 @@ namespace Mews.Fiscalizations.Hungary.Models
             CurrencyCode currencyCode,
             ISequence<InvoiceItem> items,
             bool isSelfBilling = false,
-            bool isCashAccounting = false)
+            bool isCashAccounting = false,
+            PaymentMethod? paymentMethod = null)
         {
             Number = number;
             IssueDate = issueDate;
@@ -30,6 +32,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             TaxSummary = GetTaxSummary(items);
             IsSelfBilling = isSelfBilling;
             IsCashAccounting = isCashAccounting;
+            PaymentMethod = paymentMethod.ToOption();
 
             CheckConsistency(this);
         }
@@ -41,6 +44,8 @@ namespace Mews.Fiscalizations.Hungary.Models
         public DateTime IssueDate { get; }
 
         public DateTime PaymentDate { get; }
+
+        public IOption<PaymentMethod> PaymentMethod { get; }
 
         public SupplierInfo SupplierInfo { get; }
 
