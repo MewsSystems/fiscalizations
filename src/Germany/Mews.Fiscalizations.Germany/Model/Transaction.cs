@@ -8,6 +8,7 @@ namespace Mews.Fiscalizations.Germany.Model
             Guid id,
             string number,
             DateTime? startUtc,
+            TransactionState state,
             DateTime? endUtc = null,
             string certificateSerial = null,
             Signature signature = null,
@@ -16,6 +17,7 @@ namespace Mews.Fiscalizations.Germany.Model
             Id = id;
             Number = number;
             StartUtc = startUtc;
+            State = state;
             EndUtc = endUtc;
             CertificateSerial = certificateSerial;
             Signature = signature;
@@ -27,6 +29,8 @@ namespace Mews.Fiscalizations.Germany.Model
         public string Number { get; }
         
         public DateTime? StartUtc { get; }
+
+        public TransactionState State { get; }
 
         public DateTime? EndUtc { get; }
 
