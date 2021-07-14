@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Germany.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Germany.Model;
 using Mews.Fiscalizations.Germany.Utils;
 using System;
 
@@ -12,6 +13,7 @@ namespace Mews.Fiscalizations.Germany
                 id: transaction.Id,
                 number: transaction.Number.ToString(),
                 startUtc: transaction.TimeStart.FromUnixTime(),
+                state: MapTransactionState(transaction.State),
                 endUtc: transaction.TimeEnd.FromUnixTime(),
                 certificateSerial: transaction.CertificateSerial,
                 signature: new Signature(
@@ -22,6 +24,15 @@ namespace Mews.Fiscalizations.Germany
                 ),
                 qrCodeData: transaction.QrCodeData
             ));
+        }
+
+        internal static TransactionState MapTransactionState(Dto.State state)
+        {
+            return state.Match(
+                Dto.State.ACTIVE, _ => TransactionState.Active,
+                Dto.State.CANCELLED, _ => TransactionState.Canceled,
+                Dto.State.FINISHED, _ => TransactionState.Finished
+            );
         }
 
         internal static ResponseResult<AccessToken> MapAccessToken(Dto.AuthorizationTokenResponse token)
