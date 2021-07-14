@@ -26,9 +26,12 @@ namespace Mews.Fiscalizations.German.Tests
             var client = TestFixture.GetFiskalyClient();
             var accessToken = await client.GetAccessTokenAsync();
             var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
+            var retrievedStartedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
+            Assert.AreEqual(retrievedStartedTransaction.SuccessResult.State, TransactionState.Active);
 
-            var retrievedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
-            Assert.IsTrue(retrievedTransaction.IsSuccess);
+            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "1");
+            var retrievedFinishedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, finishedTransaction.SuccessResult.Id);
+            Assert.AreEqual(retrievedFinishedTransaction.SuccessResult.State, TransactionState.Finished);
         }
 
         [Test, Order(2)]
