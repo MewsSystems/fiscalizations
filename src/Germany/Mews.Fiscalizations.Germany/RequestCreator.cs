@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Germany.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Germany.Model;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -94,62 +95,38 @@ namespace Mews.Fiscalizations.Germany
 
         private static Dto.ReceiptType SerializeBillType(BillType type)
         {
-            switch (type)
-            {
-                case BillType.Invoice:
-                    return Dto.ReceiptType.INVOICE;
-                case BillType.Receipt:
-                    return Dto.ReceiptType.RECEIPT;
-                default:
-                    throw new NotImplementedException($"Receipt type: {type} is not implemented.");
-            };
+            return type.Match(
+                BillType.Invoice, _ => Dto.ReceiptType.INVOICE,
+                BillType.Receipt, _ => Dto.ReceiptType.RECEIPT
+            );
         }
 
         private static Dto.PaymentType SerializePaymentType(PaymentType type)
         {
-            switch (type)
-            {
-                case PaymentType.Cash:
-                    return Dto.PaymentType.CASH;
-                case PaymentType.NonCash:
-                    return Dto.PaymentType.NON_CASH;
-                default:
-                    throw new NotImplementedException($"Payment type: {type} is not implemented.");
-            };
+            return type.Match(
+                PaymentType.Cash, _ => Dto.PaymentType.CASH,
+                PaymentType.NonCash, _ => Dto.PaymentType.NON_CASH
+            );
         }
 
         private static Dto.VatRateType SerializeVatRateType(VatRateType type)
         {
-            switch (type)
-            {
-                case VatRateType.None:
-                    return Dto.VatRateType.NULL;
-                case VatRateType.Normal:
-                    return Dto.VatRateType.NORMAL;
-                case VatRateType.Reduced:
-                    return Dto.VatRateType.REDUCED_1;
-                case VatRateType.SpecialRate1:
-                    return Dto.VatRateType.SPECIAL_RATE_1;
-                case VatRateType.SpecialRate2:
-                    return Dto.VatRateType.SPECIAL_RATE_2;
-                default:
-                    throw new NotImplementedException($"Vat rate type: {type} is not implemented.");
-            };
+            return type.Match(
+                VatRateType.None, _ => Dto.VatRateType.NULL,
+                VatRateType.Normal, _ => Dto.VatRateType.NORMAL,
+                VatRateType.Reduced, _ => Dto.VatRateType.REDUCED_1,
+                VatRateType.SpecialRate1, _ => Dto.VatRateType.SPECIAL_RATE_1,
+                VatRateType.SpecialRate2, _ => Dto.VatRateType.SPECIAL_RATE_2
+            );
         }
 
         private static Dto.TssState SerializeTssState(TssState state)
         {
-            switch (state)
-            {
-                case TssState.Disabled:
-                    return Dto.TssState.DISABLED;
-                case TssState.Initialized:
-                    return Dto.TssState.INITIALIZED;
-                case TssState.Uninitialized:
-                    return Dto.TssState.UNINITIALIZED;
-                default:
-                    throw new NotImplementedException($"Tss state: {state} is not implemented.");
-            };
+            return state.Match(
+                TssState.Disabled, _ => Dto.TssState.DISABLED,
+                TssState.Initialized, _ => Dto.TssState.INITIALIZED,
+                TssState.Uninitialized, _ => Dto.TssState.UNINITIALIZED
+            );
         }
     }
 }

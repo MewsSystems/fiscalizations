@@ -21,13 +21,13 @@ namespace Mews.Fiscalizations.Germany
             Client = new Client();
         }
 
-        public async Task<ResponseResult<Model.Client>> GetClientAsync(AccessToken token, Guid clientId, Guid tssId)
+        public Task<ResponseResult<Model.Client>> GetClientAsync(AccessToken token, Guid clientId, Guid tssId)
         {
-            return await Client.GetResponseAsync<Dto.ClientResponse, Model.Client>(
+            return Client.GetResponseAsync<Dto.ClientResponse, Model.Client>(
                 endpoint: $"tss/{tssId}/client/{clientId}",
                 successFunc: response => ModelMapper.MapClient(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
         public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId)
@@ -47,81 +47,76 @@ namespace Mews.Fiscalizations.Germany
             ).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task<ResponseResult<Tss>> GetTssAsync(AccessToken token, Guid tssId)
+        public Task<ResponseResult<Tss>> GetTssAsync(AccessToken token, Guid tssId)
         {
-            return await Client.GetResponseAsync<Dto.TssResponse, Tss>(
+            return Client.GetResponseAsync<Dto.TssResponse, Tss>(
                 endpoint: $"tss/{tssId}",
                 successFunc: response => ModelMapper.MapTss(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
-        public async Task<ResponseResult<Tss>> CreateTssAsync(AccessToken token, TssState state, string description = null)
+        public Task<ResponseResult<Tss>> CreateTssAsync(AccessToken token, TssState state, string description = null)
         {
-            var request = RequestCreator.CreateTss(state, description);
-            return await Client.ProcessRequestAsync<Dto.CreateTssRequest, Dto.TssResponse, Tss>(
+            return Client.ProcessRequestAsync<Dto.CreateTssRequest, Dto.TssResponse, Tss>(
                 method: HttpMethod.Put,
                 endpoint: $"tss/{Guid.NewGuid()}",
-                request: request,
+                request: RequestCreator.CreateTss(state, description),
                 successFunc: response => ModelMapper.MapTss(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
-        public async Task<ResponseResult<Tss>> UpdateTssAsync(AccessToken token, Guid tssId, TssState state)
+        public Task<ResponseResult<Tss>> UpdateTssAsync(AccessToken token, Guid tssId, TssState state)
         {
-            var request = RequestCreator.UpdateTss(state);
-            return await Client.ProcessRequestAsync<Dto.UpdateTssRequest, Dto.TssResponse, Tss>(
+            return Client.ProcessRequestAsync<Dto.UpdateTssRequest, Dto.TssResponse, Tss>(
                 method: HttpMethod.Put,
                 endpoint: $"tss/{tssId}",
-                request: request,
+                request: RequestCreator.UpdateTss(state),
                 successFunc: response => ModelMapper.MapTss(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
-        public async Task<ResponseResult<Transaction>> GetTransactionAsync(AccessToken token, Guid tssId, Guid transactionId)
+        public Task<ResponseResult<Transaction>> GetTransactionAsync(AccessToken token, Guid tssId, Guid transactionId)
         {
-            return await Client.GetResponseAsync<Dto.TransactionResponse, Transaction>(
+            return Client.GetResponseAsync<Dto.TransactionResponse, Transaction>(
                 endpoint: $"tss/{tssId}/tx/{transactionId}",
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
-        public async Task<ResponseResult<Transaction>> StartTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Guid transactionId)
+        public Task<ResponseResult<Transaction>> StartTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Guid transactionId)
         {
-            var request = RequestCreator.CreateTransaction(clientId);
-            return await Client.ProcessRequestAsync<Dto.TransactionRequest, Dto.TransactionResponse, Transaction>(
+            return Client.ProcessRequestAsync<Dto.TransactionRequest, Dto.TransactionResponse, Transaction>(
                 method: HttpMethod.Put,
                 endpoint: $"tss/{tssId}/tx/{transactionId}",
-                request: request,
+                request: RequestCreator.CreateTransaction(clientId),
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
-        public async Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId, string lastRevision)
+        public Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId, string lastRevision)
         {
-            var request = RequestCreator.FinishTransaction(clientId, bill);
-            return await Client.ProcessRequestAsync<Dto.FinishTransactionRequest, Dto.TransactionResponse, Transaction>(
+            return Client.ProcessRequestAsync<Dto.FinishTransactionRequest, Dto.TransactionResponse, Transaction>(
                 method: HttpMethod.Put,
                 endpoint: $"tss/{tssId}/tx/{transactionId}?last_revision={lastRevision}",
-                request: request,
+                request: RequestCreator.FinishTransaction(clientId, bill),
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
-        public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync()
+        public Task<ResponseResult<AccessToken>> GetAccessTokenAsync()
         {
-            var request = RequestCreator.CreateAuthorizationToken(ApiKey, ApiSecret);
-            return await Client.ProcessRequestAsync<Dto.AuthorizationTokenRequest, Dto.AuthorizationTokenResponse, AccessToken>(
+            return Client.ProcessRequestAsync<Dto.AuthorizationTokenRequest, Dto.AuthorizationTokenResponse, AccessToken>(
                 method: HttpMethod.Post,
                 endpoint: "auth",
-                request: request,
+                request: RequestCreator.CreateAuthorizationToken(ApiKey, ApiSecret),
                 successFunc: response => ModelMapper.MapAccessToken(response)
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
     }
 }

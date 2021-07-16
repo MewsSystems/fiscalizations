@@ -26,7 +26,7 @@ namespace Mews.Fiscalizations.Germany
             where TResult : class
         {
             var httpResponse = await SendRequestAsync(method, endpoint, request, token).ConfigureAwait(continueOnCapturedContext: false);
-            return await DeserializeAsync(httpResponse, successFunc);
+            return await DeserializeAsync(httpResponse, successFunc).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         internal async Task<ResponseResult<TResult>> GetResponseAsync<TDto, TResult>(string endpoint, Func<TDto, ResponseResult<TResult>> successFunc, AccessToken token)
@@ -36,28 +36,30 @@ namespace Mews.Fiscalizations.Germany
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
             var httpResponse = await HttpClient.GetAsync(uri).ConfigureAwait(continueOnCapturedContext: false);
-            return await DeserializeAsync(httpResponse, successFunc);
+            return await DeserializeAsync(httpResponse, successFunc).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        private async Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token)
+        private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token)
             where TRequest : class
         {
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
-            var requestMessage = new HttpRequestMessage(method, uri);
-            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json");
+            var requestMessage = new HttpRequestMessage(method, uri)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json")
+            };
 
             if (token != null)
             {
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             }
-            return await HttpClient.SendAsync(requestMessage).ConfigureAwait(continueOnCapturedContext: false);
+            return HttpClient.SendAsync(requestMessage);
         }
 
         private async Task<ResponseResult<TResult>> DeserializeAsync<TDto, TResult>(HttpResponseMessage response, Func<TDto, ResponseResult<TResult>> successFunc)
             where TDto : class
             where TResult : class
         {
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
             if (response.IsSuccessStatusCode)
             {
                 return successFunc(JsonConvert.DeserializeObject<TDto>(content));
