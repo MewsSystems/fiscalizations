@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Mews.Eet.Dto;
 using Mews.Eet.Dto.Wsdl;

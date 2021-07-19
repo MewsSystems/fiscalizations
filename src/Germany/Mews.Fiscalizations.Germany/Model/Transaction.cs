@@ -27,7 +27,7 @@ namespace Mews.Fiscalizations.Germany.Model
         public Guid Id { get; }
 
         public string Number { get; }
-        
+
         public DateTime? StartUtc { get; }
 
         public TransactionState State { get; }

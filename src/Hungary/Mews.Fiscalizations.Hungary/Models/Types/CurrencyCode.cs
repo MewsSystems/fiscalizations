@@ -1,6 +1,5 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
-using System;
 using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalizations.Hungary.Models

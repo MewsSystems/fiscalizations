@@ -12,7 +12,7 @@
         public decimal Amount { get; }
 
         public PaymentType Type { get; }
-        
+
         public string CurrencyCode { get; }
     }
 }

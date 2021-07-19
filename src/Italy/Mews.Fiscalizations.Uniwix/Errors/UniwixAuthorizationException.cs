@@ -5,7 +5,7 @@ namespace Mews.Fiscalizations.Uniwix.Errors
     public class UniwixAuthorizationException : Exception
     {
         public UniwixAuthorizationException()
-            : base ("Uniwix authorization failed.")
+            : base("Uniwix authorization failed.")
         {
         }
     }

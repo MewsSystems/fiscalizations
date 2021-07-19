@@ -12,19 +12,19 @@ namespace Mews.Fiscalizations.Spain.Dto.XSD.RespuestaSuministro
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RemoveIssuedInvoicesResponse))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RespuestaLRBajaFRecibidasPagosType))]
     [System.SerializableAttribute]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaSuministro.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaSuministro.xsd")]
     public class RespuestaComunBajaType
     {
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public string CSV { get; set; }
 
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order = 1)]
         public DatosPresentacionType DatosPresentacion { get; set; }
 
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order = 2)]
         public CabeceraSiiBaja Cabecera { get; set; }
 
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order = 3)]
         public EstadoEnvioType EstadoEnvio { get; set; }
     }
 }

@@ -72,7 +72,7 @@ namespace Mews.Eet.Tests.IntegrationTests
         public async Task HandlesError()
         {
             var certificate = CreateCertificate(Fixtures.First);
-            var record =  new RevenueRecord(
+            var record = new RevenueRecord(
                     identification: new Identification(
                     taxPayerIdentifier: new TaxIdentifier("CZ111444789"),
                     registryIdentifier: new RegistryIdentifier("01"),

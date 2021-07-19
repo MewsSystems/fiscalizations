@@ -5,23 +5,23 @@ namespace Mews.Fiscalizations.Spain.Nif
     [XmlType(AnonymousType = true, Namespace = "http://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/burt/jdit/ws/VNifV2Ent.xsd")]
     public class VNifV2EntContribuyente
     {
-        [XmlElement(Order=0)]
+        [XmlElement(Order = 0)]
         public string Nif { get; set; }
 
-        [XmlElement(Order=1)]
+        [XmlElement(Order = 1)]
         public string Nombre { get; set; }
     }
 
-    [XmlType(AnonymousType=true, Namespace="http://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/burt/jdit/ws/VNifV2Sal.xsd")]
+    [XmlType(AnonymousType = true, Namespace = "http://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/burt/jdit/ws/VNifV2Sal.xsd")]
     public class VNifV2SalContribuyente
     {
-        [XmlElement(Order=0)]
+        [XmlElement(Order = 0)]
         public string Nif { get; set; }
 
-        [XmlElement(Order=1)]
+        [XmlElement(Order = 1)]
         public string Nombre { get; set; }
 
-        [XmlElement(Order=2)]
+        [XmlElement(Order = 2)]
         public string Resultado { get; set; }
     }
 
