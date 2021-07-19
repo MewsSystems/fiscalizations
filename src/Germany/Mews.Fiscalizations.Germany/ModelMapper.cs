@@ -74,17 +74,12 @@ namespace Mews.Fiscalizations.Germany
 
         private static TssState MapTssState(Dto.TssState state)
         {
-            switch (state)
-            {
-                case Dto.TssState.DISABLED:
-                    return TssState.Disabled;
-                case Dto.TssState.INITIALIZED:
-                    return TssState.Initialized;
-                case Dto.TssState.UNINITIALIZED:
-                    return TssState.Uninitialized;
-                default:
-                    throw new NotImplementedException($"Tss state: {state} is not implemented.");
-            };
+            return state.Match(
+                Dto.TssState.DISABLED, _ => TssState.Disabled,
+                Dto.TssState.INITIALIZED, _ => TssState.Initialized,
+                Dto.TssState.UNINITIALIZED, _ => TssState.Uninitialized,
+                _ => throw new NotImplementedException($"Tss state: {state} is not implemented.")
+            );
         }
     }
 }
