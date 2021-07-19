@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FuncSharp;
+using System;
 using System.Globalization;
 
 namespace Mews.Fiscalizations.Austria.Dto
@@ -30,15 +31,11 @@ namespace Mews.Fiscalizations.Austria.Dto
 
         private decimal EnsureMinimalPrecision(decimal value, int placesCount)
         {
-            switch (placesCount)
-            {
-                case 0:
-                    return value * 1.00m;
-                case 1:
-                    return value * 1.0m;
-                default:
-                    return value;
-            }
+            return placesCount.Match(
+                0, _ => value * 1.00m,
+                1, _ => value * 1.0m,
+                _ => value
+            );
         }
 
         public static CurrencyValue Parse(string value, CultureInfo culture)

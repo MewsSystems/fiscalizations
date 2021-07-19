@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FuncSharp;
+using System;
 
 namespace Mews.Fiscalizations.Germany.Model
 {
@@ -29,24 +30,18 @@ namespace Mews.Fiscalizations.Germany.Model
             {
                 return FiskalyError.InvalidCredentials;
             }
-            switch (error.Code)
-            {
-                case "E_TX_UPSERT":
-                    return FiskalyError.InvalidTransactionOperation;
-                case "E_TSS_DISABLED":
-                case "E_TSS_NOT_INITIALIZED":
-                    return FiskalyError.InvalidTssOperation;
-                case "E_TX_ILLEGAL_TYPE_CHANGE":
-                case "E_TX_NO_TYPE_DEFINED":
-                case "E_API_VERSION":
-                    throw new InvalidOperationException($"Invalid request from the library with error code: {error.Code}");
-                case "E_CLIENT_NOT_FOUND":
-                    return FiskalyError.InvalidClientId;
-                case "E_TSS_NOT_FOUND":
-                    return FiskalyError.InvalidTssId;
-                default:
-                    throw new NotImplementedException($"Error code: {error.Code} is not implemented.");
-            }
+
+            return error.Code.Match(
+                "E_TX_UPSERT", _ => FiskalyError.InvalidTransactionOperation,
+                "E_TSS_DISABLED", _ => FiskalyError.InvalidTssOperation,
+                "E_TSS_NOT_INITIALIZED", _ => FiskalyError.InvalidTssOperation,
+                "E_TX_ILLEGAL_TYPE_CHANGE", _ => throw new InvalidOperationException($"Invalid request from the library with error code: {error.Code}"),
+                "E_TX_NO_TYPE_DEFINED", _ => throw new InvalidOperationException($"Invalid request from the library with error code: {error.Code}"),
+                "E_API_VERSION", _ => throw new InvalidOperationException($"Invalid request from the library with error code: {error.Code}"),
+                "E_CLIENT_NOT_FOUND", _ => FiskalyError.InvalidClientId,
+                "E_TSS_NOT_FOUND", _ => FiskalyError.InvalidTssId,
+                _ => throw new NotImplementedException($"Error code: {error.Code} is not implemented.")
+            );
         }
     }
 }

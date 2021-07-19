@@ -87,14 +87,14 @@ namespace Mews.Fiscalizations.Uniwix.Communication
             return ExecuteRequestAsync(url, HttpMethod.Get, content: null, responseProcessor: r => r.IsSuccessStatusCode);
         }
 
-        private async Task<TResult> GetAsync<TResult>(string url)
+        private Task<TResult> GetAsync<TResult>(string url)
         {
-            return await ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null).ConfigureAwait(continueOnCapturedContext: false);
+            return ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null);
         }
 
-        private async Task<TResult> PostAsync<TResult>(string url, HttpContent content)
+        private Task<TResult> PostAsync<TResult>(string url, HttpContent content)
         {
-            return await ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content).ConfigureAwait(continueOnCapturedContext: false);
+            return ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content);
         }
 
         private async Task<TResult> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)

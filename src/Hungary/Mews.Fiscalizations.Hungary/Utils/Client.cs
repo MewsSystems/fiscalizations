@@ -24,15 +24,15 @@ namespace Mews.Fiscalizations.Hungary.Utils
             where TCode : struct
         {
             var httpResponse = await SendRequestAsync(endpoint, request).ConfigureAwait(continueOnCapturedContext: false);
-            return await DeserializeAsync(httpResponse, successFunc);
+            return await DeserializeAsync(httpResponse, successFunc).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        private async Task<HttpResponseMessage> SendRequestAsync<TRequest>(string endpoint, TRequest request)
+        private Task<HttpResponseMessage> SendRequestAsync<TRequest>(string endpoint, TRequest request)
             where TRequest : class
         {
             var content = new StringContent(XmlManipulator.Serialize(request), Encoding.UTF8, "application/xml");
             var uri = new Uri(ServiceInfo.BaseUrls[Environment], $"{ServiceInfo.RelativeServiceUrl}{endpoint}");
-            return await HttpClient.PostAsync(uri, content).ConfigureAwait(continueOnCapturedContext: false);
+            return HttpClient.PostAsync(uri, content);
         }
 
         private async Task<ResponseResult<TResult, TCode>> DeserializeAsync<TDto, TResult, TCode>(HttpResponseMessage response, Func<TDto, ResponseResult<TResult, TCode>> successFunc)
@@ -40,7 +40,7 @@ namespace Mews.Fiscalizations.Hungary.Utils
             where TResult : class
             where TCode : struct
         {
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
             if (response.IsSuccessStatusCode)
             {
                 return successFunc(XmlManipulator.Deserialize<TDto>(content));

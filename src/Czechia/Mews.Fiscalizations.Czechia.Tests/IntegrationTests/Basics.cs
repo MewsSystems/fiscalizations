@@ -17,7 +17,7 @@ namespace Mews.Eet.Tests.IntegrationTests
             var certificate = CreateCertificate(Fixtures.Second);
             var record = CreateSimpleRecord(certificate, Fixtures.Second);
             var client = new EetClient(certificate, EetEnvironment.Playground);
-            var response = await client.SendRevenueAsync(record);
+            var response = await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false);
             Assert.Null(response.Error);
             Assert.NotNull(response.Success);
             Assert.NotNull(response.Success.FiscalCode);
@@ -30,7 +30,7 @@ namespace Mews.Eet.Tests.IntegrationTests
             var certificate = CreateCertificate(Fixtures.Second);
             var record = CreateSimpleRecord(certificate, Fixtures.Second);
             var client = new EetClient(certificate, EetEnvironment.Playground, TimeSpan.FromMilliseconds(1));
-            Assert.ThrowsAsync<TaskCanceledException>(async () => await client.SendRevenueAsync(record));
+            Assert.ThrowsAsync<TaskCanceledException>(async () => await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Mews.Eet.Tests.IntegrationTests
                 billNumber: new BillNumber("2016-123")
             );
             var client = new EetClient(certificate, EetEnvironment.Playground);
-            var response = await client.SendRevenueAsync(record);
+            var response = await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false);
             Assert.Null(response.Error);
             Assert.NotNull(response.Success);
             Assert.NotNull(response.Success.FiscalCode);
@@ -85,7 +85,7 @@ namespace Mews.Eet.Tests.IntegrationTests
                 billNumber: new BillNumber("2016-123")
             );
             var client = new EetClient(certificate, EetEnvironment.Playground);
-            var response = await client.SendRevenueAsync(record);
+            var response = await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false);
             Assert.NotNull(response.Error);
             Assert.AreEqual(6, response.Error.Reason.Code);
         }
@@ -105,7 +105,7 @@ namespace Mews.Eet.Tests.IntegrationTests
                     StringAssert.StartsWith("{", jsonString);
                 })
             );
-            Assert.DoesNotThrowAsync(async () => await client.SendRevenueAsync(record));
+            Assert.DoesNotThrowAsync(async () => await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false));
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace Mews.Eet.Tests.IntegrationTests
                 var duration = args.Duration;
                 Assert.That(duration, Is.InRange(0, 10000));
             };
-            await client.SendRevenueAsync(record);
+            await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test]
@@ -143,7 +143,7 @@ namespace Mews.Eet.Tests.IntegrationTests
             {
                 Assert.NotNull(args.XmlElement);
             };
-            await client.SendRevenueAsync(record);
+            await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace Mews.Eet.Tests.IntegrationTests
                 Assert.AreEqual("543.00", attributes["cerp_zuct"].Value);
                 Assert.AreEqual("432.00", attributes["urceno_cerp_zuct"].Value);
             };
-            await client.SendRevenueAsync(record);
+            await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false);
         }
 
 

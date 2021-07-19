@@ -1,4 +1,4 @@
-﻿using System;
+﻿using FuncSharp;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 
 namespace Mews.Fiscalizations.Italy.Constants
@@ -10,15 +10,10 @@ namespace Mews.Fiscalizations.Italy.Constants
 
         public static string GetByInvoiceLineKind(TaxKind taxKind)
         {
-            switch (taxKind)
-            {
-                case TaxKind.ExcludingArticle15:
-                    return ExcludingArticle15;
-                case TaxKind.NotSubject:
-                    return NotSubject;
-            }
-
-            throw new InvalidOperationException("Unsupported invoice line kind.");
+            return taxKind.Match(
+                TaxKind.ExcludingArticle15, _ => ExcludingArticle15,
+                TaxKind.NotSubject, _ => NotSubject
+            );
         }
     }
 }

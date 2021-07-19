@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FuncSharp;
+using System;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
@@ -25,22 +26,16 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         internal static ResultErrorCode MapErrorCode(string errorCode)
         {
-            switch (errorCode)
-            {
-                case "INVALID_SECURITY_USER":
-                case "NOT_REGISTERED_CUSTOMER":
-                case "INVALID_CUSTOMER":
-                case "INVALID_USER_RELATION":
-                    return ResultErrorCode.InvalidCredentials;
-                case "MAINTENANCE_MODE":
-                    return ResultErrorCode.MaintenanceMode;
-                case "FORBIDDEN":
-                    return ResultErrorCode.UnauthorizedUser;
-                case "INVALID_REQUEST_SIGNATURE":
-                    return ResultErrorCode.InvalidSigningKey;
-                default:
-                    throw new NotImplementedException($"Error code: {errorCode} is not implemented.");
-            }
+            return errorCode.Match(
+                "INVALID_SECURITY_USER", _ => ResultErrorCode.InvalidCredentials,
+                "NOT_REGISTERED_CUSTOMER", _ => ResultErrorCode.InvalidCredentials,
+                "INVALID_CUSTOMER", _ => ResultErrorCode.InvalidCredentials,
+                "INVALID_USER_RELATION", _ => ResultErrorCode.InvalidCredentials,
+                "MAINTENANCE_MODE", _ => ResultErrorCode.MaintenanceMode,
+                "FORBIDDEN", _ => ResultErrorCode.UnauthorizedUser,
+                "INVALID_REQUEST_SIGNATURE", _ => ResultErrorCode.InvalidSigningKey,
+                _ => throw new NotImplementedException($"Error code: {errorCode} is not implemented.")
+            );
         }
     }
 }

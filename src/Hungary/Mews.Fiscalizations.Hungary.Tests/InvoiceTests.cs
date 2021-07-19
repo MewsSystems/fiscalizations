@@ -18,8 +18,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
         public async Task SendCustomerInvoiceSucceeds()
         {
             var receiver = Receiver.Customer();
-            var sendInvoicesResult = await SendInvoices(receiver);
-            await AssertInvoices(sendInvoicesResult);
+            var sendInvoicesResult = await SendInvoices(receiver).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test]
@@ -30,8 +30,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 name: Name.Create("Hungarian test company ltd.").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             );
-            var sendInvoicesResult = await SendInvoices(receiver.Success.Get());
-            await AssertInvoices(sendInvoicesResult);
+            var sendInvoicesResult = await SendInvoices(receiver.Success.Get()).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test]
@@ -48,8 +48,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 address: CreateAddress(country),
                 taxpayerId: taxpayerNumber.GetOrNull()
             );
-            var sendInvoicesResult = await SendInvoices(receiver.Success.Get());
-            await AssertInvoices(sendInvoicesResult);
+            var sendInvoicesResult = await SendInvoices(receiver.Success.Get()).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test, Order(1)]
@@ -57,11 +57,11 @@ namespace Mews.Fiscalizations.Hungary.Tests
         {
             var receiver = Receiver.Customer();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
-            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
-            await AssertInvoices (sendInvoicesResult);
+            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices (sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
 
-            var sendModificationInvoicesResult = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
-            await AssertInvoices(sendModificationInvoicesResult);
+            var sendModificationInvoicesResult = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendModificationInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test, Order(1)]
@@ -73,11 +73,11 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 address: CreateAddress(Countries.Hungary)
             ).Success.Get();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
-            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
-            await AssertInvoices (sendInvoicesResult);
+            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices (sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
 
-            var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
-            await AssertInvoices(sendModificationInvoiceResponse);
+            var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendModificationInvoiceResponse).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test, Order(1)]
@@ -95,29 +95,29 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 taxpayerId: taxpayerNumber.GetOrNull()
             ).Success.Get();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
-            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
-            await AssertInvoices(sendInvoicesResult);
+            var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
 
-            var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
-            await AssertInvoices(sendModificationInvoiceResponse);
+            var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendModificationInvoiceResponse).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         private async Task<ResponseResult<string, ResultErrorCode>> SendInvoices(Receiver receiver, InvoiceNumber invoiceNumber = null)
         {
-            var exchangeToken = await NavClient.GetExchangeTokenAsync();
+            var exchangeToken = await NavClient.GetExchangeTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
             return await NavClient.SendInvoicesAsync(
                 token: exchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { CreateInvoice(receiver, invoiceNumber) }, startIndex: 1).Get()
-            );
+            ).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         private async Task<ResponseResult<string, ResultErrorCode>> SendModificationInvoices(Receiver receiver, InvoiceNumber originalInvoiceNumber)
         {
-            var exchangeToken = await NavClient.GetExchangeTokenAsync();
+            var exchangeToken = await NavClient.GetExchangeTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
             return await NavClient.SendModificationDocumentsAsync(
                 token: exchangeToken.SuccessResult,
                 invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(originalInvoiceNumber, receiver) }, startIndex: 1).Get()
-            );
+            ).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         private Invoice CreateInvoice(Receiver receiver, InvoiceNumber invoiceNumber = null)
@@ -255,7 +255,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             Thread.Sleep(2000);
 
             var transactionId = sendInvoicesResults.SuccessResult;
-            var transactionStatus = await NavClient.GetTransactionStatusAsync(transactionId);
+            var transactionStatus = await NavClient.GetTransactionStatusAsync(transactionId).ConfigureAwait(continueOnCapturedContext: false);
             TestFixture.AssertResponse(transactionStatus);
 
             var invoiceStatuses = transactionStatus.SuccessResult.InvoiceStatuses;

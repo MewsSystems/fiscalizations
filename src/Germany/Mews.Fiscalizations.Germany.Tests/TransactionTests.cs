@@ -14,8 +14,8 @@ namespace Mews.Fiscalizations.German.Tests
         public async Task StatusCheckSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
-            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var status = await client.GetClientAsync(accessToken, TestFixture.ClientId, TestFixture.TssId);
+            var accessToken = (await client.GetAccessTokenAsync().ConfigureAwait(continueOnCapturedContext: false)).SuccessResult;
+            var status = await client.GetClientAsync(accessToken, TestFixture.ClientId, TestFixture.TssId).ConfigureAwait(continueOnCapturedContext: false);
 
             Assert.IsTrue(status.IsSuccess);
         }
@@ -24,13 +24,13 @@ namespace Mews.Fiscalizations.German.Tests
         public async Task GetTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
-            var accessToken = await client.GetAccessTokenAsync();
-            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
-            var retrievedStartedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
+            var accessToken = await client.GetAccessTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
+            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid()).ConfigureAwait(continueOnCapturedContext: false);
+            var retrievedStartedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id).ConfigureAwait(continueOnCapturedContext: false);
             Assert.AreEqual(retrievedStartedTransaction.SuccessResult.State, TransactionState.Active);
 
-            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "1");
-            var retrievedFinishedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, finishedTransaction.SuccessResult.Id);
+            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "1").ConfigureAwait(continueOnCapturedContext: false);
+            var retrievedFinishedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, finishedTransaction.SuccessResult.Id).ConfigureAwait(continueOnCapturedContext: false);
             Assert.AreEqual(retrievedFinishedTransaction.SuccessResult.State, TransactionState.Finished);
         }
 
@@ -38,8 +38,8 @@ namespace Mews.Fiscalizations.German.Tests
         public async Task StartTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
-            var accessToken = await client.GetAccessTokenAsync();
-            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
+            var accessToken = await client.GetAccessTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
+            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid()).ConfigureAwait(continueOnCapturedContext: false);
             var successResult = startedTransaction.SuccessResult;
 
             Assert.IsTrue(startedTransaction.IsSuccess);
@@ -53,10 +53,10 @@ namespace Mews.Fiscalizations.German.Tests
             var client = TestFixture.GetFiskalyClient();
             var clientId = TestFixture.ClientId;
             var tssId = TestFixture.TssId;
-            var accessToken = await client.GetAccessTokenAsync();
+            var accessToken = await client.GetAccessTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
             var successAccessTokenResult = accessToken.SuccessResult;
-            var startedTransaction = await client.StartTransactionAsync(successAccessTokenResult, clientId, tssId, Guid.NewGuid());
-            var endedTransaction = await client.FinishTransactionAsync(successAccessTokenResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "1");
+            var startedTransaction = await client.StartTransactionAsync(successAccessTokenResult, clientId, tssId, Guid.NewGuid()).ConfigureAwait(continueOnCapturedContext: false);
+            var endedTransaction = await client.FinishTransactionAsync(successAccessTokenResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "1").ConfigureAwait(continueOnCapturedContext: false);
             var successResult = endedTransaction.SuccessResult;
             var signature = successResult.Signature;
 

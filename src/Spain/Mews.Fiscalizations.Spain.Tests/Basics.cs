@@ -46,18 +46,18 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
                 new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Angola, "123456").Success.Get(), "Random tax id")
             );
 
-            await AssertNifLookup(goodEntries, NifSearchResult.Found);
-            await AssertNifLookup(badEntries, NifSearchResult.NotFound);
+            await AssertNifLookup(goodEntries, NifSearchResult.Found).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertNifLookup(badEntries, NifSearchResult.NotFound).ConfigureAwait(continueOnCapturedContext: false);
 
             // Surprisingly, this works for some reason.
             var serverModifiedEntry = new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "A08433179").Success.Get(), "Microsoft test company");
-            await AssertNifLookup(serverModifiedEntry.ToEnumerable(), NifSearchResult.NotFoundBecauseNifModifiedByServer);
+            await AssertNifLookup(serverModifiedEntry.ToEnumerable(), NifSearchResult.NotFoundBecauseNifModifiedByServer).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         [Test]
         public async Task PostInvoice()
         {
-            await SuccessfullyPostInvoice(Client);
+            await SuccessfullyPostInvoice(Client).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         private async Task<SimplifiedInvoice> SuccessfullyPostInvoice(Client client)
@@ -80,7 +80,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         private async Task AssertNifLookup(INonEmptyEnumerable<NifInfoEntry> entries, NifSearchResult expectedResult)
         {
             var validator = new NifValidator(Certificate, httpTimeout: TimeSpan.FromSeconds(30));
-            var response = await validator.CheckNif(new Request(entries));
+            var response = await validator.CheckNif(new Request(entries)).ConfigureAwait(continueOnCapturedContext: false);
 
             Assert.AreEqual(response.Results.Count(), entries.Count());
             foreach (var result in response.Results)

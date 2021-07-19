@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         [Test]
         public async Task GetTransactionStatusSucceeds()
         {
-            var status = await NavClient.GetTransactionStatusAsync("30NKOUNC66LSDD4Z");
+            var status = await NavClient.GetTransactionStatusAsync("30NKOUNC66LSDD4Z").ConfigureAwait(continueOnCapturedContext: false);
             TestFixture.AssertResponse(status);
         }
 
@@ -20,14 +20,14 @@ namespace Mews.Fiscalizations.Hungary.Tests
         public async Task GetTaxerpayerDataSucceeds()
         {
             var taxpayer = TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get();
-            var taxpayerData = await NavClient.GetTaxPayerDataAsync(taxpayer);
+            var taxpayerData = await NavClient.GetTaxPayerDataAsync(taxpayer).ConfigureAwait(continueOnCapturedContext: false);
             TestFixture.AssertResponse(taxpayerData);
         }
 
         [Test]
         public async Task GetExchangeTokenSucceeds()
         {
-            var exchangeToken = await NavClient.GetExchangeTokenAsync();
+            var exchangeToken = await NavClient.GetExchangeTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
             TestFixture.AssertResponse(exchangeToken);
         }
     }
