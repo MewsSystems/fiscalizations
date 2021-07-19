@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using FuncSharp;
 using Mews.Fiscalizations.Italy.Communication;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Italy.Dto.Receive;
@@ -50,17 +51,12 @@ namespace Mews.Fiscalizations.Italy
 
         private SdiError GetSdiError(ReceiveFileError error)
         {
-            switch (error)
-            {
-                case ReceiveFileError.EmptyFile:
-                    throw new InvalidOperationException("Attached file is empty.");
-                case ReceiveFileError.ServiceUnavailable:
-                    return SdiError.ServiceUnavailable;
-                case ReceiveFileError.UnauthorizedUser:
-                    return SdiError.UnauthorizedUser;
-            }
-
-            throw new InvalidOperationException("Unknown error.");
+            return error.Match(
+                ReceiveFileError.EmptyFile, _ => throw new InvalidOperationException("Attached file is empty."),
+                ReceiveFileError.ServiceUnavailable, _ => SdiError.ServiceUnavailable,
+                ReceiveFileError.UnauthorizedUser, _ => SdiError.UnauthorizedUser,
+                _ => throw new InvalidOperationException("Unknown error.")
+            );
         }
 
         private string GetSignedInvoiceFileName(ElectronicInvoice invoice)

@@ -99,17 +99,11 @@ namespace Mews.Fiscalizations.Hungary
 
         private static AddressType MapAddressType(Dto.TaxpayerAddressTypeType type, string parameterName)
         {
-            switch (type)
-            {
-                case Dto.TaxpayerAddressTypeType.HQ:
-                    return AddressType.HQ;
-                case Dto.TaxpayerAddressTypeType.SITE:
-                    return AddressType.SITE;
-                case Dto.TaxpayerAddressTypeType.BRANCH:
-                    return AddressType.BRANCH;
-                default:
-                    throw new ArgumentOutOfRangeException(parameterName, type, "Unknown address type");
-            }
+            return type.Match(
+                Dto.TaxpayerAddressTypeType.HQ, _ => AddressType.HQ,
+                Dto.TaxpayerAddressTypeType.SITE, _ => AddressType.SITE,
+                Dto.TaxpayerAddressTypeType.BRANCH, _ => AddressType.BRANCH
+            );
         }
     }
 }
