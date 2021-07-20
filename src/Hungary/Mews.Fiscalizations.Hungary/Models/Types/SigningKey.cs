@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
-   public sealed class SigningKey
+    public sealed class SigningKey
     {
         private SigningKey(string value)
         {

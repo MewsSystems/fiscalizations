@@ -70,7 +70,7 @@ namespace Mews.Fiscalizations.Hungary
                         f => null
                     )
                 };
-             });
+            });
             var invoiceHashes = operations.Select(t => Sha512.GetSha3Hash($"{t.invoiceOperation}{Convert.ToBase64String(t.invoiceData)}"));
             var invoiceSignatureData = string.Join("", invoiceHashes);
 

@@ -30,7 +30,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
             Configuration = configuration;
         }
 
-        private static HttpClient HttpClient { get;}
+        private static HttpClient HttpClient { get; }
 
         private UniwixClientConfiguration Configuration { get; }
 
@@ -48,7 +48,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
                 var result = await PostAsync<PostInvoiceResponse>(url, content).ConfigureAwait(continueOnCapturedContext: false);
                 return new SendInvoiceResult(result.FileId, result.Message);
             }
-            catch (UniwixException e) when (e.Code == (int) UniwixErrorCodes.ValidationError)
+            catch (UniwixException e) when (e.Code == (int)UniwixErrorCodes.ValidationError)
             {
                 throw new UniwixValidationException(e.Code, e.Reason, invoiceFile.Content);
             }

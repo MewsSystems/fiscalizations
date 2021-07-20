@@ -28,10 +28,10 @@ namespace Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRConsultaEmitidasType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRConsultaRecibidasType))]
     [System.SerializableAttribute]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroInformacion.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroInformacion.xsd")]
     public class ConsultaInformacion
     {
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public CabeceraConsultaSii Cabecera { get; set; }
     }
 }

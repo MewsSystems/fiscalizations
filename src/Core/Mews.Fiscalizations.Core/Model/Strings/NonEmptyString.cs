@@ -1,4 +1,3 @@
-using System;
 using FuncSharp;
 
 namespace Mews.Fiscalizations.Core.Model

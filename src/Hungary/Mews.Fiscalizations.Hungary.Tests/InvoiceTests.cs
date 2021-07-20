@@ -58,7 +58,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var receiver = Receiver.Customer();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
             var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
-            await AssertInvoices (sendInvoicesResult);
+            await AssertInvoices(sendInvoicesResult);
 
             var sendModificationInvoicesResult = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
             await AssertInvoices(sendModificationInvoicesResult);
@@ -74,7 +74,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             ).Success.Get();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
             var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
-            await AssertInvoices (sendInvoicesResult);
+            await AssertInvoices(sendInvoicesResult);
 
             var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
             await AssertInvoices(sendModificationInvoiceResponse);

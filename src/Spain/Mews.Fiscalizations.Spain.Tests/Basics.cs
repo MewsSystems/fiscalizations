@@ -65,7 +65,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             var invoice = GetInvoice(IssuingCompany, ReceivingCompany);
             var model = SimplifiedInvoicesToSubmit.Create(
                 header: new Header(IssuingCompany, CommunicationType.Registration),
-                invoices:  new [] { invoice }
+                invoices: new[] { invoice }
             ).Success.Get();
 
             var response = await client.SubmitSimplifiedInvoiceAsync(model).ConfigureAwait(continueOnCapturedContext: false);

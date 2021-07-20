@@ -39,7 +39,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
 
         /// <summary>
         /// Required if the document can be classified as invoicing on the basis of works progress reports(SAL) with defined phases.
-       /// </summary>
+        /// </summary>
         [XmlElement("DatiSAL", Form = XmlSchemaForm.Unqualified)]
         public WorkProgressReportData[] WorkProgressReportData { get; set; }
 

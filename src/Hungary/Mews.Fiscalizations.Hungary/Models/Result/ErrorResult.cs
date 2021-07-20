@@ -6,7 +6,7 @@ namespace Mews.Fiscalizations.Hungary.Models
     public sealed class ErrorResult<TCode>
         where TCode : struct
     {
-        internal ErrorResult(TCode errorCode, string message = null) 
+        internal ErrorResult(TCode errorCode, string message = null)
         {
             Message = message;
             ErrorCode = errorCode;

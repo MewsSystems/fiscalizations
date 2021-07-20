@@ -27,7 +27,7 @@ namespace Mews.Fiscalizations.Austria.Tests
         {
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             var europeTimeZone = "Central Europe Standard Time";
-            var austrianTimeZone= TimeZoneInfo.FindSystemTimeZoneById(isWindows ? europeTimeZone : TZConvert.WindowsToIana(europeTimeZone));
+            var austrianTimeZone = TimeZoneInfo.FindSystemTimeZoneById(isWindows ? europeTimeZone : TZConvert.WindowsToIana(europeTimeZone));
             var austrianCulture = CultureInfo.GetCultureInfo("de-AT");
             var signer = new ATrustSigner(Credentials, ATrustEnvironment.Test);
             var result = signer.Sign(new QrData(new Receipt(
@@ -38,9 +38,9 @@ namespace Mews.Fiscalizations.Austria.Tests
                         lowerReducedRate: new CurrencyValue(36.41m),
                         specialRate: new CurrencyValue(21.19m)
                     ),
-                    turnover: new CurrencyValue(0.0m), 
+                    turnover: new CurrencyValue(0.0m),
                     certificateSerialNumber: CertificateSerialNumber,
-                    previousJwsRepresentation: JwsRepresentation, 
+                    previousJwsRepresentation: JwsRepresentation,
                     key: Convert.FromBase64String(CertificateKey),
                     created: new LocalDateTime(
                         new DateTime(2015, 11, 25, 19, 20, 11),
@@ -59,4 +59,3 @@ namespace Mews.Fiscalizations.Austria.Tests
         }
     }
 }
-    
