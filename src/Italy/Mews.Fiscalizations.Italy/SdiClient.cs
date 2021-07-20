@@ -3,6 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using FuncSharp;
+using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Italy.Communication;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Italy.Dto.Receive;
@@ -24,8 +25,8 @@ namespace Mews.Fiscalizations.Italy
 
         public async Task<SdiResponse> SendAsync(ElectronicInvoice invoice)
         {
-            var invoiceXmlDoc = XmlManipulator.Serialize(invoice);
-            var signedInvoiceXmlDoc = XmlSigner.Sign(invoiceXmlDoc, SignatureCertificate);
+            var invoiceXmlElement = XmlSerializer.Serialize(invoice);
+            var signedInvoiceXmlDoc = XmlSigner.Sign(invoiceXmlElement, SignatureCertificate);
 
             var signedInvoiceXml = signedInvoiceXmlDoc.OuterXml;
             var signedInvoiceBytes = Encoding.UTF8.GetBytes(signedInvoiceXml);

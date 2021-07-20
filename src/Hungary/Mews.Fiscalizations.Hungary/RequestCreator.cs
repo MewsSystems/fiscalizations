@@ -1,5 +1,6 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Hungary.Models;
 using Mews.Fiscalizations.Hungary.Utils;
 using System;
@@ -55,7 +56,8 @@ namespace Mews.Fiscalizations.Hungary
             var operations = invoices.Values.Select(item =>
             {
                 var invoiceData = invoiceDataGetter(item.Value);
-                var invoiceDataBytes = Encoding.UTF8.GetBytes(XmlManipulator.Serialize(invoiceData));
+                var serializedInvoiceData = XmlSerializer.Serialize(invoiceData);
+                var invoiceDataBytes = Encoding.UTF8.GetBytes(serializedInvoiceData.OuterXml);
                 return new Dto.InvoiceOperationType
                 {
                     index = item.Index,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Italy.Http;
 
 namespace Mews.Fiscalizations.Italy.Communication
@@ -23,7 +24,7 @@ namespace Mews.Fiscalizations.Italy.Communication
             where TIn : class, new()
             where TOut : class, new()
         {
-            var messageBodyXmlElement = XmlManipulator.Serialize(messageBodyObject).DocumentElement;
+            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject);
 
             var soapMessage = new SoapMessage(new SoapMessagePart(messageBodyXmlElement));
             var xmlDocument = soapMessage.GetXmlDocument();
@@ -34,7 +35,7 @@ namespace Mews.Fiscalizations.Italy.Communication
             var response = await HttpClient(httpRequest).ConfigureAwait(continueOnCapturedContext: false);
 
             var soapBody = GetSoapBody(response.Content.Value);
-            return XmlManipulator.Deserialize<TOut>(soapBody);
+            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml);
         }
 
         private HttpRequest GetHttpRequest(string operation, string messageXml)

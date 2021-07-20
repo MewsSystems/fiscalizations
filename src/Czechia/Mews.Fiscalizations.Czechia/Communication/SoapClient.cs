@@ -5,6 +5,7 @@ using System.Xml;
 using Mews.Eet.Dto;
 using Mews.Eet.Dto.Wsdl;
 using Mews.Eet.Events;
+using Mews.Fiscalizations.Core.Xml;
 
 namespace Mews.Eet.Communication
 {
@@ -15,7 +16,6 @@ namespace Mews.Eet.Communication
             HttpClient = new SoapHttpClient(endpointUri, httpTimeout, logger);
             Certificate = certificate;
             SignAlgorithm = signAlgorithm;
-            XmlManipulator = new XmlManipulator();
             Logger = logger;
             HttpClient.HttpRequestFinished += (sender, args) => HttpRequestFinished?.Invoke(this, args);
         }
@@ -30,15 +30,13 @@ namespace Mews.Eet.Communication
 
         private SignAlgorithm SignAlgorithm { get; }
 
-        private XmlManipulator XmlManipulator { get; }
-
         private EetLogger Logger { get; }
 
         public async Task<TOut> SendAsync<TIn, TOut>(TIn messageBodyObject, string operation)
             where TIn : class, new()
             where TOut : class, new()
         {
-            var messageBodyXmlElement = XmlManipulator.Serialize(messageBodyObject);
+            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject);
             var mesasgeBodyXmlString = messageBodyXmlElement.OuterXml;
             Logger?.Debug("Created XML document from DTOs.", new { XmlString = mesasgeBodyXmlString });
             XmlMessageSerialized?.Invoke(this, new XmlMessageSerializedEventArgs(messageBodyXmlElement, (messageBodyObject as SendRevenueXmlMessage)?.Data.BillNumber));
@@ -54,7 +52,7 @@ namespace Mews.Eet.Communication
             Logger?.Debug("Received RAW response from EET servers.", new { HttpResponseBody = response });
 
             var soapBody = GetSoapBody(response);
-            return XmlManipulator.Deserialize<TOut>(soapBody);
+            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml);
         }
 
         private XmlElement GetSoapBody(string soapXmlString)

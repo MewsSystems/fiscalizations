@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Core.Xml;
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
@@ -30,7 +32,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             where TIn : class, new()
             where TOut : class, new()
         {
-            var messageBodyXmlElement = XmlManipulator.Serialize(messageBodyObject);
+            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject, new XmlSerializationData(GetSiiNameSpaces()));
             XmlMessageSerialized?.Invoke(this, new XmlMessageSerializedEventArgs(messageBodyXmlElement));
 
             var soapMessage = new SoapMessage(messageBodyXmlElement);
@@ -40,7 +42,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             var response = await GetResponseAsync(xml).ConfigureAwait(continueOnCapturedContext: false);
 
             var soapBody = GetSoapBody(response);
-            return XmlManipulator.Deserialize<TOut>(soapBody);
+            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml, new XmlSerializationData(namespaces: GetSiiNameSpaces()));
         }
 
         private async Task<string> GetResponseAsync(string body)
@@ -69,6 +71,16 @@ namespace Mews.Fiscalizations.Spain.Communication
 
             var soapMessage = SoapMessage.FromSoapXml(xmlDocument);
             return soapMessage.Body.FirstChild as XmlElement;
+        }
+
+        private INonEmptyEnumerable<XmlNamespace> GetSiiNameSpaces()
+        {
+            return NonEmptyEnumerable.Create(
+                new XmlNamespace("sii", "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroInformacion.xsd"),
+                new XmlNamespace("siiR", "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaSuministro.xsd"),
+                new XmlNamespace("siiLRC", "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/ConsultaLR.xsd"),
+                new XmlNamespace("siiLRRC", "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaConsultaLR.xsd")
+            );
         }
     }
 }
