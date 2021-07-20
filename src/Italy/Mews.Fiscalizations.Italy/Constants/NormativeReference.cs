@@ -1,4 +1,5 @@
-﻿using FuncSharp;
+﻿using System;
+using FuncSharp;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 
 namespace Mews.Fiscalizations.Italy.Constants
