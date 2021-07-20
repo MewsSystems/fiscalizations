@@ -7,7 +7,7 @@ namespace Mews.Fiscalizations.Hungary
     {
         public static int MaxInvoiceBatchSize { get; }
 
-        internal static string Version  { get; }
+        internal static string Version { get; }
 
         internal static string XmlNamespace { get; }
 

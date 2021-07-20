@@ -54,7 +54,8 @@ namespace Mews.Fiscalizations.Italy
             return error.Match(
                 ReceiveFileError.EmptyFile, _ => throw new InvalidOperationException("Attached file is empty."),
                 ReceiveFileError.ServiceUnavailable, _ => SdiError.ServiceUnavailable,
-                ReceiveFileError.UnauthorizedUser, _ => SdiError.UnauthorizedUser
+                ReceiveFileError.UnauthorizedUser, _ => SdiError.UnauthorizedUser,
+                _ => throw new InvalidOperationException("Unknown error.")
             );
         }
 

@@ -8,7 +8,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
     [Serializable, XmlType(Namespace = ElectronicInvoice.Namespace), XmlRoot("FatturaElettronica", Namespace = ElectronicInvoice.Namespace, IsNullable = false)]
     public class ElectronicInvoice
     {
-        public const string Namespace = "http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"; 
+        public const string Namespace = "http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2";
 
         public ElectronicInvoice()
         {

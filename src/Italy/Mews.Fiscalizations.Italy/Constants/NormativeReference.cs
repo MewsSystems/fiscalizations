@@ -12,7 +12,8 @@ namespace Mews.Fiscalizations.Italy.Constants
         {
             return taxKind.Match(
                 TaxKind.ExcludingArticle15, _ => ExcludingArticle15,
-                TaxKind.NotSubject, _ => NotSubject
+                TaxKind.NotSubject, _ => NotSubject,
+                _ => throw new InvalidOperationException("Unsupported invoice line kind.")
             );
         }
     }

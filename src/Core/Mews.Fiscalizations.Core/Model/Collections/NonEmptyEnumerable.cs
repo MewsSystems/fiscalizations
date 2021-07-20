@@ -46,7 +46,7 @@ namespace Mews.Fiscalizations.Core.Model
         {
             Head = head;
             Tail = tail.ToList();
-            var values = new List<T>{ head };
+            var values = new List<T> { head };
             values.AddRange(Tail);
 
             Values = values;

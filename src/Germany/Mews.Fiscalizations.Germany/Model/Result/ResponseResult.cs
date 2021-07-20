@@ -13,7 +13,7 @@
 
         public ErrorResult ErrorResult { get; }
 
-        public bool IsSuccess 
+        public bool IsSuccess
         {
             get
             {

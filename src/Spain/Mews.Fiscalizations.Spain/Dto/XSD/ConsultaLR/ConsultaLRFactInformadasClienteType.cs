@@ -3,10 +3,10 @@
 namespace Mews.Fiscalizations.Spain.Dto.XSD.ConsultaLR
 {
     [System.SerializableAttribute]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/ConsultaLR.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/ConsultaLR.xsd")]
     public class ConsultaLRFactInformadasClienteType : ConsultaInformacionCliente
     {
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public LRFiltroFactInformadasClienteType FiltroConsulta { get; set; }
     }
 }

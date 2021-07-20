@@ -58,7 +58,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var receiver = Receiver.Customer();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
             var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
-            await AssertInvoices (sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
 
             var sendModificationInvoicesResult = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
             await AssertInvoices(sendModificationInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
@@ -74,7 +74,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             ).Success.Get();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
             var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
-            await AssertInvoices (sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
+            await AssertInvoices(sendInvoicesResult).ConfigureAwait(continueOnCapturedContext: false);
 
             var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber).ConfigureAwait(continueOnCapturedContext: false);
             await AssertInvoices(sendModificationInvoiceResponse).ConfigureAwait(continueOnCapturedContext: false);

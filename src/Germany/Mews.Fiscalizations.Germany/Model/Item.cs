@@ -9,7 +9,7 @@
         }
 
         public decimal Amount { get; }
-        
+
         public VatRateType VatRateType { get; }
     }
 }

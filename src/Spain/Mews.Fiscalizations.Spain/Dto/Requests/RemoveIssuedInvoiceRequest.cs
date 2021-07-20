@@ -9,7 +9,7 @@ namespace Mews.Fiscalizations.Spain.Dto.Requests
     [XmlTypeAttribute(AnonymousType = true, Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroLR.xsd")]
     public class RemoveIssuedInvoiceRequest : SuministroInformacionBaja
     {
-        [XmlElementAttribute("RegistroLRBajaExpedidas", Order=0)]
+        [XmlElementAttribute("RegistroLRBajaExpedidas", Order = 0)]
         public LRBajaExpedidasType[] RegistroLRBajaExpedidas { get; set; }
     }
 }
