@@ -99,7 +99,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
 
         private async Task<TResult> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
         {
-            var response = ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
+            var response = await ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
             {
                 var json = await httpResponse.Content.ReadAsStringAsync();
 
@@ -123,7 +123,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
                 throw new UniwixException(errorResponse.Code, errorResponse.Result);
             });
 
-            return await (await response);
+            return await response;
         }
 
         private async Task<TResult> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content, Func<HttpResponseMessage, TResult> responseProcessor)
