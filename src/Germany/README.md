@@ -1,18 +1,49 @@
-# Mews.Fiscalizations.Germany
+<p align="center">
+    <a href="https://gofiber.io">
+        <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
+    </a>
+    <br><br>
+  <b>Mews.Fiscalizations.Germany</b> is a .NET library that was built to help reporting of e-invoices to the German authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) using [Fiskaly KassenSichV API V1](https://developer.fiskaly.com/api/kassensichv/v1/).
+    <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Germany/">
+        <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Germany">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
+        <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
+    </a>
+    <a href="">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Germany%20(Windows)/master">
+    </a>
+    <a href="">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Germany%20(Linux)/master">
+    </a>
+</p>
 
-This library uses https://developer.fiskaly.com/api/ KassenSichV API V1 to report invoices to the German authorities.
 
-## Key features
-- No German abbreviations.
-- Early data validation.
-- Immutable DTOs.
+## 📃 Description
 
-## Usage
-We tend to use immutable DTOs wherever possible, especially to ensure data validity.
-We want the library to throw an error as soon as possible, i.e. when constructing corresponding data structures.
-That is why we even introduce wrappers for simple datatypes.
+The library uses Fiskaly API to report the invoices, for more information, please check their [Documentation](https://developer.fiskaly.com/api/kassensichv/v1/).
 
-## Code examples
+## ⚙️ Installation
+
+The library can be installed through NuGet packages or the command line as mentioned below:
+```bash
+Install-Package Mews.Fiscalizations.Germany
+```
+
+## 🎯 Features
+
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
+-   No German abbreviations.
+-   Early data validation.
+-   Asynchronous I/O.
+-   All endpoints are covered with tests.
+-   Intuitive immutable DTOs.
+-   Pipelines that run on both Windows and Linux operating systems.
+-   Cross platform (uses .NET Standard).
+
+## 👀 Code Examples
+
+Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
 
 Fiskaly Client can be created using the **ApiKey** and **ApiSecret** which can be created through Fiskaly dashboard.
 
@@ -66,11 +97,6 @@ var tss = await client.CreateTssAsync(accessToken, TssState.Initialized, descrip
 var tssId = tss.SuccessResult.Id;
 ```
 
-More examples can be found in the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
-
-## Fiskaly documentation
-https://developer.fiskaly.com/api/kassensichv/v1/
-
-## NuGet
+## 📦 NuGet
 
 We have published the library as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
