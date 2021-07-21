@@ -4,6 +4,7 @@
     </a>
     <br><br>
   <b>Mews.Fiscalizations</b> is a .NET library that was built to help reporting of e-invoices to different government authorities.
+  [![NuGet Version](https://img.shields.io/nuget/v/Mews.Fiscalizations.All)](https://www.nuget.org/packages/Mews.Fiscalizations.All/)
 </p>
 
 ## 📃 Description
