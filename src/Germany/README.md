@@ -42,6 +42,10 @@ Install-Package Mews.Fiscalizations.Germany
 -   Pipelines that run on both Windows and Linux operating systems.
 -   Cross platform (uses .NET Standard).
 
+## 📦 NuGet
+
+We have published the library as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
+
 ## 👀 Code Examples
 
 Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
@@ -97,7 +101,3 @@ var clientId = client.SuccessResult.Id;
 var tss = await client.CreateTssAsync(accessToken, TssState.Initialized, description: "Creating a test TSS.");
 var tssId = tss.SuccessResult.Id;
 ```
-
-## 📦 NuGet
-
-We have published the library as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
