@@ -70,8 +70,6 @@ If you still insist on donating, we accept gummy bears at Mews Systems s.r.o., N
 
 ## 🏢 About us
 
-![Mews](https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png)
-
 We’re building transformational technology for millions of hospitality professionals and their guests.
 
 **Hoteliers**
