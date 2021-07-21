@@ -67,10 +67,5 @@ namespace Mews.Fiscalizations.Core.Model
 
             return source;
         }
-
-        public static IEnumerable<T> Flatten<T>(this IEnumerable<IEnumerable<T>> e)
-        {
-            return e.SelectMany(i => i);
-        }
     }
 }
