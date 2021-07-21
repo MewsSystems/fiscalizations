@@ -4,7 +4,7 @@
     </a>
     <br><br>
     <b>Mews.Fiscalizations.Germany</b> is a .NET library that was built to help reporting of e-invoices to the German authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) using [Fiskaly KassenSichV API V1](https://developer.fiskaly.com/api/kassensichv/v1/).
-    <br>
+    <br><br>
     <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Germany/">
         <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Germany">
     </a>
