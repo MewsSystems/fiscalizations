@@ -3,8 +3,7 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-  <b>Mews.Fiscalizations</b> is a .NET library that was built to help reporting of e-invoices to different government authorities.
-  [![NuGet Version](https://img.shields.io/nuget/v/Mews.Fiscalizations.All)](https://www.nuget.org/packages/Mews.Fiscalizations.All/)
+  <b>Mews.Fiscalizations</b> is a .NET library that was built to help reporting of e-invoices to different government authorities
 </p>
 
 ## 📃 Description
