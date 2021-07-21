@@ -29,7 +29,7 @@ Install-Package Mews.Fiscalizations.All
 
 ## 🎯 Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp)
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
 -   Early data validation.
 -   Asynchronous I/O.
 -   All endpoints are covered with tests.
