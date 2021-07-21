@@ -32,7 +32,7 @@ namespace Mews.Fiscalizations.Germany
 
         public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId)
         {
-            var tss = await GetTssAsync(token, tssId).ConfigureAwait(continueOnCapturedContext: false);
+            var tss = await GetTssAsync(token, tssId);
             var tssCertificate = tss.SuccessResult.Certificate;
             var certificate = new X509Certificate2(Encoding.UTF8.GetBytes(tssCertificate));
             var serialNumber = certificate.GetCertHashString();
@@ -44,7 +44,7 @@ namespace Mews.Fiscalizations.Germany
                 request: request,
                 successFunc: response => ModelMapper.MapClient(response),
                 token: token
-            ).ConfigureAwait(continueOnCapturedContext: false);
+            );
         }
 
         public Task<ResponseResult<Tss>> GetTssAsync(AccessToken token, Guid tssId)

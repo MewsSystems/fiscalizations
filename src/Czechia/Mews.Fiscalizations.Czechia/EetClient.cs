@@ -32,7 +32,7 @@ namespace Mews.Eet
             var xmlMessage = new SendRevenueMessage(record, mode).GetXmlMessage();
             Logger?.Debug("DTOs for XML mapping were created.", xmlMessage);
 
-            var sendRevenueResult = await EetSoapClient.SendRevenueAsync(xmlMessage).ConfigureAwait(continueOnCapturedContext: false);
+            var sendRevenueResult = await EetSoapClient.SendRevenueAsync(xmlMessage);
             Logger?.Debug("Result received and successfully deserialized from XML DTOs.", sendRevenueResult);
 
             var result = new SendRevenueResult(sendRevenueResult);

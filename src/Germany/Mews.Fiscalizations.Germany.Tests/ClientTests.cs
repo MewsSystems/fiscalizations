@@ -10,8 +10,8 @@ namespace Mews.Fiscalizations.Germany.Tests
         public async Task CreateClientSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
-            var accessToken = (await client.GetAccessTokenAsync().ConfigureAwait(continueOnCapturedContext: false)).SuccessResult;
-            var createdClient = await client.CreateClientAsync(accessToken, TestFixture.TssId).ConfigureAwait(continueOnCapturedContext: false);
+            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+            var createdClient = await client.CreateClientAsync(accessToken, TestFixture.TssId);
 
             AssertClient(createdClient.IsSuccess, createdClient.SuccessResult.Id);
         }
@@ -20,8 +20,8 @@ namespace Mews.Fiscalizations.Germany.Tests
         public async Task GetClientSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
-            var accessToken = (await client.GetAccessTokenAsync().ConfigureAwait(continueOnCapturedContext: false)).SuccessResult;
-            var result = await client.GetClientAsync(accessToken, TestFixture.ClientId, TestFixture.TssId).ConfigureAwait(continueOnCapturedContext: false);
+            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+            var result = await client.GetClientAsync(accessToken, TestFixture.ClientId, TestFixture.TssId);
 
             AssertClient(result.IsSuccess, result.SuccessResult.Id);
         }

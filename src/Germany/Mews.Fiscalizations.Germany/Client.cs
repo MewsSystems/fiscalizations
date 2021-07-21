@@ -25,8 +25,8 @@ namespace Mews.Fiscalizations.Germany
             where TDto : class
             where TResult : class
         {
-            var httpResponse = await SendRequestAsync(method, endpoint, request, token).ConfigureAwait(continueOnCapturedContext: false);
-            return await DeserializeAsync(httpResponse, successFunc).ConfigureAwait(continueOnCapturedContext: false);
+            var httpResponse = await SendRequestAsync(method, endpoint, request, token);
+            return await DeserializeAsync(httpResponse, successFunc);
         }
 
         internal async Task<ResponseResult<TResult>> GetResponseAsync<TDto, TResult>(string endpoint, Func<TDto, ResponseResult<TResult>> successFunc, AccessToken token)
@@ -35,8 +35,8 @@ namespace Mews.Fiscalizations.Germany
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
-            var httpResponse = await HttpClient.GetAsync(uri).ConfigureAwait(continueOnCapturedContext: false);
-            return await DeserializeAsync(httpResponse, successFunc).ConfigureAwait(continueOnCapturedContext: false);
+            var httpResponse = await HttpClient.GetAsync(uri);
+            return await DeserializeAsync(httpResponse, successFunc);
         }
 
         private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token)
@@ -59,7 +59,7 @@ namespace Mews.Fiscalizations.Germany
             where TDto : class
             where TResult : class
         {
-            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
                 return successFunc(JsonConvert.DeserializeObject<TDto>(content));

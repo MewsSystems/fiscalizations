@@ -23,8 +23,8 @@ namespace Mews.Fiscalizations.Hungary.Utils
             where TResult : class
             where TCode : struct
         {
-            var httpResponse = await SendRequestAsync(endpoint, request).ConfigureAwait(continueOnCapturedContext: false);
-            return await DeserializeAsync(httpResponse, successFunc).ConfigureAwait(continueOnCapturedContext: false);
+            var httpResponse = await SendRequestAsync(endpoint, request);
+            return await DeserializeAsync(httpResponse, successFunc);
         }
 
         private Task<HttpResponseMessage> SendRequestAsync<TRequest>(string endpoint, TRequest request)
@@ -40,7 +40,7 @@ namespace Mews.Fiscalizations.Hungary.Utils
             where TResult : class
             where TCode : struct
         {
-            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
                 return successFunc(XmlManipulator.Deserialize<TDto>(content));

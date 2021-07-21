@@ -34,9 +34,9 @@ namespace Mews.Eet.Communication
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            using (var response = await HttpClient.PostAsync(EndpointUri, requestContent).ConfigureAwait(continueOnCapturedContext: false))
+            using (var response = await HttpClient.PostAsync(EndpointUri, requestContent))
             {
-                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
+                var result = await response.Content.ReadAsStringAsync();
 
                 stopwatch.Stop();
                 var duration = stopwatch.ElapsedMilliseconds;
