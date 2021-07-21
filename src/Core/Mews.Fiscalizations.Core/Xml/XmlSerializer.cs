@@ -14,7 +14,7 @@ namespace Mews.Fiscalizations.Core.Xml
         {
             var namespaceSerializer = new XmlSerializerNamespaces();
             var namespaces = serializationData.ToOption().Match(
-                d => d.Namespaces.ToEnumerable().Flatten(),
+                d => d.Namespaces.Flatten(),
                 _ => Enumerable.Empty<XmlNamespace>()
             );
             namespaces.ForEach(n => namespaceSerializer.Add(n.Prefix, n.Url));

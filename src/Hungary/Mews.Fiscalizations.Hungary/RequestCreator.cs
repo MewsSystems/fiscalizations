@@ -56,7 +56,8 @@ namespace Mews.Fiscalizations.Hungary
             var operations = invoices.Values.Select(item =>
             {
                 var invoiceData = invoiceDataGetter(item.Value);
-                var serializedInvoiceData = XmlSerializer.Serialize(invoiceData);
+                var data = new XmlSerializationData(namespaces: new XmlNamespace(ServiceInfo.XmlNamespace).ToEnumerable());
+                var serializedInvoiceData = XmlSerializer.Serialize(invoiceData, data);
                 var invoiceDataBytes = Encoding.UTF8.GetBytes(serializedInvoiceData.OuterXml);
                 return new Dto.InvoiceOperationType
                 {

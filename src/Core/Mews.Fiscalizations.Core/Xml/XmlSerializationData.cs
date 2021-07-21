@@ -6,14 +6,9 @@ namespace Mews.Fiscalizations.Core.Xml
 {
     public sealed class XmlSerializationData
     {
-        public XmlSerializationData(IEnumerable<XmlNamespace> namespaces = null)
-            : this(Encoding.UTF8, namespaces)
+        public XmlSerializationData(Encoding encoding = null, IEnumerable < XmlNamespace> namespaces = null)
         {
-        }
-
-        public XmlSerializationData(Encoding encoding, IEnumerable<XmlNamespace> namespaces = null)
-        {
-            Encoding = encoding;
+            Encoding = encoding ?? Encoding.UTF8;
             Namespaces = namespaces.ToOption();
         }
 
