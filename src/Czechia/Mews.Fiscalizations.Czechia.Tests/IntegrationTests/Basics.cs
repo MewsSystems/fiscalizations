@@ -30,7 +30,7 @@ namespace Mews.Eet.Tests.IntegrationTests
             var certificate = CreateCertificate(Fixtures.Second);
             var record = CreateSimpleRecord(certificate, Fixtures.Second);
             var client = new EetClient(certificate, EetEnvironment.Playground, TimeSpan.FromMilliseconds(1));
-            Assert.ThrowsAsync<TaskCanceledException>(async () => await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false));
+            Assert.ThrowsAsync<TaskCanceledException>(() => client.SendRevenueAsync(record));
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace Mews.Eet.Tests.IntegrationTests
                     StringAssert.StartsWith("{", jsonString);
                 })
             );
-            Assert.DoesNotThrowAsync(async () => await client.SendRevenueAsync(record).ConfigureAwait(continueOnCapturedContext: false));
+            Assert.DoesNotThrowAsync(() => client.SendRevenueAsync(record));
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace Mews.Eet.Tests.IntegrationTests
             var client = new EetClient(certificate, EetEnvironment.Playground);
 
             var tasks = Enumerable.Range(0, 10).Select(i => client.SendRevenueAsync(record));
-            Assert.DoesNotThrowAsync(async () => await Task.WhenAll(tasks).ConfigureAwait(continueOnCapturedContext: false));
+            Assert.DoesNotThrowAsync(() => Task.WhenAll(tasks));
         }
 
         [Test]
