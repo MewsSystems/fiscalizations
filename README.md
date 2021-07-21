@@ -2,8 +2,8 @@
     <a href="https://gofiber.io">
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
-    <br>
-  <b>Mews.Fiscalizations</b> was built to help reporting of e-invoices to different government authorities.
+    <br><br>
+  <b>Mews.Fiscalizations</b> is a .NET library that was built to help reporting of e-invoices to different government authorities.
 </p>
 
 ## 📃 Description
@@ -15,7 +15,7 @@ This repository contains multiple projects. Each project supports reporting of e
 
 ## ⚙️ Installation
 
-For the reporting of e-invoices to a specifc authority, install the package that corresponds to that country.
+For the reporting of e-invoices to a specifc authority, install the package that corresponds to that country through NuGet or using the following commands.
 
 For example, installing the Spanish fiscalization package in order to report invoices to the Spanish authorities (SII).
 ```bash
@@ -29,9 +29,9 @@ Install-Package Mews.Fiscalizations.All
 
 ## 🎯 Features
 
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp)
 -   Early data validation.
 -   Asynchronous I/O.
--   Error handling.
 -   All endpoints are covered with tests.
 -   Intuitive immutable DTOs.
 -   Pipelines that run on both Windows and Linux operating systems.
