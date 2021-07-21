@@ -45,7 +45,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
 
             try
             {
-                var result = await PostAsync<PostInvoiceResponse>(url, content).ConfigureAwait(continueOnCapturedContext: false);
+                var result = await PostAsync<PostInvoiceResponse>(url, content);
                 return new SendInvoiceResult(result.FileId, result.Message);
             }
             catch (UniwixException e) when (e.Code == (int)UniwixErrorCodes.ValidationError)
@@ -57,7 +57,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
         public async Task<InvoiceState> GetInvoiceStateAsync(string fileId)
         {
             var url = $"{UniwixBaseUrl}/Invoices/{fileId}";
-            var result = await GetAsync<List<InvoiceStateResult>>(url).ConfigureAwait(continueOnCapturedContext: false);
+            var result = await GetAsync<List<InvoiceStateResult>>(url);
 
             if (result.Count == 0)
             {
@@ -87,21 +87,21 @@ namespace Mews.Fiscalizations.Uniwix.Communication
             return ExecuteRequestAsync(url, HttpMethod.Get, content: null, responseProcessor: r => r.IsSuccessStatusCode);
         }
 
-        private async Task<TResult> GetAsync<TResult>(string url)
+        private Task<TResult> GetAsync<TResult>(string url)
         {
-            return await ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null).ConfigureAwait(continueOnCapturedContext: false);
+            return ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null);
         }
 
-        private async Task<TResult> PostAsync<TResult>(string url, HttpContent content)
+        private Task<TResult> PostAsync<TResult>(string url, HttpContent content)
         {
-            return await ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content).ConfigureAwait(continueOnCapturedContext: false);
+            return ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content);
         }
 
         private async Task<TResult> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
         {
-            var response = ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
+            var response = await ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
             {
-                var json = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
+                var json = await httpResponse.Content.ReadAsStringAsync();
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -123,7 +123,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
                 throw new UniwixException(errorResponse.Code, errorResponse.Result);
             });
 
-            return await (await response.ConfigureAwait(continueOnCapturedContext: false)).ConfigureAwait(continueOnCapturedContext: false);
+            return await response;
         }
 
         private async Task<TResult> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content, Func<HttpResponseMessage, TResult> responseProcessor)
@@ -140,7 +140,7 @@ namespace Mews.Fiscalizations.Uniwix.Communication
 
                 try
                 {
-                    using (var httpResponse = await HttpClient.SendAsync(message).ConfigureAwait(continueOnCapturedContext: false))
+                    using (var httpResponse = await HttpClient.SendAsync(message))
                     {
                         return responseProcessor(httpResponse);
                     }

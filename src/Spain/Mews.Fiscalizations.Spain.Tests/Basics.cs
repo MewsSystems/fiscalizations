@@ -68,7 +68,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
                 invoices: new[] { invoice }
             ).Success.Get();
 
-            var response = await client.SubmitSimplifiedInvoiceAsync(model).ConfigureAwait(continueOnCapturedContext: false);
+            var response = await client.SubmitSimplifiedInvoiceAsync(model);
 
             var responseErrorMessages = response.Invoices.Select(i => i.ErrorMessage).Flatten();
             var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);

@@ -29,9 +29,9 @@ namespace Mews.Eet.Communication
 
         private EetLogger Logger { get; }
 
-        public async Task<SendRevenueXmlResponse> SendRevenueAsync(SendRevenueXmlMessage message)
+        public Task<SendRevenueXmlResponse> SendRevenueAsync(SendRevenueXmlMessage message)
         {
-            return await SoapClient.SendAsync<SendRevenueXmlMessage, SendRevenueXmlResponse>(message, operation: "http://fs.mfcr.cz/eet/OdeslaniTrzby").ConfigureAwait(continueOnCapturedContext: false);
+            return SoapClient.SendAsync<SendRevenueXmlMessage, SendRevenueXmlResponse>(message, operation: "http://fs.mfcr.cz/eet/OdeslaniTrzby");
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             var xmlDocument = soapMessage.GetXmlDocument();
             var xml = xmlDocument.OuterXml;
 
-            var response = await GetResponseAsync(xml).ConfigureAwait(continueOnCapturedContext: false);
+            var response = await GetResponseAsync(xml);
 
             var soapBody = GetSoapBody(response);
             return XmlManipulator.Deserialize<TOut>(soapBody);
@@ -50,9 +50,9 @@ namespace Mews.Fiscalizations.Spain.Communication
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            using (var response = await HttpClient.PostAsync(EndpointUri, requestContent).ConfigureAwait(continueOnCapturedContext: false))
+            using (var response = await HttpClient.PostAsync(EndpointUri, requestContent))
             {
-                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false);
+                var result = await response.Content.ReadAsStringAsync();
 
                 stopwatch.Stop();
                 var duration = stopwatch.ElapsedMilliseconds;

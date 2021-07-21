@@ -20,7 +20,7 @@ namespace Mews.Fiscalizations.Spain.Nif
         public async Task<Response> CheckNif(Request model)
         {
             var request = Convert(model);
-            var response = await SoapClient.SendAsync<Entrada, Salida>(request).ConfigureAwait(continueOnCapturedContext: false);
+            var response = await SoapClient.SendAsync<Entrada, Salida>(request);
             return Convert(request, response);
         }
 

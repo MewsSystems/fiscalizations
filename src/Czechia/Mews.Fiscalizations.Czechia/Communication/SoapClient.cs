@@ -49,7 +49,7 @@ namespace Mews.Eet.Communication
             var xml = xmlDocument.OuterXml;
             Logger?.Debug("Created signed XML.", new { SoapString = xml });
 
-            var response = await HttpClient.SendAsync(xml, operation).ConfigureAwait(continueOnCapturedContext: false);
+            var response = await HttpClient.SendAsync(xml, operation);
 
             Logger?.Debug("Received RAW response from EET servers.", new { HttpResponseBody = response });
 
