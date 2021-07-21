@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using FuncSharp;
@@ -72,22 +71,6 @@ namespace Mews.Fiscalizations.Core.Model
         public static IEnumerable<T> Flatten<T>(this IEnumerable<IEnumerable<T>> e)
         {
             return e.SelectMany(i => i);
-        }
-
-        [DebuggerStepThrough]
-        public static void ForEach<T>(this IEnumerable<T> e, Action<T> action)
-        {
-            e.ForEach((item, i) => action(item));
-        }
-
-        [DebuggerStepThrough]
-        public static void ForEach<T>(this IEnumerable<T> e, Action<T, int> action)
-        {
-            var i = 0;
-            foreach (var x in e.OrEmptyIfNull())
-            {
-                action(x, i++);
-            }
         }
     }
 }

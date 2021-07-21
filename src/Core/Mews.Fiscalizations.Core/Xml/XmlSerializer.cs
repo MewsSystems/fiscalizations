@@ -17,7 +17,11 @@ namespace Mews.Fiscalizations.Core.Xml
                 d => d.Namespaces.Flatten(),
                 _ => Enumerable.Empty<XmlNamespace>()
             );
-            namespaces.ForEach(n => namespaceSerializer.Add(n.Prefix, n.Url));
+
+            foreach (var ns in namespaces)
+            {
+                namespaceSerializer.Add(ns.Prefix, ns.Url);
+            }
 
             var xmlDocument = new XmlDocument();
             var navigator = xmlDocument.CreateNavigator();
