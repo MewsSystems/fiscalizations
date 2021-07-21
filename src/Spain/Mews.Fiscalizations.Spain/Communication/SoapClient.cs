@@ -32,7 +32,8 @@ namespace Mews.Fiscalizations.Spain.Communication
             where TIn : class, new()
             where TOut : class, new()
         {
-            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject, new XmlSerializationData(GetSiiNameSpaces()));
+            var data = new XmlSerializationData(namespaces: GetSiiNameSpaces());
+            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject, data);
             XmlMessageSerialized?.Invoke(this, new XmlMessageSerializedEventArgs(messageBodyXmlElement));
 
             var soapMessage = new SoapMessage(messageBodyXmlElement);
@@ -42,7 +43,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             var response = await GetResponseAsync(xml).ConfigureAwait(continueOnCapturedContext: false);
 
             var soapBody = GetSoapBody(response);
-            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml, new XmlSerializationData(namespaces: GetSiiNameSpaces()));
+            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml, data);
         }
 
         private async Task<string> GetResponseAsync(string body)
