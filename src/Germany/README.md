@@ -3,7 +3,7 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-    <b>Mews.Fiscalizations.Germany</b> is a .NET library that was built to help reporting of e-invoices to the German authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) using [Fiskaly KassenSichV API V1](https://developer.fiskaly.com/api/kassensichv/v1/).
+    <b>Mews.Fiscalizations.Germany</b> is a .NET library that was built to help reporting of e-invoices to the German authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) using <a href="https://developer.fiskaly.com/api/kassensichv/v1/">Fiskaly KassenSichV API V1</a>.
     <br><br>
     <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Germany/">
         <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Germany">
