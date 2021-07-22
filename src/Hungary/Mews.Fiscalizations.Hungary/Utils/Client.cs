@@ -1,4 +1,6 @@
-﻿using Mews.Fiscalizations.Hungary.Models;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Core.Xml;
+using Mews.Fiscalizations.Hungary.Models;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -30,7 +32,9 @@ namespace Mews.Fiscalizations.Hungary.Utils
         private Task<HttpResponseMessage> SendRequestAsync<TRequest>(string endpoint, TRequest request)
             where TRequest : class
         {
-            var content = new StringContent(XmlManipulator.Serialize(request), Encoding.UTF8, "application/xml");
+            var parameters = new XmlSerializationParameters(namespaces: ServiceInfo.XmlNamespace.ToEnumerable());
+            var xml = XmlSerializer.Serialize(request, parameters);
+            var content = new StringContent(xml.OuterXml, ServiceInfo.Encoding, "application/xml");
             var uri = new Uri(ServiceInfo.BaseUrls[Environment], $"{ServiceInfo.RelativeServiceUrl}{endpoint}");
             return HttpClient.PostAsync(uri, content);
         }
@@ -43,11 +47,11 @@ namespace Mews.Fiscalizations.Hungary.Utils
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                return successFunc(XmlManipulator.Deserialize<TDto>(content));
+                return successFunc(XmlSerializer.Deserialize<TDto>(content));
             }
             else
             {
-                var errorResult = XmlManipulator.Deserialize<Dto.GeneralErrorResponse>(content);
+                var errorResult = XmlSerializer.Deserialize<Dto.GeneralErrorResponse>(content);
                 return new ResponseResult<TResult, TCode>(generalErrorMessage: ErrorResult<TCode>.Map(errorResult));
             }
         }

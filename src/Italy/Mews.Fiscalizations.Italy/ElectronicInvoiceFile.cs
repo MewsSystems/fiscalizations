@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using System.Xml.Serialization;
+using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Italy.Utils;
 
@@ -26,10 +27,8 @@ namespace Mews.Fiscalizations.Italy
 
         private string Serialize(ElectronicInvoice invoice)
         {
-            var xmlNamespaces = new XmlSerializerNamespaces();
-            xmlNamespaces.Add("p", ElectronicInvoice.Namespace);
-
-            var xml = XmlManipulator.Serialize(invoice, xmlNamespaces).OuterXml;
+            var parameters = new XmlSerializationParameters(namespaces: new XmlNamespace("p", ElectronicInvoice.Namespace).ToEnumerable());
+            var xml = XmlSerializer.Serialize(invoice, parameters).OuterXml;
             return $@"{XmlFileHeader}{xml}";
         }
     }

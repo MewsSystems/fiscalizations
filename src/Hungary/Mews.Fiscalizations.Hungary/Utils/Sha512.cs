@@ -11,8 +11,7 @@ namespace Mews.Fiscalizations.Hungary.Utils
         {
             using (var sha = SHA512.Create())
             {
-                var encoding = Encoding.UTF8;
-                var bytes = sha.ComputeHash(encoding.GetBytes(input));
+                var bytes = sha.ComputeHash(ServiceInfo.Encoding.GetBytes(input));
                 return String.Join("", bytes.Select(b => b.ToString("x2"))).ToUpper();
             }
         }

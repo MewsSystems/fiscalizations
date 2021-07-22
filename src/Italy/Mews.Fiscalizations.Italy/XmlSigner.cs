@@ -6,9 +6,9 @@ namespace Mews.Fiscalizations.Italy
 {
     public static class XmlSigner
     {
-        public static XmlDocument Sign(XmlDocument document, X509Certificate2 certificate)
+        public static XmlDocument Sign(XmlElement element, X509Certificate2 certificate)
         {
-            var signedXml = new SignedXml(document)
+            var signedXml = new SignedXml(element)
             {
                 SigningKey = certificate.PrivateKey,
                 SignedInfo =
@@ -44,7 +44,7 @@ namespace Mews.Fiscalizations.Italy
             signedXml.ComputeSignature();
 
             var result = new XmlDocument();
-            result.AppendChild(result.ImportNode(document.DocumentElement, true));
+            result.AppendChild(result.ImportNode(element, true));
 
             var xmlSignature = signedXml.GetXml();
             result.DocumentElement.AppendChild(result.ImportNode(xmlSignature, true));
