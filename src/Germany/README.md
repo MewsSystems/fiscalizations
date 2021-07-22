@@ -12,10 +12,10 @@
         <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
     </a>
     <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany-windows.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Germany%20(Windows)/master">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Germany%20(Windows)/master?label=windows%20build">
     </a>
     <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-germany-linux.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Germany%20(Linux)/master">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Germany%20(Linux)/master?label=linux%20build">
     </a>
     <a href="https://developer.fiskaly.com/api/kassensichv/v1/">
         <img src="https://img.shields.io/badge/v1-Fiskaly-lightgrey">
