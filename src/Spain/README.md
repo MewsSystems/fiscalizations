@@ -19,7 +19,7 @@
         <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Spain%20(Linux)/master?label=linux%20build">
     </a>
     <a href="https://www.agenciatributaria.es/AEAT.internet/en_gb/SII.html">
-        <img src="https://img.shields.io/badge/v3.0-NAV-lightgrey">
+        <img src="https://img.shields.io/badge/v1.1-SII-lightgrey">
     </a>
 </p>
 
