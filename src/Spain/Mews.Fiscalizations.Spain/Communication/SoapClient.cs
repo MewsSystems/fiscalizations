@@ -43,7 +43,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             var response = await GetResponseAsync(xml).ConfigureAwait(continueOnCapturedContext: false);
 
             var soapBody = GetSoapBody(response);
-            return XmlSerializer.Deserialize<TOut>(soapBody);
+            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml);
         }
 
         private async Task<string> GetResponseAsync(string body)

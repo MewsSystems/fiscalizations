@@ -35,7 +35,7 @@ namespace Mews.Fiscalizations.Italy.Communication
             var response = await HttpClient(httpRequest).ConfigureAwait(continueOnCapturedContext: false);
 
             var soapBody = GetSoapBody(response.Content.Value);
-            return XmlSerializer.Deserialize<TOut>(soapBody);
+            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml);
         }
 
         private HttpRequest GetHttpRequest(string operation, string messageXml)

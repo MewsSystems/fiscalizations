@@ -30,27 +30,18 @@ namespace Mews.Fiscalizations.Core.Xml
             return xmlDocument.DocumentElement;
         }
 
-        public static T Deserialize<T>(XmlElement xmlElement)
-            where T : class
+        public static T Deserialize<T>(string content, XmlSerializationParameters parameters = null)
         {
-            using (var reader = new StringReader(xmlElement.OuterXml))
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
+            var contentBytes = parameters.ToOption().GetOrElse(new XmlSerializationParameters()).Encoding.GetBytes(content);
+            using (var stream = new MemoryStream(contentBytes, index: 0, count: contentBytes.Length))
             {
-                var xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
-                return xmlSerializer.Deserialize(reader) as T;
+                using (var reader = new XmlTextReader(stream))
+                {
+                    reader.XmlResolver = null;
+                    return (T)serializer.Deserialize(reader);
+                }
             }
-        }
-
-        public static T Deserialize<T>(string content)
-            where T : class
-        {
-            return Deserialize<T>(ToXmlElement(content));
-        }
-
-        private static XmlElement ToXmlElement(string xml)
-        {
-            var document = new XmlDocument();
-            document.LoadXml(xml);
-            return document.DocumentElement;
         }
     }
 }
