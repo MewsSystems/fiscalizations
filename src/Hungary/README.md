@@ -123,13 +123,14 @@ var items = new[]
 
 ```csharp
 var invoice = new Invoice(
-    number: InvoiceNumber.Create("Invoice-10").Success.Get(),
-    issueDate: DateTime.UtcNow.Date,
-    supplierInfo: supplierInfo,
-    receiver: receiver, // B2B or B2C, each have its own requirements.
+    number: invoiceNumber ?? InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get(),
+    issueDate: nowUtc,
+    supplierInfo: CreateSupplierInfo(),
+    receiver: receiver,
     items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-    paymentDate: DateTime.UtcNow.Date,
-    currencyCode: CurrencyCode.Create("EUR").Success.Get()
+    paymentDate: nowUtc,
+    currencyCode: CurrencyCode.Create("EUR").Success.Get(),
+    paymentMethod: PaymentMethod.Card
 );
 ```
 
