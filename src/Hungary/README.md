@@ -19,7 +19,7 @@
         <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Hungary%20(Linux)/master">
     </a>
     <a href="https://onlineszamla.nav.gov.hu/api/files/container/download/Online%20Szamla_Interfesz%20specifikacio_EN_v3.0.pdf">
-        <img src="https://img.shields.io/badge/3.0-NAV-lightgrey">
+        <img src="https://img.shields.io/badge/v3.0-NAV-lightgrey">
     </a>
 </p>
 
