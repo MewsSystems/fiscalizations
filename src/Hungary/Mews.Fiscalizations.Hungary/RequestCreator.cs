@@ -56,9 +56,9 @@ namespace Mews.Fiscalizations.Hungary
             var operations = invoices.Values.Select(item =>
             {
                 var invoiceData = invoiceDataGetter(item.Value);
-                var data = new XmlSerializationData(namespaces: new XmlNamespace(ServiceInfo.XmlNamespace).ToEnumerable());
-                var serializedInvoiceData = XmlSerializer.Serialize(invoiceData, data);
-                var invoiceDataBytes = Encoding.UTF8.GetBytes(serializedInvoiceData.OuterXml);
+                var parameters = new XmlSerializationParameters(namespaces: new XmlNamespace(ServiceInfo.XmlNamespace).ToEnumerable());
+                var serializedInvoiceData = XmlSerializer.Serialize(invoiceData, parameters);
+                var invoiceDataBytes = ServiceInfo.Encoding.GetBytes(serializedInvoiceData.OuterXml);
                 return new Dto.InvoiceOperationType
                 {
                     index = item.Index,
@@ -78,7 +78,7 @@ namespace Mews.Fiscalizations.Hungary
             var invoiceSignatureData = string.Join("", invoiceHashes);
 
             var request = CreateRequest<Dto.ManageInvoiceRequest>(user, software, invoiceSignatureData);
-            request.exchangeToken = Encoding.UTF8.GetString(token.Value);
+            request.exchangeToken = ServiceInfo.Encoding.GetString(token.Value);
             request.invoiceOperations = new Dto.InvoiceOperationListType
             {
                 compressedContent = false,

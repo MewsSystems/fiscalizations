@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Mews.Fiscalizations.Hungary
 {
@@ -15,6 +16,8 @@ namespace Mews.Fiscalizations.Hungary
 
         internal static Uri RelativeServiceUrl { get; }
 
+        internal static Encoding Encoding { get; }
+
         static ServiceInfo()
         {
             MaxInvoiceBatchSize = 100;
@@ -26,6 +29,7 @@ namespace Mews.Fiscalizations.Hungary
                 [NavEnvironment.Live] = new Uri("https://api.onlineszamla.nav.gov.hu")
             };
             RelativeServiceUrl = new Uri("invoiceService/v3/", UriKind.Relative);
+            Encoding = Encoding.UTF8;
         }
     }
 }

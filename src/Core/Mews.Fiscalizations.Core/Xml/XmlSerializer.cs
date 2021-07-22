@@ -1,22 +1,17 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Core.Xml
 {
     public sealed class XmlSerializer
     {
-        public static XmlElement Serialize<T>(T value, XmlSerializationData serializationData = null)
+        public static XmlElement Serialize<T>(T value, XmlSerializationParameters parameters = null)
             where T : class
         {
             var namespaceSerializer = new XmlSerializerNamespaces();
-            var namespaces = serializationData.ToOption().Match(
-                d => d.Namespaces.Flatten(),
-                _ => Enumerable.Empty<XmlNamespace>()
-            );
+            var namespaces = parameters.ToOption().FlatMap(d => d.Namespaces).Flatten();
 
             foreach (var ns in namespaces)
             {
@@ -35,21 +30,27 @@ namespace Mews.Fiscalizations.Core.Xml
             return xmlDocument.DocumentElement;
         }
 
-        public static T Deserialize<T>(string content, XmlSerializationData serializationData = null)
+        public static T Deserialize<T>(XmlElement xmlElement)
             where T : class
         {
-            Check.NonEmpty(content, $"Empty {nameof(content)} cannot be deserialized.");
-
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
-            var contentBytes = serializationData.ToOption().GetOrElse(new XmlSerializationData()).Encoding.GetBytes(content);
-            using (var stream = new MemoryStream(contentBytes, index: 0, count: contentBytes.Length))
+            using (var reader = new StringReader(xmlElement.OuterXml))
             {
-                using (var reader = new XmlTextReader(stream))
-                {
-                    reader.XmlResolver = null;
-                    return (T)serializer.Deserialize(reader);
-                }
+                var xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
+                return xmlSerializer.Deserialize(reader) as T;
             }
+        }
+
+        public static T Deserialize<T>(string content)
+            where T : class
+        {
+            return Deserialize<T>(ToXmlElement(content));
+        }
+
+        private static XmlElement ToXmlElement(string xml)
+        {
+            var document = new XmlDocument();
+            document.LoadXml(xml);
+            return document.DocumentElement;
         }
     }
 }

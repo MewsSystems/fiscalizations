@@ -9,7 +9,7 @@ namespace Mews.Fiscalizations.Hungary.Utils
         public static byte[] Decrypt(string key, byte[] data)
         {
             var cipher = CipherUtilities.GetCipher("AES");
-            cipher.Init(false, new KeyParameter(Encoding.UTF8.GetBytes(key)));
+            cipher.Init(false, new KeyParameter(ServiceInfo.Encoding.GetBytes(key)));
             return cipher.DoFinal(data);
         }
     }

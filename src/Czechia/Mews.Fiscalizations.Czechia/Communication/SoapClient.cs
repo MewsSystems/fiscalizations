@@ -52,7 +52,7 @@ namespace Mews.Eet.Communication
             Logger?.Debug("Received RAW response from EET servers.", new { HttpResponseBody = response });
 
             var soapBody = GetSoapBody(response);
-            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml);
+            return XmlSerializer.Deserialize<TOut>(soapBody);
         }
 
         private XmlElement GetSoapBody(string soapXmlString)

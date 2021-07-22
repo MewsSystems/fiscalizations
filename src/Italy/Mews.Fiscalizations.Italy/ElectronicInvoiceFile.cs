@@ -27,8 +27,8 @@ namespace Mews.Fiscalizations.Italy
 
         private string Serialize(ElectronicInvoice invoice)
         {
-            var data = new XmlSerializationData(namespaces: new XmlNamespace("p", ElectronicInvoice.Namespace).ToEnumerable());
-            var xml = XmlSerializer.Serialize(invoice, data).OuterXml;
+            var parameters = new XmlSerializationParameters(namespaces: new XmlNamespace("p", ElectronicInvoice.Namespace).ToEnumerable());
+            var xml = XmlSerializer.Serialize(invoice, parameters).OuterXml;
             return $@"{XmlFileHeader}{xml}";
         }
     }

@@ -32,9 +32,9 @@ namespace Mews.Fiscalizations.Hungary.Utils
         private async Task<HttpResponseMessage> SendRequestAsync<TRequest>(string endpoint, TRequest request)
             where TRequest : class
         {
-            var data = new XmlSerializationData(namespaces: new XmlNamespace(ServiceInfo.XmlNamespace).ToEnumerable());
-            var xml = XmlSerializer.Serialize(request, data);
-            var content = new StringContent(xml.OuterXml, Encoding.UTF8, "application/xml");
+            var parameters = new XmlSerializationParameters(namespaces: new XmlNamespace(ServiceInfo.XmlNamespace).ToEnumerable());
+            var xml = XmlSerializer.Serialize(request, parameters);
+            var content = new StringContent(xml.OuterXml, ServiceInfo.Encoding, "application/xml");
             var uri = new Uri(ServiceInfo.BaseUrls[Environment], $"{ServiceInfo.RelativeServiceUrl}{endpoint}");
             return await HttpClient.PostAsync(uri, content).ConfigureAwait(continueOnCapturedContext: false);
         }
