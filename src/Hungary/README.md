@@ -1,30 +1,62 @@
-# Mews.Fiscalization.Hungary
+<p align="center">
+    <a href="https://mews.com">
+        <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
+    </a>
+    <br><br>
+    <b>Mews.Fiscalizations.Hungary</b> is a .NET library that was built to help reporting of e-invoices to the Hungarian authorities (Online Szamla - Nemzeti Adó- és Vámhivatal).
+    <b>Current supported version is 3.0.</b>
+    <br><br>
+    <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Hungary/">
+        <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Hungary">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
+        <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary-windows.yml">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Hungary%20(Windows)/master?label=windows%20build">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-hungary-linux.yml">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Hungary%20(Linux)/master?label=linux%20build">
+    </a>
+    <a href="https://onlineszamla.nav.gov.hu/api/files/container/download/Online%20Szamla_Interfesz%20specifikacio_EN_v3.0.pdf">
+        <img src="https://img.shields.io/badge/v3.0-NAV-lightgrey">
+    </a>
+</p>
 
-This library uses the [NAV Online Invoice System](https://onlineszamla.nav.gov.hu) to report e-invoices.
+## 📃 Description
 
-Useful links:
+This library uses the [NAV Online Invoice System](https://onlineszamla.nav.gov.hu) to report e-invoices, please check their [Documentation](https://onlineszamla.nav.gov.hu/dokumentaciok).
+
+<b>Useful links:</b>
 [API documentation](https://onlineszamla.nav.gov.hu/api/files/container/download/Online%20Szamla_Interfesz%20specifikacio_EN_v3.0.pdf)
 [Test environment](https://onlineszamla-test.nav.gov.hu/)
 [Production environment](https://onlineszamla.nav.gov.hu/)
 
-P.S The library uses functional principles, it is recommended to check [FuncSharp](https://github.com/siroky/FuncSharp).
+## ⚙️ Installation
 
-## Supported API version
-**3.0**
+The library can be installed through NuGet packages or the command line as mentioned below:
+```bash
+Install-Package Mews.Fiscalizations.Hungary
+```
 
-## Key features
+## 🎯 Features
 
-- No Hungarian abbreviations.
-- Early data validation.
-- Immutable DTOs.
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
+-   No Hungarian abbreviations.
+-   Early data validation.
+-   Asynchronous I/O.
+-   All endpoints are covered with tests.
+-   Intuitive immutable DTOs.
+-   Pipelines that run on both Windows and Linux operating systems.
+-   Cross platform (uses .NET Standard).
 
-## Usage
+## 📦 NuGet
 
-We tend to use immutable DTOs wherever possible, especially to ensure data validity.
-We want the library to throw an error as soon as possible, i.e. when constructing corresponding data structures.
-That is why we even introduce wrappers for simple datatypes.
+We have published the library as [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary/).
 
-## Code examples
+## 👀 Code Examples
+
+Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Hungary/Mews.Fiscalizations.Hungary.Tests).
 
 **Creating NAV client**
 There are 3 required properties that need to be provided when creating the NAV client
@@ -91,13 +123,14 @@ var items = new[]
 
 ```csharp
 var invoice = new Invoice(
-    number: InvoiceNumber.Create("Invoice-10").Success.Get(),
-    issueDate: DateTime.UtcNow.Date,
+    number: invoiceNumber ?? InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get(),
+    issueDate: nowUtc,
     supplierInfo: supplierInfo,
-    receiver: receiver, // B2B or B2C, each have its own requirements.
+    receiver: receiver,
     items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-    paymentDate: DateTime.UtcNow.Date,
-    currencyCode: CurrencyCode.Create("EUR").Success.Get()
+    paymentDate: nowUtc,
+    currencyCode: CurrencyCode.Create("EUR").Success.Get(),
+    paymentMethod: PaymentMethod.Card
 );
 ```
 
@@ -112,9 +145,3 @@ return await client.SendInvoicesAsync(
 
 **In case of rebating/modifying/changing an invoice**
 It is possible to report the modified invoice through ```SendModificationDocumentsAsync``` API.
-
-More examples can be found in the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Hungary/Mews.Fiscalizations.Hungary.Tests).
-
-## NuGet
-
-We have published the library as [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary/).
