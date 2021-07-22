@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://gofiber.io">
+    <a href="https://mews.com">
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
@@ -125,7 +125,7 @@ var items = new[]
 var invoice = new Invoice(
     number: invoiceNumber ?? InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get(),
     issueDate: nowUtc,
-    supplierInfo: CreateSupplierInfo(),
+    supplierInfo: supplierInfo,
     receiver: receiver,
     items: Sequence.FromPreordered(items, startIndex: 1).Get(),
     paymentDate: nowUtc,
