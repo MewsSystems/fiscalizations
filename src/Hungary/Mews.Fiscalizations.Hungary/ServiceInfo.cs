@@ -1,3 +1,4 @@
+using Mews.Fiscalizations.Core.Xml;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Mews.Fiscalizations.Hungary
 
         internal static string Version { get; }
 
-        internal static string XmlNamespace { get; }
+        internal static XmlNamespace XmlNamespace { get; }
 
         internal static Dictionary<NavEnvironment, Uri> BaseUrls { get; }
 
@@ -22,7 +23,7 @@ namespace Mews.Fiscalizations.Hungary
         {
             MaxInvoiceBatchSize = 100;
             Version = "3.0";
-            XmlNamespace = "http://schemas.nav.gov.hu/OSA/3.0/api";
+            XmlNamespace = new XmlNamespace("http://schemas.nav.gov.hu/OSA/3.0/api");
             BaseUrls = new Dictionary<NavEnvironment, Uri>
             {
                 [NavEnvironment.Test] = new Uri("https://api-test.onlineszamla.nav.gov.hu"),
