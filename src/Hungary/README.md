@@ -144,5 +144,3 @@ return await client.SendInvoicesAsync(
 
 **In case of rebating/modifying/changing an invoice**
 It is possible to report the modified invoice through ```SendModificationDocumentsAsync``` API.
-
-More examples can be found in the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Hungary/Mews.Fiscalizations.Hungary.Tests).
