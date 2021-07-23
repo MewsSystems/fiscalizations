@@ -98,9 +98,16 @@ if (response.IsSuccess)
 - More examples are presented [here](doc/examples.md).
 - Some of the data items are explained [here](doc/data.md).
 
-## 🧑 Authors
-Development: [@jirihelmich](https://github.com/jirihelmich)
-Code review: [@siroky](https://github.com/siroky), [@onashackem](https://github.com/onashackem)
+## 🏭 Who uses the library in production?
+- [Mews](https://mews.com) - Property Management Solution for the 21st century.
+- [Hlídač EET](http://hlidaceet.cz) - Watchdog of the EET API endpoint and related services.
+- Keszh, Neszh - [Hart](http://hartphp.com.pl/) Internal ERP System
+- [Ankerdata EasiPOS](http://easipos.ankerdata.com/) - POS system
+- [sySOft](http://www.sysoft.cz/) - POS system
 
 ## 👍 Credits
-- [@tomasdeml](https://github.com/tomasdeml): [PR#3](https://github.com/MewsSystems/eet/pull/3/files)
+Development: [@jirihelmich](https://github.com/jirihelmich)
+
+Code review: [@siroky](https://github.com/siroky), [@onashackem](https://github.com/onashackem)
+
+Contribution: [@tomasdeml](https://github.com/tomasdeml): [PR#3](https://github.com/MewsSystems/eet/pull/3/files)
