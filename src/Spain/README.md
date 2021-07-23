@@ -1,37 +1,123 @@
-# Mews.Fiscalizations.Spain (SII)
+<p align="center">
+    <a href="https://mews.com">
+        <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
+    </a>
+    <br><br>
+    <b>Mews.Fiscalizations.Spain</b> is a .NET library that was built to help reporting of e-invoices to the Spanish authorities (SII - Suministro Inmediato de Información del IVA).
+    <b>Current supported version is 1.1.</b>
+    <br><br>
+    <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Spain/">
+        <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Spain">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
+        <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-windows.yml">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Spain%20(Windows)/master?label=windows%20build">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-linux.yml">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Spain%20(Linux)/master?label=linux%20build">
+    </a>
+    <a href="https://www.agenciatributaria.es/AEAT.internet/en_gb/SII.html">
+        <img src="https://img.shields.io/badge/v1.1-SII-lightgrey">
+    </a>
+</p>
+
+## 📃 Description
+
+This library uses the [SII](https://www.agenciatributaria.es/AEAT.internet/en_gb/SII.html) to report e-invoices, please check their [Documentation](https://www.agenciatributaria.es/AEAT.internet/en_gb/SII.html).
 
 SII stands for Suministro Inmediato de Información del IVA, which translates to Immediate Supply of Information on VAT.
 It's an online API provided by Spanish authorities in a form of a SOAP Web Service.
 
-## Key features
-- No SPanish abbreviations.
-- Early data validation.
-- Intuitive immutable DTOs.
+## ⚙️ Installation
 
-## Known issues
+The library can be installed through NuGet packages or the command line as mentioned below:
+```bash
+Install-Package Mews.Fiscalizations.Spain
+```
+
+## 🎯 Features
+
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
+-   No Spanish abbreviations.
+-   Early data validation.
+-   Asynchronous I/O.
+-   All endpoints are covered with tests.
+-   Intuitive immutable DTOs.
+-   Pipelines that run on both Windows and Linux operating systems.
+-   Cross platform (uses .NET Standard).
+-   Logging support.
+
+## ❗ Known issues
 - We didn't implement deleting or modifying already existing records.
 
-## Usage
-We tend to use immutable DTOs wherever possible, especially to ensure data validity.
-We want the library to throw an error as soon as possible, i.e. when constructing corresponding data structures.
-That is why we even introduce wrappers for simple datatypes.
-
-# NuGet
+## 📦 NuGet
 
 We have published the library as [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain/).
 
-# Authors
+## 👀 Code Examples
+
+Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Spain/Mews.Fiscalizations.Spain.Tests).
+
+**Creating the client**
+There are 3 required properties that need to be provided when creating the client
+1. Certificate: the certificate can be obtained from the SII website
+2. Environment: production/test.
+3. HttpTimeout: the timespan to wait before the request times out.
+
+```csharp
+var certificate = new X509Certificate2(.....);
+var client = new Client(certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
+```
+
+**Creating the IssuingCompany (supplier/issuer)**
+First step is to create the tax payer object:
+```csharp
+var taxpayerIdentificationNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, "INSERT_ISSUER_TAX_NUMBER").Success.Get();
+```
+
+and to create the IssuingCompany object:
+```csharp
+var issuingCompany = new LocalCompany(
+    name: Name.CreateUnsafe("Name of the issuing company"),
+    taxpayerIdentificationNumber: taxpayerIdentificationNumber
+);
+```
+
+**Creating the invoice**
+```csharp
+var issueDateUtc = nowUtc.Date;
+var vat = 21m;
+var baseValue = 42.07m;
+var taxRateSummaries = new[] 
+{
+    new TaxRateSummary(
+        taxRatePercentage: Percentage.Create(vat).Success.Get(),
+        taxBaseAmount: Amount.Create(baseValue).Success.Get(),
+        taxAmount: Amount.Create(Math.Round(baseValue * vat / 100, 2)).Success.Get()
+    );
+};
+var taxExemptItems = new[] { new TaxExemptItem(Amount.Create(20m).Success.Get(), CauseOfExemption.OtherGrounds) };
+var invoice = return new SimplifiedInvoice(
+    taxPeriod: new TaxPeriod(Year.Create(issueDateUtc.Year).Success.Get(), (Month)(issueDateUtc.Month - 1)),
+    id: new InvoiceId(issuingCompany.TaxpayerIdentificationNumber, String1To60.CreateUnsafe("Invoice_number"), issueDateUtc),
+    schemeOrEffect: SchemeOrEffect.GeneralTaxRegimeActivity,
+    description: String0To500.CreateUnsafe("Invoice description."),
+    taxBreakdown: new TaxBreakdown(TaxSummary.Create(taxExempt: taxExemptItems, taxed: taxRateSummaries).Success.Get()),
+    issuedByThirdParty: true
+);
+```
+
+**Submitting the invoice**
+```csharp
+var model = SimplifiedInvoicesToSubmit.Create(
+    header: new Header(IssuingCompany, CommunicationType.Registration),
+    invoices: new[] { invoice }
+).Success.Get();
+
+var response = await client.SubmitSimplifiedInvoiceAsync(model);
+```
+
+## 🧑 Authors
 Development: [@PavelKalandra](https://github.com/KaliCZ), [@MiroslavVeith](https://github.com/mveith)
-
-# Who uses the library in production?
-- [Mews](https://mews.com) - Property Management Solution for the 21st century.
-
-We would like to hear your story and know who users of the lib are. Please, thank us for providing the library by sharing with us, who you are and letting us add you into this list.
-
-The time to implement this was kindly provided by [Mews](https://mews.com).
-
-# Donate
-There is no need to donate the project, but thanks for considering it! Instead, if you like the project, star it here on GitHub :-)! Thanks!
-
-If you still insist on donating, we accept gummy bears at Mews Systems, IP Pavlova 5, Vinohrady 
-120 00 Prague. This project was, of course, powered by a huge pile of gummy bears ;-)
