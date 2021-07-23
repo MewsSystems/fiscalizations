@@ -43,7 +43,6 @@ Install-Package Mews.Fiscalizations.Czechia
 -   Asynchronous I/O.
 -   All endpoints are covered with tests.
 -   Intuitive immutable DTOs.
--   Pipelines that run on both Windows and Linux operating systems.
 -   Cross platform (uses .NET Standard).
 -   Logging support
 -   SOAP communication (including WS-Security signing).
