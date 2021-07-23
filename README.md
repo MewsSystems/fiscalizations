@@ -57,6 +57,15 @@ Please visit the desired fiscalization project to see its code examples.
 | [Italy](https://github.com/MewsSystems/fiscalizations/tree/master/src/Italy)     | [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy) | [![Build](https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Italy%20(Windows)/master)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-windows.yml)     | [![Build](https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Italy%20(Linux)/master)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-linux.yml)     |
 | [Spain](https://github.com/MewsSystems/fiscalizations/tree/master/src/Spain)     | [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain) | [![Build](https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Spain%20(Windows)/master)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-windows.yml)     | [![Build](https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Spain%20(Linux)/master)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-linux.yml)     | Linux build runs on ubuntu-18.04 because our test certificate is not secure enough to run on Ubuntu-latest. |
 
+## 🧑 Authors
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/KaliCZ"><img src="https://avatars.githubusercontent.com/u/12395130?v=4" width="100px;" alt=""/><br /><sub><b>Pavel Kalandra</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/abdallahbeshi"><img src="https://avatars.githubusercontent.com/u/51375082?v=4" width="100px;" alt=""/><br /><sub><b>Abdallah Altrabeishi</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/marektresnak"><img src="https://avatars.githubusercontent.com/u/12021177?v=4" width="100px;" alt=""/><br /><sub><b>Marek Tresnak</b></sub></a><br /></td>
+  </tr>
+</table>
+
 ## 👍 Contribute
 
 If you want to support the development of `Mews.Fiscalizations`, feel free to create a PR with a clear description on what was fixed or introduced.
