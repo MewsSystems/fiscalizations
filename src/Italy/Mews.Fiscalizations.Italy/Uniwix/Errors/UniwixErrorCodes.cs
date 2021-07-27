@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Italy.Errors
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Errors
 {
     public enum UniwixErrorCodes
     {

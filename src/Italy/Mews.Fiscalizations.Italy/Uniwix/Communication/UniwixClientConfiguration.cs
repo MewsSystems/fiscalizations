@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Italy.Communication
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication
 {
     public class UniwixClientConfiguration
     {
