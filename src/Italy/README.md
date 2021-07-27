@@ -21,10 +21,10 @@
 
 ## 📃 Description
 
-A client library for reporting invoices through SDI (Sistema di interscambio). Here are the main parts of the library:
-- **SDI Client** that handles communication with the SDI.
+A client library for reporting invoices through SDI (Sistema di interscambio) using Uniwix API. Here are the main parts of the library:
+- **Uniwix Client** that handles communication with the SDI through Uniwix API.
 - **DTOs** that can be serialized into XML conforming to the FatturaPA format (the official format in which all invoices need to be reported).
-- **DTOs** for handling messages sent by the SDI.
+- **DTOs** for handling messages sent by the Uniwix/SDI.
 
 ## ⚙️ Installation
 
