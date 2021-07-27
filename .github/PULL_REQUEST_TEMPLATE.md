@@ -1,10 +1,8 @@
-# Pull Request Template
-
 ## Description
 
 Please include a summary of the change and which issue is fixed.
 
-Fixes # (youtrack issue)
+Fixes #issue
 
 ## Type of change
 - [ ] Bug fix.
