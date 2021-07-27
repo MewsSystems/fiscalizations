@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Uniwix.Communication.Dto
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto
 {
     internal enum UniwixProcesingState
     {

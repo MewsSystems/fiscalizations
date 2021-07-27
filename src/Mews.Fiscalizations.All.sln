@@ -40,12 +40,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Hungary
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Hungary.Tests", "Hungary\Mews.Fiscalizations.Hungary.Tests\Mews.Fiscalizations.Hungary.Tests.csproj", "{4C08A63A-DBDF-46E3-A597-0633EFD8E075}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy", "Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj", "{9A89EE7E-B594-4305-A740-AD2A1DF97106}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy.Tests", "Italy\Mews.Fiscalizations.Italy.Tests\Mews.Fiscalizations.Italy.Tests.csproj", "{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Uniwix", "Italy\Mews.Fiscalizations.Uniwix\Mews.Fiscalizations.Uniwix.csproj", "{856667A0-459D-40CF-B47D-D25E6F90B308}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Spain", "Spain\Mews.Fiscalizations.Spain\Mews.Fiscalizations.Spain.csproj", "{B343EDE4-2D03-48AD-B3EF-4E131422BEC7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Spain.Tests", "Spain\Mews.Fiscalizations.Spain.Tests\Mews.Fiscalizations.Spain.Tests.csproj", "{357AEF46-CC32-4AE6-98E2-64A84009C831}"
@@ -53,6 +47,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Core", "Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj", "{71B9B118-D325-4790-95C3-EDFF47F203BD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Core.Tests", "Core\Mews.Fiscalizations.Core.Tests\Mews.Fiscalizations.Core.Tests.csproj", "{CE9F292B-409D-4C38-B528-C55ADB4056FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy.Tests", "Italy\Mews.Fiscalizations.Italy.Tests\Mews.Fiscalizations.Italy.Tests.csproj", "{A36D3406-9949-4098-AD0D-1AC34829DE8B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy", "Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj", "{E0911C51-C4B8-4342-90A3-5838B86DE82D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,18 +94,6 @@ Global
 		{4C08A63A-DBDF-46E3-A597-0633EFD8E075}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C08A63A-DBDF-46E3-A597-0633EFD8E075}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C08A63A-DBDF-46E3-A597-0633EFD8E075}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A89EE7E-B594-4305-A740-AD2A1DF97106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A89EE7E-B594-4305-A740-AD2A1DF97106}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A89EE7E-B594-4305-A740-AD2A1DF97106}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A89EE7E-B594-4305-A740-AD2A1DF97106}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{856667A0-459D-40CF-B47D-D25E6F90B308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{856667A0-459D-40CF-B47D-D25E6F90B308}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{856667A0-459D-40CF-B47D-D25E6F90B308}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{856667A0-459D-40CF-B47D-D25E6F90B308}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B343EDE4-2D03-48AD-B3EF-4E131422BEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B343EDE4-2D03-48AD-B3EF-4E131422BEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B343EDE4-2D03-48AD-B3EF-4E131422BEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -124,6 +110,14 @@ Global
 		{CE9F292B-409D-4C38-B528-C55ADB4056FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9F292B-409D-4C38-B528-C55ADB4056FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9F292B-409D-4C38-B528-C55ADB4056FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A36D3406-9949-4098-AD0D-1AC34829DE8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A36D3406-9949-4098-AD0D-1AC34829DE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A36D3406-9949-4098-AD0D-1AC34829DE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A36D3406-9949-4098-AD0D-1AC34829DE8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0911C51-C4B8-4342-90A3-5838B86DE82D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0911C51-C4B8-4342-90A3-5838B86DE82D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0911C51-C4B8-4342-90A3-5838B86DE82D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0911C51-C4B8-4342-90A3-5838B86DE82D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,11 +137,10 @@ Global
 		{30A4B03D-E67B-4C1F-9C5C-06F9F0704263} = {18D3ADF4-30BF-460E-A97B-1A351AD7A985}
 		{8B17D3FA-A101-4B6A-89DF-7C8E413D121F} = {131BAEDD-D268-4F57-9E34-8FD7BFAEAD47}
 		{4C08A63A-DBDF-46E3-A597-0633EFD8E075} = {131BAEDD-D268-4F57-9E34-8FD7BFAEAD47}
-		{9A89EE7E-B594-4305-A740-AD2A1DF97106} = {EC0FB3F2-F33E-4445-BCB0-955EE0204BBB}
-		{34F934C9-F9FE-4FBC-82A4-7B7F5A9F5B4A} = {EC0FB3F2-F33E-4445-BCB0-955EE0204BBB}
-		{856667A0-459D-40CF-B47D-D25E6F90B308} = {EC0FB3F2-F33E-4445-BCB0-955EE0204BBB}
 		{B343EDE4-2D03-48AD-B3EF-4E131422BEC7} = {F9B7DD75-2D03-434F-81E9-60547C327BE5}
 		{357AEF46-CC32-4AE6-98E2-64A84009C831} = {F9B7DD75-2D03-434F-81E9-60547C327BE5}
+		{A36D3406-9949-4098-AD0D-1AC34829DE8B} = {EC0FB3F2-F33E-4445-BCB0-955EE0204BBB}
+		{E0911C51-C4B8-4342-90A3-5838B86DE82D} = {EC0FB3F2-F33E-4445-BCB0-955EE0204BBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45EA4E8C-6544-4CDB-A186-28B289C09DFE}

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Mews.Fiscalizations.Uniwix.Communication
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto
 {
     internal class PostInvoiceResponse
     {

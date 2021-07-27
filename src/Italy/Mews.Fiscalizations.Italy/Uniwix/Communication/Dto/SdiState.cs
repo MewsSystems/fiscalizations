@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Uniwix.Dto
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto
 {
     public enum SdiState
     {

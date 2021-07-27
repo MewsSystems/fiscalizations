@@ -1,6 +1,6 @@
 using System;
 
-namespace Mews.Fiscalizations.Uniwix.Errors
+namespace Mews.Fiscalizations.Italy.Uniwix.Errors
 {
     public class UniwixAuthorizationException : Exception
     {
