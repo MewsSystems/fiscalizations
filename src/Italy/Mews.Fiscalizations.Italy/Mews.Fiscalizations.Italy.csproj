@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mews</Authors>
-    <Description>Client for SDI using Uniwix API. Used in italy for fiscal compliance.</Description>
+    <Description>Client for SDI using Uniwix API. Used in Italy for fiscal compliance.</Description>
     <PackageTags>uniwix fiscalization italy sdi</PackageTags>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
     <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
