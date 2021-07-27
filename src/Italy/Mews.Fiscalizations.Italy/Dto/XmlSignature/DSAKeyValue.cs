@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Italy.Dto.XmlSignature
+namespace Mews.Fiscalizations.Uniwix.Dto.XmlSignature
 {
     [Serializable, XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#"), XmlRoot("DSAKeyValue", Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
     public class DSAKeyValue

@@ -1,10 +1,10 @@
 ﻿using System.Text;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
-using Mews.Fiscalizations.Italy.Dto.Invoice;
-using Mews.Fiscalizations.Italy.Utils;
+using Mews.Fiscalizations.Uniwix.Dto.Invoice;
+using Mews.Fiscalizations.Uniwix.Utils;
 
-namespace Mews.Fiscalizations.Italy
+namespace Mews.Fiscalizations.Uniwix
 {
     public class ElectronicInvoiceFile
     {

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
+    <AssemblyName>Mews.Fiscalizations.Italy.Tests</AssemblyName>
+    <RootNamespace>Mews.Fiscalizations.Italy.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

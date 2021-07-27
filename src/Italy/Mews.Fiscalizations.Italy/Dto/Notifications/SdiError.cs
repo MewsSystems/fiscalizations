@@ -1,7 +1,7 @@
 ﻿using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Italy.Dto.Notifications
+namespace Mews.Fiscalizations.Uniwix.Dto.Notifications
 {
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType(Namespace = "http://www.fatturapa.gov.it/sdi/messaggi/v1.0")]

@@ -68,10 +68,6 @@
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Italy.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference Include="..\Italy\Mews.Fiscalizations.Uniwix\Mews.Fiscalizations.Uniwix.csproj">
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <IncludeAssets>Mews.Fiscalizations.Uniwix.dll</IncludeAssets>
-    </ProjectReference>
     <ProjectReference Include="..\Spain\Mews.Fiscalizations.Spain\Mews.Fiscalizations.Spain.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Spain.dll</IncludeAssets>
@@ -80,7 +76,7 @@
 
   <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
     <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
   

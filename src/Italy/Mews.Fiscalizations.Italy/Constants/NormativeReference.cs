@@ -1,8 +1,8 @@
 ﻿using System;
 using FuncSharp;
-using Mews.Fiscalizations.Italy.Dto.Invoice;
+using Mews.Fiscalizations.Uniwix.Dto.Invoice;
 
-namespace Mews.Fiscalizations.Italy.Constants
+namespace Mews.Fiscalizations.Uniwix.Constants
 {
     public static class NormativeReference
     {

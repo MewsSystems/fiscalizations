@@ -2,7 +2,7 @@
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Italy.Dto.Invoice
+namespace Mews.Fiscalizations.Uniwix.Dto.Invoice
 {
     [Serializable, XmlType(Namespace = ElectronicInvoice.Namespace)]
     public class SimpleIdentityData
