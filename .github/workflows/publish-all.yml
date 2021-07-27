@@ -54,6 +54,9 @@ jobs:
         hungarian_signing_key: ${{secrets.hungarian_signing_key}}
         hungarian_tax_payer_id: ${{secrets.hungarian_tax_payer_id}}
         hungarian_encryption_key: ${{secrets.hungarian_encryption_key}}
+
+        italian_username: ${{secrets.italian_username}}
+        italian_password: ${{secrets.italian_password}}
       run: dotnet test --no-restore --verbosity normal
 
   publish:
