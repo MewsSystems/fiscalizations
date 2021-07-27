@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Errors
+namespace Mews.Fiscalizations.Italy.Uniwix.Errors
 {
     public class UniwixValidationException : UniwixException
     {
