@@ -62,8 +62,150 @@ Uniwix Client can be created using the **Username** and **Password** which can b
 2. Invoice can be retrieved using ```SendInvoiceAsync``` API which requires the ```fileId``` of the invoice that was already submitted as a parameter.
 3. It is possible to confirm that the credentials are valid using ```VerifyCredentialsAsync``` API which would return a flag that indicates if the credentials are valid or not.
 
-**Creation of a new invoice**
+**Create Electronic invoice**
 
 ```csharp
+var invoice = new ElectronicInvoice
+{
+    Version = VersioneSchemaType.FPR12,
+    Header = invoiceHeader,
+    Body = new[] { invoiceBody }
+};
+```
 
+**Create invoice header**
+
+```csharp
+var header = new ElectronicInvoiceHeader
+{
+    TransmissionData = new TransmissionData
+    {
+        SequentialNumber = "1",
+        DestinationCode = "1234567",
+        TransmitterId = senderId,
+        TransmissionFormat = TransmissionFormat.FPR12,
+    },
+    Provider = new Provider
+    {
+        IdentificationData = new IdentificationData
+        {
+            VatTaxId = senderId,
+            Identity = new Identity
+            {
+                CompanyName = "Italian company ltd."
+            },
+            FiscalRegime = FiscalRegime.Ordinary
+        },
+        OfficeAddress = address
+    },
+    Buyer = new Buyer
+    {
+        IdentityData = new SimpleIdentityData
+        {
+            Identity = new Identity
+            {
+                FirstName = "John",
+                LastName = "Smith"
+            },
+            TaxCode = "SDASDA96L27H501H"
+        },
+        OfficeAddress = address
+    }
+};
+```
+
+**Create sender id**
+
+```csharp
+var senderId = new SenderId
+{
+    CountryCode = Countries.Italy.Alpha2Code,
+    TaxCode = "1234567"
+};
+```
+
+**Create address**
+
+```csharp
+var address = new Address
+{
+    Street = "Roma Street",
+    City = "Rome",
+    CountryCode = Countries.Italy.Alpha2Code,
+    ProvinceCode = "RM",
+    Zip = "00031"
+};
+```
+
+**Create invoice body**
+
+```csharp
+var invoiceBody = new ElectronicInvoiceBody
+{
+    GeneralData = new GeneralData
+    {
+        GeneralDocumentData = new GeneralDocumentData
+        {
+            DocumentType = DocumentType.Invoice,
+            CurrencyCode = "EUR",
+            IssueDate = DateTime.UtcNow,
+            DocumentNumber = "1",
+            TotalAmount = 100m
+        }
+    },
+    ServiceData = new ServiceData
+    {
+        InvoiceLines = new[] { invoiceLine },
+        TaxSummary = new[] { taxSummary }
+    },
+    PaymentData = new[] { paymentData }
+};
+```
+
+**Create invoice line**
+
+```csharp
+var invoiceLine = new InvoiceLine
+{
+    LineNumber = "1",
+    Description = "Item 1",
+    UnitCount = 1m,
+    PeriodStartingDate = DateTime.UtcNow,
+    PeriodClosingDate = DateTime.UtcNow,
+    UnitPrice = 100m,
+    TotalPrice = 100m,
+    VatRate = 10m
+};
+```
+
+**Create tax rate summary**
+
+```csharp
+var taxSummary = new TaxRateSummary
+{
+    VatRate = 10m,
+    TaxAmount = 9m,
+    TaxableAmount = 90m,
+    VatDueDate = VatDueDate.Immediate
+};
+```
+
+**Create payment data**
+
+```csharp
+var paymentData = new PaymentData
+{
+    PaymentDetails = new [] { paymentDetail },
+    PaymentTerms = PaymentTerms.LumpSum
+};
+```
+
+**Create payment detail**
+
+```csharp
+var paymentDetail = new PaymentDetail
+{
+    PaymentMethod = PaymentMethod.Cash,
+    PaymentAmount = 100m
+};
 ```
