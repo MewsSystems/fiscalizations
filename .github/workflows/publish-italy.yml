@@ -38,6 +38,9 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Test
+      env:
+        italian_username: ${{secrets.italian_username}}
+        italian_password: ${{secrets.italian_password}}
       run: dotnet test --no-restore --verbosity normal
 
   publish:

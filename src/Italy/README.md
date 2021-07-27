@@ -1,26 +1,69 @@
-# Mews.Fiscalizations.Italy & Mews.Fiscalizations.Uniwix
+<p align="center">
+    <a href="https://mews.com">
+        <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
+    </a>
+    <br><br>
+    <b>Mews.Fiscalizations.Italy</b> is a .NET library that was built to help reporting of e-invoices to the Italian authorities (SDI - Sistema di Interscambio) using <a href="https://www.uniwix.com/">Uniwix API.</a>.
+    <br><br>
+    <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Italy/">
+        <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Italy">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
+        <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-windows.yml">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Italy%20(Windows)/master?label=windows%20build">
+    </a>
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-linux.yml">
+        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Italy%20(Linux)/master?label=linux%20build">
+    </a>
+</p>
+
+## 📃 Description
 
 A client library for reporting invoices through SDI (Sistema di interscambio). Here are the main parts of the library:
 - **SDI Client** that handles communication with the SDI.
 - **DTOs** that can be serialized into XML conforming to the FatturaPA format (the official format in which all invoices need to be reported).
 - **DTOs** for handling messages sent by the SDI.
 
-## Key features
-- No Italian abbreviations.
-- Early data validation.
-- Immutable DTOs.
+## ⚙️ Installation
 
-## Usage
-We tend to use immutable DTOs wherever possible, especially to ensure data validity.
-We want the library to throw an error as soon as possible, i.e. when constructing corresponding data structures.
-That is why we even introduce wrappers for simple datatypes.
+The library can be installed through NuGet packages or the command line as mentioned below:
+```bash
+Install-Package Mews.Fiscalizations.Italy
+```
 
-## Security protocol
+## 🎯 Features
+
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
+-   No Italian abbreviations.
+-   Early data validation.
+-   Asynchronous I/O.
+-   All endpoints are covered with tests.
+-   Intuitive immutable DTOs.
+-   Cross platform (uses .NET Standard).
+
+## 📦 NuGet
+
+We have published the library as [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy/).
+
+## 🔐 Security protocol
 - TLS 1.0 protocol must be enabled, that can be achieved by adding the following line to your code:
 ```csharp
 ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls;
 ```
 
-# NuGet
+## 👀 Code Examples
+Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Italy/Mews.Fiscalizations.Italy.Tests).
 
-We have published the library as [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy/).
+Uniwix Client can be created using the **Username** and **Password** which can be created through Uniwix website.
+
+1. Invoices can be reported to the SDI using ```SendInvoiceAsync``` API which requires the ```ElectronicInvoice``` (the invoice to be reported) as a parameter.
+2. Invoice can be retrieved using ```SendInvoiceAsync``` API which requires the ```fileId``` of the invoice that was already submitted as a parameter.
+3. It is possible to confirm that the credentials are valid using ```VerifyCredentialsAsync``` API which would return a flag that indicates if the credentials are valid or not.
+
+**Creation of a new invoice**
+
+```csharp
+
+```
