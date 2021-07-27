@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Uniwix.Dto.Receive
+namespace Mews.Fiscalizations.Italy.Dto.Receive
 {
     [Serializable]
     [XmlRoot("rispostaSdIRiceviFile", Namespace = "http://www.fatturapa.gov.it/sdi/ws/trasmissione/v1.0/types")]

@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Uniwix.Communication.Dto
+namespace Mews.Fiscalizations.Italy.Communication.Dto
 {
     internal class ValidationError
     {

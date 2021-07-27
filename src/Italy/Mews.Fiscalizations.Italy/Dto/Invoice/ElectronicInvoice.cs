@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using Mews.Fiscalizations.Uniwix.Dto.XmlSignature;
+using Mews.Fiscalizations.Italy.Dto.XmlSignature;
 
-namespace Mews.Fiscalizations.Uniwix.Dto.Invoice
+namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
     [Serializable, XmlType(Namespace = ElectronicInvoice.Namespace), XmlRoot("FatturaElettronica", Namespace = ElectronicInvoice.Namespace, IsNullable = false)]
     public class ElectronicInvoice

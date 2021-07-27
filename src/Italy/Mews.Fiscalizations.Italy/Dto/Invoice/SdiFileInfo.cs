@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mews.Fiscalizations.Uniwix.Dto.Invoice
+namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
     public class SdiFileInfo
     {

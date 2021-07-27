@@ -6,14 +6,14 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Mews.Fiscalizations.Uniwix;
-using Mews.Fiscalizations.Uniwix.Dto.Invoice;
-using Mews.Fiscalizations.Uniwix.Communication.Dto;
-using Mews.Fiscalizations.Uniwix.Dto;
-using Mews.Fiscalizations.Uniwix.Errors;
+using Mews.Fiscalizations.Italy;
+using Mews.Fiscalizations.Italy.Dto.Invoice;
+using Mews.Fiscalizations.Italy.Communication.Dto;
+using Mews.Fiscalizations.Italy.Dto;
+using Mews.Fiscalizations.Italy.Errors;
 using Newtonsoft.Json;
 
-namespace Mews.Fiscalizations.Uniwix.Communication
+namespace Mews.Fiscalizations.Italy.Communication
 {
     public class UniwixClient
     {

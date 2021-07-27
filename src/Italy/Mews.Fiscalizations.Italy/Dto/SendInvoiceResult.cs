@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Uniwix.Dto
+namespace Mews.Fiscalizations.Italy.Dto
 {
     public class SendInvoiceResult
     {
