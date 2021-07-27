@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Org.BouncyCastle.Crypto.Parameters;
+﻿using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 
 namespace Mews.Fiscalizations.Hungary.Utils

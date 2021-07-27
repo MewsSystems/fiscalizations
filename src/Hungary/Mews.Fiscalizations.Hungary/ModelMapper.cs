@@ -1,5 +1,4 @@
-﻿using System;
-using Mews.Fiscalizations.Hungary.Models;
+﻿using Mews.Fiscalizations.Hungary.Models;
 using Mews.Fiscalizations.Hungary.Utils;
 using System.Linq;
 using FuncSharp;

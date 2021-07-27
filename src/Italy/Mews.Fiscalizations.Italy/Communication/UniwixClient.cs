@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Mews.Fiscalizations.Italy;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Italy.Communication.Dto;
 using Mews.Fiscalizations.Italy.Dto;
