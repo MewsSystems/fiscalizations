@@ -8,6 +8,7 @@ using Mews.Fiscalizations.Italy.Constants;
 using System.Threading;
 using Mews.Fiscalizations.Italy.Uniwix.Communication;
 using Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
+using System.Net;
 
 namespace Mews.Fiscalizations.Italy.Tests
 {
@@ -16,6 +17,11 @@ namespace Mews.Fiscalizations.Italy.Tests
     {
         public static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
         public static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
+
+        static UniwixClientTests()
+        {
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls;
+        }
 
         public static UniwixClient GetUniwixClient()
         {
