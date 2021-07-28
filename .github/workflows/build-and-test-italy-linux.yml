@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     
     env:
       DOTNET_NOLOGO: true
@@ -39,4 +39,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Test
+      env:
+        italian_username: ${{secrets.italian_username}}
+        italian_password: ${{secrets.italian_password}}
       run: dotnet test --no-restore --verbosity normal
