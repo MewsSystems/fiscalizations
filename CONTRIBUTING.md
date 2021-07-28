@@ -39,6 +39,7 @@ PRs to our libraries are always welcome and can be a quick way to get your fix o
 - Title of the PR should be explanatory. We usually use the first line of the structured commit.
 - Update the documentation in the repo if applicable.
 - Every PR should be mergeable.
+- Every PR should pass all the actions (tests/security scans..etc).
 
 For changes that address core functionality or would require breaking changes (e.g. a major release), it's best to open an Issue to discuss your proposal first. This is not required but can save time creating and reviewing changes.
 
