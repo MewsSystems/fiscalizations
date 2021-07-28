@@ -36,7 +36,7 @@ PRs to our libraries are always welcome and can be a quick way to get your fix o
 - Follow single responsibility principle, i.e. solving one and exactly one thing. If your PR consists of multiple different changes, split it into separate PRs.
 - Every PR should have a description, explaining mainly what has changed and why, so that any developer can quickly understand the purpose of PR without necessarily being involved in every preceding discussion, decisions etc. There is a template set up, so you can follow it.
 - Add unit tests for fixed or changed functionality (if a test suite already exists).
-- Title of the PR should be explanatory. We usually use the first line of the structured commit.
+- Title of the PR should be explanatory.
 - Update the documentation in the repo if applicable.
 - Every PR should be mergeable.
 - Every PR should pass all the actions (tests/security scans..etc).
