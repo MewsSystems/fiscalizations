@@ -1,10 +1,10 @@
 <p align="center">
     <a href="https://mews.com">
-        <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
+        <img alt="Mews" height="100px" src="https://user-images.githubusercontent.com/435787/129971779-2c64348e-05a3-49d0-b026-91913ffd68dc.png">
     </a>
-    <br><br>
-  <b>Mews.Fiscalizations</b> is a .NET library that was built to help reporting of e-invoices to different government authorities
 </p>
+
+**Mews.Fiscalizations** is a .NET library that was built to help reporting of e-invoices to different government authorities.
 
 ## 📃 Description
 
