@@ -1,8 +1,7 @@
-﻿using Mews.Fiscalizations.Germany.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Germany.Model;
 using System;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.Germany
@@ -32,16 +31,22 @@ namespace Mews.Fiscalizations.Germany
 
         public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId)
         {
-            var tss = await GetTssAsync(token, tssId);
-            var tssCertificate = tss.SuccessResult.Certificate;
-            var certificate = new X509Certificate2(Encoding.UTF8.GetBytes(tssCertificate));
-            var serialNumber = certificate.GetCertHashString();
-
-            var request = RequestCreator.CreateClient(serialNumber);
+            var id = Guid.NewGuid();
             return await Client.ProcessRequestAsync<Dto.CreateClientRequest, Dto.ClientResponse, Model.Client>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{tssId}/client/{Guid.NewGuid()}",
-                request: request,
+                endpoint: $"tss/{tssId}/client/{id}",
+                request: RequestCreator.CreateClient($"ERS {id}"),
+                successFunc: response => ModelMapper.MapClient(response),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<Model.Client>> UpdateClientAsync(AccessToken token, Guid tssId, Guid clientId, ClientState state)
+        {
+            return Client.ProcessRequestAsync<Dto.UpdateClientRequest, Dto.ClientResponse, Model.Client>(
+                method: new HttpMethod("PATCH"),
+                endpoint: $"tss/{tssId}/client/{clientId}",
+                request: RequestCreator.UpdateClient(state),
                 successFunc: response => ModelMapper.MapClient(response),
                 token: token
             );
@@ -56,21 +61,21 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        public Task<ResponseResult<Tss>> CreateTssAsync(AccessToken token, TssState state, string description = null)
+        public Task<ResponseResult<CreateTss>> CreateTssAsync(AccessToken token)
         {
-            return Client.ProcessRequestAsync<Dto.CreateTssRequest, Dto.TssResponse, Tss>(
+            return Client.ProcessRequestAsync<object, Dto.CreateTssResponse, CreateTss>(
                 method: HttpMethod.Put,
                 endpoint: $"tss/{Guid.NewGuid()}",
-                request: RequestCreator.CreateTss(state, description),
-                successFunc: response => ModelMapper.MapTss(response),
-                token: token
+                successFunc: response => ModelMapper.MapCreateTss(response),
+                token: token,
+                request: new { }
             );
         }
 
-        public Task<ResponseResult<Tss>> UpdateTssAsync(AccessToken token, Guid tssId, TssState state)
+        public async Task<ResponseResult<Tss>> UpdateTssAsync(AccessToken token, Guid tssId, TssState state)
         {
-            return Client.ProcessRequestAsync<Dto.UpdateTssRequest, Dto.TssResponse, Tss>(
-                method: HttpMethod.Put,
+            return await Client.ProcessRequestAsync<Dto.UpdateTssRequest, Dto.TssResponse, Tss>(
+                method: new HttpMethod("PATCH"),
                 endpoint: $"tss/{tssId}",
                 request: RequestCreator.UpdateTss(state),
                 successFunc: response => ModelMapper.MapTss(response),
@@ -91,7 +96,7 @@ namespace Mews.Fiscalizations.Germany
         {
             return Client.ProcessRequestAsync<Dto.TransactionRequest, Dto.TransactionResponse, Transaction>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{tssId}/tx/{transactionId}",
+                endpoint: $"tss/{tssId}/tx/{transactionId}?tx_revision=1",
                 request: RequestCreator.CreateTransaction(clientId),
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token
@@ -102,7 +107,7 @@ namespace Mews.Fiscalizations.Germany
         {
             return Client.ProcessRequestAsync<Dto.FinishTransactionRequest, Dto.TransactionResponse, Transaction>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{tssId}/tx/{transactionId}?last_revision={lastRevision}",
+                endpoint: $"tss/{tssId}/tx/{transactionId}?tx_revision={lastRevision}",
                 request: RequestCreator.FinishTransaction(clientId, bill),
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token
@@ -116,6 +121,40 @@ namespace Mews.Fiscalizations.Germany
                 endpoint: "auth",
                 request: RequestCreator.CreateAuthorizationToken(ApiKey, ApiSecret),
                 successFunc: response => ModelMapper.MapAccessToken(response)
+            );
+        }
+
+        // TODO: return nothing or just some status code.
+        public Task<ResponseResult<Nothing>> AdminLoginAsync(AccessToken token, Guid tssId, string adminPin)
+        {
+            return Client.ProcessRequestAsync<Dto.AdminLoginRequest, object, Nothing>(
+                method: HttpMethod.Post,
+                endpoint: $"tss/{tssId}/admin/auth",
+                request: RequestCreator.CreateAdminLoginRequest(adminPin),
+                successFunc: response => new ResponseResult<Nothing>(),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<string>> ChangeAdminPinAsync(AccessToken token, Guid tssId, string adminPuk, string newAdminPin)
+        {
+            return Client.ProcessRequestAsync<Dto.AdminPinRequest, object, string>(
+                method: new HttpMethod("PATCH"), // TODO: Update .net standard and then use HttpMethod.Patch.
+                endpoint: $"tss/{tssId}/admin",
+                request: RequestCreator.CreateAdminPinRequest(adminPuk, newAdminPin),
+                successFunc: response => new ResponseResult<string>(newAdminPin),
+                token: token
+            );
+        }
+
+        // TODO: return nothing or just some status code.
+        public Task<ResponseResult<Nothing>> AdminLogoutAsync(Guid tssId)
+        {
+            return Client.ProcessRequestAsync<object, object, Nothing>(
+                method: HttpMethod.Post,
+                endpoint: $"tss/{tssId}/admin/logout",
+                request: new { },
+                successFunc: response => new ResponseResult<Nothing>()
             );
         }
     }

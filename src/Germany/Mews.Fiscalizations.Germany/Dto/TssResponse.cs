@@ -3,14 +3,7 @@ using System;
 
 namespace Mews.Fiscalizations.Germany.Dto
 {
-    public enum TssState
-    {
-        UNINITIALIZED,
-        INITIALIZED,
-        DISABLED
-    }
-
-    public sealed class TssResponse
+    public class TssResponse
     {
         [JsonProperty("_id")]
         public Guid Id { get; set; }
@@ -33,8 +26,8 @@ namespace Mews.Fiscalizations.Germany.Dto
         [JsonProperty("certificate")]
         public string Certificate { get; set; }
 
-        [JsonProperty("certificate_serial")]
-        public string CertificateSerial { get; set; }
+        [JsonProperty("serial_number")]
+        public string SerialNumber { get; set; }
 
         [JsonProperty("public_key")]
         public string PublicKey { get; set; }

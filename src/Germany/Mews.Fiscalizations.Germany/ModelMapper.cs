@@ -16,6 +16,10 @@ namespace Mews.Fiscalizations.Germany
                 state: MapTransactionState(transaction.State),
                 endUtc: transaction.TimeEnd.FromUnixTime(),
                 certificateSerial: transaction.CertificateSerial,
+                clientId: transaction.ClientId,
+                tssId: transaction.TssId,
+                clientSerialNumber: transaction.ClientSerialNumber,
+                tssSerialNumber: transaction.TssSerialNumber,
                 signature: new Signature(
                     value: transaction.Signature.Value,
                     counter: transaction.Signature.Counter,
@@ -48,7 +52,7 @@ namespace Mews.Fiscalizations.Germany
             return new ResponseResult<Model.Client>(successResult: new Model.Client(
                 serialNumber: client.SerialNumber,
                 created: client.TimeCreation.FromUnixTime(),
-                updated: client.TimeUpdate.FromUnixTime(),
+                state: MapClientState(client.State),
                 tssId: client.TssId,
                 id: client.Id
             ));
@@ -64,7 +68,7 @@ namespace Mews.Fiscalizations.Germany
                 initializedUtc: tss.TimeInit.FromUnixTime(),
                 disabledUtc: tss.TimeDisable.FromUnixTime(),
                 certificate: tss.Certificate,
-                certificateSerial: tss.CertificateSerial,
+                serialNumber: tss.SerialNumber,
                 publicKey: tss.PublicKey,
                 signatureCounter: tss.SignatureCounter,
                 signatureAlgorithm: tss.SignatureAlgorithm,
@@ -72,13 +76,43 @@ namespace Mews.Fiscalizations.Germany
             ));
         }
 
+        internal static ResponseResult<CreateTss> MapCreateTss(Dto.CreateTssResponse createTssResponse)
+        {
+            return new ResponseResult<CreateTss>(successResult: new CreateTss(
+                adminPuk: createTssResponse.AdminPuk,
+                tss: new Tss(
+                    id: createTssResponse.Id,
+                    description: createTssResponse.Description,
+                    state: MapTssState(createTssResponse.State),
+                    createdUtc: createTssResponse.TimeCreation.FromUnixTime(),
+                    initializedUtc: createTssResponse.TimeInit.FromUnixTime(),
+                    disabledUtc: createTssResponse.TimeDisable.FromUnixTime(),
+                    certificate: createTssResponse.Certificate,
+                    serialNumber: createTssResponse.SerialNumber,
+                    publicKey: createTssResponse.PublicKey,
+                    signatureCounter: createTssResponse.SignatureCounter,
+                    signatureAlgorithm: createTssResponse.SignatureAlgorithm,
+                    transactionCounter: createTssResponse.TransactionCounter
+                )
+            ));
+        }
+
         private static TssState MapTssState(Dto.TssState state)
         {
             return state.Match(
+                Dto.TssState.CREATED, _ => TssState.Created,
                 Dto.TssState.DISABLED, _ => TssState.Disabled,
                 Dto.TssState.INITIALIZED, _ => TssState.Initialized,
                 Dto.TssState.UNINITIALIZED, _ => TssState.Uninitialized,
                 _ => throw new NotImplementedException($"Tss state: {state} is not implemented.")
+            );
+        }
+
+        private static ClientState MapClientState(Dto.ClientState state)
+        {
+            return state.Match(
+                Dto.ClientState.REGISTERED, _ => ClientState.Registered,
+                Dto.ClientState.DEREGISTERED, _ => ClientState.Deregistered
             );
         }
     }

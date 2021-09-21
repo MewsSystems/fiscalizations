@@ -8,16 +8,6 @@ namespace Mews.Fiscalizations.Germany.Tests
     public class TssTests
     {
         [Test]
-        public async Task CreateTssSucceeds()
-        {
-            var client = TestFixture.GetFiskalyClient();
-            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var createdTss = await client.CreateTssAsync(accessToken, TssState.Initialized, description: "Creating a test TSS.");
-
-            AssertTss(createdTss.IsSuccess, createdTss.SuccessResult.Id);
-        }
-
-        [Test]
         public async Task GetTssSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
@@ -25,6 +15,19 @@ namespace Mews.Fiscalizations.Germany.Tests
             var tss = await client.GetTssAsync(accessToken, TestFixture.TssId);
 
             AssertTss(tss.IsSuccess, tss.SuccessResult.Id);
+        }
+
+        [Test]
+        public async Task UpdateTssSucceeds()
+        {
+            var client = TestFixture.GetFiskalyClient();
+            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+
+            // login
+            await client.AdminLoginAsync(accessToken, TestFixture.TssId, "1234567890");
+            var state1 = await client.UpdateTssAsync(accessToken, TestFixture.TssId, TssState.Uninitialized);
+            var state2 = await client.UpdateTssAsync(accessToken, TestFixture.TssId, TssState.Initialized);
+            AssertTss(state2.IsSuccess, state2.SuccessResult.Id);
         }
 
         private void AssertTss(bool isSuccess, object value)

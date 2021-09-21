@@ -84,6 +84,9 @@ namespace Mews.Fiscalizations.Germany.Dto
         [JsonProperty("tss_id")]
         public Guid TssId { get; set; }
 
+        [JsonProperty("tss_serial_number")]
+        public string TssSerialNumber { get; set; }
+
         [JsonProperty("_type")]
         public string Type { get; set; }
 

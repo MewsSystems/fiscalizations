@@ -2,14 +2,7 @@
 
 namespace Mews.Fiscalizations.Germany.Model
 {
-    public enum TssState
-    {
-        Uninitialized,
-        Initialized,
-        Disabled
-    }
-
-    public sealed class Tss
+    public class Tss
     {
         public Tss(
             Guid id,
@@ -19,7 +12,7 @@ namespace Mews.Fiscalizations.Germany.Model
             DateTime initializedUtc,
             DateTime disabledUtc,
             string certificate,
-            string certificateSerial,
+            string serialNumber,
             string publicKey,
             int signatureCounter,
             string signatureAlgorithm,
@@ -32,7 +25,7 @@ namespace Mews.Fiscalizations.Germany.Model
             InitializedUtc = initializedUtc;
             DisabledUtc = disabledUtc;
             Certificate = certificate;
-            CertificateSerial = certificateSerial;
+            SerialNumber = serialNumber;
             PublicKey = publicKey;
             SignatureCounter = signatureCounter;
             SignatureAlgorithm = signatureAlgorithm;
@@ -53,7 +46,7 @@ namespace Mews.Fiscalizations.Germany.Model
 
         public string Certificate { get; }
 
-        public string CertificateSerial { get; }
+        public string SerialNumber { get; }
 
         public string PublicKey { get; }
 

@@ -3,13 +3,10 @@ using Newtonsoft.Json.Converters;
 
 namespace Mews.Fiscalizations.Germany.Dto
 {
-    public sealed class CreateTssRequest
+    internal class UpdateClientRequest
     {
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
         [JsonProperty("state")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public TssState State { get; set; }
+        public ClientState State { get; set; }
     }
 }

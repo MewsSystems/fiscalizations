@@ -25,12 +25,11 @@ namespace Mews.Fiscalizations.Germany
             };
         }
 
-        internal static Dto.CreateTssRequest CreateTss(TssState state, string description = "")
+        internal static Dto.UpdateClientRequest UpdateClient(ClientState state)
         {
-            return new Dto.CreateTssRequest
+            return new Dto.UpdateClientRequest
             {
-                Description = description,
-                State = SerializeTssState(state)
+                State = SerializeClientState(state)
             };
         }
 
@@ -71,6 +70,23 @@ namespace Mews.Fiscalizations.Germany
             {
                 ApiKey = apiKey.Value,
                 ApiSecret = apiSecret.Value
+            };
+        }
+
+        internal static Dto.AdminLoginRequest CreateAdminLoginRequest(string adminPin)
+        {
+            return new Dto.AdminLoginRequest
+            {
+                AdminPin = adminPin
+            };
+        }
+
+        internal static Dto.AdminPinRequest CreateAdminPinRequest(string adminPuk, string newAdminPin)
+        {
+            return new Dto.AdminPinRequest
+            {
+                AdminPuk = adminPuk,
+                NewAdminPin = newAdminPin
             };
         }
 
@@ -126,6 +142,14 @@ namespace Mews.Fiscalizations.Germany
                 TssState.Disabled, _ => Dto.TssState.DISABLED,
                 TssState.Initialized, _ => Dto.TssState.INITIALIZED,
                 TssState.Uninitialized, _ => Dto.TssState.UNINITIALIZED
+            );
+        }
+
+        private static Dto.ClientState SerializeClientState(ClientState state)
+        {
+            return state.Match(
+                ClientState.Registered, _ => Dto.ClientState.REGISTERED,
+                ClientState.Deregistered, _ => Dto.ClientState.DEREGISTERED
             );
         }
     }

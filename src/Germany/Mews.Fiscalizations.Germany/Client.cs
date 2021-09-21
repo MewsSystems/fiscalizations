@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Germany.Model;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Germany.Model;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -10,8 +11,8 @@ namespace Mews.Fiscalizations.Germany
 {
     internal class Client
     {
-        private static readonly Uri BaseUri = new Uri("https://kassensichv.io");
-        private static readonly string RelativeApiUrl = "api/v1/";
+        private static readonly Uri BaseUri = new Uri("https://kassensichv-middleware.fiskaly.com");
+        private static readonly string RelativeApiUrl = "api/v2/";
 
         private HttpClient HttpClient { get; }
 
@@ -20,7 +21,7 @@ namespace Mews.Fiscalizations.Germany
             HttpClient = new HttpClient();
         }
 
-        internal async Task<ResponseResult<TResult>> ProcessRequestAsync<TRequest, TDto, TResult>(HttpMethod method, string endpoint, TRequest request, Func<TDto, ResponseResult<TResult>> successFunc, AccessToken token = null)
+        internal async Task<ResponseResult<TResult>> ProcessRequestAsync<TRequest, TDto, TResult>(HttpMethod method, string endpoint, Func<TDto, ResponseResult<TResult>> successFunc, TRequest request, AccessToken token = null)
             where TRequest : class
             where TDto : class
             where TResult : class
@@ -39,7 +40,7 @@ namespace Mews.Fiscalizations.Germany
             return await DeserializeAsync(httpResponse, successFunc);
         }
 
-        private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token)
+        private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token = null)
             where TRequest : class
         {
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
@@ -48,7 +49,7 @@ namespace Mews.Fiscalizations.Germany
                 Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json")
             };
 
-            if (token != null)
+            if (token.IsNotNull())
             {
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             }

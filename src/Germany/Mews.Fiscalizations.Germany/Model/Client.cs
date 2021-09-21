@@ -4,20 +4,20 @@ namespace Mews.Fiscalizations.Germany.Model
 {
     public sealed class Client
     {
-        public Client(string serialNumber, DateTime created, DateTime updated, Guid tssId, Guid id)
+        public Client(ClientState state, string serialNumber, DateTime created, Guid tssId, Guid id)
         {
+            State = state;
             SerialNumber = serialNumber;
             Created = created;
-            Updated = updated;
             TssId = tssId;
             Id = id;
         }
 
+        public ClientState State { get; }
+
         public string SerialNumber { get; }
 
         public DateTime Created { get; }
-
-        public DateTime Updated { get; }
 
         public Guid TssId { get; }
 
