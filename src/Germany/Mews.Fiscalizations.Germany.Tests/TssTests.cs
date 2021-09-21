@@ -10,24 +10,24 @@ namespace Mews.Fiscalizations.Germany.Tests
         [Test]
         public async Task GetTssSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
-            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var tss = await client.GetTssAsync(accessToken, TestFixture.TssId);
+            var fiskalyClient = TestFixture.GetFiskalyClient();
+            var testData = await TestFixture.CreateTestData();
+            var tss = await fiskalyClient.GetTssAsync(testData.AccessToken, testData.Tss.Id);
 
             AssertTss(tss.IsSuccess, tss.SuccessResult.Id);
+
+            await TestFixture.CleanTestData(testData);
         }
 
         [Test]
         public async Task UpdateTssSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
-            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+            var testData = await TestFixture.CreateTestData();
+            var disabledTss = await client.UpdateTssAsync(testData.AccessToken, testData.Tss.Id, TssState.Disabled);
+            AssertTss(disabledTss.IsSuccess, disabledTss.SuccessResult.Id);
 
-            // login
-            await client.AdminLoginAsync(accessToken, TestFixture.TssId, "1234567890");
-            var state1 = await client.UpdateTssAsync(accessToken, TestFixture.TssId, TssState.Uninitialized);
-            var state2 = await client.UpdateTssAsync(accessToken, TestFixture.TssId, TssState.Initialized);
-            AssertTss(state2.IsSuccess, state2.SuccessResult.Id);
+            await TestFixture.CleanTestData(testData);
         }
 
         private void AssertTss(bool isSuccess, object value)

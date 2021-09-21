@@ -13,50 +13,62 @@ namespace Mews.Fiscalizations.German.Tests
         [Test]
         public async Task StatusCheckSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
-            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var status = await client.GetClientAsync(accessToken, TestFixture.ClientId, TestFixture.TssId);
+            var fiskalyClient = TestFixture.GetFiskalyClient();
+            var testData = await TestFixture.CreateTestData();
+            var status = await fiskalyClient.GetClientAsync(testData.AccessToken, testData.Client.Id, testData.Tss.Id);
 
             Assert.IsTrue(status.IsSuccess);
+
+            await TestFixture.CleanTestData(testData);
         }
 
         [Test, Order(1)]
         public async Task GetTransactionSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
-            var accessToken = await client.GetAccessTokenAsync();
-            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
-            var retrievedStartedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
+            var fiskalyClient = TestFixture.GetFiskalyClient();
+            var testData = await TestFixture.CreateTestData();
+            var accessToken = testData.AccessToken;
+            var clientId = testData.Client.Id;
+            var tssId = testData.Tss.Id;
+            var startedTransaction = await fiskalyClient.StartTransactionAsync(accessToken, clientId, tssId, Guid.NewGuid());
+            var retrievedStartedTransaction = await fiskalyClient.GetTransactionAsync(accessToken, tssId, startedTransaction.SuccessResult.Id);
             Assert.AreEqual(retrievedStartedTransaction.SuccessResult.State, TransactionState.Active);
 
-            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "2");
-            var retrievedFinishedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, finishedTransaction.SuccessResult.Id);
+            var finishedTransaction = await fiskalyClient.FinishTransactionAsync(accessToken, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "2");
+            var retrievedFinishedTransaction = await fiskalyClient.GetTransactionAsync(accessToken, tssId, finishedTransaction.SuccessResult.Id);
             Assert.AreEqual(retrievedFinishedTransaction.SuccessResult.State, TransactionState.Finished);
+
+            await TestFixture.CleanTestData(testData);
         }
 
         [Test, Order(2)]
         public async Task StartTransactionSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
-            var accessToken = await client.GetAccessTokenAsync();
-            var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, Guid.NewGuid());
+            var fiskalyClient = TestFixture.GetFiskalyClient();
+            var testData = await TestFixture.CreateTestData();
+            var accessToken = testData.AccessToken;
+            var clientId = testData.Client.Id;
+            var tssId = testData.Tss.Id;
+            var startedTransaction = await fiskalyClient.StartTransactionAsync(accessToken, clientId, tssId, Guid.NewGuid());
             var successResult = startedTransaction.SuccessResult;
 
             Assert.IsTrue(startedTransaction.IsSuccess);
             Assert.IsTrue(successResult.StartUtc.HasValue);
             Assert.IsNotNull(successResult.Id);
+
+            await TestFixture.CleanTestData(testData);
         }
 
         [Test, Order(3)]
         public async Task StartAndFinishTransactionSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
-            var clientId = TestFixture.ClientId;
-            var tssId = TestFixture.TssId;
-            var accessToken = await client.GetAccessTokenAsync();
-            var successAccessTokenResult = accessToken.SuccessResult;
-            var startedTransaction = await client.StartTransactionAsync(successAccessTokenResult, clientId, tssId, Guid.NewGuid());
-            var endedTransaction = await client.FinishTransactionAsync(successAccessTokenResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "2");
+            var fiskalyClient = TestFixture.GetFiskalyClient();
+            var testData = await TestFixture.CreateTestData();
+            var accessToken = testData.AccessToken;
+            var clientId = testData.Client.Id;
+            var tssId = testData.Tss.Id;
+            var startedTransaction = await fiskalyClient.StartTransactionAsync(accessToken, clientId, tssId, Guid.NewGuid());
+            var endedTransaction = await fiskalyClient.FinishTransactionAsync(accessToken, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "2");
             var successResult = endedTransaction.SuccessResult;
             var signature = successResult.Signature;
 
@@ -67,6 +79,8 @@ namespace Mews.Fiscalizations.German.Tests
             Assert.IsNotEmpty(signature.Value);
             Assert.IsNotEmpty(signature.Algorithm);
             Assert.IsNotEmpty(signature.PublicKey);
+
+            await TestFixture.CleanTestData(testData);
         }
 
         private Bill GetBill()
