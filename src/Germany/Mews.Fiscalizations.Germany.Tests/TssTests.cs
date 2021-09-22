@@ -8,26 +8,33 @@ namespace Mews.Fiscalizations.Germany.Tests
     public class TssTests
     {
         [Test]
-        public async Task GetTssSucceeds()
+        public async Task CreateTssSucceeds()
         {
-            var fiskalyClient = TestFixture.GetFiskalyClient();
-            var testData = await TestFixture.CreateTestData();
-            var tss = await fiskalyClient.GetTssAsync(testData.AccessToken, testData.Tss.Id);
+            var client = TestFixture.GetFiskalyClient();
+            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+            var createdTss = await client.CreateTssAsync(accessToken);
 
-            AssertTss(tss.IsSuccess, tss.SuccessResult.Id);
+            AssertTss(createdTss.IsSuccess, createdTss.SuccessResult.Id);
 
-            await TestFixture.CleanTestData(testData);
+            // In order to disable a TSS, it must be in Uninitialized state.
+            await client.UpdateTssAsync(accessToken, createdTss.SuccessResult.Id, TssState.Uninitialized);
+
+            var newPin = "1234567890";
+            await client.ChangeAdminPinAsync(accessToken, createdTss.SuccessResult.Id, createdTss.SuccessResult.AdminPuk, newPin);
+            await client.AdminLoginAsync(accessToken, createdTss.SuccessResult.Id, newPin);
+
+            // Disabling the TSS after creation so we don't exceed the test environment limit.
+            await client.UpdateTssAsync(accessToken, createdTss.SuccessResult.Id, TssState.Disabled);
         }
 
         [Test]
-        public async Task UpdateTssSucceeds()
+        public async Task GetTssSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
-            var testData = await TestFixture.CreateTestData();
-            var disabledTss = await client.UpdateTssAsync(testData.AccessToken, testData.Tss.Id, TssState.Disabled);
-            AssertTss(disabledTss.IsSuccess, disabledTss.SuccessResult.Id);
+            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+            var tss = await client.GetTssAsync(accessToken, TestFixture.TssId);
 
-            await TestFixture.CleanTestData(testData);
+            AssertTss(tss.IsSuccess, tss.SuccessResult.Id);
         }
 
         private void AssertTss(bool isSuccess, object value)
