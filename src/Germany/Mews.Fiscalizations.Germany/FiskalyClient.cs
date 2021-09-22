@@ -129,7 +129,7 @@ namespace Mews.Fiscalizations.Germany
             return Client.ProcessRequestAsync<Dto.AdminLoginRequest, object, Nothing>(
                 method: HttpMethod.Post,
                 endpoint: $"tss/{tssId}/admin/auth",
-                request: RequestCreator.CreateAdminLoginRequest(adminPin),
+                request: RequestCreator.AdminLoginRequest(adminPin),
                 successFunc: response => new ResponseResult<Nothing>(),
                 token: token
             );
@@ -137,10 +137,10 @@ namespace Mews.Fiscalizations.Germany
 
         public Task<ResponseResult<string>> ChangeAdminPinAsync(AccessToken token, Guid tssId, string adminPuk, string newAdminPin)
         {
-            return Client.ProcessRequestAsync<Dto.AdminPinRequest, object, string>(
+            return Client.ProcessRequestAsync<Dto.AdminSetPinRequest, object, string>(
                 method: new HttpMethod("PATCH"), // TODO: Update .net standard and then use HttpMethod.Patch.
                 endpoint: $"tss/{tssId}/admin",
-                request: RequestCreator.CreateAdminPinRequest(adminPuk, newAdminPin),
+                request: RequestCreator.CreateAdminSetPinRequest(adminPuk, newAdminPin),
                 successFunc: response => new ResponseResult<string>(newAdminPin),
                 token: token
             );

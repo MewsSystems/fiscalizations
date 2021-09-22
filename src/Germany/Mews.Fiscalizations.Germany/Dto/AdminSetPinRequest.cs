@@ -2,7 +2,7 @@
 
 namespace Mews.Fiscalizations.Germany.Dto
 {
-    internal sealed class AdminPinRequest
+    internal sealed class AdminSetPinRequest
     {
         [JsonProperty("admin_puk")]
         public string AdminPuk { get; set; }

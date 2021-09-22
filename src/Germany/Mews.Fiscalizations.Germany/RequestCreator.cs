@@ -73,7 +73,7 @@ namespace Mews.Fiscalizations.Germany
             };
         }
 
-        internal static Dto.AdminLoginRequest CreateAdminLoginRequest(string adminPin)
+        internal static Dto.AdminLoginRequest AdminLoginRequest(string adminPin)
         {
             return new Dto.AdminLoginRequest
             {
@@ -81,9 +81,9 @@ namespace Mews.Fiscalizations.Germany
             };
         }
 
-        internal static Dto.AdminPinRequest CreateAdminPinRequest(string adminPuk, string newAdminPin)
+        internal static Dto.AdminSetPinRequest CreateAdminSetPinRequest(string adminPuk, string newAdminPin)
         {
-            return new Dto.AdminPinRequest
+            return new Dto.AdminSetPinRequest
             {
                 AdminPuk = adminPuk,
                 NewAdminPin = newAdminPin
