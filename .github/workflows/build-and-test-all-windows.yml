@@ -44,6 +44,8 @@ jobs:
         german_tss_id: ${{secrets.german_tss_id}}
         german_api_key: ${{secrets.german_api_key}}
         german_api_secret: ${{secrets.german_api_secret}}
+        german_admin_pin: ${{secrets.german_admin_pin}}
+        german_admin_puk: ${{secrets.german_admin_puk}}
 
         spanish_certificate_data: ${{secrets.spanish_certificate_data}}
         spanish_certificate_password: ${{secrets.spanish_certificate_password}}

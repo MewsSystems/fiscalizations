@@ -44,4 +44,6 @@ jobs:
         german_tss_id: ${{secrets.german_tss_id}}
         german_api_key: ${{secrets.german_api_key}}
         german_api_secret: ${{secrets.german_api_secret}}
+        german_admin_pin: ${{secrets.german_admin_pin}}
+        german_admin_puk: ${{secrets.german_admin_puk}}
       run: dotnet test --no-restore --verbosity normal
