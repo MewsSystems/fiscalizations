@@ -29,13 +29,13 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId, Guid? id = null)
+        public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId)
         {
-            var clientId = id ?? Guid.NewGuid();
+            var id = Guid.NewGuid();
             return await Client.ProcessRequestAsync<Dto.CreateClientRequest, Dto.ClientResponse, Model.Client>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{tssId}/client/{clientId}",
-                request: RequestCreator.CreateClient($"ERS {clientId}"),
+                endpoint: $"tss/{tssId}/client/{id}",
+                request: RequestCreator.CreateClient($"ERS {id}"),
                 successFunc: response => ModelMapper.MapClient(response),
                 token: token
             );
@@ -61,11 +61,11 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        public Task<ResponseResult<CreateTss>> CreateTssAsync(AccessToken token, Guid? id = null)
+        public Task<ResponseResult<CreateTssResult>> CreateTssAsync(AccessToken token)
         {
-            return Client.ProcessRequestAsync<object, Dto.CreateTssResponse, CreateTss>(
+            return Client.ProcessRequestAsync<object, Dto.CreateTssResponse, CreateTssResult>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{id ?? Guid.NewGuid()}",
+                endpoint: $"tss/{Guid.NewGuid()}",
                 successFunc: response => ModelMapper.MapCreateTss(response),
                 token: token,
                 request: new { }
@@ -103,11 +103,11 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        public Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId, string lastRevision)
+        public Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId, string revision)
         {
             return Client.ProcessRequestAsync<Dto.FinishTransactionRequest, Dto.TransactionResponse, Transaction>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{tssId}/tx/{transactionId}?tx_revision={lastRevision}",
+                endpoint: $"tss/{tssId}/tx/{transactionId}?tx_revision={revision}",
                 request: RequestCreator.FinishTransaction(clientId, bill),
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token

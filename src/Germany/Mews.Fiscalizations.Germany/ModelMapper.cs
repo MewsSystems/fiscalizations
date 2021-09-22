@@ -76,9 +76,9 @@ namespace Mews.Fiscalizations.Germany
             ));
         }
 
-        internal static ResponseResult<CreateTss> MapCreateTss(Dto.CreateTssResponse createTssResponse)
+        internal static ResponseResult<CreateTssResult> MapCreateTss(Dto.CreateTssResponse createTssResponse)
         {
-            return new ResponseResult<CreateTss>(successResult: new CreateTss(
+            return new ResponseResult<CreateTssResult>(successResult: new CreateTssResult(
                 adminPuk: createTssResponse.AdminPuk,
                 tss: new Tss(
                     id: createTssResponse.Id,
