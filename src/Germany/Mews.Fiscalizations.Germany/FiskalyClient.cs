@@ -35,7 +35,7 @@ namespace Mews.Fiscalizations.Germany
             return await Client.ProcessRequestAsync<Dto.CreateClientRequest, Dto.ClientResponse, Model.Client>(
                 method: HttpMethod.Put,
                 endpoint: $"tss/{tssId}/client/{id}",
-                request: RequestCreator.CreateClient($"ERS {id}"),
+                request: RequestCreator.CreateClient(id.ToString()),
                 successFunc: response => ModelMapper.MapClient(response),
                 token: token
             );
