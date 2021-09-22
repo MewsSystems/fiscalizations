@@ -1,4 +1,6 @@
-﻿namespace Mews.Fiscalizations.Germany.Model
+﻿using Mews.Fiscalizations.Core.Model;
+
+namespace Mews.Fiscalizations.Germany.Model
 {
     public class ResponseResult<TResult>
         where TResult : class
@@ -15,10 +17,7 @@
 
         public bool IsSuccess
         {
-            get
-            {
-                return SuccessResult != null;
-            }
+            get { return ErrorResult.IsNull(); }
         }
     }
 }

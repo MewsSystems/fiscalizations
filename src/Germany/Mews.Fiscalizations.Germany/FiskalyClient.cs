@@ -124,7 +124,6 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        // TODO: return nothing or just some status code.
         public Task<ResponseResult<Nothing>> AdminLoginAsync(AccessToken token, Guid tssId, string adminPin)
         {
             return Client.ProcessRequestAsync<Dto.AdminLoginRequest, object, Nothing>(
@@ -147,7 +146,6 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        // TODO: return nothing or just some status code.
         public Task<ResponseResult<Nothing>> AdminLogoutAsync(Guid tssId)
         {
             return Client.ProcessRequestAsync<object, object, Nothing>(
