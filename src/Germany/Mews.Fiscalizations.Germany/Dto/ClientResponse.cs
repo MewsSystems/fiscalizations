@@ -5,9 +5,6 @@ namespace Mews.Fiscalizations.Germany.Dto
 {
     internal sealed class ClientResponse
     {
-        [JsonProperty("_id")]
-        public Guid Id { get; set; }
-
         [JsonProperty("state")]
         public ClientState State { get; set; }
 
@@ -19,6 +16,9 @@ namespace Mews.Fiscalizations.Germany.Dto
 
         [JsonProperty("tss_id")]
         public Guid TssId { get; set; }
+
+        [JsonProperty("_id")]
+        public Guid Id { get; set; }
 
         [JsonProperty("_type")]
         public string Type { get; set; }
