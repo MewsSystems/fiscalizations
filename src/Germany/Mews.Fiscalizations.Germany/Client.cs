@@ -21,7 +21,7 @@ namespace Mews.Fiscalizations.Germany
             HttpClient = new HttpClient();
         }
 
-        internal async Task<ResponseResult<TResult>> ProcessRequestAsync<TRequest, TDto, TResult>(HttpMethod method, string endpoint, Func<TDto, ResponseResult<TResult>> successFunc, TRequest request, AccessToken token = null)
+        internal async Task<ResponseResult<TResult>> ProcessRequestAsync<TRequest, TDto, TResult>(HttpMethod method, string endpoint, TRequest request, Func<TDto, ResponseResult<TResult>> successFunc, AccessToken token = null)
             where TRequest : class
             where TDto : class
             where TResult : class
