@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Germany.Tests
             var client = TestFixture.GetFiskalyClient();
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
 
-            await client.AdminLoginAsync(accessToken, TestFixture.TssId, "1234567890");
+            await client.AdminLoginAsync(accessToken, TestFixture.TssId, TestFixture.AdminPin);
             var createdClient = await client.CreateClientAsync(accessToken, TestFixture.TssId);
 
             AssertClient(createdClient.IsSuccess, createdClient.SuccessResult.Id);
