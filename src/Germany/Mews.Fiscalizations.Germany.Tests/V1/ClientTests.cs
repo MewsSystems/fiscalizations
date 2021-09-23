@@ -1,8 +1,7 @@
-﻿using Mews.Fiscalizations.Germany.V2.Model;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalizations.Germany.Tests
+namespace Mews.Fiscalizations.Germany.Tests.V1
 {
     [TestFixture]
     public class ClientTests
@@ -12,14 +11,9 @@ namespace Mews.Fiscalizations.Germany.Tests
         {
             var client = TestFixture.GetFiskalyClient();
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-
-            await client.AdminLoginAsync(accessToken, TestFixture.TssId, TestFixture.AdminPin);
             var createdClient = await client.CreateClientAsync(accessToken, TestFixture.TssId);
 
             AssertClient(createdClient.IsSuccess, createdClient.SuccessResult.Id);
-
-            // Disabling the Client so we don't exceed the test environment limit.
-            await client.UpdateClientAsync(accessToken, TestFixture.TssId, createdClient.SuccessResult.Id, ClientState.Disabled);
         }
 
         [Test]
