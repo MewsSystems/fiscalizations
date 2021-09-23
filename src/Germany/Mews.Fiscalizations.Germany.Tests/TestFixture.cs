@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Germany.Model;
+﻿using Mews.Fiscalizations.Germany.V1;
+using Mews.Fiscalizations.Germany.V1.Model;
 using System;
 
 namespace Mews.Fiscalizations.Germany.Tests
