@@ -29,7 +29,7 @@ namespace Mews.Fiscalizations.German.Tests
             var retrievedStartedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
             Assert.AreEqual(retrievedStartedTransaction.SuccessResult.State, TransactionState.Active);
 
-            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id, revision: "2");
+            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id);
             var retrievedFinishedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, finishedTransaction.SuccessResult.Id);
             Assert.AreEqual(retrievedFinishedTransaction.SuccessResult.State, TransactionState.Finished);
         }
@@ -56,7 +56,7 @@ namespace Mews.Fiscalizations.German.Tests
             var accessToken = await client.GetAccessTokenAsync();
             var successAccessTokenResult = accessToken.SuccessResult;
             var startedTransaction = await client.StartTransactionAsync(successAccessTokenResult, clientId, tssId, Guid.NewGuid());
-            var endedTransaction = await client.FinishTransactionAsync(successAccessTokenResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id, revision: "2");
+            var endedTransaction = await client.FinishTransactionAsync(successAccessTokenResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id);
             var successResult = endedTransaction.SuccessResult;
             var signature = successResult.Signature;
 
