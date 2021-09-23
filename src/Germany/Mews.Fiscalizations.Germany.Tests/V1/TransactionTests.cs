@@ -1,4 +1,4 @@
-using Mews.Fiscalizations.Germany.Tests;
+using Mews.Fiscalizations.Germany.Tests.V1;
 using Mews.Fiscalizations.Germany.V1.Model;
 using NUnit.Framework;
 using System;
