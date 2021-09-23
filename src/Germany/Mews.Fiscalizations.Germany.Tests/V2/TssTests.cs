@@ -13,7 +13,10 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             var client = TestFixture.GetFiskalyClient();
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
             var createdTss = await client.CreateTssAsync(accessToken);
-            var adminPuk = createdTss.SuccessResult.AdminPuk; // Save for updating Admin PIN.
+
+            // After the creation of a new TSS, it is necessary to save the Admin PUK code that is returned in the response
+            // The PUK code will be used later for setting/changing the admin PIN and for admin authentication.
+            var adminPuk = createdTss.SuccessResult.AdminPuk;
 
             AssertTss(createdTss.IsSuccess, createdTss.SuccessResult.Id);
 
