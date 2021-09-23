@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalizations.Germany.Tests
+namespace Mews.Fiscalizations.Germany.Tests.V2
 {
     [TestFixture]
     public class ClientTests

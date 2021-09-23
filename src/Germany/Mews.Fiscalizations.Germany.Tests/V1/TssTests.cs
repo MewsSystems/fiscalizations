@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalizations.Germany.Tests
+namespace Mews.Fiscalizations.Germany.Tests.V1
 {
     [TestFixture]
     public class TssTests
