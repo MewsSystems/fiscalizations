@@ -103,7 +103,7 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        public Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId, string revision)
+        public Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId, int revision = 2)
         {
             return Client.ProcessRequestAsync<Dto.FinishTransactionRequest, Dto.TransactionResponse, Transaction>(
                 method: HttpMethod.Put,
