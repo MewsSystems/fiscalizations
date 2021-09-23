@@ -125,7 +125,7 @@ After updating the TSS state to Uninitialized, It will be possible to change the
 await client.ChangeAdminPinAsync(accessToken, tssId, tss.AdminPuk, newAdminPin: "123123");
 ```
 
-**Login as admin with the PIN created above**
+**Authenticate using the PIN created above**
 ```csharp
 await client.AdminLoginAsync(accessToken, tssId, "123123");
 ```
