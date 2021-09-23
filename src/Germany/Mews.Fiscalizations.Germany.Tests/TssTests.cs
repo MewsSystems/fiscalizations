@@ -1,4 +1,4 @@
-﻿using Mews.Fiscalizations.Germany.Model;
+﻿using Mews.Fiscalizations.Germany.V1.Model;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
