@@ -104,7 +104,7 @@ var clientId = client.SuccessResult.Id;
 ```csharp
 var tss = await client.CreateTssAsync(accessToken);
 var tssId = tss.SuccessResult.Id;
-var puk = tss.SuccessResult.Puk; // Store it. It's needed for setting or changing admin Pin.
+var puk = tss.SuccessResult.AdminPuk; // Store it. It's needed for setting or changing admin Pin.
 ```
 
 Since the created above TSS will be created with state = "Created", it cannot be used yet, so we should update the state to Uninitialized.
