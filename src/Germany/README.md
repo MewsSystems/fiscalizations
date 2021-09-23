@@ -86,13 +86,13 @@ var bill = new Bill(
 
 1. To start a transaction, we would need to provide valid **ClientId** and **TssId** which can be created through fiskaly dashboard or by calling **CreateClientAsync** for creating the client and **CreateTssAsync** for creating the TSS which will be described below, and a unique **id** for the transaction.
 2. To finish a transaction, we would need to provide the **ClientId**, **TssId**, and the invoice to be reported and the transaction id that we specified in the step above.
-(lastRevision is used for the preservation of order of subsequent calls).
+(revision is used for the preservation of order of subsequent calls).
 
 Example:
 ```csharp
 var transactionId = Guid.NewGuid();
 var startedTransaction = await client.StartTransactionAsync(accessToken, clientId, tssId, transactionId);
-var endedTransaction = await client.FinishTransactionAsync(accessToken, clientId, tssId, InvoiceToReport, transactionId, revision: 2);
+var endedTransaction = await client.FinishTransactionAsync(accessToken, clientId, tssId, InvoiceToReport, transactionId);
 ```
 
 Please note that starting a transaction must start with revision 1, and any other operation (finishing or updating a transaction) must increment the revision by 1).
