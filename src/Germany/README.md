@@ -105,8 +105,7 @@ var clientId = client.SuccessResult.Id;
 var tss = await client.CreateTssAsync(accessToken);
 var tssId = tss.SuccessResult.Id;
 var puk = tss.SuccessResult.Puk; // Store it. It's needed for setting or changing admin Pin.
-
-After the creation of a new TSS, it is necessary to save the Admin PUK code that is returned in the response, the PUK code will be used later (for admin authentication).
+```
 
 Since the created above TSS will be created with state = "Created", it cannot be used yet, so we should update the state to Uninitialized.
 
