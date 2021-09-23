@@ -103,11 +103,11 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        public Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId, int revision = 2)
+        public Task<ResponseResult<Transaction>> FinishTransactionAsync(AccessToken token, Guid clientId, Guid tssId, Bill bill, Guid transactionId)
         {
             return Client.ProcessRequestAsync<Dto.FinishTransactionRequest, Dto.TransactionResponse, Transaction>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{tssId}/tx/{transactionId}?tx_revision={revision}",
+                endpoint: $"tss/{tssId}/tx/{transactionId}?tx_revision=2",
                 request: RequestCreator.FinishTransaction(clientId, bill),
                 successFunc: response => ModelMapper.MapTransaction(response),
                 token: token

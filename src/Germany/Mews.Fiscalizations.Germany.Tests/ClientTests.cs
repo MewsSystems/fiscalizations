@@ -18,7 +18,7 @@ namespace Mews.Fiscalizations.Germany.Tests
 
             AssertClient(createdClient.IsSuccess, createdClient.SuccessResult.Id);
 
-            // Deregistering the Client so we don't exceed the test environment limit.
+            // Disabling the Client so we don't exceed the test environment limit.
             await client.UpdateClientAsync(accessToken, TestFixture.TssId, createdClient.SuccessResult.Id, ClientState.Disabled);
         }
 
