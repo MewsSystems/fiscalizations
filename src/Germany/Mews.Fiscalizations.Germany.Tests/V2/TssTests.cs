@@ -13,6 +13,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             var client = TestFixture.GetFiskalyClient();
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
             var createdTss = await client.CreateTssAsync(accessToken);
+            var adminPuk = createdTss.SuccessResult.AdminPuk; // Save for updating Admin PIN.
 
             AssertTss(createdTss.IsSuccess, createdTss.SuccessResult.Id);
 
@@ -20,7 +21,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             await client.UpdateTssAsync(accessToken, createdTss.SuccessResult.Id, TssState.Uninitialized);
 
             var newPin = "1234567890";
-            await client.ChangeAdminPinAsync(accessToken, createdTss.SuccessResult.Id, createdTss.SuccessResult.AdminPuk, newPin);
+            await client.ChangeAdminPinAsync(accessToken, createdTss.SuccessResult.Id, adminPuk, newPin);
             await client.AdminLoginAsync(accessToken, createdTss.SuccessResult.Id, newPin);
 
             // Disabling the TSS after creation so we don't exceed the test environment limit.
