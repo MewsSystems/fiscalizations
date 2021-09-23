@@ -3,7 +3,7 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-    <b>Mews.Fiscalizations.Germany</b> is a .NET library that was built to help reporting of e-invoices to the German authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) using <a href="https://developer.fiskaly.com/api/kassensichv/v1/">Fiskaly KassenSichV API V1</a>.
+    <b>Mews.Fiscalizations.Germany</b> is a .NET library that was built to help reporting of e-invoices to the German authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) using <a href="https://developer.fiskaly.com/api/kassensichv/v2/">Fiskaly KassenSichV API V2-certified</a>.
     <br><br>
     <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Germany/">
         <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Germany">
@@ -18,14 +18,14 @@
         <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Germany%20(Linux)/master?label=linux%20build">
     </a>
     <a href="https://developer.fiskaly.com/api/kassensichv/v1/">
-        <img src="https://img.shields.io/badge/v1-Fiskaly-lightgrey">
+        <img src="https://img.shields.io/badge/v2-Fiskaly-lightgrey">
     </a>
 </p>
 
 
 ## 📃 Description
 
-The library uses Fiskaly API to report the invoices, for more information, please check their [Documentation](https://developer.fiskaly.com/api/kassensichv/v1/).
+The library uses Fiskaly API to report the invoices, for more information, please check their [Documentation](https://developer.fiskaly.com/api/kassensichv/v2/).
 
 ## ⚙️ Installation
 
@@ -50,6 +50,8 @@ Install-Package Mews.Fiscalizations.Germany
 We have published the library as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
 
 ## 👀 Code Examples
+
+P.S Please note that we keep files of the older API versions, but we run the tests on the latest supported API version and not older ones.
 
 Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
 
@@ -90,8 +92,10 @@ Example:
 ```csharp
 var transactionId = Guid.NewGuid();
 var startedTransaction = await client.StartTransactionAsync(accessToken, clientId, tssId, transactionId);
-var endedTransaction = await client.FinishTransactionAsync(accessToken, clientId, tssId, InvoiceToReport, transactionId, lastRevision: "1");
+var endedTransaction = await client.FinishTransactionAsync(accessToken, clientId, tssId, InvoiceToReport, transactionId, revision: 2);
 ```
+
+Please note that starting a transaction must start with revision 1, and any other operation (finishing or updating a transaction) must increment the revision by 1).
 
 **Creation of a new client id**
 ```csharp
@@ -101,6 +105,29 @@ var clientId = client.SuccessResult.Id;
 
 **Creation of a new Tss id**
 ```csharp
-var tss = await client.CreateTssAsync(accessToken, TssState.Initialized, description: "Creating a test TSS.");
+var tss = await client.CreateTssAsync(accessToken);
 var tssId = tss.SuccessResult.Id;
 ```
+
+After the creation of a new TSS, it is necessary to save the Admin PUK code that is returned in the response, the PUK code will be used later (for admin authentication).
+
+Since the created above TSS will be created with state = "Created", it cannot be used yet, so we should update the state to Uninitialized.
+
+**Updating Tss state**
+```csharp
+var tss = await client.UpdateTssAsync(accessToken, tssToUpdateId, TssState.Uninitialized);
+```
+
+After updating the TSS state to Uninitialized, It will be possible to change the admin PIN using the PUK code we recieved in the response above.
+
+**Changing admin PIN**
+```csharp
+await client.ChangeAdminPinAsync(accessToken, tssId, tss.AdminPuk, newAdminPin: "123123");
+```
+
+**Login as admin with the PIN created above**
+```csharp
+await client.AdminLoginAsync(accessToken, tssId, "123123");
+```
+
+After authenticating with the admin PIN, we can update the state of the TSS from Uninitialized to Initialized (using the update as described above).
