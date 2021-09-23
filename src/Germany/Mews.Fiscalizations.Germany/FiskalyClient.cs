@@ -29,9 +29,9 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId)
+        public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId, Guid? clientId = null)
         {
-            var id = Guid.NewGuid();
+            var id = clientId ?? Guid.NewGuid();
             return await Client.ProcessRequestAsync<Dto.CreateClientRequest, Dto.ClientResponse, Model.Client>(
                 method: HttpMethod.Put,
                 endpoint: $"tss/{tssId}/client/{id}",
@@ -61,11 +61,11 @@ namespace Mews.Fiscalizations.Germany
             );
         }
 
-        public Task<ResponseResult<CreateTssResult>> CreateTssAsync(AccessToken token)
+        public Task<ResponseResult<CreateTssResult>> CreateTssAsync(AccessToken token, Guid? tssId = null)
         {
             return Client.ProcessRequestAsync<object, Dto.CreateTssResponse, CreateTssResult>(
                 method: HttpMethod.Put,
-                endpoint: $"tss/{Guid.NewGuid()}",
+                endpoint: $"tss/{tssId ?? Guid.NewGuid()}",
                 successFunc: response => ModelMapper.MapCreateTss(response),
                 token: token,
                 request: new { }
