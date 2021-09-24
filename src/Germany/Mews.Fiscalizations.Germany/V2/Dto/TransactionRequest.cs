@@ -4,7 +4,7 @@ using System;
 
 namespace Mews.Fiscalizations.Germany.V2.Dto
 {
-    internal partial class TransactionRequest
+    internal class TransactionRequest
     {
         [JsonProperty("state")]
         [JsonConverter(typeof(StringEnumConverter))]

@@ -6,6 +6,10 @@ namespace Mews.Fiscalizations.Germany.V2.Model
     {
         public Transaction(
             Guid id,
+            Guid clientId,
+            Guid tssId,
+            string clientSerialNumber,
+            string tssSerialNumber,
             string number,
             DateTime? startUtc,
             TransactionState state,
@@ -15,6 +19,10 @@ namespace Mews.Fiscalizations.Germany.V2.Model
             string qrCodeData = null)
         {
             Id = id;
+            ClientId = clientId;
+            TssId = tssId;
+            ClientSerialNumber = clientSerialNumber;
+            TssSerialNumber = tssSerialNumber;
             Number = number;
             StartUtc = startUtc;
             State = state;
@@ -25,6 +33,14 @@ namespace Mews.Fiscalizations.Germany.V2.Model
         }
 
         public Guid Id { get; }
+
+        public Guid ClientId { get; }
+
+        public Guid TssId { get; }
+
+        public string ClientSerialNumber { get; }
+
+        public string TssSerialNumber { get; }
 
         public string Number { get; }
 

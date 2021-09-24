@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Germany.V2.Model;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Germany.V2.Model;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -10,8 +11,8 @@ namespace Mews.Fiscalizations.Germany.V2
 {
     internal class Client
     {
-        private static readonly Uri BaseUri = new Uri("https://kassensichv.io");
-        private static readonly string RelativeApiUrl = "api/v1/";
+        private static readonly Uri BaseUri = new Uri("https://kassensichv-middleware.fiskaly.com");
+        private static readonly string RelativeApiUrl = "api/v2/";
 
         private HttpClient HttpClient { get; }
 
@@ -39,7 +40,7 @@ namespace Mews.Fiscalizations.Germany.V2
             return await DeserializeAsync(httpResponse, successFunc);
         }
 
-        private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token)
+        private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token = null)
             where TRequest : class
         {
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
@@ -48,7 +49,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json")
             };
 
-            if (token != null)
+            if (token.IsNotNull())
             {
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             }

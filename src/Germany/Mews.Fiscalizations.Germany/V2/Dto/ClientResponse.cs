@@ -5,14 +5,14 @@ namespace Mews.Fiscalizations.Germany.V2.Dto
 {
     internal sealed class ClientResponse
     {
+        [JsonProperty("state")]
+        public ClientState State { get; set; }
+
         [JsonProperty("serial_number")]
         public string SerialNumber { get; set; }
 
         [JsonProperty("time_creation")]
         public long TimeCreation { get; set; }
-
-        [JsonProperty("time_update")]
-        public long TimeUpdate { get; set; }
 
         [JsonProperty("tss_id")]
         public Guid TssId { get; set; }

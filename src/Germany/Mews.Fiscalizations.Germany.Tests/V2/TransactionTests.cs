@@ -1,5 +1,5 @@
+using Mews.Fiscalizations.Germany.V2.Model;
 using Mews.Fiscalizations.Germany.Tests.V2;
-using Mews.Fiscalizations.Germany.V1.Model;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Mews.Fiscalizations.German.Tests.V2
             var retrievedStartedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, startedTransaction.SuccessResult.Id);
             Assert.AreEqual(retrievedStartedTransaction.SuccessResult.State, TransactionState.Active);
 
-            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "1");
+            var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, TestFixture.ClientId, TestFixture.TssId, GetBill(), startedTransaction.SuccessResult.Id);
             var retrievedFinishedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, TestFixture.TssId, finishedTransaction.SuccessResult.Id);
             Assert.AreEqual(retrievedFinishedTransaction.SuccessResult.State, TransactionState.Finished);
         }
@@ -56,7 +56,7 @@ namespace Mews.Fiscalizations.German.Tests.V2
             var accessToken = await client.GetAccessTokenAsync();
             var successAccessTokenResult = accessToken.SuccessResult;
             var startedTransaction = await client.StartTransactionAsync(successAccessTokenResult, clientId, tssId, Guid.NewGuid());
-            var endedTransaction = await client.FinishTransactionAsync(successAccessTokenResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id, lastRevision: "1");
+            var endedTransaction = await client.FinishTransactionAsync(successAccessTokenResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id);
             var successResult = endedTransaction.SuccessResult;
             var signature = successResult.Signature;
 

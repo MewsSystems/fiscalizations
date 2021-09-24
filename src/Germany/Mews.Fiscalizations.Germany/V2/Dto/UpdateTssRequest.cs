@@ -3,7 +3,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Mews.Fiscalizations.Germany.V2.Dto
 {
-    public sealed class UpdateTssRequest
+    internal sealed class UpdateTssRequest
     {
         [JsonProperty("state")]
         [JsonConverter(typeof(StringEnumConverter))]
