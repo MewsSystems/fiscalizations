@@ -2,7 +2,7 @@
 {
     public enum ClientState
     {
-        Enabled,
-        Disabled
+        Registered,
+        Deregistered
     }
 }

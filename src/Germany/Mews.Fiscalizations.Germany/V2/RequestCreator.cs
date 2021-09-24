@@ -148,8 +148,8 @@ namespace Mews.Fiscalizations.Germany.V2
         private static Dto.ClientState SerializeClientState(ClientState state)
         {
             return state.Match(
-                ClientState.Enabled, _ => Dto.ClientState.REGISTERED,
-                ClientState.Disabled, _ => Dto.ClientState.DEREGISTERED
+                ClientState.Registered, _ => Dto.ClientState.REGISTERED,
+                ClientState.Deregistered, _ => Dto.ClientState.DEREGISTERED
             );
         }
     }
