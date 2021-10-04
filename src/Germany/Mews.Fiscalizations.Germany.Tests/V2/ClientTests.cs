@@ -32,6 +32,16 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             AssertClient(result.IsSuccess, result.SuccessResult.Id);
         }
 
+        [Test]
+        public async Task GetAllTssClientsSucceeds()
+        {
+            var client = TestFixture.GetFiskalyClient();
+            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+            var result = await client.GetAllTssClientsAsync(accessToken, TestFixture.TssId);
+
+            Assert.IsNotEmpty(result.SuccessResult.Clients);
+        }
+
         private void AssertClient(bool isSuccess, object value)
         {
             Assert.IsTrue(isSuccess);
