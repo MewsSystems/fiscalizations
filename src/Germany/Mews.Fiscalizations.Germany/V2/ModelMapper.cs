@@ -2,7 +2,6 @@
 using Mews.Fiscalizations.Germany.V2.Model;
 using Mews.Fiscalizations.Germany.Utils;
 using System;
-using System.Linq;
 
 namespace Mews.Fiscalizations.Germany.V2
 {
@@ -48,9 +47,15 @@ namespace Mews.Fiscalizations.Germany.V2
             ));
         }
 
-        internal static ResponseResult<Model.Client> MapClient(Dto.ClientResponse client)
+        internal static Model.Client MapClient(Dto.ClientResponse client)
         {
-            return new ResponseResult<Model.Client>(successResult: GetClient(client));
+            return new Model.Client(
+                serialNumber: client.SerialNumber,
+                created: client.TimeCreation.FromUnixTime(),
+                state: MapClientState(client.State),
+                tssId: client.TssId,
+                id: client.Id
+            );
         }
 
         internal static ResponseResult<Tss> MapTss(Dto.TssResponse tss)
@@ -69,11 +74,6 @@ namespace Mews.Fiscalizations.Germany.V2
                 signatureAlgorithm: tss.SignatureAlgorithm,
                 transactionCounter: tss.TransactionCounter
             ));
-        }
-
-        internal static ResponseResult<MultipleClient> MapClients(Dto.MultipleClientResponse response)
-        {
-            return new ResponseResult<MultipleClient>(successResult: new MultipleClient(response.Clients.Select(c => GetClient(c))));
         }
 
         internal static ResponseResult<CreateTssResult> MapCreateTss(Dto.CreateTssResponse createTssResponse)
@@ -95,17 +95,6 @@ namespace Mews.Fiscalizations.Germany.V2
                     transactionCounter: createTssResponse.TransactionCounter
                 )
             ));
-        }
-
-        private static Model.Client GetClient(Dto.ClientResponse client)
-        {
-            return new Model.Client(
-                serialNumber: client.SerialNumber,
-                created: client.TimeCreation.FromUnixTime(),
-                state: MapClientState(client.State),
-                tssId: client.TssId,
-                id: client.Id
-            );
         }
 
         private static TssState MapTssState(Dto.TssState state)
