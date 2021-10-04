@@ -2,6 +2,8 @@
 {
     public enum FiskalyError
     {
+        TssCreationConflict,
+        ClientCreationConflict,
         InvalidTssId,
         InvalidClientId,
         InvalidCredentials,
