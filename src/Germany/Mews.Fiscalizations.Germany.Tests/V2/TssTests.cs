@@ -1,5 +1,7 @@
-﻿using Mews.Fiscalizations.Germany.V2.Model;
+﻿using Mews.Fiscalizations.Germany.V2;
+using Mews.Fiscalizations.Germany.V2.Model;
 using NUnit.Framework;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.Germany.Tests.V2
@@ -19,16 +21,8 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             var adminPuk = createdTss.SuccessResult.AdminPuk;
 
             AssertTss(createdTss.IsSuccess, createdTss.SuccessResult.Id);
-
-            // In order to disable a TSS, it must be in Uninitialized state.
-            await client.UpdateTssAsync(accessToken, createdTss.SuccessResult.Id, TssState.Uninitialized);
-
-            var newPin = "1234567890";
-            await client.ChangeAdminPinAsync(accessToken, createdTss.SuccessResult.Id, adminPuk, newPin);
-            await client.AdminLoginAsync(accessToken, createdTss.SuccessResult.Id, newPin);
-
-            // Disabling the TSS after creation so we don't exceed the test environment limit.
-            await client.UpdateTssAsync(accessToken, createdTss.SuccessResult.Id, TssState.Disabled);
+            
+            await DisableTss(client, accessToken, createdTss.SuccessResult, adminPuk);
         }
 
         [Test]
@@ -46,15 +40,31 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         {
             var client = TestFixture.GetFiskalyClient();
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var allTSSs = await client.GetAllTSSsAsync(accessToken);
+            var createdTss = (await client.CreateTssAsync(accessToken)).SuccessResult;
+            var allTSSs = (await client.GetAllTSSsAsync(accessToken)).SuccessResult;
 
-            Assert.IsNotEmpty(allTSSs.SuccessResult.TssList);
+            Assert.IsTrue(allTSSs.Select(t => t.Id).Contains(createdTss.Id));
+            
+            await DisableTss(client, accessToken, createdTss, adminPuk: "1234567890");
         }
 
         private void AssertTss(bool isSuccess, object value)
         {
             Assert.IsTrue(isSuccess);
             Assert.IsNotNull(value);
+        }
+
+        private async Task DisableTss(FiskalyClient client, AccessToken accessToken, CreateTssResult tss, string adminPuk)
+        {
+            // In order to disable a TSS, it must be in Uninitialized state.
+            await client.UpdateTssAsync(accessToken, tss.Id, TssState.Uninitialized);
+
+            var newPin = "1234567890";
+            await client.ChangeAdminPinAsync(accessToken, tss.Id, adminPuk, newPin);
+            await client.AdminLoginAsync(accessToken, tss.Id, newPin);
+
+            // Disabling the TSS after creation so we don't exceed the test environment limit.
+            await client.UpdateTssAsync(accessToken, tss.Id, TssState.Disabled);
         }
     }
 }
