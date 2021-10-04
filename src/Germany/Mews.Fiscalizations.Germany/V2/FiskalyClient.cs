@@ -75,7 +75,7 @@ namespace Mews.Fiscalizations.Germany.V2
         public Task<ResponseResult<MultipleClient>> GetAllTssClientsAsync(AccessToken token, Guid tssId)
         {
             return Client.GetResponseAsync<Dto.MultipleClientResponse, MultipleClient>(
-                endpoint: $"/tss/{tssId}/client",
+                endpoint: $"tss/{tssId}/client",
                 successFunc: response => ModelMapper.MapClients(response),
                 token: token
             );

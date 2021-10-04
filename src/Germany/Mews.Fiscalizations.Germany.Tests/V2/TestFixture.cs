@@ -37,15 +37,14 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
                 },
                 async _ =>
                 {
-                    var tssId = Guid.NewGuid();
-                    var tss = (await fiskalyClient.CreateTssAsync(accessToken, tssId)).SuccessResult;
-                    await fiskalyClient.UpdateTssAsync(accessToken, tssId, TssState.Uninitialized);
-                    await fiskalyClient.ChangeAdminPinAsync(accessToken, tssId, tss.AdminPuk, AdminPin);
-                    await fiskalyClient.AdminLoginAsync(accessToken, tssId, AdminPin);
-                    await fiskalyClient.UpdateTssAsync(accessToken, tssId, TssState.Initialized);
+                    var tss = (await fiskalyClient.CreateTssAsync(accessToken)).SuccessResult;
+                    await fiskalyClient.UpdateTssAsync(accessToken, tss.Id, TssState.Uninitialized);
+                    await fiskalyClient.ChangeAdminPinAsync(accessToken, tss.Id, tss.AdminPuk, AdminPin);
+                    await fiskalyClient.AdminLoginAsync(accessToken, tss.Id, AdminPin);
+                    await fiskalyClient.UpdateTssAsync(accessToken, tss.Id, TssState.Initialized);
                     
-                    var client = (await fiskalyClient.CreateClientAsync(accessToken, tssId)).SuccessResult;
-                    await fiskalyClient.AdminLogoutAsync(tssId);
+                    var client = (await fiskalyClient.CreateClientAsync(accessToken, tss.Id)).SuccessResult;
+                    await fiskalyClient.AdminLogoutAsync(tss.Id);
 
                     return new FiskalyTestData(fiskalyClient, tss, client);
                 }
