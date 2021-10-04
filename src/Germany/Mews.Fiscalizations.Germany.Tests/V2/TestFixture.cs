@@ -9,7 +9,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
     {
         static TestFixture()
         {
-            InitializeFiskalyData(GetFiskalyClient()).GetAwaiter().GetResult();
+            InitializeFiskalyData(GetFiskalyClient()).ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
         }
 
         public static readonly Guid ClientId = new Guid(Environment.GetEnvironmentVariable("german_client_Id") ?? "INSERT_CLIENT_ID");
