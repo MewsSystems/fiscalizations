@@ -29,6 +29,15 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
+        public Task<ResponseResult<MultipleClient>> GetAllTssClientsAsync(AccessToken token, Guid tssId)
+        {
+            return Client.GetResponseAsync<Dto.MultipleClientResponse, MultipleClient>(
+                endpoint: $"tss/{tssId}/client",
+                successFunc: response => ModelMapper.MapClients(response),
+                token: token
+            );
+        }
+
         public async Task<ResponseResult<Model.Client>> CreateClientAsync(AccessToken token, Guid tssId, Guid? clientId = null)
         {
             var id = clientId ?? Guid.NewGuid();
@@ -57,6 +66,15 @@ namespace Mews.Fiscalizations.Germany.V2
             return Client.GetResponseAsync<Dto.TssResponse, Tss>(
                 endpoint: $"tss/{tssId}",
                 successFunc: response => ModelMapper.MapTss(response),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<MultipleTss>> GetAllTSSsAsync(AccessToken token)
+        {
+            return Client.GetResponseAsync<Dto.MultipleTssResponse, MultipleTss>(
+                endpoint: $"tss",
+                successFunc: response => ModelMapper.MapTSSs(response),
                 token: token
             );
         }
