@@ -7,11 +7,6 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
 {
     public static class TestFixture
     {
-        static TestFixture()
-        {
-            InitializeFiskalyData(GetFiskalyClient()).ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
-        }
-
         public static readonly Guid ClientId = new Guid(Environment.GetEnvironmentVariable("german_client_Id") ?? "INSERT_CLIENT_ID");
         public static readonly Guid TssId = new Guid(Environment.GetEnvironmentVariable("german_tss_id") ?? "INSERT_TSS_ID");
         public static readonly ApiKey ApiKey = ApiKey.Create(Environment.GetEnvironmentVariable("german_api_key") ?? "INSERT_API_KEY").Success.Get();
@@ -19,9 +14,12 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         public static readonly string AdminPin = Environment.GetEnvironmentVariable("german_admin_pin") ?? "INSERT_ADMIN_PIN";
         public static readonly string AdminPuk = Environment.GetEnvironmentVariable("german_admin_puk") ?? "INSERT_ADMIN_PUK";
 
-        public static FiskalyClient GetFiskalyClient()
+        public static async Task<FiskalyClient> GetFiskalyClient()
         {
-            return new FiskalyClient(ApiKey, ApiSecret);
+            var fiskalyClient = new FiskalyClient(ApiKey, ApiSecret);
+            await InitializeFiskalyData(fiskalyClient);
+
+            return fiskalyClient;
         }
 
         // Fiskaly deletes the test environment data each week, so we should recreate the deleted data for tests.
