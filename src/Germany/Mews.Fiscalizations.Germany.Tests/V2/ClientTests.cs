@@ -10,24 +10,27 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         [Test]
         public async Task CreateClientSucceeds()
         {
-            var client = await TestFixture.GetFiskalyClient();
+            var data = await TestFixture.GetFiskalyTestData();
+            var client = data.FiskalyClient;
+            var tssId = data.Tss.Id;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
 
-            await client.AdminLoginAsync(accessToken, TestFixture.TssId, TestFixture.AdminPin);
-            var createdClient = await client.CreateClientAsync(accessToken, TestFixture.TssId);
+            await client.AdminLoginAsync(accessToken, tssId, TestFixture.AdminPin);
+            var createdClient = await client.CreateClientAsync(accessToken, tssId);
 
             AssertClient(createdClient.IsSuccess, createdClient.SuccessResult.Id);
 
             // Disabling the Client so we don't exceed the test environment limit.
-            await client.UpdateClientAsync(accessToken, TestFixture.TssId, createdClient.SuccessResult.Id, ClientState.Deregistered);
+            await client.UpdateClientAsync(accessToken, tssId, createdClient.SuccessResult.Id, ClientState.Deregistered);
         }
 
         [Test]
         public async Task GetClientSucceeds()
         {
-            var client = await TestFixture.GetFiskalyClient();
+            var data = await TestFixture.GetFiskalyTestData();
+            var client = data.FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var result = await client.GetClientAsync(accessToken, TestFixture.ClientId, TestFixture.TssId);
+            var result = await client.GetClientAsync(accessToken, data.Client.Id, data.Tss.Id);
 
             AssertClient(result.IsSuccess, result.SuccessResult.Id);
         }

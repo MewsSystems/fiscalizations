@@ -1,6 +1,8 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Germany.V2.Model;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -57,6 +59,24 @@ namespace Mews.Fiscalizations.Germany.V2
             return Client.GetResponseAsync<Dto.TssResponse, Tss>(
                 endpoint: $"tss/{tssId}",
                 successFunc: response => ModelMapper.MapTss(response),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<MultipleTss>> GetAllTSSsAsync(AccessToken token)
+        {
+            return Client.GetResponseAsync<Dto.MultipleTssResponse, MultipleTss>(
+                endpoint: $"tss",
+                successFunc: response => ModelMapper.MapTSSs(response),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<MultipleClient>> GetAllTssClientsAsync(AccessToken token, Guid tssId)
+        {
+            return Client.GetResponseAsync<Dto.MultipleClientResponse, MultipleClient>(
+                endpoint: $"/tss/{tssId}/client",
+                successFunc: response => ModelMapper.MapClients(response),
                 token: token
             );
         }
