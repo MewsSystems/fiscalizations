@@ -61,6 +61,15 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
+        public Task<ResponseResult<MultipleTss>> GetAllTSSsAsync(AccessToken token)
+        {
+            return Client.GetResponseAsync<Dto.MultipleTssResponse, MultipleTss>(
+                endpoint: $"tss",
+                successFunc: response => ModelMapper.MapTSSs(response),
+                token: token
+            );
+        }
+
         public Task<ResponseResult<CreateTssResult>> CreateTssAsync(AccessToken token, Guid? tssId = null)
         {
             return Client.ProcessRequestAsync<object, Dto.CreateTssResponse, CreateTssResult>(

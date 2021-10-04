@@ -41,6 +41,16 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             AssertTss(tss.IsSuccess, tss.SuccessResult.Id);
         }
 
+        [Test]
+        public async Task GetAllTSSsSucceeds()
+        {
+            var client = TestFixture.GetFiskalyClient();
+            var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
+            var allTSSs = await client.GetAllTSSsAsync(accessToken);
+
+            Assert.IsNotEmpty(allTSSs.SuccessResult.TssList);
+        }
+
         private void AssertTss(bool isSuccess, object value)
         {
             Assert.IsTrue(isSuccess);

@@ -2,6 +2,7 @@
 using Mews.Fiscalizations.Germany.V2.Model;
 using Mews.Fiscalizations.Germany.Utils;
 using System;
+using System.Linq;
 
 namespace Mews.Fiscalizations.Germany.V2
 {
@@ -60,20 +61,12 @@ namespace Mews.Fiscalizations.Germany.V2
 
         internal static ResponseResult<Tss> MapTss(Dto.TssResponse tss)
         {
-            return new ResponseResult<Tss>(successResult: new Tss(
-                id: tss.Id,
-                description: tss.Description,
-                state: MapTssState(tss.State),
-                createdUtc: tss.TimeCreation.FromUnixTime(),
-                initializedUtc: tss.TimeInit.FromUnixTime(),
-                disabledUtc: tss.TimeDisable.FromUnixTime(),
-                certificate: tss.Certificate,
-                serialNumber: tss.SerialNumber,
-                publicKey: tss.PublicKey,
-                signatureCounter: tss.SignatureCounter,
-                signatureAlgorithm: tss.SignatureAlgorithm,
-                transactionCounter: tss.TransactionCounter
-            ));
+            return new ResponseResult<Tss>(successResult: GetTss(tss));
+        }
+
+        internal static ResponseResult<MultipleTss> MapTSSs(Dto.MultipleTssResponse response)
+        {
+            return new ResponseResult<MultipleTss>(successResult: new MultipleTss(response.TssList.Select(t => GetTss(t))));
         }
 
         internal static ResponseResult<CreateTssResult> MapCreateTss(Dto.CreateTssResponse createTssResponse)
@@ -95,6 +88,24 @@ namespace Mews.Fiscalizations.Germany.V2
                     transactionCounter: createTssResponse.TransactionCounter
                 )
             ));
+        }
+
+        private static Tss GetTss(Dto.TssResponse tss)
+        {
+            return new Tss(
+                id: tss.Id,
+                description: tss.Description,
+                state: MapTssState(tss.State),
+                createdUtc: tss.TimeCreation.FromUnixTime(),
+                initializedUtc: tss.TimeInit.FromUnixTime(),
+                disabledUtc: tss.TimeDisable.FromUnixTime(),
+                certificate: tss.Certificate,
+                serialNumber: tss.SerialNumber,
+                publicKey: tss.PublicKey,
+                signatureCounter: tss.SignatureCounter,
+                signatureAlgorithm: tss.SignatureAlgorithm,
+                transactionCounter: tss.TransactionCounter
+            );
         }
 
         private static TssState MapTssState(Dto.TssState state)
