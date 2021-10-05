@@ -47,7 +47,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
 
             Assert.IsTrue(allTSSs.Select(t => t.Id).Contains(createdTss.Id));
             
-            await DisableTss(client, accessToken, createdTss, adminPuk: "1234567890");
+            await DisableTss(client, accessToken, createdTss, adminPuk: createdTss.AdminPuk);
         }
 
         private void AssertTss(bool isSuccess, object value)
