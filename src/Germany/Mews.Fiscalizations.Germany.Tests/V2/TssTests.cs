@@ -60,14 +60,15 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             // In order to disable a TSS, it must be in Uninitialized state.
             await client.UpdateTssAsync(accessToken, tss.Id, TssState.Uninitialized);
 
-            await AdminLogin(client, accessToken, tss.Id, adminPuk);
+            // Changing the admin pin can be done only after updating the TSS state to uninitialized.
+            await SetAdminPinAndLogin(client, accessToken, tss.Id, adminPuk);
 
             // Disabling the TSS after creation so we don't exceed the test environment limit.
             await client.UpdateTssAsync(accessToken, tss.Id, TssState.Disabled);
             await client.AdminLogoutAsync(tss.Id);
         }
 
-        private async Task AdminLogin(FiskalyClient client, AccessToken accessToken, Guid tssId, string adminPuk)
+        private async Task SetAdminPinAndLogin(FiskalyClient client, AccessToken accessToken, Guid tssId, string adminPuk)
         {
             var newPin = "1234567890";
             await client.ChangeAdminPinAsync(accessToken, tssId, adminPuk, newPin);
