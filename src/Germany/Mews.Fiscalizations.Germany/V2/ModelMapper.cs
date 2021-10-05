@@ -58,9 +58,9 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        internal static ResponseResult<Tss> MapTss(Dto.TssResponse tss)
+        internal static Tss MapTss(Dto.TssResponse tss)
         {
-            return new ResponseResult<Tss>(successResult: new Tss(
+            return new Tss(
                 id: tss.Id,
                 description: tss.Description,
                 state: MapTssState(tss.State),
@@ -73,7 +73,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 signatureCounter: tss.SignatureCounter,
                 signatureAlgorithm: tss.SignatureAlgorithm,
                 transactionCounter: tss.TransactionCounter
-            ));
+            );
         }
 
         internal static ResponseResult<CreateTssResult> MapCreateTss(Dto.CreateTssResponse createTssResponse)

@@ -1,4 +1,5 @@
-﻿using FuncSharp;
+﻿using System.Linq;
+using FuncSharp;
 using Mews.Fiscalizations.Germany.V2.Model;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,16 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             return Client.GetResponseAsync<Dto.TssResponse, Tss>(
                 endpoint: $"tss/{tssId}",
-                successFunc: response => ModelMapper.MapTss(response),
+                successFunc: response => new ResponseResult<Tss>(ModelMapper.MapTss(response)),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<IEnumerable<Tss>>> GetAllTSSsAsync(AccessToken token)
+        {
+            return Client.GetResponseAsync<Dto.MultipleTssResponse, IEnumerable<Tss>>(
+                endpoint: $"tss",
+                successFunc: response => new ResponseResult<IEnumerable<Tss>>(successResult: response.TssList.Select(t => ModelMapper.MapTss(t))),
                 token: token
             );
         }
@@ -89,7 +99,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 method: new HttpMethod("PATCH"),
                 endpoint: $"tss/{tssId}",
                 request: RequestCreator.UpdateTss(state),
-                successFunc: response => ModelMapper.MapTss(response),
+                successFunc: response => new ResponseResult<Tss>(ModelMapper.MapTss(response)),
                 token: token
             );
         }
