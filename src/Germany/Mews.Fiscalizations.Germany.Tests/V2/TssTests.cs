@@ -1,6 +1,7 @@
 ﻿using Mews.Fiscalizations.Germany.V2;
 using Mews.Fiscalizations.Germany.V2.Model;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,12 +60,18 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             // In order to disable a TSS, it must be in Uninitialized state.
             await client.UpdateTssAsync(accessToken, tss.Id, TssState.Uninitialized);
 
-            var newPin = "1234567890";
-            await client.ChangeAdminPinAsync(accessToken, tss.Id, adminPuk, newPin);
-            await client.AdminLoginAsync(accessToken, tss.Id, newPin);
+            await AdminLogin(client, accessToken, tss.Id, adminPuk);
 
             // Disabling the TSS after creation so we don't exceed the test environment limit.
             await client.UpdateTssAsync(accessToken, tss.Id, TssState.Disabled);
+            await client.AdminLogoutAsync(tss.Id);
+        }
+
+        private async Task AdminLogin(FiskalyClient client, AccessToken accessToken, Guid tssId, string adminPuk)
+        {
+            var newPin = "1234567890";
+            await client.ChangeAdminPinAsync(accessToken, tssId, adminPuk, newPin);
+            await client.AdminLoginAsync(accessToken, tssId, newPin);
         }
     }
 }
