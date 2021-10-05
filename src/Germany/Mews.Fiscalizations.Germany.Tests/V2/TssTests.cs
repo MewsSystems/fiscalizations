@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         [Test]
         public async Task CreateTssSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
+            var client = (await TestFixture.GetFiskalyTestData()).FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
             var createdTss = await client.CreateTssAsync(accessToken);
 
@@ -29,9 +29,10 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         [Test]
         public async Task GetTssSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
+            var data = await TestFixture.GetFiskalyTestData();
+            var client = data.FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var tss = await client.GetTssAsync(accessToken, TestFixture.TssId);
+            var tss = await client.GetTssAsync(accessToken, data.Tss.Id);
 
             AssertTss(tss.IsSuccess, tss.SuccessResult.Id);
         }
@@ -39,7 +40,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         [Test]
         public async Task GetAllTSSsSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
+            var client = (await TestFixture.GetFiskalyTestData()).FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
             var createdTss = (await client.CreateTssAsync(accessToken)).SuccessResult;
             var allTSSs = (await client.GetAllTSSsAsync(accessToken)).SuccessResult;
