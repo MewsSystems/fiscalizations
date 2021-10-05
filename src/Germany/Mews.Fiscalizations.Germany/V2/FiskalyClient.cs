@@ -35,7 +35,7 @@ namespace Mews.Fiscalizations.Germany.V2
         public Task<ResponseResult<IEnumerable<Model.Client>>> GetAllTssClientsAsync(AccessToken token, Guid tssId)
         {
             return Client.GetResponseAsync<Dto.MultipleClientResponse, IEnumerable<Model.Client>>(
-                endpoint: $"tss/{tssId}/client",
+                endpoint: $"tss/{tssId}/client?state=REGISTERED",
                 successFunc: response => new ResponseResult<IEnumerable<Model.Client>>(successResult: response.Clients.Select(c => ModelMapper.MapClient(c))),
                 token: token
             );
@@ -76,7 +76,7 @@ namespace Mews.Fiscalizations.Germany.V2
         public Task<ResponseResult<IEnumerable<Tss>>> GetAllTSSsAsync(AccessToken token)
         {
             return Client.GetResponseAsync<Dto.MultipleTssResponse, IEnumerable<Tss>>(
-                endpoint: $"tss",
+                endpoint: $"tss?states=CREATED&states=INITIALIZED&states=UNINITIALIZED",
                 successFunc: response => new ResponseResult<IEnumerable<Tss>>(successResult: response.TssList.Select(t => ModelMapper.MapTss(t))),
                 token: token
             );
