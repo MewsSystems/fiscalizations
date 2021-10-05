@@ -46,7 +46,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
 
             await client.AdminLoginAsync(accessToken, tssId, TestFixture.AdminPin);
             var createdClient = (await client.CreateClientAsync(accessToken, tssId)).SuccessResult;
-            var result = await client.GetAllTssClientsAsync(accessToken, tssId);
+            var result = await client.GetAllTssClientsAsync(accessToken, tssId, ClientState.Registered);
 
             Assert.IsTrue(result.SuccessResult.Select(r => r.Id).Contains(createdClient.Id));
 

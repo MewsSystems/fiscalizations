@@ -43,7 +43,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             var client = (await TestFixture.GetFiskalyTestData()).FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
             var createdTss = (await client.CreateTssAsync(accessToken)).SuccessResult;
-            var allTSSs = (await client.GetAllTSSsAsync(accessToken)).SuccessResult;
+            var allTSSs = (await client.GetAllTSSsAsync(accessToken, TssStates.Created)).SuccessResult;
 
             Assert.IsTrue(allTSSs.Select(t => t.Id).Contains(createdTss.Id));
             

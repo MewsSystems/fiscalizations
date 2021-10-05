@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Mews.Fiscalizations.Core.Model.Extensions;
 
 namespace Mews.Fiscalizations.Germany.V2
 {
@@ -32,10 +33,10 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        public Task<ResponseResult<IEnumerable<Model.Client>>> GetAllTssClientsAsync(AccessToken token, Guid tssId)
+        public Task<ResponseResult<IEnumerable<Model.Client>>> GetAllTssClientsAsync(AccessToken token, Guid tssId, ClientState state)
         {
             return Client.GetResponseAsync<Dto.MultipleClientResponse, IEnumerable<Model.Client>>(
-                endpoint: $"tss/{tssId}/client?state=REGISTERED",
+                endpoint: $"tss/{tssId}/client?state={state.ToString().ToUpper()}",
                 successFunc: response => new ResponseResult<IEnumerable<Model.Client>>(successResult: response.Clients.Select(c => ModelMapper.MapClient(c))),
                 token: token
             );
@@ -73,10 +74,12 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        public Task<ResponseResult<IEnumerable<Tss>>> GetAllTSSsAsync(AccessToken token)
+        public Task<ResponseResult<IEnumerable<Tss>>> GetAllTSSsAsync(AccessToken token, TssStates states)
         {
+            var flags = Enum.GetValues(typeof(TssStates)).Cast<TssStates>().Where(s => states.HasFlag(s)).ToNonEmptyOption();
+            var requestParams = flags.Map(f => String.Join("&", f.Select(s => $"states={s.ToString().ToUpper()}")));
             return Client.GetResponseAsync<Dto.MultipleTssResponse, IEnumerable<Tss>>(
-                endpoint: $"tss?states=CREATED&states=INITIALIZED&states=UNINITIALIZED",
+                endpoint: $"tss?{requestParams.GetOrElse("")}",
                 successFunc: response => new ResponseResult<IEnumerable<Tss>>(successResult: response.TssList.Select(t => ModelMapper.MapTss(t))),
                 token: token
             );
