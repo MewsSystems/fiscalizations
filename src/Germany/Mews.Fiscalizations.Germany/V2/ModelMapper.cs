@@ -47,15 +47,15 @@ namespace Mews.Fiscalizations.Germany.V2
             ));
         }
 
-        internal static ResponseResult<Model.Client> MapClient(Dto.ClientResponse client)
+        internal static Model.Client MapClient(Dto.ClientResponse client)
         {
-            return new ResponseResult<Model.Client>(successResult: new Model.Client(
+            return new Model.Client(
                 serialNumber: client.SerialNumber,
                 created: client.TimeCreation.FromUnixTime(),
                 state: MapClientState(client.State),
                 tssId: client.TssId,
                 id: client.Id
-            ));
+            );
         }
 
         internal static Tss MapTss(Dto.TssResponse tss)

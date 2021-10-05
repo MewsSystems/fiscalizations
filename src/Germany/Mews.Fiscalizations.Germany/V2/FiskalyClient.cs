@@ -3,6 +3,7 @@ using FuncSharp;
 using Mews.Fiscalizations.Germany.V2.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -26,7 +27,16 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             return Client.GetResponseAsync<Dto.ClientResponse, Model.Client>(
                 endpoint: $"tss/{tssId}/client/{clientId}",
-                successFunc: response => ModelMapper.MapClient(response),
+                successFunc: response => new ResponseResult<Model.Client>(successResult: ModelMapper.MapClient(response)),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<IEnumerable<Model.Client>>> GetAllTssClientsAsync(AccessToken token, Guid tssId)
+        {
+            return Client.GetResponseAsync<Dto.MultipleClientResponse, IEnumerable<Model.Client>>(
+                endpoint: $"tss/{tssId}/client",
+                successFunc: response => new ResponseResult<IEnumerable<Model.Client>>(successResult: response.Clients.Select(c => ModelMapper.MapClient(c))),
                 token: token
             );
         }
@@ -38,7 +48,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 method: HttpMethod.Put,
                 endpoint: $"tss/{tssId}/client/{id}",
                 request: RequestCreator.CreateClient(id.ToString()),
-                successFunc: response => ModelMapper.MapClient(response),
+                successFunc: response => new ResponseResult<Model.Client>(successResult: ModelMapper.MapClient(response)),
                 token: token
             );
         }
@@ -49,7 +59,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 method: new HttpMethod("PATCH"),
                 endpoint: $"tss/{tssId}/client/{clientId}",
                 request: RequestCreator.UpdateClient(state),
-                successFunc: response => ModelMapper.MapClient(response),
+                successFunc: response => new ResponseResult<Model.Client>(successResult: ModelMapper.MapClient(response)),
                 token: token
             );
         }
