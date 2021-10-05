@@ -5,6 +5,7 @@
         CREATED,
         UNINITIALIZED,
         INITIALIZED,
-        DISABLED
+        DISABLED,
+        DELETED
     }
 }

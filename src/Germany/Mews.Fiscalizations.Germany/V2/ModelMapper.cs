@@ -104,6 +104,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 Dto.TssState.DISABLED, _ => TssState.Disabled,
                 Dto.TssState.INITIALIZED, _ => TssState.Initialized,
                 Dto.TssState.UNINITIALIZED, _ => TssState.Uninitialized,
+                Dto.TssState.DELETED, _ => TssState.Deleted,
                 _ => throw new NotImplementedException($"Tss state: {state} is not implemented.")
             );
         }
