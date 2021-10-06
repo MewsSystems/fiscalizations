@@ -12,7 +12,8 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         public static readonly ApiSecret ApiSecret = ApiSecret.Create(Environment.GetEnvironmentVariable("german_api_secret") ?? "INSERT_API_SECRET").Success.Get();
         public static readonly string AdminPin = Environment.GetEnvironmentVariable("german_admin_pin") ?? "INSERT_ADMIN_PIN";
 
-        // Fiskaly deletes the test environment data each week, so we should recreate the deleted data for tests.
+        // Fiskaly limits creation of data in the test environment to 5.
+        // So we're trying to delete the data after creating them in tests to make sure we don't hit the limit.
         internal static async Task<FiskalyTestData> GetFiskalyTestData()
         {
             var fiskalyClient = new FiskalyClient(ApiKey, ApiSecret);
