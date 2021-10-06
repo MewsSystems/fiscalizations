@@ -31,10 +31,10 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        public Task<ResponseResult<IEnumerable<Model.Client>>> GetAllTssClientsAsync(AccessToken token, Guid tssId, ClientState state)
+        public Task<ResponseResult<IEnumerable<Model.Client>>> GetAllTssRegisteredClientsAsync(AccessToken token, Guid tssId)
         {
             return Client.GetResponseAsync<Dto.MultipleClientResponse, IEnumerable<Model.Client>>(
-                endpoint: $"tss/{tssId}/client?state={state.ToString().ToUpper()}",
+                endpoint: $"tss/{tssId}/client?state=REGISTERED",
                 successFunc: response => new ResponseResult<IEnumerable<Model.Client>>(successResult: response.Clients.Select(c => ModelMapper.MapClient(c))),
                 token: token
             );
@@ -72,12 +72,11 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        public Task<ResponseResult<IEnumerable<Tss>>> GetAllTSSsAsync(AccessToken token, TssStates states)
+        public Task<ResponseResult<IEnumerable<Tss>>> GetAllActiveTSSsAsync(AccessToken token)
         {
-            var flags = Enum.GetValues(typeof(TssStates)).Cast<TssStates>().Where(s => states.HasFlag(s)).ToNonEmptyOption();
-            var requestParams = flags.Map(f => String.Join("&", f.Select(s => $"states={s.ToString().ToUpper()}")));
+            // Deleted state is not included in the filter (query parameter) as it is available only in the test environment.
             return Client.GetResponseAsync<Dto.MultipleTssResponse, IEnumerable<Tss>>(
-                endpoint: $"tss?{requestParams.GetOrElse("")}",
+                endpoint: $"tss?states=CREATED&states=INITIALIZED&states=UNINITIALIZED",
                 successFunc: response => new ResponseResult<IEnumerable<Tss>>(successResult: response.TssList.Select(t => ModelMapper.MapTss(t))),
                 token: token
             );
