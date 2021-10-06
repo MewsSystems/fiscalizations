@@ -24,8 +24,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             return await firstInitalizedTss.Match(
                 async t =>
                 {
-                    var allClients = (await fiskalyClient.GetRegisteredTssClientsAsync(accessToken, t.Id)).SuccessResult;
-                    var firstRegisteredClient = allClients.FirstOption(c => c.State == ClientState.Registered);
+                    var firstRegisteredClient = (await fiskalyClient.GetRegisteredTssClientsAsync(accessToken, t.Id)).SuccessResult.FirstOption();
                     var client = await firstRegisteredClient.Match(
                         c => Task.FromResult(c),
                         async _ =>
