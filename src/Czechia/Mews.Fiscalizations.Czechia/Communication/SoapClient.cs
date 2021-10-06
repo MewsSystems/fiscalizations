@@ -36,7 +36,7 @@ namespace Mews.Eet.Communication
             where TIn : class, new()
             where TOut : class, new()
         {
-            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject);
+            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject).DocumentElement;
             var mesasgeBodyXmlString = messageBodyXmlElement.OuterXml;
             Logger?.Debug("Created XML document from DTOs.", new { XmlString = mesasgeBodyXmlString });
             XmlMessageSerialized?.Invoke(this, new XmlMessageSerializedEventArgs(messageBodyXmlElement, (messageBodyObject as SendRevenueXmlMessage)?.Data.BillNumber));

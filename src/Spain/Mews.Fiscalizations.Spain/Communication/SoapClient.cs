@@ -33,7 +33,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             where TOut : class, new()
         {
             var parameters = new XmlSerializationParameters(namespaces: GetSiiNameSpaces());
-            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject, parameters);
+            var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject, parameters).DocumentElement;
             XmlMessageSerialized?.Invoke(this, new XmlMessageSerializedEventArgs(messageBodyXmlElement));
 
             var soapMessage = new SoapMessage(messageBodyXmlElement);

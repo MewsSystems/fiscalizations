@@ -7,7 +7,7 @@ namespace Mews.Fiscalizations.Core.Xml
 {
     public sealed class XmlSerializer
     {
-        public static XmlElement Serialize<T>(T value, XmlSerializationParameters parameters = null)
+        public static XmlDocument Serialize<T>(T value, XmlSerializationParameters parameters = null)
             where T : class
         {
             var namespaceSerializer = new XmlSerializerNamespaces();
@@ -27,7 +27,7 @@ namespace Mews.Fiscalizations.Core.Xml
                 writer.Flush();
                 writer.Close();
             }
-            return xmlDocument.DocumentElement;
+            return xmlDocument;
         }
 
         public static T Deserialize<T>(string content, XmlSerializationParameters parameters = null)
