@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.Germany.Tests.V2
 {
+    [NonParallelizable]
     [TestFixture]
     public class TssTests
     {

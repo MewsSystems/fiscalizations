@@ -1,11 +1,10 @@
-using Mews.Fiscalizations.Germany.Tests.V1;
 using Mews.Fiscalizations.Germany.V1.Model;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalizations.German.Tests.V1
+namespace Mews.Fiscalizations.Germany.Tests.V1
 {
     [TestFixture]
     public class TransactionTests
