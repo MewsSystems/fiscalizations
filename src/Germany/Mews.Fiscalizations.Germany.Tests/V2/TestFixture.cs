@@ -17,13 +17,13 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         {
             var fiskalyClient = new FiskalyClient(ApiKey, ApiSecret);
             var accessToken = (await fiskalyClient.GetAccessTokenAsync()).SuccessResult;
-            var allTsses = (await fiskalyClient.GetAllActiveTSSsAsync(accessToken)).SuccessResult;
+            var allTsses = (await fiskalyClient.GetAllEnabledTSSsAsync(accessToken)).SuccessResult;
 
             var firstInitalizedTss = allTsses.FirstOption(t => t.State == TssState.Initialized);
             return await firstInitalizedTss.Match(
                 async t =>
                 {
-                    var allClients = (await fiskalyClient.GetAllTssRegisteredClientsAsync(accessToken, t.Id)).SuccessResult;
+                    var allClients = (await fiskalyClient.GetRegisteredTssClientsAsync(accessToken, t.Id)).SuccessResult;
                     var firstRegisteredClient = allClients.FirstOption(c => c.State == ClientState.Registered);
                     var client = await firstRegisteredClient.Match(
                         c => Task.FromResult(c),

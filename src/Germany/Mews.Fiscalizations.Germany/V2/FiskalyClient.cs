@@ -31,7 +31,7 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        public Task<ResponseResult<IEnumerable<Model.Client>>> GetAllTssRegisteredClientsAsync(AccessToken token, Guid tssId)
+        public Task<ResponseResult<IEnumerable<Model.Client>>> GetRegisteredTssClientsAsync(AccessToken token, Guid tssId)
         {
             return Client.GetResponseAsync<Dto.MultipleClientResponse, IEnumerable<Model.Client>>(
                 endpoint: $"tss/{tssId}/client?state=REGISTERED",
@@ -72,9 +72,13 @@ namespace Mews.Fiscalizations.Germany.V2
             );
         }
 
-        public Task<ResponseResult<IEnumerable<Tss>>> GetAllActiveTSSsAsync(AccessToken token)
+        /// <summary>
+        /// <para>Returns all TSSs that are not disabled or enabled.</para>
+        /// <para>Disabled state is used to put the TSS out of service permanently.</para>
+        /// <para>Deleted state is only available in the test environment and it is used by Fiskaly to wipe the test data every week.</para>
+        /// </summary>
+        public Task<ResponseResult<IEnumerable<Tss>>> GetAllEnabledTSSsAsync(AccessToken token)
         {
-            // Deleted state is not included in the filter (query parameter) as it is available only in the test environment.
             return Client.GetResponseAsync<Dto.MultipleTssResponse, IEnumerable<Tss>>(
                 endpoint: $"tss?states=CREATED&states=INITIALIZED&states=UNINITIALIZED",
                 successFunc: response => new ResponseResult<IEnumerable<Tss>>(successResult: response.TssList.Select(t => ModelMapper.MapTss(t))),
