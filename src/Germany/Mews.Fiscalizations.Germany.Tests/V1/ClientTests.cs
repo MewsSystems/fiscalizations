@@ -7,7 +7,6 @@ namespace Mews.Fiscalizations.Germany.Tests.V1
     public class ClientTests
     {
         [Test]
-        [Ignore("")]
         public async Task CreateClientSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
@@ -18,7 +17,6 @@ namespace Mews.Fiscalizations.Germany.Tests.V1
         }
 
         [Test]
-        [Ignore("")]
         public async Task GetClientSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
