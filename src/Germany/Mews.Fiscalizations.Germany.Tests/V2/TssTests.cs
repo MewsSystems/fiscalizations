@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         [Test]
         public async Task CreateTssSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
+            var client = TestFixture.FiskalyTestData.FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
             var createdTss = await client.CreateTssAsync(accessToken);
 
@@ -22,16 +22,17 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
             var adminPuk = createdTss.SuccessResult.AdminPuk;
 
             AssertTss(createdTss.IsSuccess, createdTss.SuccessResult.Id);
-            
+
             await DisableTss(client, accessToken, createdTss.SuccessResult, adminPuk);
         }
 
         [Test]
         public async Task GetTssSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
+            var data = TestFixture.FiskalyTestData;
+            var client = data.FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
-            var tss = await client.GetTssAsync(accessToken, TestFixture.TssId);
+            var tss = await client.GetTssAsync(accessToken, data.Tss.Id);
 
             AssertTss(tss.IsSuccess, tss.SuccessResult.Id);
         }
@@ -39,14 +40,14 @@ namespace Mews.Fiscalizations.Germany.Tests.V2
         [Test]
         public async Task GetAllTSSsSucceeds()
         {
-            var client = TestFixture.GetFiskalyClient();
+            var client = TestFixture.FiskalyTestData.FiskalyClient;
             var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
             var createdTss = (await client.CreateTssAsync(accessToken)).SuccessResult;
             var allTSSs = (await client.GetAllEnabledTSSsAsync(accessToken)).SuccessResult;
 
             Assert.IsTrue(allTSSs.Select(t => t.Id).Contains(createdTss.Id));
-            
-            await DisableTss(client, accessToken, createdTss, adminPuk: "1234567890");
+
+            await DisableTss(client, accessToken, createdTss, adminPuk: createdTss.AdminPuk);
         }
 
         private void AssertTss(bool isSuccess, object value)

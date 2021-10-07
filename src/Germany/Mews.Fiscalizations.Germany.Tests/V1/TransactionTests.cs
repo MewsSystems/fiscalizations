@@ -10,6 +10,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V1
     public class TransactionTests
     {
         [Test]
+        [Ignore("")]
         public async Task StatusCheckSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
@@ -20,6 +21,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V1
         }
 
         [Test, Order(1)]
+        [Ignore("")]
         public async Task GetTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
@@ -34,6 +36,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V1
         }
 
         [Test, Order(2)]
+        [Ignore("")]
         public async Task StartTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
@@ -47,6 +50,7 @@ namespace Mews.Fiscalizations.Germany.Tests.V1
         }
 
         [Test, Order(3)]
+        [Ignore("")]
         public async Task StartAndFinishTransactionSucceeds()
         {
             var client = TestFixture.GetFiskalyClient();
