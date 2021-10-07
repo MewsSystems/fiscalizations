@@ -23,6 +23,7 @@ namespace Mews.Fiscalizations.Italy.Tests
         }
 
         [Test]
+        [Ignore("Will un-ignore after publishing the new lib version with Github actions.")]
         public async Task SendInvoiceSucceeds()
         {
             var client = GetUniwixClient();
