@@ -1,5 +1,4 @@
 using Mews.Fiscalizations.Germany.V2.Model;
-using Mews.Fiscalizations.Germany.Tests.V2;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
