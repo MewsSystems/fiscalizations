@@ -23,6 +23,7 @@ namespace Mews.Fiscalizations.Italy.Tests
         }
 
         [Test]
+        [Ignore("")]
         public async Task SendInvoiceSucceeds()
         {
             var client = GetUniwixClient();
