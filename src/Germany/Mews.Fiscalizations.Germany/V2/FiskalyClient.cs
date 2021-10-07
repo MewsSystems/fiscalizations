@@ -1,6 +1,8 @@
-﻿using FuncSharp;
+﻿using System.Linq;
+using FuncSharp;
 using Mews.Fiscalizations.Germany.V2.Model;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -24,7 +26,16 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             return Client.GetResponseAsync<Dto.ClientResponse, Model.Client>(
                 endpoint: $"tss/{tssId}/client/{clientId}",
-                successFunc: response => ModelMapper.MapClient(response),
+                successFunc: response => new ResponseResult<Model.Client>(successResult: ModelMapper.MapClient(response)),
+                token: token
+            );
+        }
+
+        public Task<ResponseResult<IEnumerable<Model.Client>>> GetRegisteredTssClientsAsync(AccessToken token, Guid tssId)
+        {
+            return Client.GetResponseAsync<Dto.MultipleClientResponse, IEnumerable<Model.Client>>(
+                endpoint: $"tss/{tssId}/client?state=REGISTERED",
+                successFunc: response => new ResponseResult<IEnumerable<Model.Client>>(successResult: response.Clients.Select(c => ModelMapper.MapClient(c))),
                 token: token
             );
         }
@@ -36,7 +47,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 method: HttpMethod.Put,
                 endpoint: $"tss/{tssId}/client/{id}",
                 request: RequestCreator.CreateClient(id.ToString()),
-                successFunc: response => ModelMapper.MapClient(response),
+                successFunc: response => new ResponseResult<Model.Client>(successResult: ModelMapper.MapClient(response)),
                 token: token
             );
         }
@@ -47,7 +58,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 method: new HttpMethod("PATCH"),
                 endpoint: $"tss/{tssId}/client/{clientId}",
                 request: RequestCreator.UpdateClient(state),
-                successFunc: response => ModelMapper.MapClient(response),
+                successFunc: response => new ResponseResult<Model.Client>(successResult: ModelMapper.MapClient(response)),
                 token: token
             );
         }
@@ -56,7 +67,21 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             return Client.GetResponseAsync<Dto.TssResponse, Tss>(
                 endpoint: $"tss/{tssId}",
-                successFunc: response => ModelMapper.MapTss(response),
+                successFunc: response => new ResponseResult<Tss>(ModelMapper.MapTss(response)),
+                token: token
+            );
+        }
+
+        /// <summary>
+        /// <para>Returns all TSSs that are not disabled or enabled.</para>
+        /// <para>Disabled state is used to put the TSS out of service permanently.</para>
+        /// <para>Deleted state is only available in the test environment and it is used by Fiskaly to wipe the test data every week.</para>
+        /// </summary>
+        public Task<ResponseResult<IEnumerable<Tss>>> GetAllEnabledTSSsAsync(AccessToken token)
+        {
+            return Client.GetResponseAsync<Dto.MultipleTssResponse, IEnumerable<Tss>>(
+                endpoint: $"tss?states=CREATED&states=INITIALIZED&states=UNINITIALIZED",
+                successFunc: response => new ResponseResult<IEnumerable<Tss>>(successResult: response.TssList.Select(t => ModelMapper.MapTss(t))),
                 token: token
             );
         }
@@ -78,7 +103,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 method: new HttpMethod("PATCH"),
                 endpoint: $"tss/{tssId}",
                 request: RequestCreator.UpdateTss(state),
-                successFunc: response => ModelMapper.MapTss(response),
+                successFunc: response => new ResponseResult<Tss>(ModelMapper.MapTss(response)),
                 token: token
             );
         }

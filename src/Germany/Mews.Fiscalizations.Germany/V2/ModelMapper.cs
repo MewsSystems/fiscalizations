@@ -47,20 +47,20 @@ namespace Mews.Fiscalizations.Germany.V2
             ));
         }
 
-        internal static ResponseResult<Model.Client> MapClient(Dto.ClientResponse client)
+        internal static Model.Client MapClient(Dto.ClientResponse client)
         {
-            return new ResponseResult<Model.Client>(successResult: new Model.Client(
+            return new Model.Client(
                 serialNumber: client.SerialNumber,
                 created: client.TimeCreation.FromUnixTime(),
                 state: MapClientState(client.State),
                 tssId: client.TssId,
                 id: client.Id
-            ));
+            );
         }
 
-        internal static ResponseResult<Tss> MapTss(Dto.TssResponse tss)
+        internal static Tss MapTss(Dto.TssResponse tss)
         {
-            return new ResponseResult<Tss>(successResult: new Tss(
+            return new Tss(
                 id: tss.Id,
                 description: tss.Description,
                 state: MapTssState(tss.State),
@@ -73,7 +73,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 signatureCounter: tss.SignatureCounter,
                 signatureAlgorithm: tss.SignatureAlgorithm,
                 transactionCounter: tss.TransactionCounter
-            ));
+            );
         }
 
         internal static ResponseResult<CreateTssResult> MapCreateTss(Dto.CreateTssResponse createTssResponse)
@@ -104,6 +104,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 Dto.TssState.DISABLED, _ => TssState.Disabled,
                 Dto.TssState.INITIALIZED, _ => TssState.Initialized,
                 Dto.TssState.UNINITIALIZED, _ => TssState.Uninitialized,
+                Dto.TssState.DELETED, _ => TssState.Deleted,
                 _ => throw new NotImplementedException($"Tss state: {state} is not implemented.")
             );
         }
