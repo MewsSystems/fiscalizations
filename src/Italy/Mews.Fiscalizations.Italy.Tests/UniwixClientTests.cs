@@ -23,7 +23,6 @@ namespace Mews.Fiscalizations.Italy.Tests
         }
 
         [Test]
-        [Ignore("The test is failing because the API is down. Will enable after publishing the updated libs.")]
         public async Task SendInvoiceSucceeds()
         {
             var client = GetUniwixClient();
