@@ -5,6 +5,7 @@
         Created,
         Uninitialized,
         Initialized,
-        Disabled
+        Disabled,
+        Deleted
     }
 }

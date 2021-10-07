@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalizations.German.Tests.V2
+namespace Mews.Fiscalizations.Germany.Tests.V2
 {
     [TestFixture]
     public class TransactionTests
