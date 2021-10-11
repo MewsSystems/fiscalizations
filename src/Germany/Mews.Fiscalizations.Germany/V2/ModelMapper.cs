@@ -43,6 +43,7 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             return new ResponseResult<AccessToken>(successResult: new AccessToken(
                 value: token.AccessToken,
+                environment: MapEnvironment(token.AuthorizationTokenData.Environment),
                 expirationUtc: token.AccessTokenExpiresAt.FromUnixTime()
             ));
         }
@@ -95,6 +96,14 @@ namespace Mews.Fiscalizations.Germany.V2
                     transactionCounter: createTssResponse.TransactionCounter
                 )
             ));
+        }
+
+        private static FiskalyEnvironment MapEnvironment(Dto.FiskalyEnvironment environment)
+        {
+            return environment.Match(
+                Dto.FiskalyEnvironment.TEST, _ => FiskalyEnvironment.Test,
+                Dto.FiskalyEnvironment.LIVE, _ => FiskalyEnvironment.Production
+            );
         }
 
         private static TssState MapTssState(Dto.TssState state)
