@@ -14,6 +14,8 @@ namespace Mews.Fiscalizations.Germany.V2
     {
         private static readonly Uri BaseUri = new Uri("https://kassensichv-middleware.fiskaly.com");
         private static readonly string RelativeApiUrl = "api/v2/";
+        private static readonly int MaxRetryAttempts = 3;
+        private static readonly TimeSpan PauseBetweenFailures = TimeSpan.FromSeconds(2);
 
         private HttpClient HttpClient { get; }
 
@@ -37,16 +39,15 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
-            var httpResponse = await HttpClient.GetAsync(uri);
+
+            var retryPolicy = Policy.Handle<HttpRequestException>().WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
+            var httpResponse = await retryPolicy.ExecuteAsync(async () => await HttpClient.GetAsync(uri));
             return await DeserializeAsync(httpResponse, successFunc);
         }
 
         private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token = null)
             where TRequest : class
         {
-            var maxRetryAttempts = 3;
-            var pauseBetweenFailures = TimeSpan.FromSeconds(2);
-
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
             var requestMessage = new HttpRequestMessage(method, uri)
             {
@@ -58,7 +59,7 @@ namespace Mews.Fiscalizations.Germany.V2
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             }
 
-            var retryPolicy = Policy.Handle<HttpRequestException>().WaitAndRetryAsync(maxRetryAttempts, i => pauseBetweenFailures);
+            var retryPolicy = Policy.Handle<HttpRequestException>().WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
             return retryPolicy.ExecuteAsync(async () => await HttpClient.SendAsync(requestMessage));
         }
 
