@@ -29,7 +29,7 @@ Install-Package Mews.Fiscalizations.All
 
 ## 🎯 Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp). Definitely check-out the examples of usage, so you're not surprised. At the very least IOptions and ITries.
 -   Early data validation.
 -   Asynchronous I/O.
 -   All endpoints are covered with tests.
@@ -39,6 +39,9 @@ Install-Package Mews.Fiscalizations.All
 -   Cross platform (uses .NET Standard).
 -   6 countries supported.
 -   Logging support for some fiscalizations.
+
+## ⚠ Warning
+Since our production servers are now on .NET Core, we no longer need to use ConfigureAwait when awaiting tasks. as .NET Core does not have a SynchronizationContext, so it won't matter if we use ConfigureAwait or not. But if you need to, you may need to create another branch and include this.
 
 ## 👀 Examples
 
