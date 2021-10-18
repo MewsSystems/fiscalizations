@@ -1,6 +1,7 @@
 ﻿using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Germany.V2.Model;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -43,6 +44,9 @@ namespace Mews.Fiscalizations.Germany.V2
         private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token = null)
             where TRequest : class
         {
+            var maxRetryAttempts = 3;
+            var pauseBetweenFailures = TimeSpan.FromSeconds(2);
+
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
             var requestMessage = new HttpRequestMessage(method, uri)
             {
@@ -53,7 +57,9 @@ namespace Mews.Fiscalizations.Germany.V2
             {
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             }
-            return HttpClient.SendAsync(requestMessage);
+
+            var retryPolicy = Policy.Handle<HttpRequestException>().WaitAndRetryAsync(maxRetryAttempts, i => pauseBetweenFailures);
+            return retryPolicy.ExecuteAsync(async () => await HttpClient.SendAsync(requestMessage));
         }
 
         private async Task<ResponseResult<TResult>> DeserializeAsync<TDto, TResult>(HttpResponseMessage response, Func<TDto, ResponseResult<TResult>> successFunc)
