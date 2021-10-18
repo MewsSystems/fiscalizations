@@ -17,13 +17,6 @@ namespace Mews.Fiscalizations.Germany.V2
         private static readonly int MaxRetryAttempts = 3;
         private static readonly TimeSpan PauseBetweenFailures = TimeSpan.FromSeconds(2);
 
-        private HttpClient HttpClient { get; }
-
-        internal Client()
-        {
-            HttpClient = new HttpClient();
-        }
-
         internal async Task<ResponseResult<TResult>> ProcessRequestAsync<TRequest, TDto, TResult>(HttpMethod method, string endpoint, TRequest request, Func<TDto, ResponseResult<TResult>> successFunc, AccessToken token = null)
             where TRequest : class
             where TDto : class
@@ -37,17 +30,19 @@ namespace Mews.Fiscalizations.Germany.V2
             where TDto : class
             where TResult : class
         {
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
 
-            var retryPolicy = Policy.Handle<HttpRequestException>().WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
-            var httpResponse = await retryPolicy.ExecuteAsync(async () => await HttpClient.GetAsync(uri));
+            var retryPolicy = Policy.HandleResult<HttpResponseMessage>(r => (int)r.StatusCode >= 500).WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
+            var httpResponse = await retryPolicy.ExecuteAsync(async () => await httpClient.GetAsync(uri));
             return await DeserializeAsync(httpResponse, successFunc);
         }
 
         private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token = null)
             where TRequest : class
         {
+            var httpClient = new HttpClient();
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
             var requestMessage = new HttpRequestMessage(method, uri)
             {
@@ -56,11 +51,11 @@ namespace Mews.Fiscalizations.Germany.V2
 
             if (token.IsNotNull())
             {
-                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             }
 
-            var retryPolicy = Policy.Handle<HttpRequestException>().WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
-            return retryPolicy.ExecuteAsync(async () => await HttpClient.SendAsync(requestMessage));
+            var retryPolicy = Policy.HandleResult<HttpResponseMessage>(r => (int)r.StatusCode >= 500).WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
+            return retryPolicy.ExecuteAsync(async () => await httpClient.SendAsync(requestMessage));
         }
 
         private async Task<ResponseResult<TResult>> DeserializeAsync<TDto, TResult>(HttpResponseMessage response, Func<TDto, ResponseResult<TResult>> successFunc)
