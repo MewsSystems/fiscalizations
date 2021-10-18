@@ -15,7 +15,7 @@ namespace Mews.Fiscalizations.Germany.V2
         private static readonly Uri BaseUri = new Uri("https://kassensichv-middleware.fiskaly.com");
         private static readonly string RelativeApiUrl = "api/v2/";
         private static readonly int MaxRetryAttempts = 3;
-        private static readonly TimeSpan PauseBetweenFailures = TimeSpan.FromSeconds(2);
+        private static readonly TimeSpan PauseBetweenFailures = TimeSpan.FromSeconds(3);
 
         internal async Task<ResponseResult<TResult>> ProcessRequestAsync<TRequest, TDto, TResult>(HttpMethod method, string endpoint, TRequest request, Func<TDto, ResponseResult<TResult>> successFunc, AccessToken token = null)
             where TRequest : class
@@ -30,32 +30,36 @@ namespace Mews.Fiscalizations.Germany.V2
             where TDto : class
             where TResult : class
         {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
 
             var retryPolicy = Policy.HandleResult<HttpResponseMessage>(r => (int)r.StatusCode >= 500).WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
-            var httpResponse = await retryPolicy.ExecuteAsync(async () => await httpClient.GetAsync(uri));
+            var httpResponse = await retryPolicy.ExecuteAsync(async () =>
+            {
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+                return await httpClient.GetAsync(uri);
+            });
             return await DeserializeAsync(httpResponse, successFunc);
         }
 
         private Task<HttpResponseMessage> SendRequestAsync<TRequest>(HttpMethod method, string endpoint, TRequest request, AccessToken token = null)
             where TRequest : class
         {
-            var httpClient = new HttpClient();
             var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
-            var requestMessage = new HttpRequestMessage(method, uri)
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json")
-            };
-
-            if (token.IsNotNull())
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-            }
-
             var retryPolicy = Policy.HandleResult<HttpResponseMessage>(r => (int)r.StatusCode >= 500).WaitAndRetryAsync(MaxRetryAttempts, i => PauseBetweenFailures);
-            return retryPolicy.ExecuteAsync(async () => await httpClient.SendAsync(requestMessage));
+            return retryPolicy.ExecuteAsync(async () =>
+            {
+                var httpClient = new HttpClient();
+                if (token.IsNotNull())
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+                }
+                var requestMessage = new HttpRequestMessage(method, uri)
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json")
+                };
+                return await httpClient.SendAsync(requestMessage);
+            });
         }
 
         private async Task<ResponseResult<TResult>> DeserializeAsync<TDto, TResult>(HttpResponseMessage response, Func<TDto, ResponseResult<TResult>> successFunc)
