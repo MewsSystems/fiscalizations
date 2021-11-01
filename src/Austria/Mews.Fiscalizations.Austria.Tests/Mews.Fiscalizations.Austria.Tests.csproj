@@ -6,16 +6,12 @@
   
 	<ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-    <PackageReference Include="nunit" Version="3.13.1" />
+    <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
 	  <PackageReference Include="TimeZoneConverter" Version="3.3.0" />
 	</ItemGroup>
   
 	<ItemGroup>
 	  <ProjectReference Include="..\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj" />
-	</ItemGroup>
-  
-	<ItemGroup>
-	  <PackageReference Update="FuncSharp" Version="4.0.0" />
 	</ItemGroup>
 </Project>
