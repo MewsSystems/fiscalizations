@@ -20,10 +20,6 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FuncSharp" Version="4.0.0" />
-  </ItemGroup>
   
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
