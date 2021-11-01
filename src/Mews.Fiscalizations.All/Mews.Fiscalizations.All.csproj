@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <Reference Include="FuncSharp">
-      <HintPath>..\packages\FuncSharp.3.0.1\lib\netstandard2.0\FuncSharp.dll</HintPath>
+      <HintPath>..\packages\FuncSharp.4.0.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -74,13 +74,9 @@
     </ProjectReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="FuncSharp" Version="4.0.0" />
-  </ItemGroup>
-
   <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
     <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
   
