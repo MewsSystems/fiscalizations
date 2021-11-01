@@ -11,7 +11,7 @@ namespace Mews.Fiscalizations.Core.Model
 
         public string Value { get; }
 
-        public static ITry<NonEmptyString, INonEmptyEnumerable<Error>> Create(string value)
+        public static ITry<NonEmptyString, Error> Create(string value)
         {
             return StringValidations.NonEmpty(value).Map(v => new NonEmptyString(v));
         }

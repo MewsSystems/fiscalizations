@@ -15,7 +15,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public decimal Value { get; }
 
-        public static ITry<ExchangeRate, INonEmptyEnumerable<Error>> Create(decimal value)
+        public static ITry<ExchangeRate, Error> Create(decimal value)
         {
             return DecimalValidations.InRange(value, 0, 100_000_000, minIsAllowed: false, maxIsAllowed: false).FlatMap(v =>
             {

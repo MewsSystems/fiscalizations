@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public string Value { get; }
 
-        public static ITry<InvoiceNumber, INonEmptyEnumerable<Error>> Create(string value)
+        public static ITry<InvoiceNumber, Error> Create(string value)
         {
             return ValidationExtensions.ValidateString(value, minLength: 1, maxLength: 50, regex: ".*[^\\s].*").Map(v => new InvoiceNumber(v));
         }

@@ -13,11 +13,11 @@ namespace Mews.Fiscalizations.Spain.Model
 
         public string Value { get; }
 
-        public static ITry<Name, INonEmptyEnumerable<Error>> Create(string value)
+        public static ITry<Name, Error> Create(string value)
         {
             return StringValidations.LengthInRange(value, 0, 120).FlatMap(v =>
             {
-                var validatedName = Try.Create<string, XmlException>(_ => XmlConvert.VerifyXmlChars(v)).MapError(_ => Error.Create("Name contains invalid characters."));
+                var validatedName = Try.Catch<string, XmlException>(_ => XmlConvert.VerifyXmlChars(v)).MapError(_ => new Error("Name contains invalid characters."));
                 return validatedName.Map(n => new Name(n));
             });
         }

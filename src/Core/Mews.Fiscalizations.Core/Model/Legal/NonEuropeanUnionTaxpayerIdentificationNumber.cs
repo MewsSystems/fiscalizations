@@ -14,7 +14,7 @@ namespace Mews.Fiscalizations.Core.Model
 
         public string TaxpayerNumber { get; }
 
-        public static ITry<NonEuropeanUnionTaxpayerIdentificationNumber, INonEmptyEnumerable<Error>> Create(NonEuropeanUnionCountry country, string taxpayerNumber)
+        public static ITry<NonEuropeanUnionTaxpayerIdentificationNumber, Error> Create(NonEuropeanUnionCountry country, string taxpayerNumber)
         {
             return ObjectValidations.NotNull(country).FlatMap(c =>
             {

@@ -21,12 +21,12 @@ namespace Mews.Fiscalizations.Core.Model
 
         public int StartIndex => Sequence.StartIndex;
 
-        public static ITry<ISequenceStartingWithZero<T>, INonEmptyEnumerable<Error>> Create(IEnumerable<Indexed<T>> values)
+        public static ITry<ISequenceStartingWithZero<T>, Error> Create(IEnumerable<Indexed<T>> values)
         {
             var sequence = Sequence<T>.Create(values);
             var sequenceStartingWithZero = sequence.Where(
-                evaluator: s => s.Values.Head.Index == 0,
-                error: _ => new Error("Indexes must start with zero.")
+                predicate: s => s.Values.Head.Index == 0,
+                otherwise: _ => new Error("Indexes must start with zero.")
             );
             return sequenceStartingWithZero.Map(s => new SequenceStartingWithZero<T>(s));
         }
@@ -56,7 +56,7 @@ namespace Mews.Fiscalizations.Core.Model
             return SequenceStartingWithZero<T>.FromPreordered(values);
         }
 
-        public static ITry<ISequenceStartingWithZero<T>, INonEmptyEnumerable<Error>> Create<T>(IEnumerable<Indexed<T>> values)
+        public static ITry<ISequenceStartingWithZero<T>, Error> Create<T>(IEnumerable<Indexed<T>> values)
         {
             return SequenceStartingWithZero<T>.Create(values);
         }

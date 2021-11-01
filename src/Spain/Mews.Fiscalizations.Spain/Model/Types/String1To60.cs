@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Spain.Model
 
         public string Value { get; }
 
-        public static ITry<String1To60, INonEmptyEnumerable<Error>> Create(string value)
+        public static ITry<String1To60, Error> Create(string value)
         {
             return StringValidations.LengthInRange(value, 1, 60).Map(v => new String1To60(v));
         }

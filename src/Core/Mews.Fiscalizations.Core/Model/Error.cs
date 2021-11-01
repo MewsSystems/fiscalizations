@@ -8,10 +8,5 @@
         }
 
         public string Message { get; }
-
-        public static INonEmptyEnumerable<Error> Create(string message)
-        {
-            return new Error(message).ToEnumerable();
-        }
     }
 }

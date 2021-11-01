@@ -19,13 +19,13 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public IOption<TaxpayerIdentificationNumber> TaxpayerId { get; }
 
-        public static ITry<ForeignCompany, IEnumerable<Error>> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
+        public static ITry<ForeignCompany, Error> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
         {
             var optionalForeignTaxPayerId = taxpayerId.ToOption().ToOption().Where(i => i.Match(
                 identifier => !identifier.Country.Equals(Countries.Hungary),
                 _ => true
             ));
-            return optionalForeignTaxPayerId.ToTry(_ => Error.Create($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")).Map(
+            return optionalForeignTaxPayerId.ToTry(_ => new Error($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")).Map(
                 i => new ForeignCompany(name, address, i.GetOrNull())
             );
         }

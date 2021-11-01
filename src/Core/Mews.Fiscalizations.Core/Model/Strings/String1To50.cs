@@ -11,7 +11,7 @@ namespace Mews.Fiscalizations.Core.Model
 
         public string Value { get; }
 
-        public static ITry<String1To50, INonEmptyEnumerable<Error>> Create(string value)
+        public static ITry<String1To50, Error> Create(string value)
         {
             return StringValidations.LengthInRange(value, 1, 50).Map(v => new String1To50(v));
         }
