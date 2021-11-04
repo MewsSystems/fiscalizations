@@ -5,7 +5,7 @@ namespace Mews.Fiscalizations.Germany.V2.Dto
     internal sealed class FiskalyErrorResponse
     {
         [JsonProperty("status_code")]
-        public string StatusCode { get; set; }
+        public int StatusCode { get; set; }
 
         [JsonProperty("error")]
         public string Error { get; set; }
