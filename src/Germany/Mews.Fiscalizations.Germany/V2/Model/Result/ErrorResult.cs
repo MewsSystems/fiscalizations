@@ -34,7 +34,7 @@ namespace Mews.Fiscalizations.Germany.V2.Model
 
             if (error.StatusCode.SucceedsOrEquals(500) && error.StatusCode.PreceedsOrEquals(599))
             {
-                return FiskalyError.ServerSideError;
+                return FiskalyError.ServerSide;
             }
 
             return error.Code.Match(

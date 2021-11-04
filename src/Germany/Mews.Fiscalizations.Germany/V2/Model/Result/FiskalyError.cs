@@ -9,6 +9,6 @@
         InvalidCredentials,
         InvalidTssOperation,
         InvalidTransactionOperation,
-        ServerSideError
+        ServerSide
     }
 }
