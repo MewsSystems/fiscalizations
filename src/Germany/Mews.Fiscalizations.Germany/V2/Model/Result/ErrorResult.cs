@@ -42,14 +42,14 @@ namespace Mews.Fiscalizations.Germany.V2.Model
                 "E_TX_UPSERT", _ => FiskalyError.InvalidTransactionOperation,
                 "E_TSS_DISABLED", _ => FiskalyError.InvalidTssOperation,
                 "E_TSS_NOT_INITIALIZED", _ => FiskalyError.InvalidTssOperation,
-                "E_TX_ILLEGAL_TYPE_CHANGE", _ => throw new InvalidOperationException($"Invalid request from the library {ToDebugString(error)}."),
-                "E_TX_NO_TYPE_DEFINED", _ => throw new InvalidOperationException($"Invalid request from the library {ToDebugString(error)}."),
-                "E_API_VERSION", _ => throw new InvalidOperationException($"Invalid request from the library {ToDebugString(error)}."),
+                "E_TX_ILLEGAL_TYPE_CHANGE", _ => throw new InvalidOperationException($"Invalid request from the server {ToDebugString(error)}."),
+                "E_TX_NO_TYPE_DEFINED", _ => throw new InvalidOperationException($"Invalid request from the server {ToDebugString(error)}."),
+                "E_API_VERSION", _ => throw new InvalidOperationException($"Invalid request from the server {ToDebugString(error)}."),
                 "E_CLIENT_NOT_FOUND", _ => FiskalyError.InvalidClientId,
                 "E_TSS_NOT_FOUND", _ => FiskalyError.InvalidTssId,
                 "E_TSS_CONFLICT", _ => FiskalyError.TssCreationConflict,
                 "E_CLIENT_CONFLICT", _ => FiskalyError.ClientCreationConflict,
-                _ => throw new NotImplementedException(ToDebugString(error))
+                _ => throw new NotImplementedException($"Unhandled fiskaly error: {ToDebugString(error)}."),
             );
         }
 
@@ -58,8 +58,8 @@ namespace Mews.Fiscalizations.Germany.V2.Model
             return JsonConvert.SerializeObject(new
             {
                 StatusCode = errorResponse.StatusCode,
-                Error = errorResponse.Error,
                 Code = errorResponse.Code,
+                Error = errorResponse.Error,
                 Message = errorResponse.Message
             });
         }
