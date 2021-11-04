@@ -49,7 +49,7 @@ namespace Mews.Fiscalizations.Germany.V2.Model
                 "E_TSS_NOT_FOUND", _ => FiskalyError.InvalidTssId,
                 "E_TSS_CONFLICT", _ => FiskalyError.TssCreationConflict,
                 "E_CLIENT_CONFLICT", _ => FiskalyError.ClientCreationConflict,
-                _ => throw new NotImplementedException($"Unhandled fiskaly error: {ToDebugString(error)}."),
+                _ => throw new NotImplementedException($"Unhandled fiskaly error: {ToDebugString(error)}.")
             );
         }
 
