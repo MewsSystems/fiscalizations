@@ -32,7 +32,7 @@ namespace Mews.Fiscalizations.Germany.V2.Model
                 return FiskalyError.InvalidCredentials;
             }
 
-            if (error.StatusCode.InRange(500, 599))
+            if (error.StatusCode.SucceedsOrEquals(500) && error.StatusCode.PreceedsOrEquals(599))
             {
                 return FiskalyError.ServerSideError;
             }
