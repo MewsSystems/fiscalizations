@@ -8,6 +8,7 @@
         InvalidClientId,
         InvalidCredentials,
         InvalidTssOperation,
-        InvalidTransactionOperation
+        InvalidTransactionOperation,
+        ServerSide
     }
 }
