@@ -73,5 +73,31 @@ namespace Mews.Fiscalizations.Core.Model
             var minAllowedFraction = (decimal)Math.Pow(10, -1 * maxPrecision);
             return value % minAllowedFraction == 0;
         }
+
+        public static bool InRange<T>(this T value, T? from = null, T? to = null, bool closed = true)
+            where T : struct, IComparable
+        {
+            if (from.MatchVal(f => value.Preceeds(f) || !closed && value.Equals(f)) ||
+                to.MatchVal(t => value.Succeeds(t) || !closed && value.Equals(t)))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool MatchVal<A>(this A? a, Func<A, bool> func)
+            where A : struct
+        {
+            return MatchVal(a, func, _ => false);
+        }
+
+        public static B MatchVal<A, B>(this A? a, Func<A, B> func, Func<Unit, B> otherwise)
+            where A : struct
+        {
+            return a.IsNotNull().Match(
+                t => func(a.Value),
+                f => otherwise(Unit.Value)
+            );
+        }
     }
 }

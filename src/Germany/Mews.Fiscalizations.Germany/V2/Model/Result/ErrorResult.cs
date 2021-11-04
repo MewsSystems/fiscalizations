@@ -1,4 +1,5 @@
 ﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using System;
 
 namespace Mews.Fiscalizations.Germany.V2.Model
@@ -31,19 +32,35 @@ namespace Mews.Fiscalizations.Germany.V2.Model
                 return FiskalyError.InvalidCredentials;
             }
 
+            if (error.StatusCode.InRange(500, 599))
+            {
+                return FiskalyError.ServerSideError;
+            }
+
             return error.Code.Match(
                 "E_TX_UPSERT", _ => FiskalyError.InvalidTransactionOperation,
                 "E_TSS_DISABLED", _ => FiskalyError.InvalidTssOperation,
                 "E_TSS_NOT_INITIALIZED", _ => FiskalyError.InvalidTssOperation,
-                "E_TX_ILLEGAL_TYPE_CHANGE", _ => throw new InvalidOperationException($"Invalid request from the library {error.StatusCode}: {error.Code}."),
-                "E_TX_NO_TYPE_DEFINED", _ => throw new InvalidOperationException($"Invalid request from the library {error.StatusCode}: {error.Code}."),
-                "E_API_VERSION", _ => throw new InvalidOperationException($"Invalid request from the library {error.StatusCode}: {error.Code}."),
+                "E_TX_ILLEGAL_TYPE_CHANGE", _ => throw new InvalidOperationException($"Invalid request from the library {ToDebugObject(error)}."),
+                "E_TX_NO_TYPE_DEFINED", _ => throw new InvalidOperationException($"Invalid request from the library {ToDebugObject(error)}."),
+                "E_API_VERSION", _ => throw new InvalidOperationException($"Invalid request from the library {ToDebugObject(error)}."),
                 "E_CLIENT_NOT_FOUND", _ => FiskalyError.InvalidClientId,
                 "E_TSS_NOT_FOUND", _ => FiskalyError.InvalidTssId,
                 "E_TSS_CONFLICT", _ => FiskalyError.TssCreationConflict,
                 "E_CLIENT_CONFLICT", _ => FiskalyError.ClientCreationConflict,
                 _ => throw new NotImplementedException($"{error.StatusCode}: {error.Code} is not implemented.")
             );
+        }
+
+        private static object ToDebugObject(Dto.FiskalyErrorResponse errorResponse)
+        {
+            return new
+            {
+                StatusCode = errorResponse.StatusCode,
+                Error = errorResponse.Error,
+                Code = errorResponse.Code,
+                Message = errorResponse.Message
+            };
         }
     }
 }
