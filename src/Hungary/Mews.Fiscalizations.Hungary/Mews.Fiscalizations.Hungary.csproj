@@ -4,13 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mews</Authors>
     <Description>Client for NAV - Online Szamla.</Description>
-    <PackageTags>fiscalization hungary nav</PackageTags>
+    <PackageTags>fiscalization;hungary;nav;onlineszamla</PackageTags>
     <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
     <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>5.0.0</PackageVersion>
+    <PackageVersion>5.0.1</PackageVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -29,6 +29,14 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="..\..\..\packageIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +44,10 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageId>Mews.Fiscalizations.Hungary</PackageId>
+    <Company>Mews</Company>
+    <PackageIcon>packageIcon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>

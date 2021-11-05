@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>3.0.1</PackageVersion>
+    <PackageVersion>3.0.2</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,9 +19,21 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="..\..\..\packageIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
   <PropertyGroup>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageId>Mews.Fiscalizations.Core</PackageId>
+    <Company>Mews</Company>
+    <PackageIcon>packageIcon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>
