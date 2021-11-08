@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>5.0.1</PackageVersion>
+    <PackageVersion>6.0.0</PackageVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <Reference Include="FuncSharp">
-      <HintPath>..\..\packages\FuncSharp.3.0.1\lib\netstandard2.0\FuncSharp.dll</HintPath>
+      <HintPath>..\..\packages\FuncSharp.4.0.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 

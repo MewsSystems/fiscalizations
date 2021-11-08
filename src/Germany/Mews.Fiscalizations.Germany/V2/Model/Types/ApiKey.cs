@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Germany.V2.Model
 
         public string Value { get; }
 
-        public static ITry<ApiKey, INonEmptyEnumerable<Error>> Create(string value)
+        public static ITry<ApiKey, Error> Create(string value)
         {
             return StringValidations.LengthInRange(value, 1, 512).FlatMap(v =>
             {

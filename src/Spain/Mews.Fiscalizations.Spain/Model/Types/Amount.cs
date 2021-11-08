@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Spain.Model
 
         public decimal Value { get; }
 
-        public static ITry<Amount, INonEmptyEnumerable<Error>> Create(decimal value)
+        public static ITry<Amount, Error> Create(decimal value)
         {
             return DecimalValidations.SmallerThan(value, 1000000000000).FlatMap(v =>
             {

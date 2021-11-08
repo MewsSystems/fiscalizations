@@ -32,7 +32,7 @@ namespace Mews.Fiscalizations.Core.Model
             return a.Multiply(b);
         }
 
-        public static ITry<PositiveInt, INonEmptyEnumerable<Error>> Create(int value)
+        public static ITry<PositiveInt, Error> Create(int value)
         {
             return IntValidations.HigherThan(value, 0).Map(v => new PositiveInt(v));
         }

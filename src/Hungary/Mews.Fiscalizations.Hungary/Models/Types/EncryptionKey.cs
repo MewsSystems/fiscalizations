@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public string Value { get; }
 
-        public static ITry<EncryptionKey, INonEmptyEnumerable<Error>> Create(string value)
+        public static ITry<EncryptionKey, Error> Create(string value)
         {
             return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
             {

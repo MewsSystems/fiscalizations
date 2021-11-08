@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Spain.Model
 
         public decimal Value { get; }
 
-        public static ITry<Percentage, INonEmptyEnumerable<Error>> Create(decimal value)
+        public static ITry<Percentage, Error> Create(decimal value)
         {
             return DecimalValidations.InRange(value, 0, 100).FlatMap(v =>
             {

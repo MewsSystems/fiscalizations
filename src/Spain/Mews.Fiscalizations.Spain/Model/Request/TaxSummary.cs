@@ -21,16 +21,16 @@ namespace Mews.Fiscalizations.Spain.Model.Request
         {
             if (taxExempt.IsEmpty() && taxed.IsEmpty())
             {
-                return Try.Error<TaxSummary, IEnumerable<Error>>(Error.Create("Tax summary must contain at least one item."));
+                return Try.Error<TaxSummary, IEnumerable<Error>>(new Error("Tax summary must contain at least one item.").ToEnumerable());
             }
 
             var validTaxExemptItems = taxExempt.ToOption().FlatMap(e => e.AsNonEmpty()).Match(
-                items => items.ToTry(i => i.Count() <= 7, _ => Error.Create("There can only be up to 7 tax exempt items on one invoice.")),
-                _ => Try.Success<INonEmptyEnumerable<TaxExemptItem>, INonEmptyEnumerable<Error>>(null)
+                items => items.ToTry(i => i.Count() <= 7, _ => new Error("There can only be up to 7 tax exempt items on one invoice.")),
+                _ => Try.Success<INonEmptyEnumerable<TaxExemptItem>, Error>(null)
             );
             var validTaxRateSummaries = taxed.ToOption().FlatMap(t => t.AsNonEmpty()).Match(
-                summaries => summaries.ToTry(s => s.Count() <= 6, _ => Error.Create("There can only be up to 6 distinct taxed items on one invoice.")),
-                _ => Try.Success<INonEmptyEnumerable<TaxRateSummary>, INonEmptyEnumerable<Error>>(null)
+                summaries => summaries.ToTry(s => s.Count() <= 6, _ => new Error("There can only be up to 6 distinct taxed items on one invoice.")),
+                _ => Try.Success<INonEmptyEnumerable<TaxRateSummary>, Error>(null)
             );
 
             return Try.Aggregate(
