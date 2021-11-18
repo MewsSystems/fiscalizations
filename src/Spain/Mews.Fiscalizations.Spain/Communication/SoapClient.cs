@@ -1,5 +1,7 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
+using Mews.Fiscalizations.Spain.Model.Response;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
@@ -28,7 +30,7 @@ namespace Mews.Fiscalizations.Spain.Communication
 
         private HttpClient HttpClient { get; }
 
-        internal async Task<TOut> SendAsync<TIn, TOut>(TIn messageBodyObject)
+        internal async Task<ResponseResult<TOut>> SendAsync<TIn, TOut>(TIn messageBodyObject)
             where TIn : class, new()
             where TOut : class, new()
         {
@@ -36,17 +38,24 @@ namespace Mews.Fiscalizations.Spain.Communication
             var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject, parameters);
             XmlMessageSerialized?.Invoke(this, new XmlMessageSerializedEventArgs(messageBodyXmlElement));
 
-            var soapMessage = new SoapMessage(messageBodyXmlElement);
-            var xmlDocument = soapMessage.GetXmlDocument();
+            var soapRequestMessage = new SoapMessage(messageBodyXmlElement);
+            var xmlDocument = soapRequestMessage.GetXmlDocument();
             var xml = xmlDocument.OuterXml;
 
             var response = await GetResponseAsync(xml);
 
-            var soapBody = GetSoapBody(response);
-            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml);
+            return response.IsSuccess.Match(
+                t =>
+                {
+                    var soapResponseBody = GetSoapBody(response.SuccessResult);
+                    var deserializedMessage = XmlSerializer.Deserialize<TOut>(soapResponseBody.OuterXml);
+                    return new ResponseResult<TOut>(successResult: deserializedMessage);
+                },
+                f => new ResponseResult<TOut>(errorResult: response.ErrorResult)
+            );
         }
 
-        private async Task<string> GetResponseAsync(string body)
+        private async Task<ResponseResult<string>> GetResponseAsync(string body)
         {
             var requestContent = new StringContent(body, Encoding.UTF8, "application/x-www-form-urlencoded");
 
@@ -61,7 +70,10 @@ namespace Mews.Fiscalizations.Spain.Communication
                 var duration = stopwatch.ElapsedMilliseconds;
                 HttpRequestFinished?.Invoke(this, new HttpRequestFinishedEventArgs(result, duration));
 
-                return result;
+                return response.IsSuccessStatusCode.Match(
+                    t => new ResponseResult<string>(successResult: result),
+                    f => new ResponseResult<string>(errorResult: new ErrorResult(result))
+                );
             }
         }
 

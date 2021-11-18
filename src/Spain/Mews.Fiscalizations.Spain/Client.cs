@@ -31,18 +31,24 @@ namespace Mews.Fiscalizations.Spain
 
         private SoapClient SoapClient { get; }
 
-        public async Task<ReceivedInvoices> SubmitInvoiceAsync(InvoicesToSubmit model)
+        public async Task<ResponseResult<ReceivedInvoices>> SubmitInvoiceAsync(InvoicesToSubmit model)
         {
             var request = new ModelToDtoConverter().Convert(model);
             var response = await SoapClient.SendAsync<SubmitIssuedInvoicesRequest, SubmitIssuedInvoicesResponse>(request);
-            return new DtoToModelConverter().Convert(response);
+            return response.IsSuccess.Match(
+                t => new ResponseResult<ReceivedInvoices>(successResult: new DtoToModelConverter().Convert(response.SuccessResult)),
+                f => new ResponseResult<ReceivedInvoices>(errorResult: response.ErrorResult)
+            );
         }
 
-        public async Task<ReceivedInvoices> SubmitSimplifiedInvoiceAsync(SimplifiedInvoicesToSubmit model)
+        public async Task<ResponseResult<ReceivedInvoices>> SubmitSimplifiedInvoiceAsync(SimplifiedInvoicesToSubmit model)
         {
             var request = new ModelToDtoConverter().Convert(model);
             var response = await SoapClient.SendAsync<SubmitIssuedInvoicesRequest, SubmitIssuedInvoicesResponse>(request);
-            return new DtoToModelConverter().Convert(response);
+            return response.IsSuccess.Match(
+                t => new ResponseResult<ReceivedInvoices>(successResult: new DtoToModelConverter().Convert(response.SuccessResult)),
+                f => new ResponseResult<ReceivedInvoices>(errorResult: response.ErrorResult)
+            );
         }
     }
 }

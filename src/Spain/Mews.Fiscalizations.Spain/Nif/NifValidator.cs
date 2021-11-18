@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Spain.Communication;
+using Mews.Fiscalizations.Spain.Model.Response;
 
 namespace Mews.Fiscalizations.Spain.Nif
 {
@@ -17,11 +18,14 @@ namespace Mews.Fiscalizations.Spain.Nif
         }
         private SoapClient SoapClient { get; }
 
-        public async Task<Response> CheckNif(Request model)
+        public async Task<ResponseResult<Response>> CheckNif(Request model)
         {
             var request = Convert(model);
             var response = await SoapClient.SendAsync<Entrada, Salida>(request);
-            return Convert(request, response);
+            return response.IsSuccess.Match(
+                t => new ResponseResult<Response>(successResult: Convert(request, response.SuccessResult)),
+                f => new ResponseResult<Response>(errorResult: response.ErrorResult)
+            );
         }
 
         private Response Convert(Entrada request, Salida response)
