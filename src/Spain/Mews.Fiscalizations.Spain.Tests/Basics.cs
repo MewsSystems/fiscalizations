@@ -70,7 +70,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
 
             var response = await client.SubmitSimplifiedInvoiceAsync(model);
 
-            Assert.IsTrue(response.IsSuccess, $"Success response expected, but error received: {response.ErrorResult.Error}");
+            Assert.IsTrue(response.IsSuccess, $"Success response expected, but error received: {response?.ErrorResult?.Error}");
 
             var responseErrorMessages = response.SuccessResult.Invoices.Select(i => i.ErrorMessage).Flatten();
             var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);
@@ -84,7 +84,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             var validator = new NifValidator(Certificate, httpTimeout: TimeSpan.FromSeconds(30));
             var response = await validator.CheckNif(new Request(entries));
 
-            Assert.IsTrue(response.IsSuccess, $"Success response expected, but error received: {response.ErrorResult.Error}");
+            Assert.IsTrue(response.IsSuccess, $"Success response expected, but error received: {response?.ErrorResult?.Error}");
 
             Assert.AreEqual(response.SuccessResult.Results.Count(), entries.Count());
             foreach (var result in response.SuccessResult.Results)
