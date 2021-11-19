@@ -1,5 +1,7 @@
 ﻿using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
+using Mews.Fiscalizations.Spain.Dto.Responses;
+using Mews.Fiscalizations.Spain.Model.Response;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
@@ -28,7 +30,7 @@ namespace Mews.Fiscalizations.Spain.Communication
 
         private HttpClient HttpClient { get; }
 
-        internal async Task<TOut> SendAsync<TIn, TOut>(TIn messageBodyObject)
+        internal async Task<ResponseResult<TOut>> SendAsync<TIn, TOut>(TIn messageBodyObject)
             where TIn : class, new()
             where TOut : class, new()
         {
@@ -36,14 +38,25 @@ namespace Mews.Fiscalizations.Spain.Communication
             var messageBodyXmlElement = XmlSerializer.Serialize(messageBodyObject, parameters);
             XmlMessageSerialized?.Invoke(this, new XmlMessageSerializedEventArgs(messageBodyXmlElement));
 
-            var soapMessage = new SoapMessage(messageBodyXmlElement);
-            var xmlDocument = soapMessage.GetXmlDocument();
+            var soapRequestMessage = new SoapMessage(messageBodyXmlElement);
+            var xmlDocument = soapRequestMessage.GetXmlDocument();
             var xml = xmlDocument.OuterXml;
 
             var response = await GetResponseAsync(xml);
-
-            var soapBody = GetSoapBody(response);
-            return XmlSerializer.Deserialize<TOut>(soapBody.OuterXml);
+            try
+            {
+                var soapResponseBody = GetSoapBody(response);
+                var deserializedMessage = XmlSerializer.Deserialize<TOut>(soapResponseBody.OuterXml);
+                return new ResponseResult<TOut>(successResult: deserializedMessage);
+            }
+            catch (InvalidOperationException)
+            {
+                var soapFault = XmlSerializer.Deserialize<SoapFaultResponse>(response);
+                return new ResponseResult<TOut>(errorResult: new ErrorResult(
+                    code: soapFault.Body.Fault.Faultcode,
+                    message: soapFault.Body.Fault.Faultstring
+                ));
+            }
         }
 
         private async Task<string> GetResponseAsync(string body)
