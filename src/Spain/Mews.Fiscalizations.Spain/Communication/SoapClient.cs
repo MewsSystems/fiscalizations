@@ -1,6 +1,6 @@
 ﻿using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
-using Mews.Fiscalizations.Spain.Dto.Responses;
+using Mews.Fiscalizations.Spain.Dto.Responses.SoapFault;
 using Mews.Fiscalizations.Spain.Model.Response;
 using System;
 using System.Diagnostics;
@@ -47,15 +47,12 @@ namespace Mews.Fiscalizations.Spain.Communication
             {
                 var soapResponseBody = GetSoapBody(response);
                 var deserializedMessage = XmlSerializer.Deserialize<TOut>(soapResponseBody.OuterXml);
-                return new ResponseResult<TOut>(successResult: deserializedMessage);
+                return ResponseResult.Success(deserializedMessage);
             }
             catch (InvalidOperationException)
             {
                 var soapFault = XmlSerializer.Deserialize<SoapFaultResponse>(response);
-                return new ResponseResult<TOut>(errorResult: new ErrorResult(
-                    code: soapFault.Body.Fault.Faultcode,
-                    message: soapFault.Body.Fault.Faultstring
-                ));
+                return ResponseResult.Error<TOut>(soapFault.Body.Fault.Code, soapFault.Body.Fault.Message);
             }
         }
 
