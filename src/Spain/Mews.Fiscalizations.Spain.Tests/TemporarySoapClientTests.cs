@@ -44,8 +44,9 @@ namespace Mews.Fiscalizations.Spain.Tests
         {
             var soapFault = await soapClient.SendAsync<InvalidSoapMessage, SubmitIssuedInvoicesResponse>(new InvalidSoapMessage { Message = "bla-bla-bla" });
             Assert.IsFalse(soapFault.IsSuccess, "Soap fail was expected but success received");
-            Assert.IsTrue(string.IsNullOrEmpty(soapFault?.ErrorResult?.Code), "Non-empty code was expected");
-            Assert.IsTrue(string.IsNullOrEmpty(soapFault?.ErrorResult?.Message), "Non-empty message was expected");
+            Assert.AreEqual(soapFault?.ErrorResult?.Code, "env:Client");
+            var message = soapFault?.ErrorResult?.Message;
+            Assert.IsTrue(soapFault?.ErrorResult?.Message?.Contains("El XML no cumple el esquema.") ?? false, $"Expected fragment not found in message {message}");
         }
     }
 }
