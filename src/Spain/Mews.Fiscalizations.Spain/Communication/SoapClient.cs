@@ -1,6 +1,6 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
+using Mews.Fiscalizations.Spain.Dto.Responses;
 using Mews.Fiscalizations.Spain.Model.Response;
 using System;
 using System.Diagnostics;
@@ -43,19 +43,23 @@ namespace Mews.Fiscalizations.Spain.Communication
             var xml = xmlDocument.OuterXml;
 
             var response = await GetResponseAsync(xml);
-
-            return response.IsSuccess.Match(
-                t =>
-                {
-                    var soapResponseBody = GetSoapBody(response.SuccessResult);
-                    var deserializedMessage = XmlSerializer.Deserialize<TOut>(soapResponseBody.OuterXml);
-                    return new ResponseResult<TOut>(successResult: deserializedMessage);
-                },
-                f => new ResponseResult<TOut>(errorResult: response.ErrorResult)
-            );
+            try
+            {
+                var soapResponseBody = GetSoapBody(response);
+                var deserializedMessage = XmlSerializer.Deserialize<TOut>(soapResponseBody.OuterXml);
+                return new ResponseResult<TOut>(successResult: deserializedMessage);
+            }
+            catch (InvalidOperationException)
+            {
+                var soapFault = XmlSerializer.Deserialize<SoapFaultResponse>(response);
+                return new ResponseResult<TOut>(errorResult: new ErrorResult(
+                    code: soapFault.Body.Fault.Faultcode,
+                    message: soapFault.Body.Fault.Faultstring
+                ));
+            }
         }
 
-        private async Task<ResponseResult<string>> GetResponseAsync(string body)
+        private async Task<string> GetResponseAsync(string body)
         {
             var requestContent = new StringContent(body, Encoding.UTF8, "application/x-www-form-urlencoded");
 
@@ -70,10 +74,7 @@ namespace Mews.Fiscalizations.Spain.Communication
                 var duration = stopwatch.ElapsedMilliseconds;
                 HttpRequestFinished?.Invoke(this, new HttpRequestFinishedEventArgs(result, duration));
 
-                return response.IsSuccessStatusCode.Match(
-                    t => new ResponseResult<string>(successResult: result),
-                    f => new ResponseResult<string>(errorResult: new ErrorResult(result))
-                );
+                return result;
             }
         }
 

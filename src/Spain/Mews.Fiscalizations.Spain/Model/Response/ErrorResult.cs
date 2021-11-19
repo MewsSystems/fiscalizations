@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Mews.Fiscalizations.Spain.Model.Response
+﻿namespace Mews.Fiscalizations.Spain.Model.Response
 {
     public sealed class ErrorResult
     {
-        public ErrorResult(string error)
+        public ErrorResult(string code, string message)
         {
-            Error = error;
+            Code = code;
+            Message = message;
         }
 
-        public string Error { get; }
+        public string Code { get; }
+        public string Message { get; }
     }
 }
