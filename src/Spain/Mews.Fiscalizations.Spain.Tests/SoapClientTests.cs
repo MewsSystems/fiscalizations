@@ -44,6 +44,7 @@ namespace Mews.Fiscalizations.Spain.Tests
         [Test]
         public async Task InvalidSoapActionShouldFail()
         {
+            soapClient.HttpRequestFinished += LogResponse;
             try
             {
                 await soapClient.SendAsync<InvalidSoapMessage, SomeSoapResponse>(new InvalidSoapMessage { Message = "bla-bla-bla" });
@@ -51,8 +52,18 @@ namespace Mews.Fiscalizations.Spain.Tests
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                Assert.Pass();
+            }
+            finally
+            {
+                soapClient.HttpRequestFinished -= LogResponse;
             }
             Assert.Fail("Test was suppose to fail");
+        }
+
+        private void LogResponse(object sender, HttpRequestFinishedEventArgs e)
+        {
+            Console.WriteLine($"{e?.Response}");
         }
     }
 }
