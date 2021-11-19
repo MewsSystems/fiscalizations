@@ -30,6 +30,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER").Success.Get()
         );
 
+        [Test]
         public async Task CheckNif()
         {
             var goodEntries = NonEmptyEnumerable.Create(
@@ -53,6 +54,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             await AssertNifLookup(serverModifiedEntry.ToEnumerable(), NifSearchResult.NotFoundBecauseNifModifiedByServer);
         }
 
+        [Test]
         public async Task PostInvoice()
         {
             await SuccessfullyPostInvoice(Client);

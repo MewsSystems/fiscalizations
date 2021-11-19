@@ -44,8 +44,15 @@ namespace Mews.Fiscalizations.Spain.Tests
         [Test]
         public async Task InvalidSoapActionShouldFail()
         {
-            await soapClient.SendAsync<InvalidSoapMessage, SomeSoapResponse>(new InvalidSoapMessage { Message = "bla-bla-bla" });
-            Assert.Pass();
+            try
+            {
+                await soapClient.SendAsync<InvalidSoapMessage, SomeSoapResponse>(new InvalidSoapMessage { Message = "bla-bla-bla" });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            Assert.Fail("Test was suppose to fail");
         }
     }
 }
