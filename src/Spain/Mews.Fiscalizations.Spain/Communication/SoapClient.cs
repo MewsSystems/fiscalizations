@@ -57,10 +57,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception(result);
-                }
+                throw new Exception($"{response.StatusCode} {result}");
 
                 stopwatch.Stop();
                 var duration = stopwatch.ElapsedMilliseconds;
