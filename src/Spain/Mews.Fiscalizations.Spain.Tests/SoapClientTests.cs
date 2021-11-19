@@ -1,10 +1,8 @@
 ﻿using Mews.Fiscalizations.Spain.Communication;
+using Mews.Fiscalizations.Spain.Dto.Responses;
 using Mews.Fiscalizations.Spain.Tests.IssuedInvoices;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -44,15 +42,10 @@ namespace Mews.Fiscalizations.Spain.Tests
         [Test]
         public async Task InvalidSoapActionShouldFail()
         {
-            try
-            {
-                await soapClient.SendAsync<InvalidSoapMessage, SomeSoapResponse>(new InvalidSoapMessage { Message = "bla-bla-bla" });
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            Assert.Fail("Test was suppose to fail");
+            var soapFault = await soapClient.SendAsync<InvalidSoapMessage, SubmitIssuedInvoicesResponse>(new InvalidSoapMessage { Message = "bla-bla-bla" });
+            Assert.IsFalse(soapFault.IsSuccess);
+            throw new Exception($"{soapFault.ErrorResult.Code} >> {soapFault.ErrorResult.Message}");
+
         }
     }
 }
