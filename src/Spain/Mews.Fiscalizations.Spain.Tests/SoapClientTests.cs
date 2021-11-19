@@ -63,7 +63,7 @@ namespace Mews.Fiscalizations.Spain.Tests
 
         private void LogResponse(object sender, HttpRequestFinishedEventArgs e)
         {
-            Console.WriteLine($"{e?.Response}");
+            throw new Exception(e?.Response);
         }
     }
 }
