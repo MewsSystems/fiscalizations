@@ -52,7 +52,14 @@ namespace Mews.Fiscalizations.Spain.Communication
             catch (InvalidOperationException)
             {
                 var soapFault = XmlSerializer.Deserialize<SoapFaultResponse>(response);
-                return ResponseResult.Error<TOut>(soapFault.Body.Fault.Code, soapFault.Body.Fault.Message);
+                try
+                {
+                    return ResponseResult.Error<TOut>(soapFault.Body.Fault.Code, soapFault.Body.Fault.Message);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException($"Fail to parse response {response}", e);
+                }
             }
         }
 
