@@ -48,8 +48,8 @@ namespace Mews.Fiscalizations.Spain
         private static ResponseResult<ReceivedInvoices> MapResponse(ResponseResult<SubmitIssuedInvoicesResponse> response)
         {
             return response.IsSuccess.Match(
-                t => new ResponseResult<ReceivedInvoices>(successResult: new DtoToModelConverter().Convert(response.SuccessResult)),
-                f => new ResponseResult<ReceivedInvoices>(errorResult: response.ErrorResult)
+                t => ResponseResult.Success(new DtoToModelConverter().Convert(response.SuccessResult)),
+                f => ResponseResult.Error<ReceivedInvoices>(response.ErrorResult)
             );
         }
     }

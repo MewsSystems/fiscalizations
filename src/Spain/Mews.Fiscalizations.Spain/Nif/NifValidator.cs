@@ -23,8 +23,8 @@ namespace Mews.Fiscalizations.Spain.Nif
             var request = Convert(model);
             var response = await SoapClient.SendAsync<Entrada, Salida>(request);
             return response.IsSuccess.Match(
-                t => new ResponseResult<Response>(successResult: Convert(request, response.SuccessResult)),
-                f => new ResponseResult<Response>(errorResult: response.ErrorResult)
+                t => ResponseResult.Success(Convert(request, response.SuccessResult)),
+                f => ResponseResult.Error<Response>(response.ErrorResult)
             );
         }
 
