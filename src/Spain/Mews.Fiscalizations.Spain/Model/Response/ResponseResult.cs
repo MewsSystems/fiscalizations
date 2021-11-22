@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Spain.Model.Response
 {
@@ -6,33 +7,35 @@ namespace Mews.Fiscalizations.Spain.Model.Response
     {
         public static ResponseResult<T> Success<T>(T result) where T : class
         {
-            return new ResponseResult<T>(successResult: result);
+            return new ResponseResult<T>(result);
         }
 
         public static ResponseResult<T> Error<T>(ErrorResult error) where T : class
         {
-            return new ResponseResult<T>(errorResult: error);
+            return new ResponseResult<T>(error);
         }
 
         public static ResponseResult<T> Error<T>(string code, string message) where T : class
         {
-            return new ResponseResult<T>(errorResult: new ErrorResult(code, message));
+            return new ResponseResult<T>(new ErrorResult(code, message));
         }
     }
 
-    public class ResponseResult<TResult>
+    public class ResponseResult<TResult> : Coproduct2<TResult, ErrorResult>
         where TResult : class
     {
-        internal ResponseResult(TResult successResult = null, ErrorResult errorResult = null)
+        internal ResponseResult(TResult successResult = null) : base(successResult)
         {
-            SuccessResult = successResult;
-            ErrorResult = errorResult;
         }
 
-        public TResult SuccessResult { get; }
+        internal ResponseResult(ErrorResult errorResult = null) : base(errorResult)
+        {
+        }
 
-        public ErrorResult ErrorResult { get; }
+        public IOption<TResult> SuccessResult => First;
 
-        public bool IsSuccess => SuccessResult.IsNotNull();
+        public IOption<ErrorResult> ErrorResult => Second;
+
+        public bool IsSuccess => IsFirst;
     }
 }

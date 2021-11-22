@@ -5,6 +5,7 @@ using Mews.Fiscalizations.Spain.Communication;
 using Mews.Fiscalizations.Spain.Dto.Responses;
 using Mews.Fiscalizations.Spain.Tests.IssuedInvoices;
 using NUnit.Framework;
+using FuncSharp;
 
 namespace Mews.Fiscalizations.Spain.Tests
 {
@@ -44,9 +45,9 @@ namespace Mews.Fiscalizations.Spain.Tests
         {
             var soapFault = await soapClient.SendAsync<InvalidSoapMessage, SubmitIssuedInvoicesResponse>(new InvalidSoapMessage { Message = "bla-bla-bla" });
             Assert.IsFalse(soapFault.IsSuccess, "Soap fail was expected but success received");
-            Assert.AreEqual(soapFault?.ErrorResult?.Code, "env:Client");
-            var message = soapFault?.ErrorResult?.Message;
-            Assert.IsTrue(soapFault?.ErrorResult?.Message?.Contains("El XML no cumple el esquema.") ?? false, $"Expected fragment not found in message {message}");
+            Assert.AreEqual(soapFault.ErrorResult.Get().Code, "env:Client");
+            var message = soapFault.ErrorResult.Map(e => e.Message);
+            Assert.IsTrue(message.Map(m => m.Contains("El XML no cumple el esquema.")).GetOrFalse(), $"Expected fragment not found in message {message.GetOrNull()}");
         }
     }
 }
