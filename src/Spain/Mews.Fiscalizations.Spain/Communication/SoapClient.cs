@@ -44,26 +44,16 @@ namespace Mews.Fiscalizations.Spain.Communication
             var xml = xmlDocument.OuterXml;
 
             var response = await GetResponseAsync(xml);
-            var succesResult = Try.Catch<ResponseResult<TOut>, InvalidOperationException>(_ =>
+            try
             {
                 var soapResponseBody = GetSoapBody(response);
                 var deserializedMessage = XmlSerializer.Deserialize<TOut>(soapResponseBody.OuterXml);
                 return ResponseResult.Success(deserializedMessage);
-            });
-            return succesResult.Match(s => s, _ => DeserializeSoapError<TOut>(response));
-        }
-
-        private static ResponseResult<TOut> DeserializeSoapError<TOut>(string response)
-            where TOut : class, new()
-        {
-            try
+            }
+            catch (InvalidOperationException)
             {
                 var soapFault = XmlSerializer.Deserialize<SoapFaultResponse>(response);
                 return ResponseResult.Error<TOut>(soapFault.Body.Fault.Code, soapFault.Body.Fault.Message);
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException($"Failed to parse response.", e);
             }
         }
 
