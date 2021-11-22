@@ -10,7 +10,7 @@ namespace Mews.Fiscalizations.Spain.Tests
 {
     // TODO: remove tests when feature will be completed
     [TestFixture]
-    public class TemporarySoapClientTests
+    public class SoapFaultResponseDeserializationTests
     {
         private SoapClient soapClient;
 
