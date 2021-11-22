@@ -53,7 +53,8 @@ namespace Mews.Fiscalizations.Spain.Communication
             return succesResult.Match(s => s, _ => DeserializeSoapError<TOut>(response));
         }
 
-        private static ResponseResult<TOut> DeserializeSoapError<TOut>(string response) where TOut : class, new()
+        private static ResponseResult<TOut> DeserializeSoapError<TOut>(string response)
+            where TOut : class, new()
         {
             try
             {
