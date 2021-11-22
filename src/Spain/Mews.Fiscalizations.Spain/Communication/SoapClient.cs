@@ -63,7 +63,7 @@ namespace Mews.Fiscalizations.Spain.Communication
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Failed to parse response.", e);
+                throw new InvalidOperationException($"Failed to parse response: {response}", e);
             }
         }
 
