@@ -70,9 +70,9 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
 
             var response = await client.SubmitSimplifiedInvoiceAsync(model);
 
-            var responseErrorMessages = response.Get().Invoices.Select(i => i.ErrorMessage).Flatten();
+            var responseErrorMessages = response.Success.Get().Invoices.Select(i => i.ErrorMessage).Flatten();
             var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);
-            Assert.AreEqual(response.Get().Result, RegisterResult.Correct, errorMessage);
+            Assert.AreEqual(response.Success.Get().Result, RegisterResult.Correct, errorMessage);
 
             return invoice;
         }
@@ -82,8 +82,8 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             var validator = new NifValidator(Certificate, httpTimeout: TimeSpan.FromSeconds(30));
             var response = await validator.CheckNif(new Request(entries));
 
-            Assert.AreEqual(response.Get().Results.Count(), entries.Count());
-            foreach (var result in response.Get().Results)
+            Assert.AreEqual(response.Success.Get().Results.Count(), entries.Count());
+            foreach (var result in response.Success.Get().Results)
             {
                 Assert.AreEqual(expectedResult, result.Result);
             }
