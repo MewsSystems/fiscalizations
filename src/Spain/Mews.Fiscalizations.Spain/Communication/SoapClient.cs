@@ -31,7 +31,7 @@ namespace Mews.Fiscalizations.Spain.Communication
 
         private HttpClient HttpClient { get; }
 
-        internal async Task<ResponseResult<TOut>> SendAsync<TIn, TOut>(TIn messageBodyObject)
+        internal async Task<ITry<TOut, ErrorResult>> SendAsync<TIn, TOut>(TIn messageBodyObject)
             where TIn : class, new()
             where TOut : class, new()
         {
@@ -48,12 +48,12 @@ namespace Mews.Fiscalizations.Spain.Communication
             {
                 var soapResponseBody = GetSoapBody(response);
                 var deserializedMessage = XmlSerializer.Deserialize<TOut>(soapResponseBody.OuterXml);
-                return ResponseResult.Success(deserializedMessage);
+                return Try.Success<TOut, ErrorResult>(deserializedMessage);
             }
             catch (InvalidOperationException)
             {
                 var soapFault = XmlSerializer.Deserialize<SoapFaultResponse>(response);
-                return ResponseResult.Error<TOut>(soapFault.Body.Fault.Code, soapFault.Body.Fault.Message);
+                return Try.Error<TOut, ErrorResult>(ErrorResult.Create(soapFault.Body.Fault.Code, soapFault.Body.Fault.Message));
             }
         }
 

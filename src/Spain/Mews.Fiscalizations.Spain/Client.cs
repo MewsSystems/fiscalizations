@@ -31,26 +31,18 @@ namespace Mews.Fiscalizations.Spain
 
         private SoapClient SoapClient { get; }
 
-        public async Task<ResponseResult<ReceivedInvoices>> SubmitInvoiceAsync(InvoicesToSubmit model)
+        public async Task<ITry<ReceivedInvoices, ErrorResult>> SubmitInvoiceAsync(InvoicesToSubmit model)
         {
             var request = new ModelToDtoConverter().Convert(model);
             var response = await SoapClient.SendAsync<SubmitIssuedInvoicesRequest, SubmitIssuedInvoicesResponse>(request);
-            return MapResponse(response);
+            return response.Map(r => new DtoToModelConverter().Convert(r));
         }
 
-        public async Task<ResponseResult<ReceivedInvoices>> SubmitSimplifiedInvoiceAsync(SimplifiedInvoicesToSubmit model)
+        public async Task<ITry<ReceivedInvoices, ErrorResult>> SubmitSimplifiedInvoiceAsync(SimplifiedInvoicesToSubmit model)
         {
             var request = new ModelToDtoConverter().Convert(model);
             var response = await SoapClient.SendAsync<SubmitIssuedInvoicesRequest, SubmitIssuedInvoicesResponse>(request);
-            return MapResponse(response);
-        }
-
-        private static ResponseResult<ReceivedInvoices> MapResponse(ResponseResult<SubmitIssuedInvoicesResponse> response)
-        {
-            return response.Match(
-                s => ResponseResult.Success(new DtoToModelConverter().Convert(s)),
-                e => ResponseResult.Error<ReceivedInvoices>(e)
-            );
+            return response.Map(r => new DtoToModelConverter().Convert(r));
         }
     }
 }
