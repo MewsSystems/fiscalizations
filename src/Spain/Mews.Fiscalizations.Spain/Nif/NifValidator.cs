@@ -18,14 +18,11 @@ namespace Mews.Fiscalizations.Spain.Nif
         }
         private SoapClient SoapClient { get; }
 
-        public async Task<ResponseResult<Response>> CheckNif(Request model)
+        public async Task<ITry<Response, ErrorResult>> CheckNif(Request model)
         {
             var request = Convert(model);
             var response = await SoapClient.SendAsync<Entrada, Salida>(request);
-            return response.IsSuccess.Match(
-                t => ResponseResult.Success(Convert(request, response.SuccessResult)),
-                f => ResponseResult.Error<Response>(response.ErrorResult)
-            );
+            return response.Map(r => Convert(request, r));
         }
 
         private Response Convert(Entrada request, Salida response)
