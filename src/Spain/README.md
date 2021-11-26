@@ -60,7 +60,7 @@ We have published the library as [Mews.Fiscalizations.Spain](https://www.nuget.o
 
 Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Spain/Mews.Fiscalizations.Spain.Tests).
 
-**Creating the client**
+### Creating the client
 There are 3 required properties that need to be provided when creating the client
 1. Certificate: the certificate can be obtained from the SII website
 2. Environment: production/test.
@@ -71,7 +71,7 @@ var certificate = new X509Certificate2(.....);
 var client = new Client(certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
 ```
 
-**Creating the IssuingCompany (supplier/issuer)**
+### Creating the IssuingCompany (supplier/issuer)
 First step is to create the tax payer object:
 ```csharp
 var taxpayerIdentificationNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, "INSERT_ISSUER_TAX_NUMBER").Success.Get();
@@ -85,7 +85,7 @@ var issuingCompany = new LocalCompany(
 );
 ```
 
-**Creating the invoice**
+### Creating the invoice
 ```csharp
 var issueDateUtc = nowUtc.Date;
 var vat = 21m;
@@ -109,7 +109,7 @@ var invoice = new SimplifiedInvoice(
 );
 ```
 
-**Submitting the invoice**
+### Submitting the invoice
 ```csharp
 var model = SimplifiedInvoicesToSubmit.Create(
     header: new Header(IssuingCompany, CommunicationType.Registration),
@@ -119,15 +119,15 @@ var model = SimplifiedInvoicesToSubmit.Create(
 var response = await client.SubmitSimplifiedInvoiceAsync(model);
 ```
 
-**Handling response result**
+### Handling response result
 Client will return a coproduct of successful soap response and potential soap fault. You could read more about algebraic types [here](https://github.com/siroky/FuncSharp). Specifically, samples of handling Try coproduct are [here](https://github.com/siroky/FuncSharp/tree/master/src/FuncSharp.Examples/Try). Below is a reference of basic scenarios:
 
-Get result or throw an exception in a case if service have returned soap fault response.
+#### Get result or throw an exception in a case service returned soap fault response.
 ```
 var receivedInvoices = response.MapError(e => new Exception($"code {e.Code} message {e.Message}")).Get();
 ```
 
-Conditionally access successful response
+#### Conditionally access successful response
 ```
 if (response.IsSuccess)
 {
@@ -135,7 +135,7 @@ if (response.IsSuccess)
 }
 ```
 
-Conditionally access fault response
+#### Conditionally access fault response
 ```
 if (response.IsError)
 {
