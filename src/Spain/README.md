@@ -96,10 +96,10 @@ var taxRateSummaries = new[]
         taxRatePercentage: Percentage.Create(vat).Success.Get(),
         taxBaseAmount: Amount.Create(baseValue).Success.Get(),
         taxAmount: Amount.Create(Math.Round(baseValue * vat / 100, 2)).Success.Get()
-    );
+    )
 };
 var taxExemptItems = new[] { new TaxExemptItem(Amount.Create(20m).Success.Get(), CauseOfExemption.OtherGrounds) };
-var invoice = return new SimplifiedInvoice(
+var invoice = new SimplifiedInvoice(
     taxPeriod: new TaxPeriod(Year.Create(issueDateUtc.Year).Success.Get(), (Month)(issueDateUtc.Month - 1)),
     id: new InvoiceId(issuingCompany.TaxpayerIdentificationNumber, String1To60.CreateUnsafe("Invoice_number"), issueDateUtc),
     schemeOrEffect: SchemeOrEffect.GeneralTaxRegimeActivity,
@@ -117,6 +117,30 @@ var model = SimplifiedInvoicesToSubmit.Create(
 ).Success.Get();
 
 var response = await client.SubmitSimplifiedInvoiceAsync(model);
+```
+
+**Handling response result**
+Client will return a coproduct of successful soap response and potential soap fault. You could read more about algebraic types [here](https://github.com/siroky/FuncSharp). Specifically, samples of handling Try coproduct are [here](https://github.com/siroky/FuncSharp/tree/master/src/FuncSharp.Examples/Try). Below is a reference of basic scenarios:
+
+Get result or throw an exception in a case if service have returned soap fault response.
+```
+var receivedInvoices = response.MapError(e => new Exception($"code {e.Code} message {e.Message}")).Get();
+```
+
+Conditionally access successful response
+```
+if (response.IsSuccess)
+{
+    var soapSuccessResult = response.Success.Get();
+}
+```
+
+Conditionally access fault response
+```
+if (response.IsError)
+{
+    var soapFaultResult = response.Error.Get();
+}
 ```
 
 ## 🧑 Authors
