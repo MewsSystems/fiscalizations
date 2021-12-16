@@ -24,10 +24,10 @@ namespace Mews.Fiscalizations.Hungary.Models
             });
         }
 
-        internal static ExchangeRate RoundedUnsafe(decimal value)
+        internal static ITry<ExchangeRate, Error> Rounded(decimal value)
         {
             var roundedValue = Decimal.Round(value, MaxDecimalPlaces);
-            return Create(roundedValue).GetUnsafe();
+            return Create(roundedValue);
         }
     }
 }
