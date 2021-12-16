@@ -28,7 +28,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             CurrencyCode = currencyCode;
             Items = items;
             DeliveryDate = Items.Values.Max(i => i.Value.ConsumptionDate);
-            ExchangeRate = GetExchangeRate(items);
+            ExchangeRate = GetExchangeRate(items).Success.Get();
             TaxSummary = GetTaxSummary(items);
             IsSelfBilling = isSelfBilling;
             IsCashAccounting = isCashAccounting;
@@ -63,16 +63,14 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public bool IsCashAccounting { get; }
 
-        private ExchangeRate GetExchangeRate(ISequence<InvoiceItem> indexedItems)
+        private ITry<ExchangeRate, Error> GetExchangeRate(ISequence<InvoiceItem> indexedItems)
         {
             var totalGrossHuf = indexedItems.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.AmountHUF.Gross.Value));
             var totalGross = indexedItems.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.Amount.Gross.Value));
-            if (totalGross != 0)
-            {
-                return ExchangeRate.RoundedUnsafe(totalGrossHuf / totalGross);
-            }
-
-            return ExchangeRate.Create(1).Success.Get();
+            return totalGross.Match(
+                0, _ => ExchangeRate.Create(1),
+                _ => ExchangeRate.Rounded(totalGrossHuf / totalGross)
+            );
         }
 
         private List<TaxSummaryItem> GetTaxSummary(ISequence<InvoiceItem> indexedItems)
