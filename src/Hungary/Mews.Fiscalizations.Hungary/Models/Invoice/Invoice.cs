@@ -63,10 +63,10 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public bool IsCashAccounting { get; }
 
-        private ITry<ExchangeRate, Error> GetExchangeRate(ISequence<InvoiceItem> indexedItems)
+        private ITry<ExchangeRate, Error> GetExchangeRate(ISequence<InvoiceItem> items)
         {
-            var totalGrossHuf = indexedItems.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.AmountHUF.Gross.Value));
-            var totalGross = indexedItems.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.Amount.Gross.Value));
+            var totalGrossHuf = items.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.AmountHUF.Gross.Value));
+            var totalGross = items.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.Amount.Gross.Value));
             return totalGross.Match(
                 0, _ => ExchangeRate.Create(1),
                 _ => ExchangeRate.Rounded(totalGrossHuf / totalGross)
