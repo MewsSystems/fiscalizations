@@ -15,7 +15,14 @@ namespace Mews.Fiscalizations.Spain.Nif
         {
             var endpointUri = new Uri("https://www1.agenciatributaria.gob.es/wlpl/BURT-JDIT/ws/VNifV2SOAP");
             SoapClient = new SoapClient(endpointUri, certificate, httpTimeout);
+            SoapClient.HttpRequestFinished += (sender, args) => HttpRequestFinished?.Invoke(this, args);
+            SoapClient.XmlMessageSerialized += (sender, args) => XmlMessageSerialized?.Invoke(this, args);
         }
+
+        public event EventHandler<HttpRequestFinishedEventArgs> HttpRequestFinished;
+
+        public event EventHandler<XmlMessageSerializedEventArgs> XmlMessageSerialized;
+
         private SoapClient SoapClient { get; }
 
         public async Task<ITry<Response, ErrorResult>> CheckNif(Request model)
