@@ -74,10 +74,11 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
             return PostAsync<UniwixUser>(url, content);
         }
 
-        public Task<ITry<object, ErrorResult>> VerifyCredentialsAsync()
+        public async Task<ITry<bool, ErrorResult>> VerifyCredentialsAsync()
         {
-            // This endpoint returns the account information, but since this endpoint will be used only to verify the credentials, we only care that it retuns some data.
-            return GetAsync<object>($"{UniwixBaseUrl}/Info");
+            // This endpoint returns the account information, so if the ITry is success it means the credentials are valid.
+            var result = await GetAsync<object>($"{UniwixBaseUrl}/Info");
+            return result.Map(r => true);
         }
 
         private Task<ITry<TResult, ErrorResult>> GetAsync<TResult>(string url)

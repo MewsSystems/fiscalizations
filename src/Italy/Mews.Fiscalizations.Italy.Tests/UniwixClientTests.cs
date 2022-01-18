@@ -57,7 +57,7 @@ namespace Mews.Fiscalizations.Italy.Tests
             var client = GetUniwixClient();
             var result = await client.VerifyCredentialsAsync();
             result.Match(
-                r => Assert.IsNotNull(r),
+                r => Assert.IsTrue(r),
                 e => AssertFail(e)
             );
         }
