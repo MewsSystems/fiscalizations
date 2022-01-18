@@ -10,6 +10,8 @@ using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Newtonsoft.Json;
 using Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
 using Mews.Fiscalizations.Italy.Uniwix.Errors;
+using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Uniwix.Communication
 {
@@ -32,7 +34,7 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
 
         private UniwixClientConfiguration Configuration { get; }
 
-        public async Task<SendInvoiceResult> SendInvoiceAsync(ElectronicInvoice invoice)
+        public async Task<ITry<SendInvoiceResult, ErrorResult>> SendInvoiceAsync(ElectronicInvoice invoice)
         {
             var url = $"{UniwixBaseUrl}/Invoices/Upload";
             var invoiceFile = new ElectronicInvoiceFile(invoice);
@@ -41,32 +43,25 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
                 { new ByteArrayContent(invoiceFile.Data), "fattura", invoiceFile.FileName }
             };
 
-            try
-            {
-                var result = await PostAsync<PostInvoiceResponse>(url, content);
-                return new SendInvoiceResult(result.FileId, result.Message);
-            }
-            catch (UniwixException e) when (e.Code == (int)UniwixErrorCodes.ValidationError)
-            {
-                throw new UniwixValidationException(e.Code, e.Reason, invoiceFile.Content);
-            }
+            var result = await PostAsync<PostInvoiceResponse>(url, content);
+            return result.Map(r => new SendInvoiceResult(r.FileId, r.Message));
         }
 
-        public async Task<InvoiceState> GetInvoiceStateAsync(string fileId)
+        public async Task<ITry<InvoiceState, ErrorResult>> GetInvoiceStateAsync(string fileId)
         {
             var url = $"{UniwixBaseUrl}/Invoices/{fileId}";
             var result = await GetAsync<List<InvoiceStateResult>>(url);
 
-            if (result.Count == 0)
-            {
-                throw new InvalidOperationException($"Invoice {fileId} not found.");
-            }
+            var validatedResult = result.FlatMap(r => r.ToTry(a => a.NonEmpty(), _ => ErrorResult.Create($"Invoice {fileId} not found.", ErrorType.InvoiceNotFound)));
 
-            var state = result.OrderByDescending(s => s.Date).First();
-            return new InvoiceState(fileId, GetSdiState(state), state.Message);
+            return validatedResult.Map(r =>
+            {
+                var state = r.OrderByDescending(s => s.Date).First();
+                return new InvoiceState(fileId, GetSdiState(state), state.Message);
+            });
         }
 
-        public Task<UniwixUser> CreateUserAsync(CreateUserParameters createUserParameters)
+        public Task<ITry<UniwixUser, ErrorResult>> CreateUserAsync(CreateUserParameters createUserParameters)
         {
             var url = $"{UniwixBaseUrl}/Users";
             var content = new MultipartFormDataContent
@@ -79,52 +74,55 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
             return PostAsync<UniwixUser>(url, content);
         }
 
-        public Task<bool> VerifyCredentialsAsync()
+        public Task<ITry<object, ErrorResult>> VerifyCredentialsAsync()
         {
-            var url = $"{UniwixBaseUrl}/Info";
-            return ExecuteRequestAsync(url, HttpMethod.Get, content: null, responseProcessor: r => r.IsSuccessStatusCode);
+            // This endpoint returns the account information, but since this endpoint will be used only to verify the credentials, we only care that it retuns some data.
+            return GetAsync<object>($"{UniwixBaseUrl}/Info");
         }
 
-        private Task<TResult> GetAsync<TResult>(string url)
+        private Task<ITry<TResult, ErrorResult>> GetAsync<TResult>(string url)
         {
             return ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null);
         }
 
-        private Task<TResult> PostAsync<TResult>(string url, HttpContent content)
+        private Task<ITry<TResult, ErrorResult>> PostAsync<TResult>(string url, HttpContent content)
         {
             return ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content);
         }
 
-        private async Task<TResult> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
+        private Task<ITry<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
         {
-            var response = await ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
+            return ExecuteRequestAsync(url, httpMethod, content, httpResponse =>
             {
-                var json = await httpResponse.Content.ReadAsStringAsync();
+                var json = httpResponse.Content.ReadAsStringAsync().Result;
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
-                    return JsonConvert.DeserializeObject<Response<TResult>>(json).Result;
+                    var result = JsonConvert.DeserializeObject<Response<TResult>>(json).Result;
+                    return Try.Success<TResult, ErrorResult>(result);
                 }
 
                 if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    throw new UniwixAuthorizationException();
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Uniwix authorization failed.", ErrorType.Unauthorized));
                 }
 
                 if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
                 {
                     var validationErrorResponse = JsonConvert.DeserializeObject<Response<ValidationError>>(json);
-                    throw new UniwixException(validationErrorResponse.Code, validationErrorResponse.Result.Message);
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{validationErrorResponse.Code}: {validationErrorResponse.Result.Message}", ErrorType.Validation));
                 }
 
                 var errorResponse = JsonConvert.DeserializeObject<Response<string>>(json);
-                throw new UniwixException(errorResponse.Code, errorResponse.Result);
+                return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", ErrorType.Unknown));
             });
-
-            return await response;
         }
 
-        private async Task<TResult> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content, Func<HttpResponseMessage, TResult> responseProcessor)
+        private async Task<ITry<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(
+            string url,
+            HttpMethod httpMethod,
+            HttpContent content,
+            Func<HttpResponseMessage, ITry<TResult, ErrorResult>> responseProcessor)
         {
             var credentials = $"{Configuration.Key}:{Configuration.Password}";
             var authenticationHeaderValue = Convert.ToBase64String(Encoding.ASCII.GetBytes(credentials));
@@ -145,11 +143,11 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
                 }
                 catch (HttpRequestException e)
                 {
-                    throw new UniwixConnectionException(e);
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
                 }
                 catch (WebException e)
                 {
-                    throw new UniwixConnectionException(e);
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
                 }
             }
         }
