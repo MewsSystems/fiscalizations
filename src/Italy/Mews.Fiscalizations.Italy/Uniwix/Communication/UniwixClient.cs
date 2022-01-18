@@ -93,9 +93,9 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
 
         private Task<ITry<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
         {
-            return ExecuteRequestAsync(url, httpMethod, content, httpResponse =>
+            return ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
             {
-                var json = httpResponse.Content.ReadAsStringAsync().Result;
+                var json = await httpResponse.Content.ReadAsStringAsync();
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -123,7 +123,7 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
             string url,
             HttpMethod httpMethod,
             HttpContent content,
-            Func<HttpResponseMessage, ITry<TResult, ErrorResult>> responseProcessor)
+            Func<HttpResponseMessage, Task<ITry<TResult, ErrorResult>>> responseProcessor)
         {
             var credentials = $"{Configuration.Key}:{Configuration.Password}";
             var authenticationHeaderValue = Convert.ToBase64String(Encoding.ASCII.GetBytes(credentials));
@@ -139,7 +139,7 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
                 {
                     using (var httpResponse = await HttpClient.SendAsync(message))
                     {
-                        return responseProcessor(httpResponse);
+                        return await responseProcessor(httpResponse);
                     }
                 }
                 catch (HttpRequestException e)
