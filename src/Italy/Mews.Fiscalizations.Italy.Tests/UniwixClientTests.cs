@@ -5,9 +5,9 @@ using System.Linq;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Italy.Constants;
-using System.Threading;
 using Mews.Fiscalizations.Italy.Uniwix.Communication;
 using Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
+using Mews.Fiscalizations.Italy.Uniwix.Errors;
 
 namespace Mews.Fiscalizations.Italy.Tests
 {
@@ -23,7 +23,6 @@ namespace Mews.Fiscalizations.Italy.Tests
         }
 
         [Test]
-        [Ignore("Will un-ignore after publishing the new lib version with Github actions.")]
         public async Task SendInvoiceSucceeds()
         {
             var client = GetUniwixClient();
@@ -35,23 +34,32 @@ namespace Mews.Fiscalizations.Italy.Tests
                 Body = new[] { GetInvoiceBody(invoiceNumber) }
             });
 
-            var fileId = result.FileId;
-            Assert.IsNotEmpty(result.FileId);
-            Assert.IsNotEmpty(result.Message);
+            result.Match(
+                r =>
+                {
+                    Assert.IsNotEmpty(r.FileId);
+                    Assert.IsNotEmpty(r.Message);
 
-            Thread.Sleep(500);
-
-            var invoiceStateResult = await client.GetInvoiceStateAsync(fileId);
-
-            // In the testing environment, Uniwix keeps the records in Pending state.
-            Assert.AreEqual(invoiceStateResult.SdiState, SdiState.Pending);
+                    // In the testing environment, Uniwix keeps the records in Pending state.
+                    var invoiceStateResult = client.GetInvoiceStateAsync(r.FileId).Result;
+                    invoiceStateResult.Match(
+                        stateResult => Assert.AreEqual(stateResult.SdiState, SdiState.Pending),
+                        e => AssertFail(e)
+                    );
+                },
+                e => AssertFail(e)
+            );
         }
 
         [Test]
         public async Task VerifyCredentialsSucceeds()
         {
             var client = GetUniwixClient();
-            Assert.IsTrue(await client.VerifyCredentialsAsync());
+            var result = await client.VerifyCredentialsAsync();
+            result.Match(
+                r => Assert.IsTrue(r),
+                e => AssertFail(e)
+            );
         }
 
         private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)
@@ -214,6 +222,14 @@ namespace Mews.Fiscalizations.Italy.Tests
                 ProvinceCode = "RM",
                 Zip = "00031"
             };
+        }
+
+        private void AssertFail(ErrorResult errorResult)
+        {
+            Assert.Fail(errorResult.Message, new
+            {
+                Type = errorResult.Type.ToString()
+            });
         }
     }
 }
