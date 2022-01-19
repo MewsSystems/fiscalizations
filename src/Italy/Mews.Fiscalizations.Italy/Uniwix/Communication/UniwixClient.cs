@@ -52,8 +52,7 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
             var url = $"{UniwixBaseUrl}/Invoices/{fileId}";
             var result = await GetAsync<List<InvoiceStateResult>>(url);
 
-            var validatedResult = result.FlatMap(r => r.ToTry(a => a.NonEmpty(), _ => ErrorResult.Create($"Invoice {fileId} not found.", ErrorType.InvoiceNotFound)));
-
+            var validatedResult = result.Where(a => a.NonEmpty(), _ => ErrorResult.Create($"Invoice {fileId} not found.", ErrorType.InvoiceNotFound));
             return validatedResult.Map(r =>
             {
                 var state = r.OrderByDescending(s => s.Date).First();
