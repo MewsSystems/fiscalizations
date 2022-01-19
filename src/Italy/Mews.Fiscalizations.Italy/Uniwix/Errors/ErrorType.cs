@@ -6,6 +6,7 @@
         Unauthorized,
         Validation,
         Unknown,
-        InvoiceNotFound
+        InvoiceNotFound,
+        FileExistsInQueue
     }
 }
