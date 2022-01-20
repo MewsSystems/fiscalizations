@@ -114,6 +114,11 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
                 }
 
                 var errorResponse = JsonConvert.DeserializeObject<Response<string>>(json);
+                if (errorResponse.Code == -12)
+                {
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", ErrorType.FileExistsInQueue));
+                }
+
                 return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", ErrorType.Unknown));
             });
         }
