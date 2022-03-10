@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Germany.V2.Model;
 using Newtonsoft.Json;
 using System;
@@ -63,12 +64,19 @@ namespace Mews.Fiscalizations.Germany.V2
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                return successFunc(JsonConvert.DeserializeObject<TDto>(content));
+                return Try.Catch<ResponseResult<TResult>, JsonReaderException>(_ => successFunc(JsonConvert.DeserializeObject<TDto>(content))).Get(
+                    e => new Exception($"Invalid response from the server: {content}", e)
+                );
             }
             else
             {
-                var errorResult = JsonConvert.DeserializeObject<Dto.FiskalyErrorResponse>(content);
-                return new ResponseResult<TResult>(errorResult: ErrorResult.Map(errorResult));
+                var result = Try.Catch<ResponseResult<TResult>, JsonReaderException>(_ =>
+                {
+                    var errorResult = JsonConvert.DeserializeObject<Dto.FiskalyErrorResponse>(content);
+                    return new ResponseResult<TResult>(errorResult: ErrorResult.Map(errorResult));
+                });
+
+                return result.Get(e => new Exception($"Invalid response from the server: {content}", e));
             }
         }
     }
