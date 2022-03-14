@@ -64,19 +64,19 @@ namespace Mews.Fiscalizations.Germany.V2
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                return Try.Catch<ResponseResult<TResult>, JsonReaderException>(_ => successFunc(JsonConvert.DeserializeObject<TDto>(content))).Get(
-                    e => new Exception($"Invalid response from the server: {content}", e)
+                var result = Try.Catch<ResponseResult<TResult>, JsonReaderException>(_ => successFunc(JsonConvert.DeserializeObject<TDto>(content)));
+                return result.Match(
+                    r => r,
+                    e => new ResponseResult<TResult>(errorResult: ErrorResult.MapException(e, content))
                 );
             }
             else
             {
-                var result = Try.Catch<ResponseResult<TResult>, JsonReaderException>(_ =>
-                {
-                    var errorResult = JsonConvert.DeserializeObject<Dto.FiskalyErrorResponse>(content);
-                    return new ResponseResult<TResult>(errorResult: ErrorResult.Map(errorResult));
-                });
-
-                return result.Get(e => new Exception($"Invalid response from the server: {content}", e));
+                var result = Try.Catch<Dto.FiskalyErrorResponse, JsonReaderException>(_ => JsonConvert.DeserializeObject<Dto.FiskalyErrorResponse>(content));
+                return result.Match(
+                    r => new ResponseResult<TResult>(errorResult: ErrorResult.Map(r)),
+                    e => new ResponseResult<TResult>(errorResult: ErrorResult.MapException(e, content))
+                );
             }
         }
     }
