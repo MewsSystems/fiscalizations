@@ -7,15 +7,18 @@ namespace Mews.Fiscalizations.Germany.V2.Model
 {
     public sealed class ErrorResult
     {
-        internal ErrorResult(string message, FiskalyError error)
+        private ErrorResult(string message, FiskalyError error, string content = null)
         {
             Message = message;
             Error = error;
+            Content = content.ToNonEmptyOption();
         }
 
         public string Message { get; }
 
         public FiskalyError Error { get; }
+
+        public IOption<string> Content { get; }
 
         internal static ErrorResult Map(Dto.FiskalyErrorResponse error)
         {
@@ -28,8 +31,9 @@ namespace Mews.Fiscalizations.Germany.V2.Model
         internal static ErrorResult MapException(JsonReaderException exception, string responseContent)
         {
             return new ErrorResult(
-                message: $"Invalid response from server: {exception.Message} with response {responseContent}",
-                error: FiskalyError.InvalidResponse
+                message: exception.Message,
+                error: FiskalyError.InvalidResponse,
+                content: responseContent
             );
         }
 

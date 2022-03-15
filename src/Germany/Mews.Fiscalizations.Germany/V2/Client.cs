@@ -64,9 +64,9 @@ namespace Mews.Fiscalizations.Germany.V2
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                var result = Try.Catch<ResponseResult<TResult>, JsonReaderException>(_ => successFunc(JsonConvert.DeserializeObject<TDto>(content)));
-                return result.Match(
-                    r => r,
+                var dto = Try.Catch<TDto, JsonReaderException>(_ => JsonConvert.DeserializeObject<TDto>(content));
+                return dto.Match(
+                    d => successFunc(d),
                     e => new ResponseResult<TResult>(errorResult: ErrorResult.MapException(e, content))
                 );
             }
