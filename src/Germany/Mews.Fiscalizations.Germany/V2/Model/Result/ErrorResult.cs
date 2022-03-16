@@ -7,21 +7,33 @@ namespace Mews.Fiscalizations.Germany.V2.Model
 {
     public sealed class ErrorResult
     {
-        private ErrorResult(string message, FiskalyError error)
+        private ErrorResult(string message, FiskalyError error, string content = null)
         {
             Message = message;
             Error = error;
+            Content = content.ToNonEmptyOption();
         }
 
         public string Message { get; }
 
         public FiskalyError Error { get; }
 
+        public IOption<string> Content { get; }
+
         internal static ErrorResult Map(Dto.FiskalyErrorResponse error)
         {
             return new ErrorResult(
                 message: error.Message,
                 error: MapError(error)
+            );
+        }
+
+        internal static ErrorResult MapException(JsonReaderException exception, string responseContent)
+        {
+            return new ErrorResult(
+                message: exception.Message,
+                error: FiskalyError.InvalidResponse,
+                content: responseContent
             );
         }
 
@@ -42,9 +54,9 @@ namespace Mews.Fiscalizations.Germany.V2.Model
                 "E_TX_UPSERT", _ => FiskalyError.InvalidTransactionOperation,
                 "E_TSS_DISABLED", _ => FiskalyError.InvalidTssOperation,
                 "E_TSS_NOT_INITIALIZED", _ => FiskalyError.InvalidTssOperation,
-                "E_TX_ILLEGAL_TYPE_CHANGE", _ => throw new InvalidOperationException($"Invalid request from the server: {ToDebugString(error)}."),
-                "E_TX_NO_TYPE_DEFINED", _ => throw new InvalidOperationException($"Invalid request from the server: {ToDebugString(error)}."),
-                "E_API_VERSION", _ => throw new InvalidOperationException($"Invalid request from the server: {ToDebugString(error)}."),
+                "E_TX_ILLEGAL_TYPE_CHANGE", _ => throw new InvalidOperationException($"Invalid request: {ToDebugString(error)}."),
+                "E_TX_NO_TYPE_DEFINED", _ => throw new InvalidOperationException($"Invalid request: {ToDebugString(error)}."),
+                "E_API_VERSION", _ => throw new InvalidOperationException($"Invalid request: {ToDebugString(error)}."),
                 "E_CLIENT_NOT_FOUND", _ => FiskalyError.InvalidClientId,
                 "E_TSS_NOT_FOUND", _ => FiskalyError.InvalidTssId,
                 "E_TSS_CONFLICT", _ => FiskalyError.TssCreationConflict,
