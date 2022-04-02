@@ -37,7 +37,7 @@ namespace Mews.Eet.Dto
 
         private string GetSecurityCode()
         {
-            var hash = new SHA1Managed().ComputeHash(GetSignatureBytes());
+            var hash = SHA1.Create().ComputeHash(GetSignatureBytes());
             var stringHash = StringHelpers.TransformToBase16(hash);
             return StringHelpers.FormatOctets(stringHash);
         }
