@@ -1,5 +1,5 @@
 ﻿
-namespace Mews.Fiscalizations.Spain.Model.Response
+namespace Mews.Fiscalizations.Spain.Model.Enums
 {
     public enum ErrorType
     {
