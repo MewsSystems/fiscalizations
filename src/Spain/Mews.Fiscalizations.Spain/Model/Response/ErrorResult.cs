@@ -16,6 +16,7 @@ namespace Mews.Fiscalizations.Spain.Model.Response
         public string Code { get; }
 
         public ErrorType ErrorType { get; }
+        
         public string Message { get; }
 
         public static ErrorResult Create(string code, string message) => new ErrorResult(code, message);
