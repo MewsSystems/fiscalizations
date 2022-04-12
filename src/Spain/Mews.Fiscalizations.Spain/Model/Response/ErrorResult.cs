@@ -25,7 +25,7 @@ namespace Mews.Fiscalizations.Spain.Model.Response
             return message.Match(
                 "Codigo[401].Certificado revocado", _ => ErrorType.CertificateRevoked,
                 _ => ErrorType.Unknown
-                    );
+            );
         }
     }
 }
