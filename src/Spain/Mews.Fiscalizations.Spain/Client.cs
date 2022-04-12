@@ -16,7 +16,7 @@ namespace Mews.Fiscalizations.Spain
         public Client(X509Certificate certificate, Environment environment, TimeSpan httpTimeout)
         {
             var domain = environment.Match(
-                Environment.Test, _ => "www7.aeat.es",
+                Environment.Test, _ => "prewww1.aeat.es",
                 Environment.Production, _ => "www1.agenciatributaria.gob.es"
             );
             var endpointUri = new Uri($"https://{domain}/wlpl/SSII-FACT/ws/fe/SiiFactFEV1SOAP");

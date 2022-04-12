@@ -22,6 +22,7 @@ namespace Mews.Fiscalizations.Austria.Tests
             get { return new ATrustCredentials(user: UserId, password: Password); }
         }
 
+        [Ignore("Issue with test environment account, will re-enable once fixed.")]
         [Test]
         public void ATrustSignerWorks()
         {
