@@ -116,7 +116,7 @@ namespace Mews.Fiscalizations.Core.Model
                 Indonesia = NonEuropean("ID"),
                 Iran = NonEuropean("IR"),
                 Iraq = NonEuropean("IQ"),
-                Ireland = European("IE", "^(IE)?[0-9A-Z]{8}(?:[0-9A-Z]{1})?$"),
+                Ireland = European("IE", "^(IE)?[0-9A-Z]{8}([0-9A-Z]{1})?$"),
                 IsleOfMan = NonEuropean("IM"),
                 Israel = NonEuropean("IL"),
                 Italy = European("IT", "^(IT)?[0-9]{11}$"),
