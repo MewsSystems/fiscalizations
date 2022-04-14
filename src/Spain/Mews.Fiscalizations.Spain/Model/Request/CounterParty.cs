@@ -3,15 +3,15 @@ using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Spain.Model.Request
 {
-    public sealed class CounterPartyCompany : Coproduct2<LocalCompany, ForeignCompany>
+    public sealed class CounterParty : Coproduct2<LocalCounterParty, ForeignCounterParty>
     {
-        public CounterPartyCompany(LocalCompany companyTitle)
+        public CounterParty(LocalCounterParty companyTitle)
             : base(companyTitle)
         {
             Check.IsNotNull(companyTitle, nameof(companyTitle));
         }
 
-        public CounterPartyCompany(ForeignCompany foreignCompany)
+        public CounterParty(ForeignCounterParty foreignCompany)
             : base(foreignCompany)
         {
             Check.IsNotNull(foreignCompany, nameof(foreignCompany));

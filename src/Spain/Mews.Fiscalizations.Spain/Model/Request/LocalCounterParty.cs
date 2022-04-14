@@ -2,9 +2,9 @@
 
 namespace Mews.Fiscalizations.Spain.Model.Request
 {
-    public sealed class LocalCompany
+    public sealed class LocalCounterParty
     {
-        public LocalCompany(Name name, TaxpayerIdentificationNumber taxpayerIdentificationNumber)
+        public LocalCounterParty(Name name, TaxpayerIdentificationNumber taxpayerIdentificationNumber)
         {
             Name = Check.IsNotNull(name, nameof(name));
             TaxpayerIdentificationNumber = Check.IsNotNull(taxpayerIdentificationNumber, nameof(taxpayerIdentificationNumber));

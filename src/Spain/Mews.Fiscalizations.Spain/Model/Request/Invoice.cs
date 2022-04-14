@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Spain.Model.Request
             String0To500 description,
             TaxBreakdown taxBreakdown,
             bool issuedByThirdParty,
-            CounterPartyCompany counterPartyCompany)
+            CounterParty counterPartyCompany)
         {
             TaxPeriod = Check.IsNotNull(taxPeriod, nameof(taxPeriod));
             Id = Check.IsNotNull(id, nameof(id));
@@ -38,7 +38,7 @@ namespace Mews.Fiscalizations.Spain.Model.Request
 
         public bool IssuedByThirdParty { get; }
 
-        public CounterPartyCompany CounterPartyCompany { get; }
+        public CounterParty CounterPartyCompany { get; }
 
         public decimal TotalAmount { get { return TaxBreakdown.TotalAmount; } }
     }

@@ -1,23 +1,21 @@
-﻿using Mews.Fiscalizations.Core.Model;
-
-namespace Mews.Fiscalizations.Spain.Model.Request
+﻿namespace Mews.Fiscalizations.Spain.Model.Request
 {
-    public sealed class ForeignCompany
+    public class ForeignCompany
     {
-        public ForeignCompany(Name name, ResidenceCountryIdentificatorType identificatiorType, String1To20 id, Country country)
+        public ForeignCompany(
+            Name name,
+            ForeignCompayTaxpayerNumber taxpayerNumber,
+            ResidenceCountryIdentificatorType identificatiorType = ResidenceCountryIdentificatorType.NotSelected)
         {
             Name = name;
+            TaxpayerNumber = taxpayerNumber;
             IdentificatorType = identificatiorType;
-            Id = id;
-            Country = country;
         }
 
         public Name Name { get; }
 
+        public ForeignCompayTaxpayerNumber TaxpayerNumber { get; }
+
         public ResidenceCountryIdentificatorType IdentificatorType { get; }
-
-        public String1To20 Id { get; }
-
-        public Country Country { get; }
     }
 }
