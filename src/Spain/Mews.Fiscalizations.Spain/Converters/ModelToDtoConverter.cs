@@ -42,7 +42,7 @@ namespace Mews.Fiscalizations.Spain.Converters
                     ClaveRegimenEspecialOTrascendencia = Convert(invoice.SchemeOrEffect),
                     ImporteTotal = invoice.TotalAmount.Serialize(),
                     DescripcionOperacion = invoice.Description.Value,
-                    Contraparte = Convert(invoice.CounterPartyCompany),
+                    Contraparte = Convert(invoice.CounterParty),
                     TipoDesglose = Convert(invoice.TaxBreakdown),
                     EmitidaPorTercerosODestinatarioSpecified = true,
                     EmitidaPorTercerosODestinatario = Convert(invoice.IssuedByThirdParty)
@@ -236,16 +236,16 @@ namespace Mews.Fiscalizations.Spain.Converters
             return new CabeceraSii
             {
                 IDVersionSii = VersionSiiType.Item11,
-                Titular = Convert(header.Company)
+                Titular = Convert(header.LocalCounterParty)
             };
         }
 
-        private PersonaFisicaJuridicaESType Convert(LocalCounterParty companyTitle)
+        private PersonaFisicaJuridicaESType Convert(LocalCounterParty localCounterParty)
         {
             return new PersonaFisicaJuridicaESType
             {
-                NombreRazon = companyTitle.Name.Value,
-                NIF = companyTitle.TaxpayerIdentificationNumber.TaxpayerNumber
+                NombreRazon = localCounterParty.Name.Value,
+                NIF = localCounterParty.TaxpayerIdentificationNumber.TaxpayerNumber
             };
         }
 
