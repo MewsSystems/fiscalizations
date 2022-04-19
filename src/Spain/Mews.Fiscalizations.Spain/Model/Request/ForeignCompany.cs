@@ -4,7 +4,7 @@
     {
         public ForeignCompany(
             Name name,
-            ForeignCompayTaxpayerNumber taxpayerNumber,
+            ForeignCompanyTaxpayerNumber taxpayerNumber,
             ResidenceCountryIdentificatorType identificatiorType = ResidenceCountryIdentificatorType.NotSelected)
         {
             Name = name;
@@ -14,7 +14,7 @@
 
         public Name Name { get; }
 
-        public ForeignCompayTaxpayerNumber TaxpayerNumber { get; }
+        public ForeignCompanyTaxpayerNumber TaxpayerNumber { get; }
 
         public ResidenceCountryIdentificatorType IdentificatorType { get; }
     }

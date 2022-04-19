@@ -17,12 +17,24 @@ namespace Mews.Fiscalizations.Spain.Model.Request
             Check.IsNotNull(company, nameof(company));
         }
 
-        public string Name => Match(customer => customer.Name.Value, company => company.Name.Value);
+        public string Name => Match(
+            customer => customer.Name.Value,
+            company => company.Name.Value
+        );
 
-        public string Id => Match(customer => customer.IdNumber.Value, company => company.TaxpayerNumber.Value);
+        public string Id => Match(
+            customer => customer.IdNumber.Value,
+            company => company.TaxpayerNumber.Value
+        );
 
-        public ResidenceCountryIdentificatorType IdentificatorType => Match(customer => customer.IdentificatorType, company => company.IdentificatorType);
+        public ResidenceCountryIdentificatorType IdentificatorType => Match(
+            customer => customer.IdentificatorType,
+            company => company.IdentificatorType
+        );
 
-        public Country Country => Match(customer => customer.Country, company => company.TaxpayerNumber.Country);
+        public Country Country => Match(
+            customer => customer.Country,
+            company => company.TaxpayerNumber.Country
+        );
     }
 }
