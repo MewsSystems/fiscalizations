@@ -236,16 +236,16 @@ namespace Mews.Fiscalizations.Spain.Converters
             return new CabeceraSii
             {
                 IDVersionSii = VersionSiiType.Item11,
-                Titular = Convert(header.LocalCounterParty)
+                Titular = Convert(header.Issuer)
             };
         }
 
-        private PersonaFisicaJuridicaESType Convert(LocalCounterParty localCounterParty)
+        private PersonaFisicaJuridicaESType Convert(Issuer issuer)
         {
             return new PersonaFisicaJuridicaESType
             {
-                NombreRazon = localCounterParty.Name.Value,
-                NIF = localCounterParty.TaxpayerIdentificationNumber.TaxpayerNumber
+                NombreRazon = issuer.Name.Value,
+                NIF = issuer.TaxpayerIdentificationNumber.TaxpayerNumber
             };
         }
 
