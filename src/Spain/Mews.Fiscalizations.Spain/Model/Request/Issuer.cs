@@ -4,7 +4,7 @@ namespace Mews.Fiscalizations.Spain.Model.Request
 {
     public sealed class Issuer
     {
-        public Issuer(Name name, EuropeanUnionTaxpayerIdentificationNumber taxpayerIdentificationNumber)
+        public Issuer(Name name, TaxpayerIdentificationNumber taxpayerIdentificationNumber)
         {
             Name = Check.IsNotNull(name, nameof(name));
             TaxpayerIdentificationNumber = Check.IsNotNull(taxpayerIdentificationNumber, nameof(taxpayerIdentificationNumber));
@@ -12,6 +12,6 @@ namespace Mews.Fiscalizations.Spain.Model.Request
 
         public Name Name { get; }
 
-        public EuropeanUnionTaxpayerIdentificationNumber TaxpayerIdentificationNumber { get; }
+        public TaxpayerIdentificationNumber TaxpayerIdentificationNumber { get; }
     }
 }

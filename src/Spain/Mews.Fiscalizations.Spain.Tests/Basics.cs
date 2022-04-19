@@ -20,7 +20,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         );
         public static readonly Client Client = new Client(Certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
 
-        public static readonly LocalCounterParty IssuingCompany = new LocalCounterParty(
+        public static readonly Issuer Issuer = new Issuer(
             name: Name.CreateUnsafe("Issuing company"),
             taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER").Success.Get()
         );
@@ -34,13 +34,13 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         public async Task CheckNif()
         {
             var goodEntries = NonEmptyEnumerable.Create(
-                new NifInfoEntry(IssuingCompany.TaxpayerIdentificationNumber, IssuingCompany.Name.Value),
+                new NifInfoEntry(Issuer.TaxpayerIdentificationNumber, Issuer.Name.Value),
                 new NifInfoEntry(ReceivingCompany.TaxpayerIdentificationNumber, ReceivingCompany.Name.Value),
                 new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "99999999R").Success.Get(), "ESPAÑOL ESPAÑOL JUAN"),
-                new NifInfoEntry(IssuingCompany.TaxpayerIdentificationNumber, "Wrong company name") // surprisingly, good company ID with bad company name is found
+                new NifInfoEntry(Issuer.TaxpayerIdentificationNumber, "Wrong company name") // surprisingly, good company ID with bad company name is found
             );
             var badEntries = NonEmptyEnumerable.Create(
-                new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "111111111").Success.Get(), IssuingCompany.Name.Value),
+                new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "111111111").Success.Get(), Issuer.Name.Value),
                 new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "99999999R").Success.Get(), "Not Juan"),
                 new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "12999999R").Success.Get(), "Non existent name for non existent ID."),
                 new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Angola, "123456").Success.Get(), "Random tax id")
@@ -62,9 +62,9 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
 
         private async Task<SimplifiedInvoice> SuccessfullyPostInvoice(Client client)
         {
-            var invoice = GetInvoice(IssuingCompany, ReceivingCompany);
+            var invoice = GetInvoice(Issuer);
             var model = SimplifiedInvoicesToSubmit.Create(
-                header: new Header(IssuingCompany, CommunicationType.Registration),
+                header: new Header(Issuer, CommunicationType.Registration),
                 invoices: new[] { invoice }
             ).Success.Get();
 
@@ -89,7 +89,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             }
         }
 
-        private SimplifiedInvoice GetInvoice(LocalCounterParty issuingCompany, LocalCounterParty payingCompany, int invoiceIndex = 1)
+        private SimplifiedInvoice GetInvoice(Issuer issuer, int invoiceIndex = 1)
         {
             var taxRateSummaries = new[] { GetTaxRateSummary(21m, 42.07M) };
             var taxExemptItems = new[] { new TaxExemptItem(Amount.Create(20m).Success.Get(), CauseOfExemption.OtherGrounds) };
@@ -100,7 +100,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
 
             return new SimplifiedInvoice(
                 taxPeriod: new TaxPeriod(Year.Create(issueDateUtc.Year).Success.Get(), (Month)(issueDateUtc.Month - 1)),
-                id: new InvoiceId(issuingCompany.TaxpayerIdentificationNumber, String1To60.CreateUnsafe(invoiceNumber), issueDateUtc),
+                id: new InvoiceId(issuer.TaxpayerIdentificationNumber, String1To60.CreateUnsafe(invoiceNumber), issueDateUtc),
                 schemeOrEffect: SchemeOrEffect.GeneralTaxRegimeActivity,
                 description: String0To500.CreateUnsafe("This is a test invoice."),
                 taxBreakdown: new TaxBreakdown(TaxSummary.Create(taxExempt: taxExemptItems, taxed: taxRateSummaries).Success.Get()),
