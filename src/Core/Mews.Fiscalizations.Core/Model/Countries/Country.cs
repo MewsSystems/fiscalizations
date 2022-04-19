@@ -34,5 +34,15 @@ namespace Mews.Fiscalizations.Core.Model
         {
             return obj.As<Country>().Map(c => Alpha2Code.Equals(c.Alpha2Code)).GetOrFalse();
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Alpha2Code;
+        }
     }
 }
