@@ -240,7 +240,7 @@ namespace Mews.Fiscalizations.Spain.Converters
             };
         }
 
-        private PersonaFisicaJuridicaESType Convert(Issuer issuer)
+        private PersonaFisicaJuridicaESType Convert(LocalCounterParty issuer)
         {
             return new PersonaFisicaJuridicaESType
             {

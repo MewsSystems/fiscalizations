@@ -1,6 +1,6 @@
 ﻿namespace Mews.Fiscalizations.Spain.Model.Request
 {
-    public class ForeignCompany
+    public sealed class ForeignCompany
     {
         public ForeignCompany(Name name, ForeignCompanyTaxpayerNumber taxpayerNumber)
         {

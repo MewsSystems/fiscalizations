@@ -20,7 +20,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         );
         public static readonly Client Client = new Client(Certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
 
-        public static readonly Issuer Issuer = new Issuer(
+        public static readonly LocalCounterParty Issuer = new LocalCounterParty(
             name: Name.CreateUnsafe("Issuing company"),
             taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER").Success.Get()
         );
@@ -89,7 +89,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             }
         }
 
-        private SimplifiedInvoice GetInvoice(Issuer issuer, int invoiceIndex = 1)
+        private SimplifiedInvoice GetInvoice(LocalCounterParty issuer, int invoiceIndex = 1)
         {
             var taxRateSummaries = new[] { GetTaxRateSummary(21m, 42.07M) };
             var taxExemptItems = new[] { new TaxExemptItem(Amount.Create(20m).Success.Get(), CauseOfExemption.OtherGrounds) };
