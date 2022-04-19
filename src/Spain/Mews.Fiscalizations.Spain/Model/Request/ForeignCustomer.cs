@@ -6,10 +6,11 @@ namespace Mews.Fiscalizations.Spain.Model.Request
     {
         public ForeignCustomer(Name name, ResidenceCountryIdentificatorType identificatiorType, String1To20 idNumber, Country country)
         {
-            Name = name;
-            IdentificatorType = identificatiorType;
-            IdNumber = idNumber;
-            Country = country;
+            Name = Check.IsNotNull(name, nameof(name));
+            IdentificatorType = Check.IsNotNull(identificatiorType, nameof(identificatiorType));
+            IdNumber = Check.IsNotNull(idNumber, nameof(idNumber));
+            Country = Check.IsNotNull(country, nameof(country));
+            Check.Condition(!Country.Equals(Countries.Spain), "Foreign customer cannot be Spanish.");
         }
 
         public Name Name { get; }

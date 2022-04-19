@@ -3,9 +3,9 @@ using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Spain.Model
 {
-    public sealed class ForeignCompanyTaxpayerNumber
+    public sealed class ForeignTaxpayerNumber
     {
-        private ForeignCompanyTaxpayerNumber(Country country, string value)
+        private ForeignTaxpayerNumber(Country country, string value)
         {
             Country = country;
             Value = value;
@@ -15,12 +15,12 @@ namespace Mews.Fiscalizations.Spain.Model
 
         public string Value { get; }
 
-        public static ITry<ForeignCompanyTaxpayerNumber, Error> Create(Country country, string value)
+        public static ITry<ForeignTaxpayerNumber, Error> Create(Country country, string value)
         {
             return StringValidations.LengthInRange(value, 1, 20).FlatMap(i =>
             {
                 var validatedTaxId = TaxpayerIdentificationNumber.Create(country, i);
-                return validatedTaxId.Map(n => new ForeignCompanyTaxpayerNumber(n.Country, n.TaxpayerNumber));
+                return validatedTaxId.Map(n => new ForeignTaxpayerNumber(n.Country, n.TaxpayerNumber));
             });
         }
     }

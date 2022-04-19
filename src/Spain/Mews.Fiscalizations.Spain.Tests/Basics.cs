@@ -20,15 +20,15 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         );
         public static readonly Client Client = new Client(Certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
 
-        public static readonly LocalCounterParty Issuer = new LocalCounterParty(
+        public static readonly LocalCounterParty Issuer = LocalCounterParty.Create(
             name: Name.CreateUnsafe("Issuing company"),
-            taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER").Success.Get()
-        );
+            nifVat: System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER"
+        ).Success.Get();
 
-        public static readonly LocalCounterParty ReceivingCompany = new LocalCounterParty(
+        public static readonly LocalCounterParty ReceivingCompany = LocalCounterParty.Create(
             name: Name.CreateUnsafe("Receiving company"),
-            taxpayerIdentificationNumber: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER").Success.Get()
-        );
+            nifVat: System.Environment.GetEnvironmentVariable("spanish_receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER"
+        ).Success.Get();
 
         [Test]
         public async Task CheckNif()

@@ -172,7 +172,10 @@ namespace Mews.Fiscalizations.Spain.Converters
                 },
                 foreign => new PersonaFisicaJuridicaType
                 {
-                    NombreRazon = foreign.Name,
+                    NombreRazon = foreign.Match(
+                        customer => customer.Name,
+                        company => company.Name
+                    ).Value,
                     Item = Convert(foreign)
                 }
             );
@@ -180,13 +183,22 @@ namespace Mews.Fiscalizations.Spain.Converters
 
         private IDOtroType Convert(ForeignCounterParty foreignCounterParty)
         {
+            var idType = foreignCounterParty.Match(
+                customer => customer.IdentificatorType,
+                company => company.IdentificatorType
+            );
             return new IDOtroType
             {
-                CodigoPais = Convert(foreignCounterParty.Country),
+                CodigoPais = Convert(foreignCounterParty.Match(
+                    customer => customer.Country,
+                    company => company.TaxpayerNumber.Country
+                )),
                 CodigoPaisSpecified = true,
-                ID = foreignCounterParty.Id,
-                IDType = foreignCounterParty.IdentificatorType.Match(
-                    ResidenceCountryIdentificatorType.NifVat, _ => PersonaFisicaJuridicaIDTypeType.Item02,
+                ID = foreignCounterParty.Match(
+                    customer => customer.IdNumber.Value,
+                    company => company.TaxpayerNumber.Value
+                ),
+                IDType = idType.Match(
                     ResidenceCountryIdentificatorType.Passport, _ => PersonaFisicaJuridicaIDTypeType.Item03,
                     ResidenceCountryIdentificatorType.OfficialIdentificationDocumentIssuedByTheCountry, _ => PersonaFisicaJuridicaIDTypeType.Item04,
                     ResidenceCountryIdentificatorType.ResidenceCertificate, _ => PersonaFisicaJuridicaIDTypeType.Item05,
