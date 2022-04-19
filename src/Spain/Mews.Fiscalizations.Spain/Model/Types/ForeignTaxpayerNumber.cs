@@ -7,8 +7,8 @@ namespace Mews.Fiscalizations.Spain.Model
     {
         private ForeignTaxpayerNumber(Country country, string value)
         {
-            Country = country;
-            Value = value;
+            Country = Check.IsNotNull(country, nameof(country));
+            Value = Check.IsNotNull(value, nameof(value));
         }
 
         public Country Country { get; }
