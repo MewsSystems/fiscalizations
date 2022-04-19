@@ -12,6 +12,6 @@
 
         public ForeignCompanyTaxpayerNumber TaxpayerNumber { get; }
 
-        public ResidenceCountryIdentificatorType IdentificatorType => ResidenceCountryIdentificatorType.NotSelected;
+        public ResidenceCountryIdentificatorType IdentificatorType => ResidenceCountryIdentificatorType.OtherSupportingDocument;
     }
 }
