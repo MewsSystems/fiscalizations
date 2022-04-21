@@ -2,7 +2,6 @@
 {
     public enum ResidenceCountryIdentificatorType
     {
-        NifVat,
         Passport,
         OfficialIdentificationDocumentIssuedByTheCountry,
         ResidenceCertificate,

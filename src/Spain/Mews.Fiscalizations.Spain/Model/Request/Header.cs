@@ -4,13 +4,13 @@ namespace Mews.Fiscalizations.Spain.Model.Request
 {
     public sealed class Header
     {
-        public Header(LocalCompany company, CommunicationType communicationType)
+        public Header(LocalCounterParty issuer, CommunicationType communicationType)
         {
-            Company = Check.IsNotNull(company, nameof(company));
+            Issuer = Check.IsNotNull(issuer, nameof(issuer));
             CommunicationType = communicationType;
         }
 
-        public LocalCompany Company { get; }
+        public LocalCounterParty Issuer { get; }
 
         public CommunicationType CommunicationType { get; }
     }

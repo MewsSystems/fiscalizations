@@ -42,7 +42,7 @@ namespace Mews.Fiscalizations.Spain.Converters
                     ClaveRegimenEspecialOTrascendencia = Convert(invoice.SchemeOrEffect),
                     ImporteTotal = invoice.TotalAmount.Serialize(),
                     DescripcionOperacion = invoice.Description.Value,
-                    Contraparte = Convert(invoice.CounterPartyCompany),
+                    Contraparte = Convert(invoice.CounterParty),
                     TipoDesglose = Convert(invoice.TaxBreakdown),
                     EmitidaPorTercerosODestinatarioSpecified = true,
                     EmitidaPorTercerosODestinatario = Convert(invoice.IssuedByThirdParty)
@@ -162,7 +162,7 @@ namespace Mews.Fiscalizations.Spain.Converters
             };
         }
 
-        private PersonaFisicaJuridicaType Convert(CounterPartyCompany counterParty)
+        private PersonaFisicaJuridicaType Convert(CounterParty counterParty)
         {
             return counterParty?.Match(
                 local => new PersonaFisicaJuridicaType
@@ -172,21 +172,34 @@ namespace Mews.Fiscalizations.Spain.Converters
                 },
                 foreign => new PersonaFisicaJuridicaType
                 {
-                    NombreRazon = foreign.Name.Value,
+                    NombreRazon = foreign.Match(
+                        customer => customer.Name.Value,
+                        company => company.Name.Value
+                    ),
                     Item = Convert(foreign)
                 }
             );
         }
 
-        private IDOtroType Convert(ForeignCompany foreignCompany)
+        private IDOtroType Convert(ForeignCounterParty foreignCounterParty)
         {
+            var idType = foreignCounterParty.Match(
+                customer => customer.IdentificatorType,
+                company => company.IdentificatorType
+            );
+            var country = foreignCounterParty.Match(
+                customer => customer.Country,
+                company => company.TaxpayerNumber.Country
+            );
             return new IDOtroType
             {
-                CodigoPais = Convert(foreignCompany.Country),
+                CodigoPais = Convert(country),
                 CodigoPaisSpecified = true,
-                ID = foreignCompany.Id.Value,
-                IDType = foreignCompany.IdentificatorType.Match(
-                    ResidenceCountryIdentificatorType.NifVat, _ => PersonaFisicaJuridicaIDTypeType.Item02,
+                ID = foreignCounterParty.Match(
+                    customer => customer.IdNumber.Value,
+                    company => company.TaxpayerNumber.Value
+                ),
+                IDType = idType.Match(
                     ResidenceCountryIdentificatorType.Passport, _ => PersonaFisicaJuridicaIDTypeType.Item03,
                     ResidenceCountryIdentificatorType.OfficialIdentificationDocumentIssuedByTheCountry, _ => PersonaFisicaJuridicaIDTypeType.Item04,
                     ResidenceCountryIdentificatorType.ResidenceCertificate, _ => PersonaFisicaJuridicaIDTypeType.Item05,
@@ -236,16 +249,16 @@ namespace Mews.Fiscalizations.Spain.Converters
             return new CabeceraSii
             {
                 IDVersionSii = VersionSiiType.Item11,
-                Titular = Convert(header.Company)
+                Titular = Convert(header.Issuer)
             };
         }
 
-        private PersonaFisicaJuridicaESType Convert(LocalCompany companyTitle)
+        private PersonaFisicaJuridicaESType Convert(LocalCounterParty issuer)
         {
             return new PersonaFisicaJuridicaESType
             {
-                NombreRazon = companyTitle.Name.Value,
-                NIF = companyTitle.TaxpayerIdentificationNumber.TaxpayerNumber
+                NombreRazon = issuer.Name.Value,
+                NIF = issuer.TaxpayerIdentificationNumber.TaxpayerNumber
             };
         }
 
