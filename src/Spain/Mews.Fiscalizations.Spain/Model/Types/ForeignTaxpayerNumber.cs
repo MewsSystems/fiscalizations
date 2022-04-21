@@ -19,7 +19,8 @@ namespace Mews.Fiscalizations.Spain.Model
         {
             return StringValidations.LengthInRange(value, 1, 20).FlatMap(i =>
             {
-                var validatedTaxId = TaxpayerIdentificationNumber.Create(country, i);
+                var validatedForeignCountry = country.ToOption().Where(c => !c.Equals(Countries.Spain)).ToTry(_ => new Error("Country can't be Spain for foreign tax payers."));
+                var validatedTaxId = validatedForeignCountry.FlatMap(c => TaxpayerIdentificationNumber.Create(c, i));
                 return validatedTaxId.Map(n => new ForeignTaxpayerNumber(n.Country, n.TaxpayerNumber));
             });
         }

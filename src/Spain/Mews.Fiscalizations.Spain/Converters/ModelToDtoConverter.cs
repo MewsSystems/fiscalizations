@@ -173,9 +173,9 @@ namespace Mews.Fiscalizations.Spain.Converters
                 foreign => new PersonaFisicaJuridicaType
                 {
                     NombreRazon = foreign.Match(
-                        customer => customer.Name,
-                        company => company.Name
-                    ).Value,
+                        customer => customer.Name.Value,
+                        company => company.Name.Value
+                    ),
                     Item = Convert(foreign)
                 }
             );
@@ -187,12 +187,13 @@ namespace Mews.Fiscalizations.Spain.Converters
                 customer => customer.IdentificatorType,
                 company => company.IdentificatorType
             );
+            var country = foreignCounterParty.Match(
+                customer => customer.Country,
+                company => company.TaxpayerNumber.Country
+            );
             return new IDOtroType
             {
-                CodigoPais = Convert(foreignCounterParty.Match(
-                    customer => customer.Country,
-                    company => company.TaxpayerNumber.Country
-                )),
+                CodigoPais = Convert(country),
                 CodigoPaisSpecified = true,
                 ID = foreignCounterParty.Match(
                     customer => customer.IdNumber.Value,
