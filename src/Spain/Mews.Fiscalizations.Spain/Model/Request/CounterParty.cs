@@ -16,5 +16,10 @@ namespace Mews.Fiscalizations.Spain.Model.Request
         {
             Check.IsNotNull(foreignCounterParty, nameof(foreignCounterParty));
         }
+
+        public ITry<CounterParty, Error> Local(Name name, string nifVat)
+        {
+            return LocalCounterParty.Create(name, nifVat).Map(p => new CounterParty(p));
+        }
     }
 }
