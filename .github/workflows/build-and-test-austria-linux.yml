@@ -37,6 +37,9 @@ jobs:
     
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    
+
     - name: Test
+      env:
+        austrian_user_id: ${{secrets.austrian_user_id}}
+        austrian_password: ${{secrets.austrian_password}}
       run: dotnet test --no-restore --verbosity normal
