@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using FuncSharp;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
@@ -16,12 +17,12 @@ namespace Mews.Fiscalizations.Austria.Dto
             TaxData taxData,
             CurrencyValue turnover,
             CertificateSerialNumber certificateSerialNumber,
-            JwsRepresentation previousJwsRepresentation,
             byte[] key,
-            LocalDateTime created = null)
+            LocalDateTime created = null,
+            JwsRepresentation previousJwsRepresentation = null)
             : this(number, registerIdentifier, taxData, certificateSerialNumber, key, created)
         {
-            PreviousJwsRepresentation = previousJwsRepresentation;
+            PreviousJwsRepresentation = previousJwsRepresentation.ToOption();
             ChainValue = ComputeChainValue();
             Turnover = turnover ?? throw new ArgumentException("The turnover has to be specified.");
             EncryptedTurnover = EncryptTurnover();
@@ -71,7 +72,7 @@ namespace Mews.Fiscalizations.Austria.Dto
 
         public CertificateSerialNumber CertificateSerialNumber { get; }
 
-        public JwsRepresentation PreviousJwsRepresentation { get; }
+        public IOption<JwsRepresentation> PreviousJwsRepresentation { get; }
 
         public ChainValue ChainValue { get; }
 
@@ -133,7 +134,7 @@ namespace Mews.Fiscalizations.Austria.Dto
 
         private ChainValue ComputeChainValue()
         {
-            var input = PreviousJwsRepresentation?.Value ?? RegisterIdentifier.Value;
+            var input = PreviousJwsRepresentation.Map(p => p.Value).GetOrElse(_ => RegisterIdentifier.Value);
             var hash = Sha256(Encoding.UTF8.GetBytes(input));
             return new ChainValue(hash.Take(8).ToArray());
         }

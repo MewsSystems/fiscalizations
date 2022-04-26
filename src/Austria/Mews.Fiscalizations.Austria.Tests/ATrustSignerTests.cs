@@ -11,18 +11,14 @@ namespace Mews.Fiscalizations.Austria.Tests
 {
     public class ATrustSignerTests
     {
-        public static readonly ATrustUserIdentifier UserId = new ATrustUserIdentifier("u123456789");
-        public static readonly string Password = "123456789";
-        public static readonly CertificateSerialNumber CertificateSerialNumber = new CertificateSerialNumber("-3667961875706356849");
-        public static readonly JwsRepresentation JwsRepresentation = new JwsRepresentation("eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.WDFJeExVRlVNVjloT0RRME1URXpZaTFoTTJRM0xUUmxObU10T0RGak9DMDJOalU0TXpnMk9HVm1NelpmTTE4eU1ERTNMVEV5TFRFeVZERXlPalV6T2pVMlh6QXNNREJmTVRBd0xEQXdYekFzTURCZk1Dd3dNRjh3TERBd1h6ZzNMMnR2YW05RVYwUjNQVjh3TUVJd05qQkJNRUkwTWpFMlJUQXhSRFJmZVROVVp6TXlOV1Z0Y0UwOQ.6mzl1HSWmJyWaUG0pZlNuF29Eg9jocyXSuBxYWnwskE3fpVLd2PTIHG9ecBvQnCW3SokaMiEEgYN969Z4P7i0w");
-        public static readonly string CertificateKey = "RCsRmHn5tkLQrRpiZq2ucwPpwvHJLiMgLvwrwEImddI=";
+        public static readonly ATrustUserIdentifier UserId = new ATrustUserIdentifier(Environment.GetEnvironmentVariable("austrian_user_id") ?? "INSERT_USER_ID");
+        public static readonly string Password = Environment.GetEnvironmentVariable("austrian_password") ?? "INSERT_PASSWORD";
 
         private static ATrustCredentials Credentials
         {
             get { return new ATrustCredentials(user: UserId, password: Password); }
         }
 
-        [Ignore("Issue with test environment account, will re-enable once fixed.")]
         [Test]
         public void ATrustSignerWorks()
         {
@@ -31,6 +27,7 @@ namespace Mews.Fiscalizations.Austria.Tests
             var austrianTimeZone = TimeZoneInfo.FindSystemTimeZoneById(isWindows ? europeTimeZone : TZConvert.WindowsToIana(europeTimeZone));
             var austrianCulture = CultureInfo.GetCultureInfo("de-AT");
             var signer = new ATrustSigner(Credentials, ATrustEnvironment.Test);
+            var info = signer.GetCertificateInfo();
             var result = signer.Sign(new QrData(new Receipt(
                     number: new ReceiptNumber("83469"),
                     registerIdentifier: new RegisterIdentifier("DEMO-CASH-BOX817"),
@@ -40,9 +37,8 @@ namespace Mews.Fiscalizations.Austria.Tests
                         specialRate: new CurrencyValue(21.19m)
                     ),
                     turnover: new CurrencyValue(0.0m),
-                    certificateSerialNumber: CertificateSerialNumber,
-                    previousJwsRepresentation: JwsRepresentation,
-                    key: Convert.FromBase64String(CertificateKey),
+                    certificateSerialNumber: new CertificateSerialNumber(info.CertificateSerialNumberHex),
+                    key: AesKeyGenerator.GetNext(),
                     created: new LocalDateTime(
                         new DateTime(2015, 11, 25, 19, 20, 11),
                         austrianTimeZone

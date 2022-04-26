@@ -57,4 +57,7 @@ jobs:
 
         italian_username: ${{secrets.italian_username}}
         italian_password: ${{secrets.italian_password}}
+
+        austrian_user_id: ${{secrets.austrian_user_id}}
+        austrian_password: ${{secrets.austrian_password}}
       run: dotnet test --no-restore --verbosity normal
