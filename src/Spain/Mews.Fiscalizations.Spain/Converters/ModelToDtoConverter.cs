@@ -307,8 +307,9 @@ namespace Mews.Fiscalizations.Spain.Converters
 
         private CountryType2 Convert(Country country)
         {
-            var result = country.Alpha2Code.ToEnum<CountryType2>();
-            return result.Get();
+            var alpha2Code = country.Alpha2Code;
+            var result = alpha2Code.ToEnum<CountryType2>();
+            return result.Get(_ => new Exception($"{alpha2Code} is not defined in {nameof(CountryType2)}."));
         }
 
         private string Convert(Amount totalAmount)
