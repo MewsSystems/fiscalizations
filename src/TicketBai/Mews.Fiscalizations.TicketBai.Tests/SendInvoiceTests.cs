@@ -50,9 +50,9 @@ namespace Mews.Fiscalizations.TicketBai.Tests
         private InvoiceFooter CreateInvoiceFooter()
         {
             return new InvoiceFooter(new Software(
-                license: String1To20.CreateUnsafe("TBAIARblKjHKdjl00391"),
-                developer: new Developer(new LocalDeveloper(TaxpayerIdentificationNumber.Create(Countries.Spain, "B67452870").Success.Get())),
-                name: String1To120.CreateUnsafe("MEWS SYSTEMS IBERICA SL"),
+                license: String1To20.CreateUnsafe("Test"),
+                developer: new Developer(new LocalDeveloper(TaxpayerIdentificationNumber.Create(Countries.Spain, "Test").Success.Get())),
+                name: String1To120.CreateUnsafe("Test"),
                 version: String1To20.CreateUnsafe("1.0.4")
             ));
         }
