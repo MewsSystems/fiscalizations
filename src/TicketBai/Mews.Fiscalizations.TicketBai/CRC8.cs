@@ -44,23 +44,23 @@ namespace Mews.Fiscalizations.TicketBai
             (byte) 0xE6, (byte) 0xE1, (byte) 0xE8, (byte) 0xEF, (byte) 0xFA, (byte) 0xFD, (byte) 0xF4, (byte) 0xF3
         };
 
-        public static string Calculate(string tbaiIdentifier, IOption<String1To20> invoiceSeries, string invoiceNumber, decimal total)
+        public static string Calculate(string tbaiIdentifier, IOption<String1To20> invoiceSeries, string invoiceNumber, decimal total, Environment environment)
         {
-            var uri = $"https://tbai.prep.gipuzkoa.eus/qr/?id={tbaiIdentifier}{invoiceSeries.Map(s => $"&s={s.Value}").GetOrElse("")}&nf={invoiceNumber}&i={total.ToString(CultureInfo.InvariantCulture)}";
-            var crc8 = Calculate(uri);
-            return QueryHelpers.AddQueryString(uri, "cr", crc8);
-        }
-
-        private static string Calculate(string input)
-        {
-            var data = Encoding.UTF8.GetBytes(input);
+            var requestUri = environment.Match(
+                Environment.Production, _ => $"https://tbai.egoitza.gipuzkoa.eus/qr/?id={tbaiIdentifier}",
+                Environment.Test, _ => $"https://tbai.prep.gipuzkoa.eus/qr/?id={tbaiIdentifier}"
+            );
+            var uri = $"{requestUri}{invoiceSeries.Map(s => $"&s={s.Value}").GetOrElse("")}&nf={invoiceNumber}&i={total.ToString(CultureInfo.InvariantCulture)}";
+            
+            var data = Encoding.UTF8.GetBytes(uri);
             var len = data.Length;
             byte crc = 0;
             for (int i = 0; i < len; i++)
             {
                 crc = Crc8_table[(crc ^ data[i]) & 0xff];
             }
-            return (crc & 0xFFL).ToString("D3");
+            var crc8 = (crc & 0xFFL).ToString("D3");
+            return QueryHelpers.AddQueryString(uri, "cr", crc8);
         }
     }
 }

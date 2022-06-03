@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.TicketBai
 {
-    public class TicketBaiClient
+    public sealed class TicketBaiClient
     {
         public TicketBaiClient(X509Certificate2 certificate, Environment environment)
         {
+            Environment = environment;
             SendInvoiceUri = environment.Match(
                 Environment.Production, _ => "https://tbai-z.egoitza.gipuzkoa.eus/sarrerak/alta",
                 Environment.Test, _ => "https://tbai-z.prep.gipuzkoa.eus/sarrerak/alta/"
@@ -31,6 +32,8 @@ namespace Mews.Fiscalizations.TicketBai
         private HttpClient HttpClient { get; }
 
         private X509Certificate2 Certificate { get; }
+
+        private Environment Environment { get; }
 
         // TODO: Return ITry and handle error responses.
         public async Task<Response> SendInvoiceAsync(SendInvoiceRequest request)
@@ -69,7 +72,8 @@ namespace Mews.Fiscalizations.TicketBai
                 tbaiIdentifier: ticketBaiResponse.Salida.IdentificadorTBAI,
                 invoiceSeries: header.Series,
                 invoiceNumber: header.Number.Value,
-                total: data.TotalAmount
+                total: data.TotalAmount,
+                environment: Environment
             );
             return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.InnerXml);
         }
