@@ -1,0 +1,98 @@
+﻿using FuncSharp;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography.Xml;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+using Mews.Fiscalizations.TicketBai.Model;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Mews.Fiscalizations.TicketBai
+{
+    public class TicketBaiClient
+    {
+        public TicketBaiClient(X509Certificate2 certificate, Environment environment)
+        {
+            SendInvoiceUri = environment.Match(
+                Environment.Production, _ => "https://tbai-z.egoitza.gipuzkoa.eus/sarrerak/alta",
+                Environment.Test, _ => "https://tbai-z.prep.gipuzkoa.eus/sarrerak/alta/"
+            );
+            Certificate = certificate;
+
+            var requestHandler = new HttpClientHandler();
+            requestHandler.ClientCertificates.Add(certificate);
+            HttpClient = new HttpClient(requestHandler);
+        }
+
+        private string SendInvoiceUri { get; }
+
+        private HttpClient HttpClient { get; }
+
+        private X509Certificate2 Certificate { get; }
+
+        // TODO: Return ITry and handle error responses.
+        public async Task<Response> SendInvoiceAsync(SendInvoiceRequest request)
+        {
+            var ticketBaiRequest = ModelToDtoConverter.Convert(request);
+            XmlDocument xmlDoc;
+            var serializerTicket = new XmlSerializer(typeof(Dto.TicketBai));
+
+            using (var memStm = new MemoryStream())
+            {
+                serializerTicket.Serialize(memStm, ticketBaiRequest);
+
+                memStm.Position = 0;
+
+                using (var xtr = new StreamReader(memStm, Encoding.UTF8))
+                {
+                    xmlDoc = new XmlDocument();
+                    xmlDoc.PreserveWhitespace = true;
+                    xmlDoc.Load(xtr);
+                }
+            }
+
+            var attr = xmlDoc.CreateAttribute("xmlns:ds");
+            attr.Value = "http://www.w3.org/2000/09/xmldsig#";
+            xmlDoc.DocumentElement.Attributes.Append(attr);
+            SignXml(xmlDoc);
+
+            var requestContent = new StringContent(xmlDoc.OuterXml, Encoding.UTF8, "application/xml");
+            var response = await HttpClient.PostAsync(SendInvoiceUri, requestContent);
+            var content = await response.Content.ReadAsStringAsync();
+            var ticketBaiResponse = Core.Xml.XmlSerializer.Deserialize<Dto.TicketBaiResponse>(content);
+
+            var header = request.Invoice.Header;
+            var data = request.Invoice.InvoiceData;
+            var qrCodeUri = CRC8.Calculate(
+                tbaiIdentifier: ticketBaiResponse.Salida.IdentificadorTBAI,
+                invoiceSeries: header.Series,
+                invoiceNumber: header.Number.Value,
+                total: data.TotalAmount
+            );
+            return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.InnerXml);
+        }
+
+        // https://docs.microsoft.com/en-us/dotnet/standard/security/how-to-sign-xml-documents-with-digital-signatures
+        private void SignXml(XmlDocument xmlDoc)
+        {
+            var signedXml = new SignedXml(xmlDoc);
+            signedXml.SigningKey = Certificate.GetRSAPrivateKey();
+
+            var keyInfo = new KeyInfo();
+            keyInfo.AddClause(new KeyInfoX509Data(Certificate));
+            signedXml.KeyInfo = keyInfo;
+
+            var reference = new Reference();
+            reference.Uri = "";
+
+            var env = new XmlDsigEnvelopedSignatureTransform();
+            reference.AddTransform(env);
+            signedXml.AddReference(reference);
+            signedXml.ComputeSignature();
+            var xmlDigitalSignature = signedXml.GetXml();
+            xmlDoc.DocumentElement.AppendChild(xmlDoc.ImportNode(xmlDigitalSignature, true));
+        }
+    }
+}
