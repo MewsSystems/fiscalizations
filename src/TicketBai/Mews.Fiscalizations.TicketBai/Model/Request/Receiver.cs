@@ -16,5 +16,15 @@ namespace Mews.Fiscalizations.TicketBai.Model
         {
             Check.IsNotNull(foreignReceiver, nameof(foreignReceiver));
         }
+
+        public static Receiver Local(TaxpayerIdentificationNumber nif, Name name, PostalCode postalCode, String1To250 address)
+        {
+            return new Receiver(new LocalReceiver(nif, name, postalCode, address));
+        }
+
+        public static Receiver Foreign(IdType idType, String1To20 id, Name name, PostalCode postalCode, String1To250 address, Country country = null)
+        {
+            return new Receiver(new ForeignReceiver(idType, id, name, postalCode, address, country));
+        }
     }
 }

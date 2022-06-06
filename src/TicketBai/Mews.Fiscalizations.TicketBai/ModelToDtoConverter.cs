@@ -220,9 +220,9 @@ namespace Mews.Fiscalizations.TicketBai
             {
                 DescripcionDetalle = item.Description.Value,
                 Cantidad = item.Quantity.ToString(),
-                ImporteUnitario = item.UnitAmount.ToString(),
+                ImporteUnitario = item.UnitAmount.ToString(), // unit amount WITHOUT VAT of the invoice line.
                 Descuento = item.Discount.ToString(),
-                ImporteTotal = item.TotalAmount.ToString()
+                ImporteTotal = item.TotalAmount.ToString() // Total amount WITH VAT of the invoice line
             };
         }
 
