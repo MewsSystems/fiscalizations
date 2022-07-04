@@ -10,17 +10,17 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>8.0.2</PackageVersion>
+    <PackageVersion>8.0.3</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="4.8.1" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="FuncSharp">
-      <HintPath>..\..\packages\FuncSharp.4.0.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
+      <HintPath>..\..\packages\FuncSharp.4.2.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -42,7 +42,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
   </ItemGroup>
-  
+
   <PropertyGroup>
     <PackageId>Mews.Fiscalizations.Spain</PackageId>
     <Company>Mews</Company>
