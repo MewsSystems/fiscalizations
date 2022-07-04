@@ -4,7 +4,7 @@ namespace Mews.Fiscalizations.TicketBai.Model
 {
     public sealed class Software
     {
-        public Software(String1To20 license, Developer developer, String1To120 name, String1To20 version)
+        private Software(String1To20 license, Developer developer, String1To120 name, String1To20 version)
         {
             License = Check.IsNotNull(license, nameof(license));
             Developer = Check.IsNotNull(developer, nameof(developer));
