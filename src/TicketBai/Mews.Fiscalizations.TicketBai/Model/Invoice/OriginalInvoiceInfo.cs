@@ -4,9 +4,9 @@ using System;
 
 namespace Mews.Fiscalizations.TicketBai.Model
 {
-    public sealed class PreviousInvoiceChain
+    public sealed class OriginalInvoiceInfo
     {
-        public PreviousInvoiceChain(String1To20 number, DateTime issueDate, String1To100 signature, String1To20 series = null)
+        public OriginalInvoiceInfo(String1To20 number, DateTime issueDate, String1To100 signature, String1To20 series = null)
         {
             Number = Check.IsNotNull(number, nameof(number));
             IssueDate = Check.IsNotNull(issueDate, nameof(issueDate));
