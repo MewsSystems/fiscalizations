@@ -1,6 +1,6 @@
 ﻿using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalizations.TicketBai.Model.Invoice
+namespace Mews.Fiscalizations.TicketBai.Model
 {
     public sealed class TaxExemptItem
     {

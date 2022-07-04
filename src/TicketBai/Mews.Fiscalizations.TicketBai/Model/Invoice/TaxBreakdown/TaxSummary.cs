@@ -3,7 +3,7 @@ using Mews.Fiscalizations.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mews.Fiscalizations.TicketBai.Model.Invoice
+namespace Mews.Fiscalizations.TicketBai.Model
 {
     public sealed class TaxSummary
     {

@@ -2,7 +2,7 @@
 using Mews.Fiscalizations.Core.Model;
 using System.Linq;
 
-namespace Mews.Fiscalizations.TicketBai.Model.Invoice
+namespace Mews.Fiscalizations.TicketBai.Model
 {
     /// <summary>
     /// Either the revenue is broken down into service and delivery or it is just 1 tax summary altogether.
