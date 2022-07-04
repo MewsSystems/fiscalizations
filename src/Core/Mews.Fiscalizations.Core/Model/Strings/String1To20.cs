@@ -1,7 +1,6 @@
 ﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalizations.Spain.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public sealed class String1To20
     {

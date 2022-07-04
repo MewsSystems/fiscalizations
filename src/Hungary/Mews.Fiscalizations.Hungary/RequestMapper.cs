@@ -48,8 +48,8 @@ namespace Mews.Fiscalizations.Hungary
 
         private static Dto.InvoiceType GetCommonInvoice(Invoice invoice, IEnumerable<Dto.LineType> lines, Dto.InvoiceReferenceType invoiceReference = null)
         {
-            var invoiceAmount = Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.Amount));
-            var invoiceAmountHUF = Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.AmountHUF));
+            var invoiceAmount = Models.Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.Amount));
+            var invoiceAmountHUF = Models.Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.AmountHUF));
             var supplierInfo = invoice.SupplierInfo;
             var receiver = invoice.Receiver;
             return new Dto.InvoiceType
@@ -164,7 +164,7 @@ namespace Mews.Fiscalizations.Hungary
             );
         }
 
-        private static Dto.SummaryNormalType MapTaxSummary(Invoice invoice, Amount amount, Amount amountHUF)
+        private static Dto.SummaryNormalType MapTaxSummary(Invoice invoice, Models.Amount amount, Models.Amount amountHUF)
         {
             return new Dto.SummaryNormalType
             {
