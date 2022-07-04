@@ -1,6 +1,5 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.TicketBai.Model.Invoice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
