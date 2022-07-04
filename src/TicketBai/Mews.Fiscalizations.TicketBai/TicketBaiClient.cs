@@ -110,8 +110,7 @@ namespace Mews.Fiscalizations.TicketBai
                 tbaiIdentifier: ticketBaiResponse.Salida.IdentificadorTBAI,
                 invoiceSeries: header.Series,
                 invoiceNumber: header.Number.Value,
-                total: data.TotalAmount,
-                environment: Environment
+                total: data.TotalAmount
             );
             return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.InnerXml);
         }
@@ -136,9 +135,9 @@ namespace Mews.Fiscalizations.TicketBai
             xmlDoc.DocumentElement.AppendChild(xmlDoc.ImportNode(xmlDigitalSignature, true));
         }
 
-        private string GenerateQrCodeUri(string tbaiIdentifier, IOption<String1To20> invoiceSeries, string invoiceNumber, decimal total, Environment environment)
+        private string GenerateQrCodeUri(string tbaiIdentifier, IOption<String1To20> invoiceSeries, string invoiceNumber, decimal total)
         {
-            var requestUri = environment.Match(
+            var requestUri = Environment.Match(
                 Environment.Production, _ => $"https://tbai.egoitza.gipuzkoa.eus/qr/?id={tbaiIdentifier}",
                 Environment.Test, _ => $"https://tbai.prep.gipuzkoa.eus/qr/?id={tbaiIdentifier}"
             );
