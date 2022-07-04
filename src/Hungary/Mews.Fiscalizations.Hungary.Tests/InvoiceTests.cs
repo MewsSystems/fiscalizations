@@ -167,7 +167,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
                 paymentDate: nowUtc,
-                currencyCode: CurrencyCode.Create("HUF").Success.Get(),
+                currencyCode: CurrencyCode.Create("EUR").Success.Get(),
                 paymentMethod: PaymentMethod.Card
             );
         }
@@ -217,7 +217,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 supplierInfo: CreateSupplierInfo(),
                 receiver: receiver,
                 items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-                currencyCode: CurrencyCode.Create("HUF").Success.Get(),
+                currencyCode: CurrencyCode.Create("EUR").Success.Get(),
                 issueDate: nowUtc,
                 paymentDate: nowUtc,
                 itemIndexOffset: 3,
@@ -265,11 +265,11 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 Assert.AreEqual(value.Status, InvoiceState.Done);
             }
 
-            var validationResults = invoiceStatuses.SelectMany(s => s.Value.ValidationResults);
-            Assert.IsEmpty(validationResults, "Response contains validation errors.", new
+            var errorValidationResults = invoiceStatuses.SelectMany(s => s.Value.ValidationResults).Where(r => r.ResultCode.Equals(ValidationResultCode.Error));
+            Assert.IsEmpty(errorValidationResults, "Response contains validation errors.", new
             {
-                Message = String.Join(", ", validationResults.Select(r => r.Message)),
-                Code = String.Join(", ", validationResults.Select(r => r.ResultCode.ToString()))
+                Message = String.Join(", ", errorValidationResults.Select(r => r.Message)),
+                Code = String.Join(", ", errorValidationResults.Select(r => r.ResultCode.ToString()))
             });
         }
     }
