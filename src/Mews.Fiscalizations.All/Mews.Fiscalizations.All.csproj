@@ -80,6 +80,10 @@
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Spain.dll</IncludeAssets>
     </ProjectReference>
+    <ProjectReference Include="..\TicketBai\Mews.Fiscalizations.TicketBai\Mews.Fiscalizations.TicketBai.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.TicketBai.dll</IncludeAssets>
+    </ProjectReference>
   </ItemGroup>
 
   <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
