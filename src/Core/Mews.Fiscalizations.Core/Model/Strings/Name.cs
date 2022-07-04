@@ -1,8 +1,7 @@
 ﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
 using System.Xml;
 
-namespace Mews.Fiscalizations.Spain.Model
+namespace Mews.Fiscalizations.Core.Model
 {
     public sealed class Name
     {

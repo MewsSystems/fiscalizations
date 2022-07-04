@@ -27,7 +27,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         {
             var receiver = Receiver.LocalCompany(
                 taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get(),
-                name: Name.Create("Hungarian test company ltd.").Success.Get(),
+                name: Models.Name.Create("Hungarian test company ltd.").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             );
             var sendInvoicesResult = await SendInvoices(receiver.Success.Get());
@@ -44,7 +44,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var country = Countries.GetByCode(countryCode).Get();
             var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
             var receiver = Receiver.ForeignCompany(
-                name: Name.Create("Foreign test company ltd.").Success.Get(),
+                name: Models.Name.Create("Foreign test company ltd.").Success.Get(),
                 address: CreateAddress(country),
                 taxpayerId: taxpayerNumber.GetOrNull()
             );
@@ -69,7 +69,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         {
             var receiver = Receiver.LocalCompany(
                 taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get(),
-                name: Name.Create("Hungarian test company ltd.").Success.Get(),
+                name: Models.Name.Create("Hungarian test company ltd.").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             ).Success.Get();
             var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
@@ -90,7 +90,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             var country = Countries.GetByCode(countryCode).Get();
             var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
             var receiver = Receiver.ForeignCompany(
-                name: Name.Create("Foreign test company ltd.").Success.Get(),
+                name: Models.Name.Create("Foreign test company ltd.").Success.Get(),
                 address: CreateAddress(country),
                 taxpayerId: taxpayerNumber.GetOrNull()
             ).Success.Get();
@@ -123,9 +123,9 @@ namespace Mews.Fiscalizations.Hungary.Tests
         private Invoice CreateInvoice(Receiver receiver, InvoiceNumber invoiceNumber = null)
         {
             var nowUtc = DateTime.UtcNow.Date;
-            var item1Amount = new Amount(net: new AmountValue(1694.92m), gross: new AmountValue(2000), tax: new AmountValue(305.08m));
-            var item2Amount = new Amount(new AmountValue(2362.20m), new AmountValue(3000), new AmountValue(637.8m));
-            var item3Amount = new Amount(new AmountValue(952.38m), new AmountValue(1000), new AmountValue(47.62m));
+            var item1Amount = new Models.Amount(net: new AmountValue(1694.92m), gross: new AmountValue(2000), tax: new AmountValue(305.08m));
+            var item2Amount = new Models.Amount(new AmountValue(2362.20m), new AmountValue(3000), new AmountValue(637.8m));
+            var item3Amount = new Models.Amount(new AmountValue(952.38m), new AmountValue(1000), new AmountValue(47.62m));
             var unitAmount1 = new ItemAmounts(item1Amount, item1Amount, 0.18m);
             var unitAmount2 = new ItemAmounts(item2Amount, item2Amount, 0.27m);
             var unitAmount3 = new ItemAmounts(item3Amount, item3Amount, 0.05m);
@@ -175,9 +175,9 @@ namespace Mews.Fiscalizations.Hungary.Tests
         private ModificationInvoice CreateModificationInvoice(InvoiceNumber originalDocumentNumber, Receiver receiver)
         {
             var nowUtc = DateTime.UtcNow.Date;
-            var item1Amount = new Amount(net: new AmountValue(-1694.92m), gross: new AmountValue(-2000), tax: new AmountValue(-305.08m));
-            var item2Amount = new Amount(new AmountValue(-2362.20m), new AmountValue(-3000), new AmountValue(-637.8m));
-            var item3Amount = new Amount(new AmountValue(-952.38m), new AmountValue(-1000), new AmountValue(-47.62m));
+            var item1Amount = new Models.Amount(net: new AmountValue(-1694.92m), gross: new AmountValue(-2000), tax: new AmountValue(-305.08m));
+            var item2Amount = new Models.Amount(new AmountValue(-2362.20m), new AmountValue(-3000), new AmountValue(-637.8m));
+            var item3Amount = new Models.Amount(new AmountValue(-952.38m), new AmountValue(-1000), new AmountValue(-47.62m));
             var unitAmount1 = new ItemAmounts(item1Amount, item1Amount, 0.18m);
             var unitAmount2 = new ItemAmounts(item2Amount, item2Amount, 0.27m);
             var unitAmount3 = new ItemAmounts(item3Amount, item3Amount, 0.05m);
@@ -233,7 +233,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
             return new SupplierInfo(
                 taxpayerId: TestFixture.TaxPayerId,
                 vatCode: VatCode.Create("2").Success.Get(),
-                name: Name.Create("Supplier company").Success.Get(),
+                name: Models.Name.Create("Supplier company").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             );
         }
