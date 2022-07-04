@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -15,14 +15,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="5.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="FuncSharp">
-      <HintPath>..\..\packages\FuncSharp.4.0.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
+      <HintPath>..\..\packages\FuncSharp.4.2.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 

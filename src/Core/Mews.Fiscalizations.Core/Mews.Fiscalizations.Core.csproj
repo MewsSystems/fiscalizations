@@ -28,7 +28,7 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-  
+
   <PropertyGroup>
     <PackageId>Mews.Fiscalizations.Core</PackageId>
     <Company>Mews</Company>
