@@ -101,7 +101,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             return new SimplifiedInvoice(
                 taxPeriod: new TaxPeriod(Year.Create(issueDateUtc.Year).Success.Get(), (Month)(issueDateUtc.Month - 1)),
                 id: new InvoiceId(issuer.TaxpayerIdentificationNumber, String1To60.CreateUnsafe(invoiceNumber), issueDateUtc),
-                schemeOrEffect: SchemeOrEffect.GeneralTaxRegimeActivity,
+                taxMode: TaxMode.GeneralTaxRegimeActivity,
                 description: String0To500.CreateUnsafe("This is a test invoice."),
                 taxBreakdown: new TaxBreakdown(TaxSummary.Create(taxExempt: taxExemptItems, taxed: taxRateSummaries).Success.Get()),
                 issuedByThirdParty: true

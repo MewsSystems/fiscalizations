@@ -102,7 +102,7 @@ var taxExemptItems = new[] { new TaxExemptItem(Amount.Create(20m).Success.Get(),
 var invoice = new SimplifiedInvoice(
     taxPeriod: new TaxPeriod(Year.Create(issueDateUtc.Year).Success.Get(), (Month)(issueDateUtc.Month - 1)),
     id: new InvoiceId(issuingCompany.TaxpayerIdentificationNumber, String1To60.CreateUnsafe("Invoice_number"), issueDateUtc),
-    schemeOrEffect: SchemeOrEffect.GeneralTaxRegimeActivity,
+    taxMode: TaxMode.GeneralTaxRegimeActivity,
     description: String0To500.CreateUnsafe("Invoice description."),
     taxBreakdown: new TaxBreakdown(TaxSummary.Create(taxExempt: taxExemptItems, taxed: taxRateSummaries).Success.Get()),
     issuedByThirdParty: true

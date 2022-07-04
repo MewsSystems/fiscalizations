@@ -39,7 +39,7 @@ namespace Mews.Fiscalizations.Spain.Converters
                 FacturaExpedida = new FacturaExpedidaType
                 {
                     TipoFactura = Convert(invoice.Type),
-                    ClaveRegimenEspecialOTrascendencia = Convert(invoice.SchemeOrEffect),
+                    ClaveRegimenEspecialOTrascendencia = Convert(invoice.TaxMode),
                     ImporteTotal = invoice.TotalAmount.Serialize(),
                     DescripcionOperacion = invoice.Description.Value,
                     Contraparte = Convert(invoice.CounterParty),
@@ -59,7 +59,7 @@ namespace Mews.Fiscalizations.Spain.Converters
                 FacturaExpedida = new FacturaExpedidaType
                 {
                     TipoFactura = ClaveTipoFacturaType.F2,
-                    ClaveRegimenEspecialOTrascendencia = Convert(invoice.SchemeOrEffect),
+                    ClaveRegimenEspecialOTrascendencia = Convert(invoice.TaxMode),
                     ImporteTotal = invoice.TotalAmount.Serialize(),
                     DescripcionOperacion = invoice.Description.Value,
                     TipoDesglose = Convert(invoice.TaxBreakdown),
@@ -276,24 +276,24 @@ namespace Mews.Fiscalizations.Spain.Converters
             );
         }
 
-        private IdOperacionesTrascendenciaTributariaType Convert(SchemeOrEffect schemeOrEffect)
+        private IdOperacionesTrascendenciaTributariaType Convert(TaxMode taxMode)
         {
-            return schemeOrEffect.Match(
-                SchemeOrEffect.GeneralTaxRegimeActivity, _ => IdOperacionesTrascendenciaTributariaType.Item01,
-                SchemeOrEffect.Export, _ => IdOperacionesTrascendenciaTributariaType.Item02,
-                SchemeOrEffect.WorksOfArt, _ => IdOperacionesTrascendenciaTributariaType.Item03,
-                SchemeOrEffect.InvestmentGold, _ => IdOperacionesTrascendenciaTributariaType.Item04,
-                SchemeOrEffect.TravelAgencies, _ => IdOperacionesTrascendenciaTributariaType.Item05,
-                SchemeOrEffect.GroupsOfEntities, _ => IdOperacionesTrascendenciaTributariaType.Item06,
-                SchemeOrEffect.CashBasis, _ => IdOperacionesTrascendenciaTributariaType.Item07,
-                SchemeOrEffect.CanaryIslandsGeneralIndirectTax, _ => IdOperacionesTrascendenciaTributariaType.Item08,
-                SchemeOrEffect.TravelAgencyServicesActingAsIntermediaries, _ => IdOperacionesTrascendenciaTributariaType.Item09,
-                SchemeOrEffect.Collections, _ => IdOperacionesTrascendenciaTributariaType.Item10,
-                SchemeOrEffect.BusinessPremisesLeaseActivities1, _ => IdOperacionesTrascendenciaTributariaType.Item11,
-                SchemeOrEffect.BusinessPremisesLeaseActivities2, _ => IdOperacionesTrascendenciaTributariaType.Item12,
-                SchemeOrEffect.BusinessPremisesLeaseActivities3, _ => IdOperacionesTrascendenciaTributariaType.Item13,
-                SchemeOrEffect.InvoiceWithVATPendingAccrual1, _ => IdOperacionesTrascendenciaTributariaType.Item14,
-                SchemeOrEffect.InvoiceWithVATPendingAccrual2, _ => IdOperacionesTrascendenciaTributariaType.Item15
+            return taxMode.Match(
+                TaxMode.GeneralTaxRegimeActivity, _ => IdOperacionesTrascendenciaTributariaType.Item01,
+                TaxMode.Export, _ => IdOperacionesTrascendenciaTributariaType.Item02,
+                TaxMode.WorksOfArt, _ => IdOperacionesTrascendenciaTributariaType.Item03,
+                TaxMode.InvestmentGold, _ => IdOperacionesTrascendenciaTributariaType.Item04,
+                TaxMode.TravelAgencies, _ => IdOperacionesTrascendenciaTributariaType.Item05,
+                TaxMode.GroupsOfEntities, _ => IdOperacionesTrascendenciaTributariaType.Item06,
+                TaxMode.CashBasis, _ => IdOperacionesTrascendenciaTributariaType.Item07,
+                TaxMode.CanaryIslandsGeneralIndirectTax, _ => IdOperacionesTrascendenciaTributariaType.Item08,
+                TaxMode.TravelAgencyServicesActingAsIntermediaries, _ => IdOperacionesTrascendenciaTributariaType.Item09,
+                TaxMode.Collections, _ => IdOperacionesTrascendenciaTributariaType.Item10,
+                TaxMode.BusinessPremisesLeaseActivities1, _ => IdOperacionesTrascendenciaTributariaType.Item11,
+                TaxMode.BusinessPremisesLeaseActivities2, _ => IdOperacionesTrascendenciaTributariaType.Item12,
+                TaxMode.BusinessPremisesLeaseActivities3, _ => IdOperacionesTrascendenciaTributariaType.Item13,
+                TaxMode.InvoiceWithVATPendingAccrual1, _ => IdOperacionesTrascendenciaTributariaType.Item14,
+                TaxMode.InvoiceWithVATPendingAccrual2, _ => IdOperacionesTrascendenciaTributariaType.Item15
             );
         }
 

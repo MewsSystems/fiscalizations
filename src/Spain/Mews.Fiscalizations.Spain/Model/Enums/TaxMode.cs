@@ -1,6 +1,6 @@
 ﻿namespace Mews.Fiscalizations.Spain.Model
 {
-    public enum SchemeOrEffect
+    public enum TaxMode
     {
         GeneralTaxRegimeActivity,
         Export,
