@@ -52,9 +52,8 @@ namespace Mews.Fiscalizations.TicketBai.Model
             return Try.Aggregate(
                 ObjectValidations.NotNull(description),
                 items.ToTry(i => i.Count() >= 1 && i.Count() <= 1000, _ => new Error($"{nameof(items)} count must be in range [1, 1000].")),
-                ObjectValidations.NotNull(totalAmount),
                 taxModes.ToTry(t => t.NonEmpty(), _ => new Error($"{nameof(taxModes)} shouldn't be empty.")),
-                (d, i, a, t) => new InvoiceData(d, i, a, t, supportWithheldAmount, tax, transactionDate)
+                (d, i, t) => new InvoiceData(d, i, totalAmount, t, supportWithheldAmount, tax, transactionDate)
             );
         }
     }
