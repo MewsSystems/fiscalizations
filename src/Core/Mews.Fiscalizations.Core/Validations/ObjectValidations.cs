@@ -6,7 +6,7 @@ namespace Mews.Fiscalizations.Core.Model
     {
         public static ITry<T, Error> NotNull<T>(T value)
         {
-            return value.ToTry(v => v.IsNotNull(), _ => new Error("Value cannot be null."));
+            return value.ToTry(v => v.IsNotNull(), _ => new Error($"{typeof(T).Name} cannot be null."));
         }
     }
 }
