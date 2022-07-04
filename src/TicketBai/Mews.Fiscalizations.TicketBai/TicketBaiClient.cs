@@ -144,6 +144,7 @@ namespace Mews.Fiscalizations.TicketBai
             );
             var uri = $"{requestUri}{invoiceSeries.Map(s => $"&s={s.Value}").GetOrElse("")}&nf={invoiceNumber}&i={total.ToString(CultureInfo.InvariantCulture)}";
 
+            // Error checking CRC Algorithm.
             var data = Encoding.UTF8.GetBytes(uri);
             var crc = (byte)0;
             for (int i = 0; i < data.Length; i++)
