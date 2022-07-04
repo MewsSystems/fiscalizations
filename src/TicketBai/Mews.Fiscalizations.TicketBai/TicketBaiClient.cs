@@ -135,6 +135,12 @@ namespace Mews.Fiscalizations.TicketBai
             xmlDoc.DocumentElement.AppendChild(xmlDoc.ImportNode(xmlDigitalSignature, true));
         }
 
+        /// <summary>
+        /// Generates TBAI QR code URI which will be displayed on the invoice.
+        /// The required URI parameters to generate the QR code URI are: TBAI identifier (id) returned in the send invoice response, invoice series (s), invoice number (nf),
+        /// Total amount (i) and the CRC-8 error-detecting-code (cr).
+        /// Example: https://batuz.eus/QRTBAI/?id=TBAI-00000006Y-251019-btFpwP8dcLGAF-237&s=T&nf=27174&i=4.70&cr=007
+        /// </summary>
         private string GenerateQrCodeUri(string tbaiIdentifier, IOption<String1To20> invoiceSeries, string invoiceNumber, decimal total)
         {
             var requestUri = Environment.Match(
