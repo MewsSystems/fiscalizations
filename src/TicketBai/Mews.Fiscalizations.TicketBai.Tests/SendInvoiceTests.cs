@@ -33,6 +33,7 @@ namespace Mews.Fiscalizations.TicketBai.Tests
             var request = CreateInvoiceRequest();
             var response = await Client.SendInvoiceAsync(request);
 
+            // TODO: Assert the Qr code uri content, make sure it contains all the required params/data.
             Assert.IsEmpty(response.ValidationResults.Flatten());
             Assert.IsNotEmpty(response.QrCodeUri);
             Assert.IsNotEmpty(response.TBAIIdentifier);
