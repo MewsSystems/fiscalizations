@@ -9,15 +9,13 @@ namespace Mews.Fiscalizations.TicketBai
 {
     internal static class ModelToDtoConverter
     {
-        private static readonly IDVersionTicketBaiType1 TicketBaiVersion = IDVersionTicketBaiType1.Item12;
-
         public static Dto.TicketBai Convert(SendInvoiceRequest sendInvoiceRequest)
         {
             return new Dto.TicketBai
             {
                 Cabecera = new Cabecera1
                 {
-                    IDVersionTBAI = TicketBaiVersion
+                    IDVersionTBAI = ServiceInfo.Version
                 },
                 Sujetos = Convert(sendInvoiceRequest.Subject),
                 Factura = Convert(sendInvoiceRequest.Invoice),
