@@ -52,11 +52,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Italy", "Italy\Mews.Fiscalizations.Italy\Mews.Fiscalizations.Italy.csproj", "{E0911C51-C4B8-4342-90A3-5838B86DE82D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TicketBai", "TicketBai", "{8505D550-DEB4-4CE2-B42F-D38CB8718812}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basque", "Basque", "{8505D550-DEB4-4CE2-B42F-D38CB8718812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.TicketBai", "TicketBai\Mews.Fiscalizations.TicketBai\Mews.Fiscalizations.TicketBai.csproj", "{DFF22D8C-EC9F-4F33-B189-4BE8A4D5F4FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Basque", "Basque\Mews.Fiscalizations.Basque\Mews.Fiscalizations.Basque.csproj", "{8FF1D716-4404-47C1-B318-FD1C07B06256}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.TicketBai.Tests", "TicketBai\Mews.Fiscalizations.TicketBai.Tests\Mews.Fiscalizations.TicketBai.Tests.csproj", "{75532701-D4C3-43E5-9F46-38A05AFED604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mews.Fiscalizations.Basque.Tests", "Basque\Mews.Fiscalizations.Basque.Tests\Mews.Fiscalizations.Basque.Tests.csproj", "{9A27DA76-278F-4B87-8AE3-0504C09AA1B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -124,14 +124,14 @@ Global
 		{E0911C51-C4B8-4342-90A3-5838B86DE82D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0911C51-C4B8-4342-90A3-5838B86DE82D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0911C51-C4B8-4342-90A3-5838B86DE82D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFF22D8C-EC9F-4F33-B189-4BE8A4D5F4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFF22D8C-EC9F-4F33-B189-4BE8A4D5F4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFF22D8C-EC9F-4F33-B189-4BE8A4D5F4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFF22D8C-EC9F-4F33-B189-4BE8A4D5F4FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75532701-D4C3-43E5-9F46-38A05AFED604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75532701-D4C3-43E5-9F46-38A05AFED604}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75532701-D4C3-43E5-9F46-38A05AFED604}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75532701-D4C3-43E5-9F46-38A05AFED604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF1D716-4404-47C1-B318-FD1C07B06256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF1D716-4404-47C1-B318-FD1C07B06256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF1D716-4404-47C1-B318-FD1C07B06256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF1D716-4404-47C1-B318-FD1C07B06256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A27DA76-278F-4B87-8AE3-0504C09AA1B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A27DA76-278F-4B87-8AE3-0504C09AA1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A27DA76-278F-4B87-8AE3-0504C09AA1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A27DA76-278F-4B87-8AE3-0504C09AA1B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,8 +156,8 @@ Global
 		{A36D3406-9949-4098-AD0D-1AC34829DE8B} = {EC0FB3F2-F33E-4445-BCB0-955EE0204BBB}
 		{E0911C51-C4B8-4342-90A3-5838B86DE82D} = {EC0FB3F2-F33E-4445-BCB0-955EE0204BBB}
 		{8505D550-DEB4-4CE2-B42F-D38CB8718812} = {688BB599-7F21-4D8B-B030-B482789EB21A}
-		{DFF22D8C-EC9F-4F33-B189-4BE8A4D5F4FB} = {8505D550-DEB4-4CE2-B42F-D38CB8718812}
-		{75532701-D4C3-43E5-9F46-38A05AFED604} = {8505D550-DEB4-4CE2-B42F-D38CB8718812}
+		{8FF1D716-4404-47C1-B318-FD1C07B06256} = {8505D550-DEB4-4CE2-B42F-D38CB8718812}
+		{9A27DA76-278F-4B87-8AE3-0504C09AA1B8} = {8505D550-DEB4-4CE2-B42F-D38CB8718812}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45EA4E8C-6544-4CDB-A186-28B289C09DFE}

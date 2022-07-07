@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>8.0.3</PackageVersion>
+    <PackageVersion>9.0.0</PackageVersion>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   
@@ -79,9 +79,9 @@
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Spain.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference Include="..\TicketBai\Mews.Fiscalizations.TicketBai\Mews.Fiscalizations.TicketBai.csproj">
+    <ProjectReference Include="..\Basque\Mews.Fiscalizations.Basque\Mews.Fiscalizations.Basque.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <IncludeAssets>Mews.Fiscalizations.TicketBai.dll</IncludeAssets>
+      <IncludeAssets>Mews.Fiscalizations.Basque.dll</IncludeAssets>
     </ProjectReference>
   </ItemGroup>
 
