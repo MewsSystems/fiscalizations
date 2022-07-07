@@ -79,9 +79,9 @@
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Spain.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference Include="..\TicketBai\Mews.Fiscalizations.TicketBai\Mews.Fiscalizations.TicketBai.csproj">
+    <ProjectReference Include="..\Basque\Mews.Fiscalizations.Basque\Mews.Fiscalizations.Basque.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <IncludeAssets>Mews.Fiscalizations.TicketBai.dll</IncludeAssets>
+      <IncludeAssets>Mews.Fiscalizations.Basque.dll</IncludeAssets>
     </ProjectReference>
   </ItemGroup>
 
