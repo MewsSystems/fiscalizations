@@ -40,7 +40,7 @@ namespace Mews.Fiscalizations.TicketBai.Model
 
         public IOption<DateTime> TransactionDate { get; }
 
-        public ITry<InvoiceData, IEnumerable<Error>> Create(
+        public static ITry<InvoiceData, IEnumerable<Error>> Create(
             String1To250 description,
             IEnumerable<InvoiceItem> items,
             decimal totalAmount,
