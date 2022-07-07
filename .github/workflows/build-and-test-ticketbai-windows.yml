@@ -40,7 +40,7 @@ jobs:
 
     - name: Test
       env:
-        ticketbai_certificate_data: ${{secrets.ticketbai_certificate_data}}
-        ticketbai_certificate_password: ${{secrets.ticketbai_certificate_password}}
-        ticketbai_issuer_tax_number: ${{secrets.ticketbai_issuer_tax_number}}
+        spanish_certificate_data: ${{secrets.spanish_certificate_data}}
+        spanish_certificate_password: ${{secrets.spanish_certificate_password}}
+        spanish_issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
       run: dotnet test --no-restore --verbosity normal

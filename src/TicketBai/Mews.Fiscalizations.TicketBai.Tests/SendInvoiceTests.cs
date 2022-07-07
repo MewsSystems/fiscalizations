@@ -15,14 +15,14 @@ namespace Mews.Fiscalizations.TicketBai.Tests
         private static readonly Random Random = new Random();
 
         private static readonly X509Certificate2 Certificate = new X509Certificate2(
-            rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("ticketbai_certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
-            password: System.Environment.GetEnvironmentVariable("ticketbai_certificate_password") ?? "INSERT_CERTIFICATE_PASSWORD",
+            rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("spanish_certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
+            password: System.Environment.GetEnvironmentVariable("spanish_certificate_password") ?? "INSERT_CERTIFICATE_PASSWORD",
             keyStorageFlags: X509KeyStorageFlags.DefaultKeySet
         );
 
         private static readonly Issuer Issuer = new Issuer(
             name: Name.CreateUnsafe("Test issuing company"),
-            nif: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("ticketbai_issuer_tax_number") ?? "INSERT_TAX_ID").Success.Get()
+            nif: TaxpayerIdentificationNumber.Create(Countries.Spain, System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID").Success.Get()
         );
 
         private static readonly TicketBaiClient Client = new TicketBaiClient(Certificate, Environment.Test);

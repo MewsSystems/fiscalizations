@@ -60,10 +60,6 @@ jobs:
 
         austrian_user_id: ${{secrets.austrian_user_id}}
         austrian_password: ${{secrets.austrian_password}}
-
-        ticketbai_certificate_data: ${{secrets.ticketbai_certificate_data}}
-        ticketbai_certificate_password: ${{secrets.ticketbai_certificate_password}}
-        ticketbai_issuer_tax_number: ${{secrets.ticketbai_issuer_tax_number}}
       run: dotnet test --no-restore --verbosity normal
 
   publish:
