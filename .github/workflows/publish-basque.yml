@@ -1,4 +1,4 @@
-name: Publish - TicketBai
+name: Publish - Basque
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/TicketBai/Mews.Fiscalizations.TicketBai.Tests
+        working-directory: src/Basque/Mews.Fiscalizations.Basque.Tests
 
     steps:
     - name: Checkout
@@ -29,7 +29,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.TicketBai.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Basque.Tests.csproj --configuration Release && dotnet nuget locals all --clear
 
     - name: Install dependencies
       run: dotnet restore
@@ -54,7 +54,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/TicketBai/Mews.Fiscalizations.TicketBai
+        working-directory: src/Basque/Mews.Fiscalizations.Basque
 
     steps:
     - name: Checkout

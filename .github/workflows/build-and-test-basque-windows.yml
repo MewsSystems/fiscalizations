@@ -1,4 +1,4 @@
-name: Build and test - TicketBai (Linux)
+name: Build and test - Basque (Windows)
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     env:
       DOTNET_NOLOGO: true
@@ -18,7 +18,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/TicketBai/Mews.Fiscalizations.TicketBai.Tests
+        working-directory: src/Basque/Mews.Fiscalizations.Basque.Tests
 
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.TicketBai.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Basque.Tests.csproj --configuration Release && dotnet nuget locals all --clear
 
     - name: Install dependencies
       run: dotnet restore
