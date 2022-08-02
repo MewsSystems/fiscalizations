@@ -207,7 +207,7 @@ namespace Mews.Fiscalizations.Basque
                 DescripcionDetalle = item.Description.Value,
                 Cantidad = item.Quantity.ToString(),
                 ImporteUnitario = item.UnitAmount.ToString(),
-                Descuento = item.Discount.ToString(),
+                Descuento = item.Discount.Map(d => d.ToString()).GetOrNull(),
                 ImporteTotal = item.TotalAmount.ToString()
             };
         }
