@@ -34,8 +34,7 @@ namespace Mews.Fiscalizations.Basque.Tests
             var response = await Client.SendInvoiceAsync(request);
 
             // TODO: Assert the Qr code uri content, make sure it contains all the required params/data.
-            var validationResults = response.ValidationResults.Flatten();
-            Assert.IsEmpty(validationResults);
+            Assert.IsEmpty(response.ValidationResults.Flatten());
             Assert.IsNotEmpty(response.QrCodeUri);
             Assert.IsNotEmpty(response.TBAIIdentifier);
             Assert.IsNotEmpty(response.XmlRequestContent);
