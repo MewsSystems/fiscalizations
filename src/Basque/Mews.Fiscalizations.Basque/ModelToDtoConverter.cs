@@ -207,7 +207,7 @@ namespace Mews.Fiscalizations.Basque
                 DescripcionDetalle = item.Description.Value,
                 Cantidad = item.Quantity.ToString(),
                 ImporteUnitario = item.UnitAmount.ToString(),
-                Descuento = item.Discount.ToString(),
+                Descuento = item.Discount.Map(d => d.ToString()).GetOrNull(),
                 ImporteTotal = item.TotalAmount.ToString()
             };
         }
@@ -245,18 +245,18 @@ namespace Mews.Fiscalizations.Basque
             {
                 SerieFactura = header.Series.Map(s => s.Value).GetOrNull(),
                 NumFactura = header.Number.Value,
-                FechaExpedicionFactura = Convert(header.IssueDate),
-                HoraExpedicionFactura = header.IssueDateTime.ToString("HH:MM:ss"),
-                FacturaSimplificada = header.IsSimplified.Match(
+                FechaExpedicionFactura = Convert(header.IssueDate.Date),
+                HoraExpedicionFactura = header.IssueDate.ToString("HH:MM:ss"),
+                FacturaSimplificada = header.IsSimplified.Map(i => i.Match(
                     t => SiNoType.S,
                     f => SiNoType.N
-                ),
-                FacturaSimplificadaSpecified = true, // TODO: make IsSimplified nullable.
-                FacturaEmitidaSustitucionSimplificada = header.IssuedInSubstitutionOfSimplifiedInvoice.Match(
+                )).GetOrElse(SiNoType.N),
+                FacturaSimplificadaSpecified = header.IsSimplified.NonEmpty,
+                FacturaEmitidaSustitucionSimplificada = header.IssuedInSubstitutionOfSimplifiedInvoice.Map(i => i.Match(
                     t => SiNoType.S,
                     f => SiNoType.N
-                ),
-                FacturaEmitidaSustitucionSimplificadaSpecified = true, // TODO: make IssuedInSubstitutionOfSimplifiedInvoice nullable.
+                )).GetOrElse(SiNoType.N),
+                FacturaEmitidaSustitucionSimplificadaSpecified = header.IssuedInSubstitutionOfSimplifiedInvoice.NonEmpty,
                 FacturaRectificativa = header.CorrectingInvoice.Map(i => Convert(i)).GetOrNull(),
                 FacturasRectificadasSustituidas = header.CorrectedInvoices.Map(invoices => invoices.Select(i => Convert(i)).ToArray()).GetOrNull()
             };

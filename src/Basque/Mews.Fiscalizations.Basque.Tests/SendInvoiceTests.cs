@@ -110,8 +110,7 @@ namespace Mews.Fiscalizations.Basque.Tests
         {
             return new InvoiceHeader(
                 number: String1To20.CreateUnsafe(RandomString(20)),
-                issueDate: DateTime.Now.Date,
-                issueDateTime: DateTime.Now,
+                issueDate: DateTime.Now,
                 series: String1To20.CreateUnsafe(RandomString(20))
             );
         }
