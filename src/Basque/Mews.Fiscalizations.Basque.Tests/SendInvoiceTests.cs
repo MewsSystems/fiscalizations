@@ -35,12 +35,7 @@ namespace Mews.Fiscalizations.Basque.Tests
 
             // TODO: Assert the Qr code uri content, make sure it contains all the required params/data.
             var validationResults = response.ValidationResults.Flatten();
-            Assert.IsEmpty(validationResults, "Response contains validation errors.", new
-            {
-                Descriptions = String.Join(", ", validationResults.Select(r => r.Description)),
-                ErrorCodes = String.Join(", ", validationResults.Select(r => r.ErrorCode)),
-                Explanations = String.Join(", ", validationResults.Select(r => r.Explanation))
-            });
+            Assert.IsEmpty(validationResults);
             Assert.IsNotEmpty(response.QrCodeUri);
             Assert.IsNotEmpty(response.TBAIIdentifier);
             Assert.IsNotEmpty(response.XmlRequestContent);
