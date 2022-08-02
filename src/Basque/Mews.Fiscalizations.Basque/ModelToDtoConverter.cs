@@ -247,16 +247,16 @@ namespace Mews.Fiscalizations.Basque
                 NumFactura = header.Number.Value,
                 FechaExpedicionFactura = Convert(header.IssueDate.Date),
                 HoraExpedicionFactura = header.IssueDate.ToString("HH:MM:ss"),
-                FacturaSimplificada = header.IsSimplified.Match(
+                FacturaSimplificada = header.IsSimplified.Map(i => i.Match(
                     t => SiNoType.S,
                     f => SiNoType.N
-                ),
-                FacturaSimplificadaSpecified = true, // TODO: make IsSimplified nullable.
-                FacturaEmitidaSustitucionSimplificada = header.IssuedInSubstitutionOfSimplifiedInvoice.Match(
+                )).GetOrElse(SiNoType.N),
+                FacturaSimplificadaSpecified = header.IsSimplified.NonEmpty,
+                FacturaEmitidaSustitucionSimplificada = header.IssuedInSubstitutionOfSimplifiedInvoice.Map(i => i.Match(
                     t => SiNoType.S,
                     f => SiNoType.N
-                ),
-                FacturaEmitidaSustitucionSimplificadaSpecified = true, // TODO: make IssuedInSubstitutionOfSimplifiedInvoice nullable.
+                )).GetOrElse(SiNoType.N),
+                FacturaEmitidaSustitucionSimplificadaSpecified = header.IssuedInSubstitutionOfSimplifiedInvoice.NonEmpty,
                 FacturaRectificativa = header.CorrectingInvoice.Map(i => Convert(i)).GetOrNull(),
                 FacturasRectificadasSustituidas = header.CorrectedInvoices.Map(invoices => invoices.Select(i => Convert(i)).ToArray()).GetOrNull()
             };
