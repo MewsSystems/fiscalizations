@@ -245,8 +245,8 @@ namespace Mews.Fiscalizations.Basque
             {
                 SerieFactura = header.Series.Map(s => s.Value).GetOrNull(),
                 NumFactura = header.Number.Value,
-                FechaExpedicionFactura = Convert(header.IssueDate),
-                HoraExpedicionFactura = header.IssueDateTime.ToString("HH:MM:ss"),
+                FechaExpedicionFactura = Convert(header.IssueDate.Date),
+                HoraExpedicionFactura = header.IssueDate.ToString("HH:MM:ss"),
                 FacturaSimplificada = header.IsSimplified.Match(
                     t => SiNoType.S,
                     f => SiNoType.N
