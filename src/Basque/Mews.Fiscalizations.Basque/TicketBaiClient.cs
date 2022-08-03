@@ -28,8 +28,6 @@ namespace Mews.Fiscalizations.Basque
 
         private Environment Environment { get; }
 
-        // TODO: Return ITry and handle error responses?.
-        // TODO: verify the signature.
         public async Task<SendInvoiceResponse> SendInvoiceAsync(SendInvoiceRequest request)
         {
             var ticketBaiRequest = ModelToDtoConverter.Convert(request);
