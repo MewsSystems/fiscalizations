@@ -3,15 +3,15 @@ using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Basque.Model
 {
-    public sealed class Developer : Coproduct2<LocalDeveloper, ForeignDeveloper>
+    public sealed class SoftwareDeveloper : Coproduct2<LocalSoftwareDeveloper, ForeignSoftwareDeveloper>
     {
-        public Developer(LocalDeveloper local)
+        public SoftwareDeveloper(LocalSoftwareDeveloper local)
             : base(local)
         {
             Check.IsNotNull(local, nameof(local));
         }
 
-        public Developer(ForeignDeveloper foreign)
+        public SoftwareDeveloper(ForeignSoftwareDeveloper foreign)
             : base(foreign)
         {
             Check.IsNotNull(foreign, nameof(foreign));

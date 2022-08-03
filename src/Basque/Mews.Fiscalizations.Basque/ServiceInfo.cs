@@ -36,5 +36,10 @@ namespace Mews.Fiscalizations.Basque
             RelativeQrCodeUri = new Uri("qr/", UriKind.Relative);
             Encoding = Encoding.UTF8;
         }
+
+        internal static Uri SendInvoiceUri(Environment environment)
+        {
+            return new Uri(InvoiceBaseUrls[environment], RelativeSendInvoiceUri);
+        }
     }
 }

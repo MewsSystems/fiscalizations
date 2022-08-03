@@ -8,6 +8,7 @@ namespace Mews.Fiscalizations.Basque.Model
     {
         public SendInvoiceResponse(
             string xmlRequestContent,
+            string xmlResponseContent,
             string qrCodeUri,
             string tbaiIdentifier,
             DateTime received,
@@ -18,6 +19,7 @@ namespace Mews.Fiscalizations.Basque.Model
             IEnumerable<SendInvoiceValidationResult> validationResults = null)
         {
             XmlRequestContent = xmlRequestContent;
+            XmlResponseContent = xmlResponseContent;
             QrCodeUri = qrCodeUri;
             TBAIIdentifier = tbaiIdentifier;
             Received = received;
@@ -29,6 +31,8 @@ namespace Mews.Fiscalizations.Basque.Model
         }
 
         public string XmlRequestContent { get; }
+
+        public string XmlResponseContent { get; }
 
         public string QrCodeUri { get; }
 

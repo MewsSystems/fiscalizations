@@ -4,7 +4,7 @@ namespace Mews.Fiscalizations.Basque.Model
 {
     public sealed class Software
     {
-        private Software(String1To20 license, Developer developer, String1To120 name, String1To20 version)
+        private Software(String1To20 license, SoftwareDeveloper developer, String1To120 name, String1To20 version)
         {
             License = Check.IsNotNull(license, nameof(license));
             Developer = Check.IsNotNull(developer, nameof(developer));
@@ -14,7 +14,7 @@ namespace Mews.Fiscalizations.Basque.Model
 
         public String1To20 License { get; }
 
-        public Developer Developer { get; }
+        public SoftwareDeveloper Developer { get; }
 
         public String1To120 Name { get; }
 
@@ -22,12 +22,12 @@ namespace Mews.Fiscalizations.Basque.Model
 
         public static Software LocalSoftwareDeveloper(TaxpayerIdentificationNumber nif, String1To20 license, String1To120 name, String1To20 version)
         {
-            return new Software(license, new Developer(new LocalDeveloper(nif)), name, version);
+            return new Software(license, new SoftwareDeveloper(new LocalSoftwareDeveloper(nif)), name, version);
         }
 
         public static Software ForeignSoftwareDeveloper(IdType idType, String1To20 id, String1To20 license, String1To120 name, String1To20 version, Country country = null)
         {
-            return new Software(license, new Developer(new ForeignDeveloper(idType, id, country)), name, version);
+            return new Software(license, new SoftwareDeveloper(new ForeignSoftwareDeveloper(idType, id, country)), name, version);
         }
     }
 }

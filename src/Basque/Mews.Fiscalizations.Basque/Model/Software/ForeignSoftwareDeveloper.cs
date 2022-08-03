@@ -3,9 +3,9 @@ using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Basque.Model
 {
-    public sealed class ForeignDeveloper
+    public sealed class ForeignSoftwareDeveloper
     {
-        public ForeignDeveloper(IdType idType, String1To20 id, Country country = null)
+        public ForeignSoftwareDeveloper(IdType idType, String1To20 id, Country country = null)
         {
             IdType = Check.IsNotNull(idType, nameof(idType));
             Id = Check.IsNotNull(id, nameof(id));

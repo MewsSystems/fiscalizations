@@ -81,8 +81,8 @@ namespace Mews.Fiscalizations.Basque
                     local => (object)local.TaxpayerIdentificationNumber.TaxpayerNumber,
                     foreign => new IDOtro1
                     {
-                        CodigoPais = foreign.Country.Map(c => CovertCountryType21(c)).ToNullable(),
-                        CodigoPaisSpecified = foreign.Country.NonEmpty,
+                        CodigoPais = CovertCountryType21(foreign.Country),
+                        CodigoPaisSpecified = true,
                         ID = foreign.Id.Value,
                         IDType = Convert1(foreign.IdType)
                     }
@@ -122,7 +122,7 @@ namespace Mews.Fiscalizations.Basque
             };
         }
 
-        private static EntidadDesarrolladoraType1 Convert(Developer developer)
+        private static EntidadDesarrolladoraType1 Convert(SoftwareDeveloper developer)
         {
             return developer.Match(
                 local => new EntidadDesarrolladoraType1
@@ -245,8 +245,8 @@ namespace Mews.Fiscalizations.Basque
             {
                 SerieFactura = header.Series.Map(s => s.Value).GetOrNull(),
                 NumFactura = header.Number.Value,
-                FechaExpedicionFactura = Convert(header.IssueDate.Date),
-                HoraExpedicionFactura = header.IssueDate.ToString("HH:MM:ss"),
+                FechaExpedicionFactura = Convert(header.Issued.Date),
+                HoraExpedicionFactura = header.Issued.ToString("HH:MM:ss"),
                 FacturaSimplificada = header.IsSimplified.Map(i => i.Match(
                     t => SiNoType.S,
                     f => SiNoType.N
