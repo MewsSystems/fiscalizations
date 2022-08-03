@@ -53,7 +53,7 @@ namespace Mews.Fiscalizations.Basque
                 invoiceNumber: header.Number.Value,
                 total: data.TotalAmount
             );
-            return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.Value, responseContent);
+            return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.OuterXml, responseContent);
         }
 
         private void SignXml(XmlDocument xmlDoc)
