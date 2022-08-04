@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 namespace Mews.Fiscalizations.Basque.Tests
 {
     [TestFixture]
-    public class SendInvoiceTests : TestFixture
+    public class SendInvoiceTests
     {
         [Test]
         public async Task SendSimpleInvoiceSucceeds()
         {
-            var request = CreateInvoiceRequest();
-            var response = await Client.SendInvoiceAsync(request);
+            var request = TestFixture.CreateInvoiceRequest();
+            var response = await TestFixture.Client.SendInvoiceAsync(request);
 
             Assert.IsEmpty(response.ValidationResults.Flatten());
             Assert.IsNotEmpty(response.QrCodeUri);

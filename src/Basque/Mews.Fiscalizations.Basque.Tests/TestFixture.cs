@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Mews.Fiscalizations.Basque.Tests
 {
-    public class TestFixture
+    public static class TestFixture
     {
         internal static readonly X509Certificate2 Certificate = new X509Certificate2(
             rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("spanish_certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
@@ -20,8 +20,6 @@ namespace Mews.Fiscalizations.Basque.Tests
         );
 
         internal static readonly TicketBaiClient Client = new TicketBaiClient(Certificate, Environment.Test);
-
-        private static readonly Random Random = new Random();
 
         internal static SendInvoiceRequest CreateInvoiceRequest()
         {
@@ -92,9 +90,9 @@ namespace Mews.Fiscalizations.Basque.Tests
         private static InvoiceHeader CreateHeader()
         {
             return new InvoiceHeader(
-                number: String1To20.CreateUnsafe(RandomString(20)),
+                number: String1To20.CreateUnsafe("12345"),
                 issued: DateTime.Now,
-                series: String1To20.CreateUnsafe(RandomString(20))
+                series: String1To20.CreateUnsafe("1")
             );
         }
 
@@ -120,12 +118,6 @@ namespace Mews.Fiscalizations.Basque.Tests
                 taxBaseAmount: Amount.Create(baseValue).Success.Get(),
                 taxAmount: Amount.Create(Math.Round(baseValue * vat / 100, 2)).Success.Get()
             );
-        }
-
-        private static string RandomString(int length)
-        {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
         }
     }
 }
