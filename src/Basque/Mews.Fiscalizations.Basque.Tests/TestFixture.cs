@@ -90,9 +90,9 @@ namespace Mews.Fiscalizations.Basque.Tests
         private static InvoiceHeader CreateHeader()
         {
             return new InvoiceHeader(
-                number: String1To20.CreateUnsafe("12345"),
+                number: String1To20.CreateUnsafe(Guid.NewGuid().ToString().Take(17).ToString()),
                 issued: DateTime.Now,
-                series: String1To20.CreateUnsafe("1")
+                series: String1To20.CreateUnsafe(Guid.NewGuid().ToString().Take(17).ToString())
             );
         }
 
