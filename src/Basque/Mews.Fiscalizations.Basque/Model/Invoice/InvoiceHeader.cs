@@ -10,7 +10,7 @@ namespace Mews.Fiscalizations.Basque.Model
     {
         public InvoiceHeader(
             String1To20 number,
-            DateTime issueDate,
+            DateTime issued,
             bool? isSimplified = null,
             bool? issuedInSubstitutionOfSimplifiedInvoice = null,
             String1To20 series = null,
@@ -18,7 +18,7 @@ namespace Mews.Fiscalizations.Basque.Model
             IEnumerable<CorrectedInvoice> correctedInvoices = null)
         {
             Number = number;
-            IssueDate = issueDate;
+            Issued = issued;
             IsSimplified = isSimplified.ToOption();
             IssuedInSubstitutionOfSimplifiedInvoice = issuedInSubstitutionOfSimplifiedInvoice.ToOption();
             Series = series.ToOption();
@@ -29,7 +29,7 @@ namespace Mews.Fiscalizations.Basque.Model
 
         public String1To20 Number { get; }
 
-        public DateTime IssueDate { get; }
+        public DateTime Issued { get; }
 
         public IOption<bool> IsSimplified { get; }
 

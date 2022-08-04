@@ -28,8 +28,6 @@ namespace Mews.Fiscalizations.Basque
 
         private Environment Environment { get; }
 
-        // TODO: Return ITry and handle error responses?.
-        // TODO: verify the signature.
         public async Task<SendInvoiceResponse> SendInvoiceAsync(SendInvoiceRequest request)
         {
             var ticketBaiRequest = ModelToDtoConverter.Convert(request);
@@ -40,11 +38,10 @@ namespace Mews.Fiscalizations.Basque
             SignXml(xmlDoc.OwnerDocument);
 
             var requestContent = new StringContent(xmlDoc.OuterXml, ServiceInfo.Encoding, "application/xml");
-            var uri = new Uri(ServiceInfo.InvoiceBaseUrls[Environment], ServiceInfo.RelativeSendInvoiceUri);
-            var response = await HttpClient.PostAsync(uri, requestContent);
-            var content = await response.Content.ReadAsStringAsync();
+            var response = await HttpClient.PostAsync(ServiceInfo.SendInvoiceUri(Environment), requestContent);
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-            var ticketBaiResponse = XmlSerializer.Deserialize<Dto.TicketBaiResponse>(content);
+            var ticketBaiResponse = XmlSerializer.Deserialize<Dto.TicketBaiResponse>(responseContent);
             var header = request.Invoice.Header;
             var data = request.Invoice.InvoiceData;
             var qrCodeUri = QrCodeUriGenerator.Generate(
@@ -54,7 +51,7 @@ namespace Mews.Fiscalizations.Basque
                 invoiceNumber: header.Number.Value,
                 total: data.TotalAmount
             );
-            return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.InnerXml);
+            return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.OuterXml, responseContent);
         }
 
         private void SignXml(XmlDocument xmlDoc)

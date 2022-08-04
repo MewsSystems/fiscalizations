@@ -7,11 +7,12 @@ namespace Mews.Fiscalizations.Basque
 {
     internal static class DtoToModelConverter
     {
-        public static SendInvoiceResponse Convert(Dto.TicketBaiResponse response, string qrCodeUri, string xmlRequestContent)
+        public static SendInvoiceResponse Convert(Dto.TicketBaiResponse response, string qrCodeUri, string xmlRequestContent, string xmlResponseContent)
         {
             var result = response.Salida;
             return new SendInvoiceResponse(
                 xmlRequestContent: xmlRequestContent,
+                xmlResponseContent: xmlResponseContent,
                 qrCodeUri: qrCodeUri,
                 tbaiIdentifier: result.IdentificadorTBAI,
                 received: DateTime.Parse(result.FechaRecepcion),
