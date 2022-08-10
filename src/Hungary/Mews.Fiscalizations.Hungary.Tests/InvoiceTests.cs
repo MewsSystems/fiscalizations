@@ -14,7 +14,10 @@ namespace Mews.Fiscalizations.Hungary.Tests
     {
         private static readonly NavClient NavClient = TestFixture.GetNavClient();
 
+        private const int RetryCount = 3;
+
         [Test]
+        [Retry(RetryCount)]
         public async Task SendCustomerInvoiceSucceeds()
         {
             var receiver = Receiver.Customer();
@@ -23,6 +26,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
+        [Retry(RetryCount)]
         public async Task SendLocalCompanyInvoiceSucceeds()
         {
             var receiver = Receiver.LocalCompany(
@@ -35,6 +39,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test]
+        [Retry(RetryCount)]
         [TestCase("CZ", "CZ12345678")]
         [TestCase("US", "UsTaxId")]
         [TestCase("CZ", null)]
@@ -53,6 +58,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
+        [Retry(RetryCount)]
         public async Task SendCorrectionCustomerInvoiceSucceeds()
         {
             var receiver = Receiver.Customer();
@@ -65,6 +71,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
+        [Retry(RetryCount)]
         public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
         {
             var receiver = Receiver.LocalCompany(
@@ -81,6 +88,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         }
 
         [Test, Order(1)]
+        [Retry(RetryCount)]
         [TestCase("CZ", "CZ12345678")]
         [TestCase("US", "UsTaxId")]
         [TestCase("CZ", null)]

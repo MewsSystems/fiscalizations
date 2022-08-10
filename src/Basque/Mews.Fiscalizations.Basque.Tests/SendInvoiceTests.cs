@@ -8,6 +8,7 @@ namespace Mews.Fiscalizations.Basque.Tests
     public class SendInvoiceTests
     {
         [Test]
+        [Retry(3)]
         public async Task SendSimpleInvoiceSucceeds()
         {
             var request = TestFixture.CreateInvoiceRequest();
