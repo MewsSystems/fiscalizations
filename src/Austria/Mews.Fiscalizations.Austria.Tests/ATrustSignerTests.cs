@@ -20,6 +20,7 @@ namespace Mews.Fiscalizations.Austria.Tests
         }
 
         [Test]
+        [Retry(3)]
         public void ATrustSignerWorks()
         {
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);

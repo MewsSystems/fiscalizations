@@ -30,7 +30,10 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
             nifVat: System.Environment.GetEnvironmentVariable("spanish_receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER"
         ).Success.Get();
 
+        private const int RetryCount = 3;
+
         [Test]
+        [Retry(RetryCount)]
         public async Task CheckNif()
         {
             var goodEntries = NonEmptyEnumerable.Create(
@@ -55,6 +58,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         }
 
         [Test]
+        [Retry(RetryCount)]
         public async Task PostInvoice()
         {
             await SuccessfullyPostInvoice(Client);
