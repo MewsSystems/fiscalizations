@@ -1,4 +1,4 @@
-name: Build and test - Italy (Linux)
+name: Build and test - Austria
 
 on:
   push:
@@ -9,8 +9,11 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-test-austria:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
     
     env:
       DOTNET_NOLOGO: true
@@ -18,19 +21,19 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Italy/Mews.Fiscalizations.Italy.Tests
+        working-directory: src/Austria/Mews.Fiscalizations.Austria.Tests
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.Italy.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Austria.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore
@@ -40,6 +43,6 @@ jobs:
     
     - name: Test
       env:
-        italian_username: ${{secrets.italian_username}}
-        italian_password: ${{secrets.italian_password}}
+        austrian_user_id: ${{secrets.austrian_user_id}}
+        austrian_password: ${{secrets.austrian_password}}
       run: dotnet test --no-restore --verbosity normal

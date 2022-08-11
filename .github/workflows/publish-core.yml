@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-test:
+  build-and-test-core:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -21,10 +21,10 @@ jobs:
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
@@ -40,9 +40,9 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
 
-  publish:
+  publish-core:
     runs-on: ubuntu-latest
-    needs: build-and-test
+    needs: build-and-test-core
 
     env:
       DOTNET_NOLOGO: true
@@ -54,10 +54,10 @@ jobs:
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
