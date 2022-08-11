@@ -45,7 +45,7 @@ jobs:
         spanish_receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
       run: dotnet test --no-restore --verbosity normal
 
-  publish:
+  publish-spain:
     runs-on: ubuntu-latest
     needs: build-and-test-spain
 

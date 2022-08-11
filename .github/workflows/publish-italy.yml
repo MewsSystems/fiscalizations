@@ -43,7 +43,7 @@ jobs:
         italian_password: ${{secrets.italian_password}}
       run: dotnet test --no-restore --verbosity normal
 
-  publish:
+  publish-italy:
     runs-on: ubuntu-latest
     needs: build-and-test-italy
 

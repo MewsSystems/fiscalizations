@@ -44,7 +44,7 @@ jobs:
         german_admin_pin: ${{secrets.german_admin_pin}}
       run: dotnet test --no-restore --verbosity normal
 
-  publish:
+  publish-germany:
     runs-on: ubuntu-latest
     needs: build-and-test-germany
 

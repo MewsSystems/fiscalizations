@@ -46,7 +46,7 @@ jobs:
         hungarian_encryption_key: ${{secrets.hungarian_encryption_key}}
       run: dotnet test --no-restore --verbosity normal
 
-  publish:
+  publish-hungary:
     runs-on: ubuntu-latest
     needs: build-and-test-hungary
 
