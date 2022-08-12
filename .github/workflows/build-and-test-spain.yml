@@ -1,4 +1,4 @@
-name: Build and test - Basque (Linux)
+name: Build and test - Spain
 
 on:
   push:
@@ -9,38 +9,42 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  build-and-test-spain:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    
     env:
       DOTNET_NOLOGO: true
       DOTNET_CLI_TELEMETRY_OPTOUT: true
-
+      
     defaults:
       run:
-        working-directory: src/Basque/Mews.Fiscalizations.Basque.Tests
-
+        working-directory: src/Spain/Mews.Fiscalizations.Spain.Tests
+        
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
-
+      uses: actions/checkout@v3
+    
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.Basque.Tests.csproj --configuration Release && dotnet nuget locals all --clear
-
+      run: dotnet clean ./Mews.Fiscalizations.Spain.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+        
     - name: Install dependencies
       run: dotnet restore
-
+    
     - name: Build
       run: dotnet build --configuration Release --no-restore
-
+    
     - name: Test
       env:
         spanish_certificate_data: ${{secrets.spanish_certificate_data}}
         spanish_certificate_password: ${{secrets.spanish_certificate_password}}
         spanish_issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
+        spanish_receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
       run: dotnet test --no-restore --verbosity normal

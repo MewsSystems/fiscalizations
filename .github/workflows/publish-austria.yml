@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-test:
+  build-and-test-austria:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -21,10 +21,10 @@ jobs:
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
@@ -43,9 +43,9 @@ jobs:
         austrian_password: ${{secrets.austrian_password}}
       run: dotnet test --no-restore --verbosity normal
 
-  publish:
+  publish-austria:
     runs-on: ubuntu-latest
-    needs: build-and-test
+    needs: build-and-test-austria
 
     env:
       DOTNET_NOLOGO: true
@@ -57,10 +57,10 @@ jobs:
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 

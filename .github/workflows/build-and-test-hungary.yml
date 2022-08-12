@@ -1,4 +1,4 @@
-name: Build and test - Hungary (Linux)
+name: Build and test - Hungary
 
 on:
   push:
@@ -9,8 +9,11 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-test-hungary:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
     
     env:
       DOTNET_NOLOGO: true
@@ -22,10 +25,10 @@ jobs:
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 

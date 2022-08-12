@@ -1,4 +1,4 @@
-name: Build and test - Italy (Windows)
+name: Build and test - Czechia
 
 on:
   push:
@@ -9,8 +9,11 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: windows-latest
+  build-and-test-czechia:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
     
     env:
       DOTNET_NOLOGO: true
@@ -18,19 +21,19 @@ jobs:
       
     defaults:
       run:
-        working-directory: src/Italy/Mews.Fiscalizations.Italy.Tests
+        working-directory: src/Czechia/Mews.Fiscalizations.Czechia.Tests
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
     - name: Clean
-      run: dotnet clean ./Mews.Fiscalizations.Italy.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Mews.Fiscalizations.Czechia.Tests.csproj --configuration Release && dotnet nuget locals all --clear
         
     - name: Install dependencies
       run: dotnet restore
@@ -39,7 +42,4 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Test
-      env:
-        italian_username: ${{secrets.italian_username}}
-        italian_password: ${{secrets.italian_password}}
       run: dotnet test --no-restore --verbosity normal
