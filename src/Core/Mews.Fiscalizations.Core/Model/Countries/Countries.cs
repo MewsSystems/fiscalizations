@@ -110,7 +110,7 @@ namespace Mews.Fiscalizations.Core.Model
                 HolySee = NonEuropean("VA"),
                 Honduras = NonEuropean("HN"),
                 HongKong = NonEuropean("HK"),
-                Hungary = European("HU", "^(HU)?[0-9]{8}$"),
+                Hungary = European("HU", "^[0-9]{8}$"),
                 Iceland = NonEuropean("IS"),
                 India = NonEuropean("IN"),
                 Indonesia = NonEuropean("ID"),
