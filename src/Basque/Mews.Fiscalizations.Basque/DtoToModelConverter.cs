@@ -16,7 +16,7 @@ namespace Mews.Fiscalizations.Basque
                 xmlResponseContent: xmlResponseContent,
                 qrCodeUri: qrCodeUri,
                 tbaiIdentifier: result.IdentificadorTBAI,
-                received: DateTime.Parse(result.FechaRecepcion, CultureInfo.InvariantCulture),
+                received: DateTime.ParseExact(result.FechaRecepcion, "dd-MM-yyyy H:mm:ss", CultureInfo.InvariantCulture),
                 state: result.Estado,
                 description: result.Descripcion,
                 stateExplanation: result.Azalpena,
