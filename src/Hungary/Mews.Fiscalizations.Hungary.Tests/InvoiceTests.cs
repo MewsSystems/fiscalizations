@@ -30,7 +30,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         public async Task SendLocalCompanyInvoiceSucceeds()
         {
             var receiver = Receiver.LocalCompany(
-                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get(),
+                taxpayerId: "10630433",
                 name: Models.Name.Create("Hungarian test company ltd.").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             );
@@ -75,7 +75,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
         {
             var receiver = Receiver.LocalCompany(
-                taxpayerId: TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get(),
+                taxpayerId: "10630433",
                 name: Models.Name.Create("Hungarian test company ltd.").Success.Get(),
                 address: CreateAddress(Countries.Hungary)
             ).Success.Get();

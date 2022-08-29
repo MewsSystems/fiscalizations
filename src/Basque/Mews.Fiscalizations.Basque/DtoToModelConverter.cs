@@ -1,6 +1,7 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Basque.Model;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Mews.Fiscalizations.Basque
@@ -15,7 +16,7 @@ namespace Mews.Fiscalizations.Basque
                 xmlResponseContent: xmlResponseContent,
                 qrCodeUri: qrCodeUri,
                 tbaiIdentifier: result.IdentificadorTBAI,
-                received: DateTime.Parse(result.FechaRecepcion),
+                received: DateTime.ParseExact(result.FechaRecepcion, "dd-MM-yyyy H:mm:ss", CultureInfo.InvariantCulture),
                 state: result.Estado,
                 description: result.Descripcion,
                 stateExplanation: result.Azalpena,

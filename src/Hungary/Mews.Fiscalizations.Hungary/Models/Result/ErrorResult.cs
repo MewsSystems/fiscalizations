@@ -34,6 +34,7 @@ namespace Mews.Fiscalizations.Hungary.Models
                 "MAINTENANCE_MODE", _ => ResultErrorCode.MaintenanceMode,
                 "FORBIDDEN", _ => ResultErrorCode.UnauthorizedUser,
                 "INVALID_REQUEST_SIGNATURE", _ => ResultErrorCode.InvalidSigningKey,
+                "INVALID_REQUEST", _ => ResultErrorCode.InvalidRequest,
                 _ => throw new NotImplementedException($"Error code: {errorCode} is not implemented.")
             );
         }

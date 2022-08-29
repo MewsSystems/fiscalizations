@@ -14,12 +14,18 @@ namespace Mews.Fiscalizations.Core.Model
 
         public string TaxpayerNumber { get; }
 
-        public static ITry<EuropeanUnionTaxpayerIdentificationNumber, Error> Create(EuropeanUnionCountry country, string taxpayerNumber)
+        public static ITry<EuropeanUnionTaxpayerIdentificationNumber, Error> Create(
+            EuropeanUnionCountry country,
+            string taxpayerNumber,
+            bool isCountryCodePrefixAllowed = true)
         {
             return ObjectValidations.NotNull(country).FlatMap(c =>
             {
-                var validNumber = StringValidations.RegexMatch(taxpayerNumber, country.TaxpayerNumberPattern);
-                return validNumber.Map(n => new EuropeanUnionTaxpayerIdentificationNumber(c, n));
+                var pattern = isCountryCodePrefixAllowed.Match(
+                    t => country.TaxpayerNumberPattern,
+                    f => country.TaxpayerNumberPatternWithoutCountryCodePrefix
+                );
+                return StringValidations.RegexMatch(taxpayerNumber, pattern).Map(n => new EuropeanUnionTaxpayerIdentificationNumber(c, n));
             });
         }
     }

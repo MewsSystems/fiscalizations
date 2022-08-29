@@ -15,7 +15,7 @@ namespace Mews.Fiscalizations.Hungary.Models
         {
         }
 
-        public static ITry<Receiver, Error> LocalCompany(TaxpayerIdentificationNumber taxpayerId, Name name, SimpleAddress address)
+        public static ITry<Receiver, Error> LocalCompany(string taxpayerId, Name name, SimpleAddress address)
         {
             return Models.LocalCompany.Create(taxpayerId, name, address).Map(c => new Receiver(new Company(c)));
         }
