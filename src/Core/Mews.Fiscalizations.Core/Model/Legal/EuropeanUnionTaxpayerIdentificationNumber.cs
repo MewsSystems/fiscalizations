@@ -21,14 +21,11 @@ namespace Mews.Fiscalizations.Core.Model
         {
             return ObjectValidations.NotNull(country).FlatMap(c =>
             {
-                var validNumber = StringValidations.RegexMatch(
-                    value: taxpayerNumber,
-                    pattern: isCountryCodePrefixAllowed.Match(
-                        t => country.RegexWithCountryCodePrefix,
-                        f => country.RegexWithoutCountryCodePrefix
-                    )
+                var pattern = isCountryCodePrefixAllowed.Match(
+                    t => country.TaxpayerNumberPattern,
+                    f => country.TaxpayerNumberPatternWithoutCountryCodePrefix
                 );
-                return validNumber.Map(n => new EuropeanUnionTaxpayerIdentificationNumber(c, n));
+                return StringValidations.RegexMatch(taxpayerNumber, pattern).Map(n => new EuropeanUnionTaxpayerIdentificationNumber(c, n));
             });
         }
     }

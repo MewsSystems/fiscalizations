@@ -20,7 +20,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public static ITry<LocalCompany, Error> Create(string taxpayerId, Name name, SimpleAddress address)
         {
-            return TaxpayerIdentificationNumber.Create(Countries.Hungary, taxpayerId).Map(n => new LocalCompany(n, name, address));
+            return TaxpayerIdentificationNumber.Create(Countries.Hungary, taxpayerId, isCountryCodePrefixAllowed: false).Map(n => new LocalCompany(n, name, address));
         }
     }
 }
