@@ -36,10 +36,10 @@ namespace Mews.Fiscalizations.Core.Model
             }
         }
 
-        public static ITry<TaxpayerIdentificationNumber, Error> Create(Country country, string taxpayerNumber)
+        public static ITry<TaxpayerIdentificationNumber, Error> Create(Country country, string taxpayerNumber, bool isCountryCodePrefixAllowed = true)
         {
             return ObjectValidations.NotNull(country).FlatMap(c => c.Match(
-                europeanUnionCountry => EuropeanUnionTaxpayerIdentificationNumber.Create(europeanUnionCountry, taxpayerNumber).Map(n => new TaxpayerIdentificationNumber(n)),
+                europeanUnionCountry => EuropeanUnionTaxpayerIdentificationNumber.Create(europeanUnionCountry, taxpayerNumber, isCountryCodePrefixAllowed).Map(n => new TaxpayerIdentificationNumber(n)),
                 nonEuropeanUnionCountry => NonEuropeanUnionTaxpayerIdentificationNumber.Create(nonEuropeanUnionCountry, taxpayerNumber).Map(n => new TaxpayerIdentificationNumber(n))
             ));
         }

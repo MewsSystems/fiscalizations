@@ -5,15 +5,18 @@ namespace Mews.Fiscalizations.Core.Model
 {
     public class EuropeanUnionCountry
     {
-        internal EuropeanUnionCountry(string alpha2Code, Regex taxpayerNumberPattern)
+        internal EuropeanUnionCountry(string alpha2Code, Regex regexWithCountryCodePrefix, Regex regexWithoutCountryCodePrefix)
         {
             Alpha2Code = alpha2Code;
-            TaxpayerNumberPattern = taxpayerNumberPattern;
+            RegexWithCountryCodePrefix = regexWithCountryCodePrefix;
+            RegexWithoutCountryCodePrefix = regexWithoutCountryCodePrefix;
         }
 
         public string Alpha2Code { get; }
 
-        public Regex TaxpayerNumberPattern { get; }
+        public Regex RegexWithCountryCodePrefix { get; }
+
+        public Regex RegexWithoutCountryCodePrefix { get; }
 
         public static IOption<EuropeanUnionCountry> GetByCode(string alpha2Code)
         {

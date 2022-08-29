@@ -19,7 +19,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
         [Test]
         public async Task GetTaxerpayerDataSucceeds()
         {
-            var taxpayer = TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433").Success.Get();
+            var taxpayer = TaxpayerIdentificationNumber.Create(Countries.Hungary, "10630433", isCountryCodePrefixAllowed: false).Success.Get();
             var taxpayerData = await NavClient.GetTaxPayerDataAsync(taxpayer);
             TestFixture.AssertResponse(taxpayerData);
         }
