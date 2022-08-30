@@ -81,7 +81,7 @@ namespace Mews.Fiscalizations.Hungary
                         supplierAddress = MapAddress(supplierInfo.Address),
                         supplierTaxNumber = new Dto.TaxNumberType
                         {
-                            taxpayerId = supplierInfo.TaxpayerId.TaxpayerNumber,
+                            taxpayerId = supplierInfo.TaxpayerId.Value.TaxpayerNumber,
                             vatCode = supplierInfo.VatCode.Value
                         }
                     },
@@ -105,7 +105,7 @@ namespace Mews.Fiscalizations.Hungary
                         customerVatData = receiver.Match(
                             customer => Option.Empty<Dto.CustomerVatDataType>(),
                             company => company.Match(
-                                local => GetCustomerVatDataType(local.TaxpayerId).ToOption(),
+                                local => GetCustomerVatDataType(local.TaxpayerId.Value).ToOption(),
                                 foreign => foreign.TaxpayerId.Map(i => GetCustomerVatDataType(i))
                             )
                         ).GetOrNull()
