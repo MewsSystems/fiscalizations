@@ -535,7 +535,7 @@ namespace Mews.Fiscalizations.Core.Model
 
         private static Country European(string alpha2Code, string taxpayerNumberPattern, string taxpayerNumberPatternWithoutCountryCodePrefix)
         {
-            return new Country(new EuropeanUnionCountry(alpha2Code, new Regex(taxpayerNumberPattern), new Regex(taxpayerNumberPattern)));
+            return new Country(new EuropeanUnionCountry(alpha2Code, new Regex(taxpayerNumberPattern), new Regex(taxpayerNumberPatternWithoutCountryCodePrefix)));
         }
 
         private static Country NonEuropean(string alpha2Code)

@@ -7,7 +7,7 @@ namespace Mews.Fiscalizations.Hungary.Tests
 {
     public static class TestFixture
     {
-        public static readonly TaxpayerIdentificationNumber TaxPayerId = TaxpayerIdentificationNumber.Create(Countries.Hungary, Environment.GetEnvironmentVariable("hungarian_tax_payer_id") ?? "INSERT_TAX_PAYER_ID", isCountryCodePrefixAllowed: false).Success.Get();
+        public static readonly LocalTaxpayerIdentificationNumber TaxPayerId = LocalTaxpayerIdentificationNumber.Create(Environment.GetEnvironmentVariable("hungarian_tax_payer_id") ?? "INSERT_TAX_PAYER_ID").Success.Get();
         private static readonly Login Login = Login.Create(Environment.GetEnvironmentVariable("hungarian_login") ?? "INSERT_LOGIN").Success.Get();
         private static readonly string Password = Environment.GetEnvironmentVariable("hungarian_password") ?? "INSERT_PASSWORD";
         private static readonly SigningKey SigningKey = SigningKey.Create(Environment.GetEnvironmentVariable("hungarian_signing_key") ?? "INSERT_SIGNING_KEY").Success.Get();

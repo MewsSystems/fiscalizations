@@ -4,7 +4,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 {
     public sealed class TechnicalUser
     {
-        public TechnicalUser(Login login, string password, SigningKey signingKey, TaxpayerIdentificationNumber taxId, EncryptionKey encryptionKey)
+        public TechnicalUser(Login login, string password, SigningKey signingKey, LocalTaxpayerIdentificationNumber taxId, EncryptionKey encryptionKey)
         {
             Login = Check.IsNotNull(login, nameof(login));
             PasswordHash = Utils.Sha512.GetHash(Check.IsNotNull(password, nameof(password)));
@@ -19,7 +19,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public SigningKey SigningKey { get; }
 
-        public TaxpayerIdentificationNumber TaxId { get; }
+        public LocalTaxpayerIdentificationNumber TaxId { get; }
 
         public EncryptionKey EncryptionKey { get; }
     }

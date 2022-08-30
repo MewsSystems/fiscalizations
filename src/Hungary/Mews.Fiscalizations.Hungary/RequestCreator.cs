@@ -110,7 +110,7 @@ namespace Mews.Fiscalizations.Hungary
                         cryptoType = PasswordEncryptionAlgorithm,
                         Value = user.PasswordHash
                     },
-                    taxNumber = user.TaxId.TaxpayerNumber,
+                    taxNumber = user.TaxId.Value.TaxpayerNumber,
                     requestSignature = new Dto.CryptoType
                     {
                         cryptoType = RequestEncryptionAlgorithm,
