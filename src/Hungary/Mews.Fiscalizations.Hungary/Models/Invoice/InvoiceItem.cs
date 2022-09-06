@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using System;
 
 namespace Mews.Fiscalizations.Hungary.Models
@@ -21,7 +22,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             MeasurementUnit = measurementUnit;
             Description = Check.IsNotNull(description, nameof(description));
             Quantity = quantity;
-            ExchangeRate = exchangeRate;
+            ExchangeRate = exchangeRate.ToOption();
             IsDeposit = isDeposit;
         }
 
@@ -37,7 +38,7 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public int Quantity { get; }
 
-        public ExchangeRate ExchangeRate { get; }
+        public IOption<ExchangeRate> ExchangeRate { get; }
 
         public bool IsDeposit { get; }
     }

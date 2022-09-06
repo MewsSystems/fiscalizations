@@ -22,7 +22,7 @@ namespace Mews.Fiscalizations.Hungary.Models
                 index: result.index,
                 value: new InvoiceStatus(
                     status: (InvoiceState)result.invoiceStatus,
-                    validationResults: InvoiceValidationResult.Map(result.businessValidationMessages, result.technicalValidationMessages).ToArray()
+                    validationResults: InvoiceValidationResult.Map(result.businessValidationMessages, result.technicalValidationMessages)
                 )
             );
         }

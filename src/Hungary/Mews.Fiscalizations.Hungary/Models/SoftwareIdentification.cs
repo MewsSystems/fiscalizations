@@ -1,10 +1,19 @@
+using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
     public sealed class SoftwareIdentification
     {
-        public SoftwareIdentification(string id, string name, SoftwareType type, string mainVersion, string developerName, string developerContact, string developerCountry = null, string developerTaxNumber = null)
+        public SoftwareIdentification(
+            string id,
+            string name,
+            SoftwareType type,
+            string mainVersion,
+            string developerName,
+            string developerContact,
+            string developerCountry = null,
+            string developerTaxNumber = null)
         {
             Id = Check.IsNotNull(id, nameof(id));
             Name = Check.IsNotNull(name, nameof(name));
@@ -12,8 +21,8 @@ namespace Mews.Fiscalizations.Hungary.Models
             MainVersion = Check.IsNotNull(mainVersion, nameof(mainVersion));
             DeveloperName = Check.IsNotNull(developerName, nameof(developerName));
             DeveloperContact = Check.IsNotNull(developerContact, nameof(developerContact));
-            DeveloperCountry = developerCountry;
-            DeveloperTaxNumber = developerTaxNumber;
+            DeveloperCountry = developerCountry.ToNonEmptyOption();
+            DeveloperTaxNumber = developerTaxNumber.ToNonEmptyOption();
         }
 
         public string Id { get; }
@@ -28,8 +37,8 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public string DeveloperContact { get; }
 
-        public string DeveloperCountry { get; }
+        public IOption<string> DeveloperCountry { get; }
 
-        public string DeveloperTaxNumber { get; }
+        public IOption<string> DeveloperTaxNumber { get; }
     }
 }

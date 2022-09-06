@@ -125,8 +125,8 @@ namespace Mews.Fiscalizations.Hungary
                     softwareMainVersion = software.MainVersion,
                     softwareDevName = software.DeveloperName,
                     softwareDevContact = software.DeveloperContact,
-                    softwareDevCountryCode = software.DeveloperCountry,
-                    softwareDevTaxNumber = software.DeveloperTaxNumber
+                    softwareDevCountryCode = software.DeveloperCountry.GetOrNull(),
+                    softwareDevTaxNumber = software.DeveloperTaxNumber.GetOrNull()
                 }
             };
         }

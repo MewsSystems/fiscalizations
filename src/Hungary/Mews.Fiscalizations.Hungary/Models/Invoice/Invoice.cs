@@ -77,9 +77,9 @@ namespace Mews.Fiscalizations.Hungary.Models
         {
             var itemsByTaxRate = indexedItems.Values.GroupBy(i => i.Value.TotalAmounts.TaxRatePercentage);
             var taxSummaryItems = itemsByTaxRate.Select(g => new TaxSummaryItem(
-                taxRatePercentage: g.Key,
                 amount: Amount.Sum(g.Select(i => i.Value.TotalAmounts.Amount)),
-                amountHUF: Amount.Sum(g.Select(i => i.Value.TotalAmounts.AmountHUF))
+                amountHUF: Amount.Sum(g.Select(i => i.Value.TotalAmounts.AmountHUF)),
+                taxRatePercentage: g.Key.ToNullable()
             ));
             return taxSummaryItems.AsList();
         }
