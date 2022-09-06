@@ -209,7 +209,7 @@ namespace Mews.Fiscalizations.Hungary
                     city = address.City.Value,
                     countryCode = address.Country.Alpha2Code,
                     postalCode = address.PostalCode.Value,
-                    region = address.Region?.Value
+                    region = address.Region.Map(r => r.Value).GetOrNull()
                 }
             };
         }
@@ -257,7 +257,7 @@ namespace Mews.Fiscalizations.Hungary
                 aggregateInvoiceLineData = new Dto.AggregateInvoiceLineDataType
                 {
                     lineExchangeRateSpecified = true,
-                    lineExchangeRate = i.Value.ExchangeRate?.Value ?? 0m,
+                    lineExchangeRate = i.Value.ExchangeRate.Map(r => r.Value).GetOrElse(0m),
                     lineDeliveryDate = i.Value.ConsumptionDate
                 },
                 lineModificationReference = modificationIndexOffset.HasValue ? GetLineModificationReference(i, modificationIndexOffset.Value) : null
@@ -273,22 +273,20 @@ namespace Mews.Fiscalizations.Hungary
             };
         }
 
-        private static Dto.VatRateType GetVatRate(decimal? taxRatePercentage)
+        private static Dto.VatRateType GetVatRate(IOption<decimal> taxRatePercentage)
         {
-            if (taxRatePercentage.HasValue)
-            {
-                return new Dto.VatRateType
+            return taxRatePercentage.Match(
+                p => new Dto.VatRateType
                 {
-                    Item = taxRatePercentage,
+                    Item = p,
                     ItemElementName = Dto.ItemChoiceType2.vatPercentage
-                };
-            }
-
-            return new Dto.VatRateType
-            {
-                Item = true,
-                ItemElementName = Dto.ItemChoiceType2.noVatCharge
-            };
+                },
+                _ => new Dto.VatRateType
+                {
+                    Item = true,
+                    ItemElementName = Dto.ItemChoiceType2.noVatCharge
+                }
+            );
         }
     }
 }

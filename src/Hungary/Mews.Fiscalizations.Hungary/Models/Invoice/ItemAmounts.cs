@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
@@ -8,7 +9,7 @@ namespace Mews.Fiscalizations.Hungary.Models
         {
             Amount = Check.IsNotNull(amount, nameof(amount));
             AmountHUF = Check.IsNotNull(amountHUF, nameof(amountHUF));
-            TaxRatePercentage = taxRatePercentage;
+            TaxRatePercentage = taxRatePercentage.ToOption();
 
             if (taxRatePercentage.HasValue)
             {
@@ -20,6 +21,6 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public Amount AmountHUF { get; }
 
-        public decimal? TaxRatePercentage { get; }
+        public IOption<decimal> TaxRatePercentage { get; }
     }
 }

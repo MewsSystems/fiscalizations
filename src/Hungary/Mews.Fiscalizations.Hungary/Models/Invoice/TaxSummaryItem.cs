@@ -1,18 +1,20 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿using FuncSharp;
+
+namespace Mews.Fiscalizations.Hungary.Models
 {
     public sealed class TaxSummaryItem
     {
-        public TaxSummaryItem(decimal? taxRatePercentage, Amount amount, Amount amountHUF)
+        public TaxSummaryItem(Amount amount, Amount amountHUF, decimal? taxRatePercentage = null)
         {
-            TaxRatePercentage = taxRatePercentage;
             Amount = amount;
             AmountHUF = amountHUF;
+            TaxRatePercentage = taxRatePercentage.ToOption();
         }
-
-        public decimal? TaxRatePercentage { get; }
 
         public Amount Amount { get; }
 
         public Amount AmountHUF { get; }
+
+        public IOption<decimal> TaxRatePercentage { get; }
     }
 }

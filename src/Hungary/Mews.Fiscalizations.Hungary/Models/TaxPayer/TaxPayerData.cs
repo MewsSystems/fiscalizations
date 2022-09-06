@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FuncSharp;
+using System;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
@@ -11,7 +12,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             Address = address;
             VatCode = vatCode;
             IncorporationType = incorporationType;
-            InfoDate = infoDate;
+            InfoDate = infoDate.ToOption();
         }
 
         public string Id { get; }
@@ -24,6 +25,6 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public IncorporationType IncorporationType { get; }
 
-        public DateTime? InfoDate { get; }
+        public IOption<DateTime> InfoDate { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Hungary.Models
 {
@@ -10,7 +11,7 @@ namespace Mews.Fiscalizations.Hungary.Models
             Country = Check.IsNotNull(country, nameof(country));
             AddtionalAddressDetail = Check.IsNotNull(additionalAddressDetail, nameof(additionalAddressDetail));
             PostalCode = Check.IsNotNull(postalCode, nameof(postalCode));
-            Region = region;
+            Region = region.ToOption();
         }
 
         public City City { get; }
@@ -21,6 +22,6 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         public PostalCode PostalCode { get; }
 
-        public Region Region { get; }
+        public IOption<Region> Region { get; }
     }
 }
