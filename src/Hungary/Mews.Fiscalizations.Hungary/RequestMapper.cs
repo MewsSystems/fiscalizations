@@ -278,7 +278,7 @@ namespace Mews.Fiscalizations.Hungary
             return taxRatePercentage.Match(
                 p => new Dto.VatRateType
                 {
-                    Item = taxRatePercentage,
+                    Item = p,
                     ItemElementName = Dto.ItemChoiceType2.vatPercentage
                 },
                 _ => new Dto.VatRateType
