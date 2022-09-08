@@ -2,14 +2,14 @@
 {
     public sealed class SendInvoiceValidationResult
     {
-        public SendInvoiceValidationResult(string errorCode, string description, string explanation)
+        public SendInvoiceValidationResult(ErrorCode errorCode, string description, string explanation)
         {
             ErrorCode = errorCode;
             Description = description;
             Explanation = explanation;
         }
 
-        public string ErrorCode { get; } // TODO: enum?
+        public ErrorCode ErrorCode { get; }
 
         public string Description { get; }
 
