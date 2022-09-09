@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
+using System.Linq;
 
 namespace Mews.Fiscalizations.Basque
 {
@@ -51,7 +52,9 @@ namespace Mews.Fiscalizations.Basque
                 invoiceNumber: header.Number.Value,
                 total: data.TotalAmount
             );
-            return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.OuterXml, responseContent);
+            var signatureValue = xmlDoc.GetElementsByTagName("SignatureValue")[0].InnerText;
+            var trimmedSignature = String1To100.CreateUnsafe(signatureValue.Substring(0, Math.Min(signatureValue.Length, 100)));
+            return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.OuterXml, responseContent, trimmedSignature);
         }
 
         private void SignXml(XmlDocument xmlDoc)

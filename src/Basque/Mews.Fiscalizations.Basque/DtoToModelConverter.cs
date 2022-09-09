@@ -1,5 +1,6 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Basque.Model;
+using Mews.Fiscalizations.Core.Model;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -8,7 +9,12 @@ namespace Mews.Fiscalizations.Basque
 {
     internal static class DtoToModelConverter
     {
-        public static SendInvoiceResponse Convert(Dto.TicketBaiResponse response, string qrCodeUri, string xmlRequestContent, string xmlResponseContent)
+        public static SendInvoiceResponse Convert(
+            Dto.TicketBaiResponse response,
+            string qrCodeUri,
+            string xmlRequestContent,
+            string xmlResponseContent,
+            String1To100 signatureValue)
         {
             var result = response.Salida;
             return new SendInvoiceResponse(
@@ -20,6 +26,7 @@ namespace Mews.Fiscalizations.Basque
                 state: ParseEnum<InvoiceState>(result.Estado),
                 description: result.Descripcion,
                 stateExplanation: result.Azalpena,
+                signatureValue: signatureValue,
                 csv: result.CSV,
                 validationResults: result.ResultadosValidacion?.Select(v => Convert(v))
             );
