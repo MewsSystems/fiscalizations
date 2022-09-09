@@ -17,7 +17,7 @@ namespace Mews.Fiscalizations.Basque
                 qrCodeUri: qrCodeUri,
                 tbaiIdentifier: result.IdentificadorTBAI,
                 received: DateTime.ParseExact(result.FechaRecepcion, "dd-MM-yyyy H:mm:ss", CultureInfo.InvariantCulture),
-                state: result.Estado,
+                state: ParseEnum<InvoiceState>(result.Estado),
                 description: result.Descripcion,
                 stateExplanation: result.Azalpena,
                 csv: result.CSV,
@@ -27,7 +27,16 @@ namespace Mews.Fiscalizations.Basque
 
         private static SendInvoiceValidationResult Convert(Dto.ResultadosValidacion validation)
         {
-            return new SendInvoiceValidationResult(validation.Codigo, validation.Descripcion, validation.Azalpena);
+            return new SendInvoiceValidationResult(ParseEnum<ErrorCode>(validation.Codigo), validation.Descripcion, validation.Azalpena);
+        }
+
+        private static T ParseEnum<T>(string value)
+            where T : struct
+        {
+            return Enum.TryParse<T>(value, out var result).Match(
+                u => result,
+                _ => throw new NotImplementedException($"{value} is not implemented in {typeof(T).Name}.")
+            );
         }
     }
 }

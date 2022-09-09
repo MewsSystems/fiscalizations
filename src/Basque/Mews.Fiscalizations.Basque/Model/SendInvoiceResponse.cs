@@ -12,7 +12,7 @@ namespace Mews.Fiscalizations.Basque.Model
             string qrCodeUri,
             string tbaiIdentifier,
             DateTime received,
-            string state,
+            InvoiceState state,
             string description,
             string stateExplanation,
             string csv,
@@ -40,7 +40,7 @@ namespace Mews.Fiscalizations.Basque.Model
 
         public DateTime Received { get; }
 
-        public string State { get; } // TODO: enum?
+        public InvoiceState State { get; }
 
         public string Description { get; }
 
