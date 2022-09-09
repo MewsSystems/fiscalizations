@@ -65,5 +65,7 @@
         // At least one recipient must be informed when the Simplified Invoice field is ·N· or is not
         // informed or when the Simplified Substitution Issued Invoice field is ·S· or when the Code of Corrective Invoice is not ·R5·
 
+        // TODO: complete the list.
+
     }
 }
