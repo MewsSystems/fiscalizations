@@ -24,12 +24,31 @@ namespace Mews.Fiscalizations.Basque.Tests
             TestFixture.AssertResponse(response);
         }
 
-        internal static SendInvoiceRequest CreateInvoiceRequest(bool localReceivers, bool negativeInvoice)
+        [Test]
+        [Retry(3)]
+        public async Task SendChainedInvoiceSucceeds()
+        {
+            var request1 = CreateInvoiceRequest(localReceivers: true, negativeInvoice: false);
+            var response1 = await TestFixture.Client.SendInvoiceAsync(request1);
+            TestFixture.AssertResponse(response1);
+
+            var originalInvoiceHeader = request1.Invoice.Header;
+            var request2 = CreateInvoiceRequest(localReceivers: true, negativeInvoice: false, originalInvoiceInfo: new OriginalInvoiceInfo(
+                number: originalInvoiceHeader.Number,
+                issueDate: originalInvoiceHeader.Issued,
+                signature: response1.SignatureValue,
+                series: originalInvoiceHeader.Series.GetOrNull()
+            ));
+            var response2 = await TestFixture.Client.SendInvoiceAsync(request2);
+            TestFixture.AssertResponse(response2);
+        }
+
+        internal static SendInvoiceRequest CreateInvoiceRequest(bool localReceivers, bool negativeInvoice, OriginalInvoiceInfo originalInvoiceInfo = null)
         {
             return new SendInvoiceRequest(
                 subject: CreateSubject(localReceivers),
                 invoice: CreateInvoice(localReceivers, negativeInvoice),
-                invoiceFooter: new InvoiceFooter(TestFixture.Software)
+                invoiceFooter: new InvoiceFooter(TestFixture.Software, originalInvoiceInfo: originalInvoiceInfo)
             );
         }
 

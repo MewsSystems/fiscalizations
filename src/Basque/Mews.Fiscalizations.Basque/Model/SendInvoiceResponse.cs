@@ -1,4 +1,5 @@
 ﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +16,7 @@ namespace Mews.Fiscalizations.Basque.Model
             InvoiceState state,
             string description,
             string stateExplanation,
+            String1To100 signatureValue,
             string csv,
             IEnumerable<SendInvoiceValidationResult> validationResults = null)
         {
@@ -26,6 +28,7 @@ namespace Mews.Fiscalizations.Basque.Model
             State = state;
             Description = description;
             StateExplanation = stateExplanation;
+            SignatureValue = signatureValue;
             CSV = csv.ToNonEmptyOption();
             ValidationResults = validationResults.ToOption();
         }
@@ -45,6 +48,8 @@ namespace Mews.Fiscalizations.Basque.Model
         public string Description { get; }
 
         public string StateExplanation { get; }
+
+        public String1To100 SignatureValue { get; }
 
         public IOption<string> CSV { get; }
 
