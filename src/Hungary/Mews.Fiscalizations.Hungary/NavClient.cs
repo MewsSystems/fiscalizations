@@ -36,7 +36,7 @@ namespace Mews.Fiscalizations.Hungary
             return Client.ProcessRequestAsync<Dto.TokenExchangeRequest, Dto.TokenExchangeResponse, ExchangeToken, ExchangeTokenErrorCode>(
                 endpoint: "tokenExchange",
                 request: request,
-                successFunc: response => ModelMapper.MapExchangeToken(response, TechnicalUser)
+                successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapExchangeToken(requestXml, responseXml, responseDto, TechnicalUser)
             );
         }
 
@@ -51,7 +51,7 @@ namespace Mews.Fiscalizations.Hungary
             return Client.ProcessRequestAsync<Dto.QueryTransactionStatusRequest, Dto.QueryTransactionStatusResponse, TransactionStatus, TransactionErrorCode>(
                 endpoint: "queryTransactionStatus",
                 request: request,
-                successFunc: response => ModelMapper.MapTransactionStatus(response)
+                successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapTransactionStatus(requestXml, responseXml, responseDto)
             );
         }
 
@@ -61,7 +61,7 @@ namespace Mews.Fiscalizations.Hungary
             return Client.ProcessRequestAsync<Dto.QueryTaxpayerRequest, Dto.QueryTaxpayerResponse, TaxPayerData, TaxPayerErrorCode>(
                 endpoint: "queryTaxpayer",
                 request: request,
-                successFunc: response => ModelMapper.MapTaxPayerData(response)
+                successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapTaxPayerData(requestXml, responseXml, responseDto)
             );
         }
 
@@ -92,7 +92,7 @@ namespace Mews.Fiscalizations.Hungary
             return Client.ProcessRequestAsync<Dto.ManageInvoiceRequest, Dto.ManageInvoiceResponse, string, ResultErrorCode>(
                 endpoint: "manageInvoice",
                 request: request,
-                successFunc: response => ModelMapper.MapManageInvoice(response)
+                successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapManageInvoice(requestXml, responseXml, responseDto)
             );
         }
     }

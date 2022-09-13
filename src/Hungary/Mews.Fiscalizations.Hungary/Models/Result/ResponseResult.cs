@@ -4,12 +4,23 @@
         where TResult : class
         where TCode : struct
     {
-        public ResponseResult(TResult successResult = null, ErrorResult<ResultErrorCode> generalErrorMessage = null, ErrorResult<TCode> operationErrorResult = null)
+        public ResponseResult(
+            string requestXml,
+            string responseXml,
+            TResult successResult = null,
+            ErrorResult<ResultErrorCode> generalErrorMessage = null,
+            ErrorResult<TCode> operationErrorResult = null)
         {
+            RequestXml = requestXml;
+            ResponseXml = responseXml;
             SuccessResult = successResult;
             GeneralErrorResult = generalErrorMessage;
             OperationalErrorResult = operationErrorResult;
         }
+
+        public string RequestXml { get; }
+
+        public string ResponseXml { get; }
 
         public TResult SuccessResult { get; }
 

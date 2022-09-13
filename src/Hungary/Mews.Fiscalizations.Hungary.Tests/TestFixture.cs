@@ -1,5 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Hungary.Models;
+﻿using Mews.Fiscalizations.Hungary.Models;
 using NUnit.Framework;
 using System;
 
@@ -37,6 +36,8 @@ namespace Mews.Fiscalizations.Hungary.Tests
             where TResult : class
             where TCode : struct
         {
+            Assert.IsNotEmpty(responseResult.ResponseXml);
+            Assert.IsNotEmpty(responseResult.RequestXml);
             Assert.IsNotNull(responseResult.SuccessResult);
             Assert.IsNull(responseResult.GeneralErrorResult);
             Assert.IsNull(responseResult.OperationalErrorResult);
