@@ -53,7 +53,7 @@ namespace Mews.Fiscalizations.Hungary.Utils
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                return successFunc(XmlSerializer.Deserialize<TDto>(content), XmlSerializer.Serialize(xmlRequest).OuterXml, content);
+                return successFunc(XmlSerializer.Deserialize<TDto>(content), xmlRequest.OuterXml, content);
             }
             else
             {
