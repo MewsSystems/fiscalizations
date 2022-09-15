@@ -307,6 +307,11 @@ namespace Mews.Fiscalizations.Spain.Converters
 
         private CountryType2 Convert(Country country)
         {
+            // SII country list Dto doesn't recognize Kosovo country code, so its being reported as Serbia.
+            if (country.Equals(Countries.Kosovo))
+            {
+                return CountryType2.RS;
+            }
             var alpha2Code = country.Alpha2Code;
             var result = alpha2Code.ToEnum<CountryType2>();
             return result.Get(_ => new Exception($"{alpha2Code} is not defined in {nameof(CountryType2)}."));
