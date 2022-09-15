@@ -307,7 +307,7 @@ namespace Mews.Fiscalizations.Spain.Converters
 
         private CountryType2 Convert(Country country)
         {
-            // SII doesn't recognize Kosov country code, so its being reported as Serbia.
+            // SII country list Dto doesn't recognize Kosovo country code, so its being reported as Serbia.
             if (country.Equals(Countries.Kosovo))
             {
                 return CountryType2.RS;
