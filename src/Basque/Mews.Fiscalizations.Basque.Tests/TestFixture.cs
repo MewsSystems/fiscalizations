@@ -21,8 +21,6 @@ namespace Mews.Fiscalizations.Basque.Tests
             taxpayerNumber: System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID"
         ).Success.Get();
 
-        internal static readonly Issuer Issuer = new Issuer(LocalNif, Name.CreateUnsafe("Test issuing company"));
-
         public TestFixture(Region region)
         {
             Region = region;
@@ -33,10 +31,7 @@ namespace Mews.Fiscalizations.Basque.Tests
         internal TicketBaiClient Client => new TicketBaiClient(Certificate, Region, Environment.Test);
 
         internal Software Software => Software.LocalSoftwareDeveloper(
-            nif: Region.Match(
-                Region.Gipuzkoa, _ => Issuer.Nif,
-                Region.Alaba, _ => TaxpayerIdentificationNumber.Create(Countries.Spain, "A01111111").Success.Get() // For Alaba, the NIF must be registered in the region.
-            ),
+            nif: LocalNif,
             license: Region.Match(
                 Region.Alaba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_alaba_license") ?? "INSERT_LICENSE"),
                 Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE")
@@ -44,6 +39,11 @@ namespace Mews.Fiscalizations.Basque.Tests
             name: String1To120.CreateUnsafe("Test"),
             version: String1To20.CreateUnsafe("1.0.0")
         );
+
+        internal Issuer Issuer => new Issuer(name: Name.CreateUnsafe("Test issuing company"), nif: Region.Match(
+            Region.Gipuzkoa, _ => LocalNif,
+            Region.Alaba, _ => TaxpayerIdentificationNumber.Create(Countries.Spain, "A01111111").Success.Get() // For Alaba, the NIF must be registered in the region.
+        ));
 
         internal static void AssertResponse(Region region, SendInvoiceResponse response)
         {

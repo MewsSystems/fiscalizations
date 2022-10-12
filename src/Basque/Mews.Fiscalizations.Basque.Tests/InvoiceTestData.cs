@@ -8,10 +8,10 @@ namespace Mews.Fiscalizations.Basque.Tests
 {
     internal sealed class InvoiceTestData
     {
-        internal static SendInvoiceRequest CreateInvoiceRequest(Software software, bool localReceivers, bool negativeInvoice, OriginalInvoiceInfo originalInvoiceInfo = null)
+        internal static SendInvoiceRequest CreateInvoiceRequest(Issuer issuer, Software software, bool localReceivers, bool negativeInvoice, OriginalInvoiceInfo originalInvoiceInfo = null)
         {
             return new SendInvoiceRequest(
-                subject: CreateSubject(localReceivers),
+                subject: CreateSubject(issuer, localReceivers),
                 invoice: CreateInvoice(localReceivers, negativeInvoice),
                 invoiceFooter: new InvoiceFooter(software, originalInvoiceInfo: originalInvoiceInfo)
             );
@@ -114,9 +114,9 @@ namespace Mews.Fiscalizations.Basque.Tests
             );
         }
 
-        private static Subject CreateSubject(bool localReceivers)
+        private static Subject CreateSubject(Issuer issuer, bool localReceivers)
         {
-            return Subject.Create(TestFixture.Issuer, CreateReceivers(localReceivers), IssuerType.IssuedByThirdParty).Success.Get();
+            return Subject.Create(issuer, CreateReceivers(localReceivers), IssuerType.IssuedByThirdParty).Success.Get();
         }
 
         private static INonEmptyEnumerable<Receiver> CreateReceivers(bool localReceivers)

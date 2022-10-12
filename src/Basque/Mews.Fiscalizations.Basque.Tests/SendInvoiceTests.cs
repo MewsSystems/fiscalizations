@@ -21,7 +21,7 @@ namespace Mews.Fiscalizations.Basque.Tests
         public async Task SendSimpleInvoiceSucceeds(Region region, bool localReceivers, bool negativeInvoice)
         {
             var testFixture = new TestFixture(region);
-            var request = InvoiceTestData.CreateInvoiceRequest(testFixture.Software, localReceivers, negativeInvoice);
+            var request = InvoiceTestData.CreateInvoiceRequest(testFixture.Issuer, testFixture.Software, localReceivers, negativeInvoice);
             var response = await testFixture.Client.SendInvoiceAsync(request);
             TestFixture.AssertResponse(region, response);
         }
@@ -33,12 +33,12 @@ namespace Mews.Fiscalizations.Basque.Tests
         public async Task SendChainedInvoiceSucceeds(Region region)
         {
             var testFixture = new TestFixture(region);
-            var request1 = InvoiceTestData.CreateInvoiceRequest(testFixture.Software, localReceivers: true, negativeInvoice: false);
+            var request1 = InvoiceTestData.CreateInvoiceRequest(testFixture.Issuer, testFixture.Software, localReceivers: true, negativeInvoice: false);
             var response1 = await testFixture.Client.SendInvoiceAsync(request1);
             TestFixture.AssertResponse(region, response1);
 
             var originalInvoiceHeader = request1.Invoice.Header;
-            var request2 = InvoiceTestData.CreateInvoiceRequest(testFixture.Software, localReceivers: true, negativeInvoice: false, originalInvoiceInfo: new OriginalInvoiceInfo(
+            var request2 = InvoiceTestData.CreateInvoiceRequest(testFixture.Issuer, testFixture.Software, localReceivers: true, negativeInvoice: false, originalInvoiceInfo: new OriginalInvoiceInfo(
                 number: originalInvoiceHeader.Number,
                 issueDate: originalInvoiceHeader.Issued,
                 signature: response1.SignatureValue,
