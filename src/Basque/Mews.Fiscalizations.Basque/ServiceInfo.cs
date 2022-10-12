@@ -1,43 +1,64 @@
-﻿using Mews.Fiscalizations.Basque.Dto;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Basque.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Mews.Fiscalizations.Basque
 {
-    public static class ServiceInfo
+    public sealed class ServiceInfo
     {
-        internal static IDVersionTicketBaiType1 Version { get; }
-
-        internal static Dictionary<Environment, Uri> InvoiceBaseUrls { get; }
-
-        internal static Dictionary<Environment, Uri> QrBaseUrls { get; }
-
-        internal static Uri RelativeSendInvoiceUri { get; }
-
-        internal static Uri RelativeQrCodeUri { get; }
-
-        internal static Encoding Encoding { get; }
-
-        static ServiceInfo()
+        public ServiceInfo(Region region)
         {
             Version = IDVersionTicketBaiType1.Item12;
-            InvoiceBaseUrls = new Dictionary<Environment, Uri>
-            {
-                [Environment.Test] = new Uri("https://tbai-z.prep.gipuzkoa.eus"),
-                [Environment.Production] = new Uri("https://tbai-z.egoitza.gipuzkoa.eus")
-            };
-            QrBaseUrls = new Dictionary<Environment, Uri>
-            {
-                [Environment.Test] = new Uri("https://tbai.prep.gipuzkoa.eus"),
-                [Environment.Production] = new Uri("https://tbai.egoitza.gipuzkoa.eus")
-            };
-            RelativeSendInvoiceUri = new Uri("sarrerak/alta/", UriKind.Relative);
-            RelativeQrCodeUri = new Uri("qr/", UriKind.Relative);
+            InvoiceBaseUrls = region.Match(
+                Region.Gipuzkoa, _ => new Dictionary<Environment, Uri>
+                {
+                    [Environment.Test] = new Uri("https://tbai-z.prep.gipuzkoa.eus"),
+                    [Environment.Production] = new Uri("https://tbai-z.egoitza.gipuzkoa.eus")
+                },
+                Region.Alaba, _ => new Dictionary<Environment, Uri>
+                {
+                    [Environment.Test] = new Uri("https://pruebas-ticketbai.araba.eus"),
+                    [Environment.Production] = new Uri("https://ticketbai.araba.eus")
+                }
+            );
+            QrBaseUrls = region.Match(
+                Region.Gipuzkoa, _ => new Dictionary<Environment, Uri>
+                {
+                    [Environment.Test] = new Uri("https://tbai.prep.gipuzkoa.eus"),
+                    [Environment.Production] = new Uri("https://tbai.egoitza.gipuzkoa.eus")
+                },
+                Region.Alaba, _ => new Dictionary<Environment, Uri>
+                {
+                    [Environment.Test] = new Uri("https://pruebas-ticketbai.araba.eus"),
+                    [Environment.Production] = new Uri("https://ticketbai.araba.eus")
+                }
+            );
+            RelativeSendInvoiceUri = region.Match(
+                Region.Gipuzkoa, _ => new Uri("sarrerak/alta/", UriKind.Relative),
+                Region.Alaba, _ => new Uri("TicketBAI/v1/facturas/", UriKind.Relative)
+            );
+            RelativeQrCodeUri = region.Match(
+                Region.Gipuzkoa, _ => new Uri("qr/", UriKind.Relative),
+                Region.Alaba, _ => new Uri("tbai/qrtbai/", UriKind.Relative)
+            );
             Encoding = Encoding.UTF8;
         }
 
-        internal static Uri SendInvoiceUri(Environment environment)
+        internal IDVersionTicketBaiType1 Version { get; }
+
+        internal Dictionary<Environment, Uri> InvoiceBaseUrls { get; }
+
+        internal Dictionary<Environment, Uri> QrBaseUrls { get; }
+
+        internal Uri RelativeSendInvoiceUri { get; }
+
+        internal Uri RelativeQrCodeUri { get; }
+
+        internal Encoding Encoding { get; }
+
+        internal Uri SendInvoiceUri(Environment environment)
         {
             return new Uri(InvoiceBaseUrls[environment], RelativeSendInvoiceUri);
         }

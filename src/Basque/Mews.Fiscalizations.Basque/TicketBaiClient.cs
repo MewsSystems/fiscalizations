@@ -13,10 +13,11 @@ namespace Mews.Fiscalizations.Basque
 {
     public sealed class TicketBaiClient
     {
-        public TicketBaiClient(X509Certificate2 certificate, Environment environment)
+        public TicketBaiClient(X509Certificate2 certificate, Region region, Environment environment)
         {
-            Environment = environment;
             Certificate = certificate;
+            Environment = environment;
+            ServiceInfo = new ServiceInfo(region);
 
             var requestHandler = new HttpClientHandler();
             requestHandler.ClientCertificates.Add(certificate);
@@ -29,9 +30,11 @@ namespace Mews.Fiscalizations.Basque
 
         private Environment Environment { get; }
 
+        private ServiceInfo ServiceInfo { get; }
+
         public async Task<SendInvoiceResponse> SendInvoiceAsync(SendInvoiceRequest request)
         {
-            var ticketBaiRequest = ModelToDtoConverter.Convert(request);
+            var ticketBaiRequest = ModelToDtoConverter.Convert(request, ServiceInfo);
             var xmlDoc = XmlSerializer.Serialize(ticketBaiRequest, new XmlSerializationParameters(
                 encoding: ServiceInfo.Encoding,
                 namespaces: NonEmptyEnumerable.Create(new XmlNamespace("http://www.w3.org/2000/09/xmldsig#"))
@@ -46,6 +49,7 @@ namespace Mews.Fiscalizations.Basque
             var header = request.Invoice.Header;
             var data = request.Invoice.InvoiceData;
             var qrCodeUri = QrCodeUriGenerator.Generate(
+                serviceInfo: ServiceInfo,
                 environment: Environment,
                 tbaiIdentifier: ticketBaiResponse.Salida.IdentificadorTBAI,
                 invoiceSeries: header.Series,
