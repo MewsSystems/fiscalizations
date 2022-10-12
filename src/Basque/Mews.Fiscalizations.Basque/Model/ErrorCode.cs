@@ -29,6 +29,9 @@
         // The signature must be valid or the signing certificate must not be expired (more than one month).
         InvalidSignatureOrSigningCertificate = 08,
 
+        // Invalid or missing chain.
+        InvalidOrMissingInvoiceChain = 09,
+
         // The rectified (Corrected) invoice is not indicated.
         CorrectedInvoiceNotIndicated = 011,
 

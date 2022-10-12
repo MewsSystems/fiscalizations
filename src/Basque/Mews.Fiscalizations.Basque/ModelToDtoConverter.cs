@@ -9,13 +9,13 @@ namespace Mews.Fiscalizations.Basque
 {
     internal static class ModelToDtoConverter
     {
-        public static Dto.TicketBai Convert(SendInvoiceRequest sendInvoiceRequest)
+        public static Dto.TicketBai Convert(SendInvoiceRequest sendInvoiceRequest, ServiceInfo serviceInfo)
         {
             return new Dto.TicketBai
             {
                 Cabecera = new Cabecera1
                 {
-                    IDVersionTBAI = ServiceInfo.Version
+                    IDVersionTBAI = serviceInfo.Version
                 },
                 Sujetos = Convert(sendInvoiceRequest.Subject),
                 Factura = Convert(sendInvoiceRequest.Invoice),

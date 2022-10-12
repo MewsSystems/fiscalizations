@@ -50,21 +50,27 @@ namespace Mews.Fiscalizations.Basque
         /// Total amount (i) and the CRC-8 error-detecting-code (cr).
         /// Example: https://batuz.eus/QRTBAI/?id=TBAI-00000006Y-251019-btFpwP8dcLGAF-237&s=T&nf=27174&i=4.70&cr=007
         /// </summary>
-        internal static string Generate(Environment environment, string tbaiIdentifier, IOption<String1To20> invoiceSeries, string invoiceNumber, decimal total)
+        internal static string Generate(
+            ServiceInfo serviceInfo,
+            Environment environment,
+            string tbaiIdentifier,
+            IOption<String1To20> invoiceSeries,
+            string invoiceNumber,
+            decimal total)
         {
-            var qrUri = $"{ServiceInfo.QrBaseUrls[environment]}{ServiceInfo.RelativeQrCodeUri}?id={tbaiIdentifier}";
+            var qrUri = $"{serviceInfo.QrBaseUrls[environment]}{serviceInfo.RelativeQrCodeUri}?id={tbaiIdentifier}";
             var query = QueryHelpers.AddQueryString(qrUri, new Dictionary<string, string>
             {
                 { "s", invoiceSeries.Map(s => s.Value).GetOrElse("") },
                 { "nf", invoiceNumber },
                 { "i", total.ToString(CultureInfo.InvariantCulture) }
             });
-            return QueryHelpers.AddQueryString(query, "cr", GetCyclicRedundancyCheckDigits(query));
+            return QueryHelpers.AddQueryString(query, "cr", GetCyclicRedundancyCheckDigits(query, serviceInfo));
         }
 
-        private static string GetCyclicRedundancyCheckDigits(string qrCodeUri)
+        private static string GetCyclicRedundancyCheckDigits(string qrCodeUri, ServiceInfo serviceInfo)
         {
-            var data = ServiceInfo.Encoding.GetBytes(qrCodeUri);
+            var data = serviceInfo.Encoding.GetBytes(qrCodeUri);
             var crc = (byte)0;
             for (int i = 0; i < data.Length; i++)
             {
