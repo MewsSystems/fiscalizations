@@ -25,7 +25,7 @@ namespace Mews.Fiscalizations.Core.Model
                     t => country.TaxpayerNumberPattern,
                     f => country.TaxpayerNumberPatternWithoutCountryCodePrefix
                 );
-                return StringValidations.RegexMatch(taxpayerNumber, pattern).Map(n => new EuropeanUnionTaxpayerIdentificationNumber(c, n));
+                return StringValidations.RegexMatch(taxpayerNumber.Trim(), pattern).Map(n => new EuropeanUnionTaxpayerIdentificationNumber(c, n));
             });
         }
     }

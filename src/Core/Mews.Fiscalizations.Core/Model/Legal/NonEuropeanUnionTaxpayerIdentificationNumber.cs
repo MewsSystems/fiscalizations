@@ -19,7 +19,7 @@ namespace Mews.Fiscalizations.Core.Model
             return ObjectValidations.NotNull(country).FlatMap(c =>
             {
                 var nonEmptyNumber = StringValidations.NonEmpty(taxpayerNumber);
-                return nonEmptyNumber.Map(n => new NonEuropeanUnionTaxpayerIdentificationNumber(c, n));
+                return nonEmptyNumber.Map(n => new NonEuropeanUnionTaxpayerIdentificationNumber(c, n.Trim()));
             });
         }
     }

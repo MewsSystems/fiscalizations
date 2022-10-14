@@ -33,7 +33,7 @@ namespace Mews.Fiscalizations.Basque.Tests
         internal Software Software => Software.LocalSoftwareDeveloper(
             nif: LocalNif,
             license: Region.Match(
-                Region.Alaba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_alaba_license") ?? "INSERT_LICENSE"),
+                Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
                 Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE")
             ),
             name: String1To120.CreateUnsafe("Test"),
@@ -42,17 +42,17 @@ namespace Mews.Fiscalizations.Basque.Tests
 
         internal Issuer Issuer => new Issuer(name: Name.CreateUnsafe("Test issuing company"), nif: Region.Match(
             Region.Gipuzkoa, _ => LocalNif,
-            Region.Alaba, _ => TaxpayerIdentificationNumber.Create(Countries.Spain, "A01111111").Success.Get() // For Alaba, the NIF must be registered in the region.
+            Region.Araba, _ => TaxpayerIdentificationNumber.Create(Countries.Spain, "A01111111").Success.Get() // For Araba, the NIF must be registered in the region.
         ));
 
         internal static void AssertResponse(Region region, SendInvoiceResponse response)
         {
             var validationResults = response.ValidationResults.Flatten();
 
-            // Alaba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
+            // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
             var applicableValidationResults = region.Match(
                 Region.Gipuzkoa, _ => validationResults,
-                Region.Alaba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain))
+                Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain))
             );
             Assert.IsEmpty(applicableValidationResults);
             Assert.IsNotEmpty(response.QrCodeUri);

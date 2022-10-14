@@ -9,10 +9,10 @@ namespace Mews.Fiscalizations.Basque.Tests
     public class SendInvoiceTests
     {
         [Test]
-        [TestCase(Region.Alaba, false, false, TestName = "Alaba - Send invoice with local receiver")]
-        [TestCase(Region.Alaba, true, false, TestName = "Alaba - Send invoice with foreign receiver")]
-        [TestCase(Region.Alaba, false, true, TestName = "Alaba - Send negative invoice with local receiver")]
-        [TestCase(Region.Alaba, true, true, TestName = "Alaba - Send negative invoice with foreign receiver")]
+        [TestCase(Region.Araba, false, false, TestName = "Araba - Send invoice with local receiver")]
+        [TestCase(Region.Araba, true, false, TestName = "Araba - Send invoice with foreign receiver")]
+        [TestCase(Region.Araba, false, true, TestName = "Araba - Send negative invoice with local receiver")]
+        [TestCase(Region.Araba, true, true, TestName = "Araba - Send negative invoice with foreign receiver")]
         [TestCase(Region.Gipuzkoa, false, false, TestName = "Gipuzkoa - Send invoice with local receiver")]
         [TestCase(Region.Gipuzkoa, true, false, TestName = "Gipuzkoa - Send invoice with foreign receiver")]
         [TestCase(Region.Gipuzkoa, false, true, TestName = "Gipuzkoa - Send negative invoice with local receiver")]
@@ -27,7 +27,7 @@ namespace Mews.Fiscalizations.Basque.Tests
         }
 
         [Test]
-        [TestCase(Region.Alaba, TestName = "Alaba - Invoice chaining")]
+        [TestCase(Region.Araba, TestName = "Araba - Invoice chaining")]
         [TestCase(Region.Gipuzkoa, TestName = "Gipuzkoa - Invoice chaining")]
         [Retry(3)]
         public async Task SendChainedInvoiceSucceeds(Region region)
