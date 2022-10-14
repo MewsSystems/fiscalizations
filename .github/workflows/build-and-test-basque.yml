@@ -46,6 +46,6 @@ jobs:
         spanish_certificate_data: ${{secrets.spanish_certificate_data}}
         spanish_certificate_password: ${{secrets.spanish_certificate_password}}
         spanish_issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
-        basque_alaba_license: ${{secrets.basque_araba_license}}
+        basque_araba_license: ${{secrets.basque_araba_license}}
         basque_gipuzkoa_license: ${{secrets.basque_gipuzkoa_license}}
       run: dotnet test --no-restore --verbosity normal
