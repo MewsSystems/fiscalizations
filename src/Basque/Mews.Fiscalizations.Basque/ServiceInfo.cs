@@ -17,7 +17,7 @@ namespace Mews.Fiscalizations.Basque
                     [Environment.Test] = new Uri("https://tbai-z.prep.gipuzkoa.eus"),
                     [Environment.Production] = new Uri("https://tbai-z.egoitza.gipuzkoa.eus")
                 },
-                Region.Alaba, _ => new Dictionary<Environment, Uri>
+                Region.Araba, _ => new Dictionary<Environment, Uri>
                 {
                     [Environment.Test] = new Uri("https://pruebas-ticketbai.araba.eus"),
                     [Environment.Production] = new Uri("https://ticketbai.araba.eus")
@@ -29,7 +29,7 @@ namespace Mews.Fiscalizations.Basque
                     [Environment.Test] = new Uri("https://tbai.prep.gipuzkoa.eus"),
                     [Environment.Production] = new Uri("https://tbai.egoitza.gipuzkoa.eus")
                 },
-                Region.Alaba, _ => new Dictionary<Environment, Uri>
+                Region.Araba, _ => new Dictionary<Environment, Uri>
                 {
                     [Environment.Test] = new Uri("https://pruebas-ticketbai.araba.eus"),
                     [Environment.Production] = new Uri("https://ticketbai.araba.eus")
@@ -37,11 +37,11 @@ namespace Mews.Fiscalizations.Basque
             );
             RelativeSendInvoiceUri = region.Match(
                 Region.Gipuzkoa, _ => new Uri("sarrerak/alta/", UriKind.Relative),
-                Region.Alaba, _ => new Uri("TicketBAI/v1/facturas/", UriKind.Relative)
+                Region.Araba, _ => new Uri("TicketBAI/v1/facturas/", UriKind.Relative)
             );
             RelativeQrCodeUri = region.Match(
                 Region.Gipuzkoa, _ => new Uri("qr/", UriKind.Relative),
-                Region.Alaba, _ => new Uri("tbai/qrtbai/", UriKind.Relative)
+                Region.Araba, _ => new Uri("tbai/qrtbai/", UriKind.Relative)
             );
             Encoding = Encoding.UTF8;
         }

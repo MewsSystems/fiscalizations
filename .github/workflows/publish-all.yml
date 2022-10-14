@@ -48,7 +48,7 @@ jobs:
         spanish_issuer_tax_number: ${{secrets.spanish_issuer_tax_number}}
         spanish_receiver_tax_number: ${{secrets.spanish_receiver_tax_number}}
 
-        basque_alaba_license: ${{secrets.basque_alaba_license}}
+        basque_araba_license: ${{secrets.basque_araba_license}}
         basque_gipuzkoa_license: ${{secrets.basque_gipuzkoa_license}}
 
         hungarian_login: ${{secrets.hungarian_login}}
