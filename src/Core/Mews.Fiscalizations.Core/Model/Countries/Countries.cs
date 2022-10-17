@@ -219,7 +219,7 @@ namespace Mews.Fiscalizations.Core.Model
                 SouthAfrica = NonEuropean("ZA"),
                 SouthGeorgia = NonEuropean("GS"),
                 SouthSudan = NonEuropean("SS"),
-                Spain = European("ES", taxpayerNumberPattern: "^(ES)?[0-9A-Z][0-9]{7}[0-9A-Z]$", taxpayerNumberPatternWithoutCountryCodePrefix: "^[0-9A-Z][0-9]{7}[0-9A-Z]$"),
+                Spain = European("ES", taxpayerNumberPattern: "^(ES)?(([a-z|A-Z]{1}\\d{7}[a-z|A-Z]{1})|(\\d{8}[a-z|A-Z]{1})|([a-z|A-Z]{1}\\d{8}))$", taxpayerNumberPatternWithoutCountryCodePrefix: "(([a-z|A-Z]{1}\\d{7}[a-z|A-Z]{1})|(\\d{8}[a-z|A-Z]{1})|([a-z|A-Z]{1}\\d{8}))"),
                 SriLanka = NonEuropean("LK"),
                 Sudan = NonEuropean("SD"),
                 Suriname = NonEuropean("SR"),
