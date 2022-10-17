@@ -76,5 +76,26 @@ namespace Mews.Fiscalizations.Core.Tests.Model
             var country = countryCode.IsNotNull() ? Country.GetByCode(countryCode).Get() : null;
             Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
         }
+
+        [Test]
+        [TestCase("A12345678")]
+        [TestCase("A1234567A")]
+        [TestCase("ESA1234567A")]
+        public void CreatingValidSpanishTaxpayerNumberSucceeds(string taxId)
+        {
+            var taxpayerNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, taxId);
+            Assert.IsTrue(taxpayerNumber.IsSuccess);
+        }
+
+        [Test]
+        [TestCase("A0123456789")]
+        [TestCase("A1234")]
+        [TestCase("123456789")]
+        [TestCase("AAAAAAAAA")]
+        public void CreatingInvalidSpanishTaxpayerNumberFails(string taxId)
+        {
+            var taxpayerNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, taxId);
+            Assert.IsTrue(taxpayerNumber.IsError);
+        }
     }
 }
