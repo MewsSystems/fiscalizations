@@ -123,11 +123,11 @@ namespace Mews.Fiscalizations.Basque.Tests
         {
             return NonEmptyEnumerable.Create(localReceivers.Match(
                 t => Receiver.Local(
-                    nif: TaxpayerIdentificationNumber.Create(Countries.Spain, "11111111H").Success.Get(),
+                    nif: "11111111H",
                     name: Name.CreateUnsafe("Mike The Local"),
                     postalCode: PostalCode.CreateUnsafe("08013"),
                     address: String1To250.CreateUnsafe("C/ de Mallorca, 401, Barcelona")
-                ),
+                ).Success.Get(),
                 f => Receiver.Foreign(
                     idType: IdType.Passport,
                     id: String1To20.CreateUnsafe("ABCDEF123"),

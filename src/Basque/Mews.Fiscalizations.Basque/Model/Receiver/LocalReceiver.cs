@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Model;
+﻿using FuncSharp;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Basque.Model
 {
@@ -11,5 +12,11 @@ namespace Mews.Fiscalizations.Basque.Model
         }
 
         public TaxpayerIdentificationNumber TaxpayerIdentificationNumber { get; }
+
+        public static ITry<LocalReceiver, Error> Create(string nif, Name name, PostalCode postalCode, String1To250 address)
+        {
+            var taxpayerNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, nif, isCountryCodePrefixAllowed: false);
+            return taxpayerNumber.Map(n => new LocalReceiver(n, name, postalCode, address));
+        }
     }
 }

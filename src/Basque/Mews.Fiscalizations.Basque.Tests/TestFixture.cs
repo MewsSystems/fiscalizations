@@ -40,10 +40,10 @@ namespace Mews.Fiscalizations.Basque.Tests
             version: String1To20.CreateUnsafe("1.0.0")
         );
 
-        internal Issuer Issuer => new Issuer(name: Name.CreateUnsafe("Test issuing company"), nif: Region.Match(
-            Region.Gipuzkoa, _ => LocalNif,
-            Region.Araba, _ => TaxpayerIdentificationNumber.Create(Countries.Spain, "A01111111").Success.Get() // For Araba, the NIF must be registered in the region.
-        ));
+        internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("Test issuing company"), nif: Region.Match(
+            Region.Gipuzkoa, _ => LocalNif.TaxpayerNumber,
+            Region.Araba, _ => "A01111111" // For Araba, the NIF must be registered in the region.
+        )).Success.Get();
 
         internal static void AssertResponse(Region region, SendInvoiceResponse response)
         {
