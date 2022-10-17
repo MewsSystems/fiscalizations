@@ -5,7 +5,7 @@ namespace Mews.Fiscalizations.Basque.Model
 {
     public sealed class LocalReceiver : ReceiverInfo
     {
-        private LocalReceiver(TaxpayerIdentificationNumber taxpayerIdentificationNumber, Name name, PostalCode postalCode, String1To250 address)
+        public LocalReceiver(TaxpayerIdentificationNumber taxpayerIdentificationNumber, Name name, PostalCode postalCode, String1To250 address)
             : base(name, postalCode, address)
         {
             TaxpayerIdentificationNumber = Check.IsNotNull(taxpayerIdentificationNumber, nameof(taxpayerIdentificationNumber));
