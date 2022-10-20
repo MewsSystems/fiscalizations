@@ -1,13 +1,10 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography.Xml;
-using System.Xml;
 using Mews.Fiscalizations.Basque.Model;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
-using System.Linq;
 
 namespace Mews.Fiscalizations.Basque
 {
@@ -17,6 +14,7 @@ namespace Mews.Fiscalizations.Basque
         {
             Certificate = certificate;
             Environment = environment;
+            Region = region;
             ServiceInfo = new ServiceInfo(region);
 
             var requestHandler = new HttpClientHandler();
@@ -30,6 +28,8 @@ namespace Mews.Fiscalizations.Basque
 
         private Environment Environment { get; }
 
+        private Region Region { get; }
+
         private ServiceInfo ServiceInfo { get; }
 
         public async Task<SendInvoiceResponse> SendInvoiceAsync(SendInvoiceRequest request)
@@ -39,7 +39,7 @@ namespace Mews.Fiscalizations.Basque
                 encoding: ServiceInfo.Encoding,
                 namespaces: NonEmptyEnumerable.Create(new XmlNamespace("http://www.w3.org/2000/09/xmldsig#"))
             ));
-            SignXml(xmlDoc.OwnerDocument);
+            TicketBaiSignature.Sign(xmlDoc.OwnerDocument, Certificate, Region);
 
             var requestContent = new StringContent(xmlDoc.OuterXml, ServiceInfo.Encoding, "application/xml");
             var response = await HttpClient.PostAsync(ServiceInfo.SendInvoiceUri(Environment), requestContent);
@@ -47,38 +47,17 @@ namespace Mews.Fiscalizations.Basque
 
             var ticketBaiResponse = XmlSerializer.Deserialize<Dto.TicketBaiResponse>(responseContent);
             var header = request.Invoice.Header;
-            var data = request.Invoice.InvoiceData;
             var qrCodeUri = QrCodeUriGenerator.Generate(
                 serviceInfo: ServiceInfo,
                 environment: Environment,
                 tbaiIdentifier: ticketBaiResponse.Salida.IdentificadorTBAI,
                 invoiceSeries: header.Series,
                 invoiceNumber: header.Number.Value,
-                total: data.TotalAmount
+                total: request.Invoice.InvoiceData.TotalAmount
             );
             var signatureValue = xmlDoc.GetElementsByTagName("SignatureValue")[0].InnerText;
             var trimmedSignature = String1To100.CreateUnsafe(signatureValue.Substring(0, Math.Min(signatureValue.Length, 100)));
             return DtoToModelConverter.Convert(ticketBaiResponse, qrCodeUri, xmlDoc.OuterXml, responseContent, trimmedSignature);
-        }
-
-        private void SignXml(XmlDocument xmlDoc)
-        {
-            var keyInfo = new KeyInfo();
-            keyInfo.AddClause(new KeyInfoX509Data(Certificate));
-            var signedXml = new SignedXml(xmlDoc)
-            {
-                SigningKey = Certificate.GetRSAPrivateKey(),
-                KeyInfo = keyInfo
-            };
-
-            var reference = new Reference(uri: "");
-            var env = new XmlDsigEnvelopedSignatureTransform();
-            reference.AddTransform(env);
-            signedXml.AddReference(reference);
-            signedXml.ComputeSignature();
-
-            var xmlDigitalSignature = signedXml.GetXml();
-            xmlDoc.DocumentElement.AppendChild(xmlDoc.ImportNode(xmlDigitalSignature, true));
         }
     }
 }
