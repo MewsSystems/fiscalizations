@@ -60,7 +60,10 @@ namespace Mews.Fiscalizations.Basque
             var sigPolicyQualifier = xmlDoc.CreateElement("xades", "SigPolicyQualifier", NamespaceUri);
 
             var SPURI = xmlDoc.CreateElement("xades", "SPURI", NamespaceUri);
-            SPURI.InnerText = "https://www.gipuzkoa.eus/ticketbai/sinadura=";
+            SPURI.InnerText = region.Match(
+                Region.Gipuzkoa, _ => "https://www.gipuzkoa.eus/ticketbai/sinadura",
+                Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/"
+            );
 
             var signedDataObjectProperties = xmlDoc.CreateElement("xades", "SignedDataObjectProperties", NamespaceUri);
             var dataObjectFormat = xmlDoc.CreateElement("xades", "DataObjectFormat", NamespaceUri);
