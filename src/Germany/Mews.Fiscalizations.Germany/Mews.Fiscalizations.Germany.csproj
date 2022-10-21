@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>7.0.1</PackageVersion>
+    <PackageVersion>7.0.2</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
