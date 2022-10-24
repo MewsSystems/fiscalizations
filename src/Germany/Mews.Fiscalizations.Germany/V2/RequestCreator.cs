@@ -94,7 +94,7 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             return new Dto.AmountsPerPaymentType
             {
-                Amount = (payment.Amount + 0.00m).ToString(CultureInfo.InvariantCulture),
+                Amount = ToString(payment.Amount),
                 CurrencyCode = payment.CurrencyCode,
                 PaymentType = SerializePaymentType(payment.Type)
             };
@@ -104,7 +104,7 @@ namespace Mews.Fiscalizations.Germany.V2
         {
             return new Dto.AmountsPerVatRate
             {
-                Amount = (item.Amount + 0.00m).ToString(CultureInfo.InvariantCulture),
+                Amount = ToString(item.Amount),
                 VatRate = SerializeVatRateType(item.VatRateType)
             };
         }
@@ -151,6 +151,11 @@ namespace Mews.Fiscalizations.Germany.V2
                 ClientState.Registered, _ => Dto.ClientState.REGISTERED,
                 ClientState.Deregistered, _ => Dto.ClientState.DEREGISTERED
             );
+        }
+
+        private static string ToString(decimal amount)
+        {
+            return String.Format(CultureInfo.InvariantCulture, "{0:F2}", amount);
         }
     }
 }
