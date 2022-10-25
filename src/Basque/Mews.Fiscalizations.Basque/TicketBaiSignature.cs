@@ -60,7 +60,10 @@ namespace Mews.Fiscalizations.Basque
             var sigPolicyId = xmlDoc.CreateElement(XadesPrefix, "SigPolicyId", NamespaceUri);
 
             var sigPolicyIdentifier = xmlDoc.CreateElement(XadesPrefix, "Identifier", NamespaceUri);
-            sigPolicyIdentifier.InnerText = "https://www.gipuzkoa.eus/ticketbai/sinadura";
+            sigPolicyIdentifier.InnerText = region.Match(
+                Region.Gipuzkoa, _ => "https://www.gipuzkoa.eus/ticketbai/sinadura",
+                Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/"
+            );
 
             var sigPolicyDescription = xmlDoc.CreateElement(XadesPrefix, "Description", NamespaceUri);
 
@@ -185,12 +188,12 @@ namespace Mews.Fiscalizations.Basque
             signedXml.AddReference(reference3);
         }
 
-        private static XmlDsigXPathTransform CreateXPathTransform(string XPathString)
+        private static XmlDsigXPathTransform CreateXPathTransform(string xPathString)
         {
             var doc = new XmlDocument();
             var xPathElem = doc.CreateElement(XadesPrefix, "XPath", NamespaceUri);
             xPathElem.SetAttribute("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
-            xPathElem.InnerText = XPathString;
+            xPathElem.InnerText = xPathString;
 
             var xForm = new XmlDsigXPathTransform();
             xForm.LoadInnerXml(xPathElem.SelectNodes("."));
