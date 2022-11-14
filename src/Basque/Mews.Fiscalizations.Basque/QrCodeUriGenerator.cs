@@ -68,9 +68,9 @@ namespace Mews.Fiscalizations.Basque
             return QueryHelpers.AddQueryString(query, "cr", GetCyclicRedundancyCheckDigits(query, serviceInfo));
         }
 
-        private static string GetCyclicRedundancyCheckDigits(string qrCodeUri, ServiceInfo serviceInfo)
+        internal static string GetCyclicRedundancyCheckDigits(string value, ServiceInfo serviceInfo)
         {
-            var data = serviceInfo.Encoding.GetBytes(qrCodeUri);
+            var data = serviceInfo.Encoding.GetBytes(value);
             var crc = (byte)0;
             for (int i = 0; i < data.Length; i++)
             {

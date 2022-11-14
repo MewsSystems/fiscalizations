@@ -59,6 +59,7 @@ namespace Mews.Fiscalizations.Basque.Tests
             Assert.IsNotEmpty(response.TBAIIdentifier);
             Assert.IsNotEmpty(response.XmlRequestContent);
             Assert.IsNotEmpty(response.XmlResponseContent);
+            Assert.IsTrue(response.QrCodeUri.Contains(response.TBAIIdentifier));
             Assert.AreEqual(response.State, InvoiceState.Received);
         }
     }
