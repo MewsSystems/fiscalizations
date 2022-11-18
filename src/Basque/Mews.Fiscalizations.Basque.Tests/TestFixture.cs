@@ -45,7 +45,7 @@ namespace Mews.Fiscalizations.Basque.Tests
             Region.Araba, _ => "A01111111" // For Araba, the NIF must be registered in the region.
         )).Success.Get();
 
-        internal static void AssertResponse(Region region, SendInvoiceResponse response)
+        internal static void AssertResponse(Region region, SendInvoiceResponse response, TicketBaiInvoiceData tbaiInvoiceData)
         {
             var validationResults = response.ValidationResults.Flatten();
 
@@ -59,7 +59,11 @@ namespace Mews.Fiscalizations.Basque.Tests
             Assert.IsNotEmpty(response.TBAIIdentifier);
             Assert.IsNotEmpty(response.XmlRequestContent);
             Assert.IsNotEmpty(response.XmlResponseContent);
+
+            Assert.IsTrue(response.QrCodeUri.Contains(response.TBAIIdentifier));
             Assert.AreEqual(response.State, InvoiceState.Received);
+            Assert.AreEqual(response.TBAIIdentifier, tbaiInvoiceData.TbaiIdentifier);
+            Assert.AreEqual(response.QrCodeUri, tbaiInvoiceData.QrCodeUri);
         }
     }
 }
