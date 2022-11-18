@@ -21,9 +21,11 @@ namespace Mews.Fiscalizations.Basque.Tests
         public async Task SendSimpleInvoiceSucceeds(Region region, bool localReceivers, bool negativeInvoice)
         {
             var testFixture = new TestFixture(region);
+            var client = testFixture.Client;
             var request = InvoiceTestData.CreateInvoiceRequest(testFixture.Issuer, testFixture.Software, localReceivers, negativeInvoice);
-            var response = await testFixture.Client.SendInvoiceAsync(request);
-            TestFixture.AssertResponse(region, response);
+            var tbaiData = client.GetTicketBaiInvoiceData(request);
+            var response = await client.SendInvoiceAsync(tbaiData);
+            TestFixture.AssertResponse(region, response, tbaiData);
         }
 
         [Test]
@@ -33,9 +35,11 @@ namespace Mews.Fiscalizations.Basque.Tests
         public async Task SendChainedInvoiceSucceeds(Region region)
         {
             var testFixture = new TestFixture(region);
+            var client = testFixture.Client;
             var request1 = InvoiceTestData.CreateInvoiceRequest(testFixture.Issuer, testFixture.Software, localReceivers: true, negativeInvoice: false);
-            var response1 = await testFixture.Client.SendInvoiceAsync(request1);
-            TestFixture.AssertResponse(region, response1);
+            var tbaiData1 = client.GetTicketBaiInvoiceData(request1);
+            var response1 = await client.SendInvoiceAsync(tbaiData1);
+            TestFixture.AssertResponse(region, response1, tbaiData1);
 
             var originalInvoiceHeader = request1.Invoice.Header;
             var request2 = InvoiceTestData.CreateInvoiceRequest(testFixture.Issuer, testFixture.Software, localReceivers: true, negativeInvoice: false, originalInvoiceInfo: new OriginalInvoiceInfo(
@@ -44,8 +48,9 @@ namespace Mews.Fiscalizations.Basque.Tests
                 signature: response1.SignatureValue,
                 series: originalInvoiceHeader.Series.GetOrNull()
             ));
-            var response2 = await testFixture.Client.SendInvoiceAsync(request2);
-            TestFixture.AssertResponse(region, response2);
+            var tbaiData2 = client.GetTicketBaiInvoiceData(request2);
+            var response2 = await client.SendInvoiceAsync(tbaiData2);
+            TestFixture.AssertResponse(region, response2, tbaiData2);
         }
     }
 }
