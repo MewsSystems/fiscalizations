@@ -46,15 +46,12 @@ namespace Mews.Fiscalizations.Basque
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var ticketBaiResponse = XmlSerializer.Deserialize<Dto.TicketBaiResponse>(responseContent);
-
-            var signatureValue = signedRequest.GetElementsByTagName("SignatureValue")[0].InnerText;
-            var trimmedSignature = String1To100.CreateUnsafe(signatureValue.Substring(0, Math.Min(signatureValue.Length, 100)));
             return DtoToModelConverter.Convert(
                 response: ticketBaiResponse,
                 qrCodeUri: invoiceData.QrCodeUri,
                 xmlRequestContent: signedRequest.OuterXml,
                 xmlResponseContent: responseContent,
-                signatureValue: trimmedSignature
+                signatureValue: invoiceData.TrimmedSignature
             );
         }
 
@@ -81,7 +78,8 @@ namespace Mews.Fiscalizations.Basque
             return new TicketBaiInvoiceData(
                 signedRequest: signedRequest.OwnerDocument,
                 tbaiIdentifier: tbaiIdentifier,
-                qrCodeUri: qrCodeUri
+                qrCodeUri: qrCodeUri,
+                trimmedSignature: String1To100.CreateUnsafe(signatureValue.Substring(0, Math.Min(signatureValue.Length, 100)))
             );
         }
 
