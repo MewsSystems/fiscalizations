@@ -28,14 +28,24 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 3.1.x
 
     - name: Clean
       run: dotnet clean ./Mews.Fiscalizations.Basque.Tests.csproj --configuration Release && dotnet nuget locals all --clear
+      
+    - name: Caching 
+      uses: actions/cache@v3
+      id: nuget-cache
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
 
     - name: Install dependencies
+      if: steps.nuget-cache.outputs.cache-hit != 'true'
       run: dotnet restore
 
     - name: Build
