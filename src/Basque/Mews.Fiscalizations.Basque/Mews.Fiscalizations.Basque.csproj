@@ -11,6 +11,7 @@
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageVersion>4.0.0</PackageVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
