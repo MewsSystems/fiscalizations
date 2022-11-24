@@ -15,7 +15,7 @@ namespace Mews.Fiscalizations.Basque.Model
 
         public static ITry<PostalCode, Error> Create(string value)
         {
-            return StringValidations.RegexMatch(value, new Regex("^[0-9]{1,5}$")).Map(v => new PostalCode(v));
+            return StringValidations.RegexMatch(value, new Regex("^[a-zA-Z0-9]{1,20}$")).Map(v => new PostalCode(v));
         }
 
         public static PostalCode CreateUnsafe(string value)
