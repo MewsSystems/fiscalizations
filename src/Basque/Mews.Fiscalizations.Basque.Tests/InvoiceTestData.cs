@@ -132,7 +132,7 @@ namespace Mews.Fiscalizations.Basque.Tests
                     idType: IdType.Passport,
                     id: String1To20.CreateUnsafe("ABCDEF123"),
                     name: Name.CreateUnsafe("John The Forienger"),
-                    postalCode: PostalCode.CreateUnsafe("12345678912345678BBAA"),
+                    postalCode: PostalCode.CreateUnsafe("12345678912345678BBA"),
                     address: String1To250.CreateUnsafe("Prague, Italska 2502/555"),
                     country: Countries.CzechRepublic
                 )
