@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Assign tech.qa.review project
-      uses: srggrs/assign-one-project-github-action@1.2.0
+      uses: srggrs/assign-one-project-github-action@1.2.1
       with:
         project: 'https://github.com/orgs/MewsSystems/projects/5'
         column_name: 'Waiting'

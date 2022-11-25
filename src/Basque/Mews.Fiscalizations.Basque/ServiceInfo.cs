@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Mews.Fiscalizations.Basque
 {
-    public sealed class ServiceInfo
+    internal sealed class ServiceInfo
     {
         public ServiceInfo(Region region)
         {
