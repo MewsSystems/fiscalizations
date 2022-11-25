@@ -9,7 +9,7 @@ on:
       - completed
 
 jobs:
-  publish-all:
+  publish-all-2:
     runs-on: ubuntu-latest
 
     env:
