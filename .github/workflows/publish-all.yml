@@ -3,7 +3,8 @@ name: Publish - All
 on:
   workflow_run:
     workflows: ["build-and-test-all"]
-    types: - completed
+    types:
+      - completed
 
 jobs:
   publish-all:
