@@ -3,9 +3,8 @@ name: publish-all
 on:
   workflow_run:
     workflows: build-and-test-all
-    pull_request:
-      branches:
-        - master
+    branches:
+      - master
     types:
       - completed
 
