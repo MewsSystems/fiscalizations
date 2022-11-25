@@ -3,6 +3,8 @@ name: Publish - All
 on:
   workflow_run:
     workflows: ["build-and-test-all"]
+    branches-ignore:
+      - "test"
     types:
       - completed
 
