@@ -9,9 +9,10 @@ on:
       - completed
 
 jobs:
-  on-success:
+  publish-all:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
     env:
       DOTNET_NOLOGO: true
       DOTNET_CLI_TELEMETRY_OPTOUT: true
