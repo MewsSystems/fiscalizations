@@ -3,8 +3,8 @@ name: Publish - All
 on:
   workflow_run:
     workflows: ["build-and-test-all"]
-    branches-ignore:
-      - "test"
+    branches:
+      - "gh-actions-publish-fix-3"
     types:
       - completed
 
