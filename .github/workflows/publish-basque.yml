@@ -1,14 +1,17 @@
-name: Publish - Basque
+name: publish-basque
 
 on:
-  push:
+  workflow_run:
+    workflows: build-and-test-all
     branches:
       - master
+    types:
+      - completed
 
 jobs:
-  publish-basque:
+  on-success:
     runs-on: ubuntu-latest
-    needs: build-and-test-all
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     env:
       DOTNET_NOLOGO: true
