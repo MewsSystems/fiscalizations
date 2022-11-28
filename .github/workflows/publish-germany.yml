@@ -1,14 +1,17 @@
-name: Publish - Germany
+name: publish-germany
 
 on:
-  push:
+  workflow_run:
+    workflows: build-and-test-all
     branches:
       - master
+    types:
+      - completed
 
 jobs:
   publish-germany:
     runs-on: ubuntu-latest
-    needs: build-and-test-all
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     env:
       DOTNET_NOLOGO: true
