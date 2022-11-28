@@ -141,7 +141,7 @@ namespace Mews.Fiscalizations.Austria.Dto
 
         private byte[] Sha256(byte[] toBeHashed)
         {
-            return new SHA256Managed().ComputeHash(toBeHashed);
+            return SHA256.Create().ComputeHash(toBeHashed);
         }
     }
 }

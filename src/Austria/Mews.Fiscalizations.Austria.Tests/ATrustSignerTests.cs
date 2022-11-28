@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Mews.Fiscalizations.Austria.ATrust;
 using Mews.Fiscalizations.Austria.Dto;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
@@ -21,15 +22,18 @@ namespace Mews.Fiscalizations.Austria.Tests
 
         [Test]
         [Retry(3)]
-        public void ATrustSignerWorks()
+        public async Task ATrustSignerWorks()
         {
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             var europeTimeZone = "Central Europe Standard Time";
             var austrianTimeZone = TimeZoneInfo.FindSystemTimeZoneById(isWindows ? europeTimeZone : TZConvert.WindowsToIana(europeTimeZone));
             var austrianCulture = CultureInfo.GetCultureInfo("de-AT");
             var signer = new ATrustSigner(Credentials, ATrustEnvironment.Test);
-            var info = signer.GetCertificateInfo();
-            var result = signer.Sign(new QrData(new Receipt(
+            var info = await signer.GetCertificateInfoAsync();
+            var result = await signer.SignAsync(new QrData(
+                culture: austrianCulture,
+                timeZone: austrianTimeZone,
+                receipt: new Receipt(
                     number: new ReceiptNumber("83469"),
                     registerIdentifier: new RegisterIdentifier("DEMO-CASH-BOX817"),
                     taxData: new TaxData(
@@ -40,20 +44,27 @@ namespace Mews.Fiscalizations.Austria.Tests
                     turnover: new CurrencyValue(0.0m),
                     certificateSerialNumber: new CertificateSerialNumber(info.CertificateSerialNumberHex),
                     key: AesKeyGenerator.GetNext(),
-                    created: new LocalDateTime(
-                        new DateTime(2015, 11, 25, 19, 20, 11),
-                        austrianTimeZone
-                    )
-                ), austrianCulture, austrianTimeZone
+                    created: new LocalDateTime(new DateTime(2015, 11, 25, 19, 20, 11), austrianTimeZone)
+                )
             ));
             Assert.IsNotNull(result);
+            Assert.IsNotNull(result.JwsRepresentation);
+            Assert.IsNotNull(result.SignedQrData);
+            Assert.IsNotEmpty(result.JwsRepresentation.Value);
+            Assert.IsNotEmpty(result.JwsRepresentation.Signature.Value);
+            Assert.IsNotEmpty(result.SignedQrData.Value);
+            Assert.IsNotEmpty(result.SignedQrData.Data.Value);
         }
 
         [Test]
-        public void GetCertificateInfoWorks()
+        public async Task GetCertificateInfoWorks()
         {
-            var info = new ATrustSigner(Credentials, ATrustEnvironment.Test).GetCertificateInfo();
+            var info = await new ATrustSigner(Credentials, ATrustEnvironment.Test).GetCertificateInfoAsync();
             Assert.IsNotNull(info);
+            Assert.IsNotEmpty(info.Certificate);
+            Assert.IsNotEmpty(info.CertificateSerialNumber);
+            Assert.IsNotEmpty(info.Algorithm);
+            Assert.IsNotEmpty(info.CertificateSerialNumberHex);
         }
     }
 }
