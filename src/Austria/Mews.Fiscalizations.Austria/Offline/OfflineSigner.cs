@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading.Tasks;
 using Mews.Fiscalizations.Austria.Dto;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using Microsoft.IdentityModel.Tokens;
@@ -16,7 +17,7 @@ namespace Mews.Fiscalizations.Austria.Offline
 
         public X509Certificate2 Certificate { get; }
 
-        public SignerOutput Sign(QrData qrData)
+        public async Task<SignerOutput> SignAsync(QrData qrData)
         {
             //// This is a manual JWS implementation as RKSV does not use standard signature format. Do not migrate to jose-jwt
             var jwsHeaderBase64Url = Base64UrlEncoder.Encode("{\"alg\":\"ES256\"}"); // Fixed value for RKSV
@@ -27,7 +28,7 @@ namespace Mews.Fiscalizations.Austria.Offline
             var jwsSignatureBase64Url = Base64UrlEncoder.Encode(bytes);
 
             var jwsRepresentation = $"{jwsHeaderBase64Url}.{jwsPayloadBase64Url}.{jwsSignatureBase64Url}";
-            return new SignerOutput(new JwsRepresentation(jwsRepresentation), qrData);
+            return await Task.FromResult(new SignerOutput(new JwsRepresentation(jwsRepresentation), qrData));
         }
     }
 }
