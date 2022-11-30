@@ -14,14 +14,18 @@ namespace Mews.Fiscalizations.Austria.ATrust
             var environmentDomain = environment == ATrustEnvironment.Production ? "www" : "hs-abnahme";
             Credentials = credentials;
             EndpointUrl = new EndpointUrl($"https://{environmentDomain}.a-trust.at/asignrkonline/v2/{Credentials.User.Value}");
-            HttpClient = new HttpClient();
         }
 
         public EndpointUrl EndpointUrl { get; }
 
         public ATrustCredentials Credentials { get; }
 
-        private HttpClient HttpClient { get; }
+        private static HttpClient HttpClient { get; }
+
+        static ATrustSigner()
+        {
+            HttpClient = new HttpClient();
+        }
 
         public async Task<SignerOutput> SignAsync(QrData qrData)
         {
