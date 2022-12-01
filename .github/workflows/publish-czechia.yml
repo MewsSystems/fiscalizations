@@ -2,7 +2,7 @@ name: publish-czechia
 
 on:
   workflow_run:
-    workflows: build-and-test-all
+    workflows: [build-and-test-all]
     branches:
       - master
     types:
@@ -24,15 +24,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    
-    - name: Setup .NET Core
+
+    - name: Setup .NET 6
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: 6.0.x
 
     - name: Install dependencies
       run: dotnet restore
-    
+
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
@@ -40,4 +40,4 @@ jobs:
       run: dotnet pack -c Release -o out
 
     - name: Publish packages
-      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
