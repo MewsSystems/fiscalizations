@@ -97,21 +97,7 @@ namespace Mews.Fiscalizations.Basque.Tests
         private static InvoiceHeader CreateHeader()
         {
             var randomString = String1To20.CreateUnsafe(Guid.NewGuid().ToString().Substring(0, 19));
-            return new InvoiceHeader(
-                number: randomString,
-                issued: DateTime.Now,
-                series: randomString,
-                correctingInvoice: new CorrectingInvoice(
-                    code: CorrectingInvoiceCode.CorrectedInvoice,
-                    type: CorrectingInvoiceType.CorrectiveInvoiceForReplacement,
-                    amount: new CorrectingInvoiceAmount(10, 10, 10)
-                ),
-                correctedInvoices: NonEmptyEnumerable.Create(new CorrectedInvoice(
-                    series: randomString,
-                    number: randomString,
-                    issueDate: DateTime.Now
-                ))
-            );
+            return new InvoiceHeader(number: randomString, issued: DateTime.Now, series: randomString);
         }
 
         private static Subject CreateSubject(Issuer issuer, bool localReceivers)
