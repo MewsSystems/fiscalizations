@@ -23,6 +23,8 @@
     </a>
 </p>
 
+## ❗ Please be aware that EET fiscalization will be deprecated starting the 1st of January 2023. [Official announcement](https://www.mfcr.cz/cs/aktualne/tiskove-zpravy/2022/poslanecka-snemovna-schvalila-uplne-zrus-46800/)
+
 ## 📃 Description
 
 EET stands for Elektronická Evidence Tržeb, which is the Czech version of Fiscal Printers.
