@@ -42,7 +42,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string Description
         {
             get { return _description; }
-            set { _description = value.NormalizeString(); }
+            set { _description = value.StripDiacritics(); }
         }
 
         [XmlElement("Quantita", Form = XmlSchemaForm.Unqualified)]
@@ -66,7 +66,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string MeasurementUnit
         {
             get { return _measurementUnit; }
-            set { _measurementUnit = value.NormalizeString(extendedAscii: false); }
+            set { _measurementUnit = value.StripDiacritics(); }
         }
 
         /// <summary>

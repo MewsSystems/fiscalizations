@@ -36,7 +36,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string DocumentNumber
         {
             get { return _documentNumber; }
-            set { _documentNumber = value.NormalizeString(extendedAscii: false); }
+            set { _documentNumber = value.StripDiacritics(); }
         }
 
         /// <summary>

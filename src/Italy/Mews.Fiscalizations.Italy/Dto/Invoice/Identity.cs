@@ -15,21 +15,21 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string FirstName
         {
             get { return _firstName; }
-            set { _firstName = value.NormalizeString(); }
+            set { _firstName = value.StripDiacritics(); }
         }
 
         [XmlElement("Cognome", Form = XmlSchemaForm.Unqualified, DataType = "normalizedString")]
         public string LastName
         {
             get { return _lastName; }
-            set { _lastName = value.NormalizeString(); }
+            set { _lastName = value.StripDiacritics(); }
         }
 
         [XmlElement("Denominazione", Form = XmlSchemaForm.Unqualified, DataType = "normalizedString")]
         public string CompanyName
         {
             get { return _companyName; }
-            set { _companyName = value.NormalizeString(); }
+            set { _companyName = value.StripDiacritics(); }
         }
 
 

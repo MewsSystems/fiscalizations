@@ -107,7 +107,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string NormativeReference
         {
             get { return _normativeReference; }
-            set { _normativeReference = value.NormalizeString(); }
+            set { _normativeReference = value.StripDiacritics(); }
         }
     }
 }
