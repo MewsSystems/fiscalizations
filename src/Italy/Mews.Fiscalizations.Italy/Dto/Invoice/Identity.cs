@@ -15,7 +15,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string FirstName
         {
             get { return _firstName; }
-            set { _firstName = value.StripDiacritics    (); }
+            set { _firstName = value.StripDiacritics(); }
         }
 
         [XmlElement("Cognome", Form = XmlSchemaForm.Unqualified, DataType = "normalizedString")]
