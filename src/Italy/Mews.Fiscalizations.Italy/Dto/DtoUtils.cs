@@ -23,9 +23,9 @@ namespace Mews.Fiscalizations.Italy.Dto
             return Regex.Replace(zip, "[^0-9]", "");
         }
 
-        public static string NonEmptyValueOrNull(this string str)
+        public static string NonEmptyValueOrNull(this string s)
         {
-            return String.IsNullOrEmpty(str) ? null : str;
+            return String.IsNullOrEmpty(s) ? null : s;
         }
 
         public static string StripDiacritics(this string s)
@@ -35,7 +35,7 @@ namespace Mews.Fiscalizations.Italy.Dto
                 return s.NonEmptyValueOrNull();
             }
 
-            var simpleChars = s.Normalize(NormalizationForm.FormD).Where(c => !CharUnicodeInfo.GetUnicodeCategory(c).Equals(UnicodeCategory.NonSpacingMark));
+            var simpleChars = s.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark);
             return new string(simpleChars.ToArray());
         }
     }
