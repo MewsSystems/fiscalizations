@@ -55,14 +55,14 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string PayerLastName
         {
             get { return _payerLastName; }
-            set { _payerLastName = value.NormalizeString(); }
+            set { _payerLastName = value.StripDiacritics(); }
         }
 
         [XmlElement("NomeQuietanzante", Form = XmlSchemaForm.Unqualified, DataType = "normalizedString")]
         public string PayerFirstName
         {
             get { return _payerFirstName; }
-            set { _payerFirstName = value.NormalizeString(); }
+            set { _payerFirstName = value.StripDiacritics(); }
         }
 
         [XmlElement("CFQuietanzante", Form = XmlSchemaForm.Unqualified)]

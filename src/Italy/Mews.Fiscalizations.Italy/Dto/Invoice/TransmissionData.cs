@@ -26,7 +26,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string SequentialNumber
         {
             get { return _sequentialNumber; }
-            set { _sequentialNumber = value.NormalizeString(extendedAscii: false); }
+            set { _sequentialNumber = value.StripDiacritics(); }
         }
 
         [XmlElement("FormatoTrasmissione", Form = XmlSchemaForm.Unqualified)]
