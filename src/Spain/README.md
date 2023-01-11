@@ -12,11 +12,8 @@
     <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
     </a>
-    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-windows.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Spain%20(Windows)/master?label=windows%20build">
-    </a>
-    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-spain-linux.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Spain%20(Linux)/master?label=linux%20build">
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/publish-spain.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/publish-spain.yml?branch=master&label=publish">
     </a>
     <a href="https://www.agenciatributaria.es/AEAT.internet/en_gb/SII.html">
         <img src="https://img.shields.io/badge/v1.1-SII-lightgrey">
