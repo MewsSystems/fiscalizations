@@ -11,11 +11,8 @@
     <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
     </a>
-    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-windows.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Italy%20(Windows)/master?label=windows%20build">
-    </a>
-    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-italy-linux.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Italy%20(Linux)/master?label=linux%20build">
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/publish-italy.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/publish-italy.yml?branch=master&label=publish">
     </a>
 </p>
 
