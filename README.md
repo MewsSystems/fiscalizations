@@ -4,7 +4,8 @@
     </a>
 </p>
 
-[![Build](https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/build-and-test-all.yml?branch=master&label=Build%20and%20tests)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-all.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/build-and-test-all.yml?branch=master&label=build%20and%20tests)](https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-all.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/publish-all.yml?branch=master&label=publish)](https://github.com/MewsSystems/fiscalizations/actions/workflows/publish-all.yml)
 [![License](https://img.shields.io/github/license/MewsSystems/fiscalizations)](https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE)
 
 **Mews.Fiscalizations** is a .NET library that was built to help reporting of e-invoices to different government authorities.
