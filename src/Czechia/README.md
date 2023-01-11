@@ -12,18 +12,15 @@
     <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
     </a>
-    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia-windows.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Czechia%20(Windows)/master?label=windows%20build">
-    </a>
-    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/build-and-test-czechia-linux.yml">
-        <img src="https://img.shields.io/github/workflow/status/MewsSystems/fiscalizations/Build%20and%20test%20-%20Czechia%20(Linux)/master?label=linux%20build">
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/publish-czechia.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/publish-czechia.yml?branch=master&label=publish">
     </a>
     <a href="https://www.etrzby.cz/assets/cs/prilohy/EET_pristupove_provozni_informace_playground_3.1.pdf">
         <img src="https://img.shields.io/badge/v3.0-EET-lightgrey">
     </a>
 </p>
 
-## ❗ Please be aware that EET fiscalization will be deprecated starting the 1st of January 2023. [Official announcement](https://www.mfcr.cz/cs/aktualne/tiskove-zpravy/2022/poslanecka-snemovna-schvalila-uplne-zrus-46800/)
+## ❗ Please be aware that the EET fiscalization has been deprecated since the 1st of January 2023. [Official announcement](https://www.mfcr.cz/cs/aktualne/tiskove-zpravy/2022/poslanecka-snemovna-schvalila-uplne-zrus-46800/)
 
 ## 📃 Description
 
