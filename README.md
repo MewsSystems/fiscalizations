@@ -58,7 +58,6 @@ Please visit the desired fiscalization project to see its code examples.
 | All | [Mews.Fiscalizations.All](https://www.nuget.org/packages/Mews.Fiscalizations.All) |
 | [Core](https://github.com/MewsSystems/fiscalizations/tree/master/src/Core) | [Mews.Fiscalizations.Core](https://www.nuget.org/packages/Mews.Fiscalizations.Core) |
 | [Austria](https://github.com/MewsSystems/fiscalizations/tree/master/src/Austria) | [Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalizations.Austria) |
-| [Czechia](https://github.com/MewsSystems/fiscalizations/tree/master/src/Czechia) | [Mews.Fiscalizations.Czechia](https://www.nuget.org/packages/Mews.Fiscalizations.Czechia) |
 | [Germany](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany) | [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany) |
 | [Hungary](https://github.com/MewsSystems/fiscalizations/tree/master/src/Hungary) | [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary) |
 | [Italy](https://github.com/MewsSystems/fiscalizations/tree/master/src/Italy) | [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy) |

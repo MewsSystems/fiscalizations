@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>19.0.1</PackageVersion>
+    <PackageVersion>20.0.0</PackageVersion>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   
@@ -58,10 +58,6 @@
     <ProjectReference Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Austria.dll</IncludeAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\Czechia\Mews.Fiscalizations.Czechia\Mews.Fiscalizations.Czechia.csproj">
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <IncludeAssets>Mews.Fiscalizations.Czechia.dll</IncludeAssets>
     </ProjectReference>
     <ProjectReference Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
