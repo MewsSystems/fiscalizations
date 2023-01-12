@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
+        dotnet: [ '3.1.x', '6.0.x' ]
 
     env:
       DOTNET_NOLOGO: true
@@ -27,10 +28,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
-    - name: Setup .NET 6
+    - name: Setup ${{ matrix.dotnet }}
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: ${{ matrix.dotnet }}
 
     - name: Clean
       run: dotnet clean ./Mews.Fiscalizations.All.sln --configuration Release && dotnet nuget locals all --clear
