@@ -54,7 +54,12 @@ namespace Mews.Fiscalizations.Basque.Tests
                 Region.Gipuzkoa, _ => validationResults,
                 Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain))
             );
-            Assert.IsEmpty(applicableValidationResults);
+            Assert.IsEmpty(applicableValidationResults, "Reporting invoice failed...", new
+            {
+                ErrorCode = applicableValidationResults.First().ErrorCode,
+                Description = applicableValidationResults.First().Description,
+                Explanation = applicableValidationResults.First().Explanation
+            });
             Assert.IsNotEmpty(response.QrCodeUri);
             Assert.IsNotEmpty(response.TBAIIdentifier);
             Assert.IsNotEmpty(response.XmlRequestContent);
