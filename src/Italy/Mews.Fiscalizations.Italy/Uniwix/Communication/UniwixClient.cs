@@ -110,7 +110,7 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication
                 if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
                 {
                     var validationErrorResponse = JsonConvert.DeserializeObject<Response<ValidationError>>(json);
-                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{validationErrorResponse.Code}: {validationErrorResponse.Result.Message}", ErrorType.Validation));
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{validationErrorResponse.Code}: {validationErrorResponse.Result.Message}", ErrorType.Validation, validationErrorResponse.Result.Errors));
                 }
 
                 var errorResponse = JsonConvert.DeserializeObject<Response<string>>(json);
