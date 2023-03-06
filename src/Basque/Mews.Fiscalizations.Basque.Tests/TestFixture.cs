@@ -40,26 +40,19 @@ namespace Mews.Fiscalizations.Basque.Tests
             version: String1To20.CreateUnsafe("1.0.0")
         );
 
-        internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("Test issuing company"), nif: Region.Match(
-            Region.Gipuzkoa, _ => LocalNif.TaxpayerNumber,
-            Region.Araba, _ => "A01111111" // For Araba, the NIF must be registered in the region.
-        )).Success.Get();
+        internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("Test issuing company"), LocalNif.TaxpayerNumber).Success.Get();
 
         internal static void AssertResponse(Region region, SendInvoiceResponse response, TicketBaiInvoiceData tbaiInvoiceData)
         {
             var validationResults = response.ValidationResults.Flatten();
 
             // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
+            // Also the NIF must be registered in the Araba region.
             var applicableValidationResults = region.Match(
                 Region.Gipuzkoa, _ => validationResults,
-                Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain))
+                Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion))
             );
-            Assert.IsEmpty(applicableValidationResults, "Reporting invoice failed...", new
-            {
-                ErrorCode = applicableValidationResults.First().ErrorCode,
-                Description = applicableValidationResults.First().Description,
-                Explanation = applicableValidationResults.First().Explanation
-            });
+            Assert.IsEmpty(applicableValidationResults);
             Assert.IsNotEmpty(response.QrCodeUri);
             Assert.IsNotEmpty(response.TBAIIdentifier);
             Assert.IsNotEmpty(response.XmlRequestContent);
