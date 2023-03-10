@@ -35,6 +35,9 @@
         // The rectified (Corrected) invoice is not indicated.
         CorrectedInvoiceNotIndicated = 011,
 
+        // Issuer NIF must be registered in the Araba region.
+        IssuerNifMustBeRegisteredInArabaRegion = 15,
+
         // The size of the message must not exceed the allowed size.
         MessageLengthLimitExceeded = 017,
 

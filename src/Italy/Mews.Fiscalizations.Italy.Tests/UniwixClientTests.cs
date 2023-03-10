@@ -14,8 +14,8 @@ namespace Mews.Fiscalizations.Italy.Tests
     [TestFixture]
     public sealed class UniwixClientTests
     {
-        public static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
-        public static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
+        private static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
+        private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
 
         public static UniwixClient GetUniwixClient()
         {
@@ -23,7 +23,6 @@ namespace Mews.Fiscalizations.Italy.Tests
         }
 
         [Test]
-        [Ignore("Ignored temporarliy to unblock other PRs.")]
         [Retry(3)]
         public async Task SendInvoiceSucceeds()
         {
