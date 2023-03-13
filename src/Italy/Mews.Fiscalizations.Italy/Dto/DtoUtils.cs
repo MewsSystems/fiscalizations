@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalizations.Italy.Dto
@@ -26,17 +23,6 @@ namespace Mews.Fiscalizations.Italy.Dto
         public static string NonEmptyValueOrNull(this string s)
         {
             return String.IsNullOrEmpty(s) ? null : s;
-        }
-
-        public static string StripDiacritics(this string s)
-        {
-            if (string.IsNullOrWhiteSpace(s))
-            {
-                return s.NonEmptyValueOrNull();
-            }
-
-            var simpleChars = s.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark);
-            return new string(simpleChars.ToArray());
         }
     }
 }

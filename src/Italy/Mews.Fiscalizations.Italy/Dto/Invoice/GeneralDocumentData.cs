@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
@@ -36,7 +37,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string DocumentNumber
         {
             get { return _documentNumber; }
-            set { _documentNumber = value.StripDiacritics(); }
+            set { _documentNumber = value.ToBasicLatin(); }
         }
 
         /// <summary>

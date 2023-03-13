@@ -1,6 +1,7 @@
 using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
@@ -26,7 +27,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string SequentialNumber
         {
             get { return _sequentialNumber; }
-            set { _sequentialNumber = value.StripDiacritics(); }
+            set { _sequentialNumber = value.ToBasicLatin(); }
         }
 
         [XmlElement("FormatoTrasmissione", Form = XmlSchemaForm.Unqualified)]

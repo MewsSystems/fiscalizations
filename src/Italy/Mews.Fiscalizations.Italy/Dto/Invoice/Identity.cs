@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
@@ -15,21 +16,21 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string FirstName
         {
             get { return _firstName; }
-            set { _firstName = value.StripDiacritics(); }
+            set { _firstName = value.ToBasicLatin(); }
         }
 
         [XmlElement("Cognome", Form = XmlSchemaForm.Unqualified, DataType = "normalizedString")]
         public string LastName
         {
             get { return _lastName; }
-            set { _lastName = value.StripDiacritics(); }
+            set { _lastName = value.ToBasicLatin(); }
         }
 
         [XmlElement("Denominazione", Form = XmlSchemaForm.Unqualified, DataType = "normalizedString")]
         public string CompanyName
         {
             get { return _companyName; }
-            set { _companyName = value.StripDiacritics(); }
+            set { _companyName = value.ToBasicLatin(); }
         }
 
 

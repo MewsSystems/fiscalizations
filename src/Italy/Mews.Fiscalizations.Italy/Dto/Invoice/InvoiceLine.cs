@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
@@ -42,7 +43,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string Description
         {
             get { return _description; }
-            set { _description = value.StripDiacritics(); }
+            set { _description = value.ToBasicLatin(); }
         }
 
         [XmlElement("Quantita", Form = XmlSchemaForm.Unqualified)]
@@ -66,7 +67,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string MeasurementUnit
         {
             get { return _measurementUnit; }
-            set { _measurementUnit = value.StripDiacritics(); }
+            set { _measurementUnit = value.ToBasicLatin(); }
         }
 
         /// <summary>

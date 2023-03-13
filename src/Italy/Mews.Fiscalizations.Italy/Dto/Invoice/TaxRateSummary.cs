@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
@@ -107,7 +108,7 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string NormativeReference
         {
             get { return _normativeReference; }
-            set { _normativeReference = value.StripDiacritics(); }
+            set { _normativeReference = value.ToBasicLatin(); }
         }
     }
 }

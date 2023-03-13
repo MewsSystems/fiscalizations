@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Dto.Invoice
 {
@@ -55,14 +56,14 @@ namespace Mews.Fiscalizations.Italy.Dto.Invoice
         public string PayerLastName
         {
             get { return _payerLastName; }
-            set { _payerLastName = value.StripDiacritics(); }
+            set { _payerLastName = value.ToBasicLatin(); }
         }
 
         [XmlElement("NomeQuietanzante", Form = XmlSchemaForm.Unqualified, DataType = "normalizedString")]
         public string PayerFirstName
         {
             get { return _payerFirstName; }
-            set { _payerFirstName = value.StripDiacritics(); }
+            set { _payerFirstName = value.ToBasicLatin(); }
         }
 
         [XmlElement("CFQuietanzante", Form = XmlSchemaForm.Unqualified)]
