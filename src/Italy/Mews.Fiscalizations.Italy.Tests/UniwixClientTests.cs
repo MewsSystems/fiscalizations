@@ -145,8 +145,8 @@ namespace Mews.Fiscalizations.Italy.Tests
                 },
                 new TaxRateSummary
                 {
-                    Kind = TaxKind.ExcludingArticle15,
-                    NormativeReference = NormativeReference.GetByInvoiceLineKind(TaxKind.ExcludingArticle15),
+                    Kind = TaxKind.ExcludedArticle15,
+                    NormativeReference = NormativeReference.GetByInvoiceLineKind(TaxKind.ExcludedArticle15),
                     VatRate = 0m,
                     TaxAmount = 0m,
                     TaxableAmount = 1m,
@@ -168,7 +168,7 @@ namespace Mews.Fiscalizations.Italy.Tests
                     UnitPrice = 0.5m,
                     TotalPrice = 1m,
                     VatRate = 0m,
-                    Kind = TaxKind.ExcludingArticle15
+                    Kind = TaxKind.ExcludedArticle15
                 },
                 new InvoiceLine
                 {
