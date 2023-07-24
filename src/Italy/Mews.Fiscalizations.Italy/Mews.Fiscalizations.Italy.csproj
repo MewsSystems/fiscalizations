@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Mews</Authors>
     <Description>Client for SDI using Uniwix API. Used in Italy for fiscal compliance.</Description>
     <PackageTags>uniwix;fiscalization;italy;sdi</PackageTags>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <Reference Include="FuncSharp">
-      <HintPath>..\..\packages\FuncSharp.4.2.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
+      <HintPath>..\..\packages\mews.funcsharp\4.4.0\lib\net6.0\FuncSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
