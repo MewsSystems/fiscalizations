@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Reference Include="FuncSharp">
-      <HintPath>..\..\packages\mews.funcsharp\4.4.0\lib\net6.0\FuncSharp.dll</HintPath>
+      <HintPath>..\..\packages\mews.funcsharp\4.4.1\lib\net6.0\FuncSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   
