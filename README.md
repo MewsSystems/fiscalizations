@@ -40,7 +40,7 @@ Install-Package Mews.Fiscalizations.All
 -   Intuitive immutable DTOs.
 -   Pipelines that run on both Windows and Linux operating systems.
 -   Code examples for each project.
--   Cross platform (uses .NET Standard).
+-   Cross platform (uses .NET 6).
 -   6 countries + Basque region supported.
 -   Logging support for some fiscalizations.
 
