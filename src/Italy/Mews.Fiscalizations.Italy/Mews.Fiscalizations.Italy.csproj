@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Mews</Authors>
     <Description>Client for SDI using Uniwix API. Used in Italy for fiscal compliance.</Description>
     <PackageTags>uniwix;fiscalization;italy;sdi</PackageTags>
@@ -11,6 +11,7 @@
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageVersion>10.0.0</PackageVersion>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -20,14 +21,14 @@
 
   <ItemGroup>
     <Reference Include="FuncSharp">
-      <HintPath>..\..\packages\FuncSharp.4.2.0\lib\netstandard2.0\FuncSharp.dll</HintPath>
+      <HintPath>..\..\packages\mews.funcsharp\4.4.1\lib\net6.0\FuncSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="..\..\..\packageIcon.png">
       <Pack>True</Pack>

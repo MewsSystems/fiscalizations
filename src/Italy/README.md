@@ -38,7 +38,7 @@ Install-Package Mews.Fiscalizations.Italy
 -   Asynchronous I/O.
 -   All endpoints are covered with tests.
 -   Intuitive immutable DTOs.
--   Cross platform (uses .NET Standard).
+-   Cross platform (uses .NET 6).
 
 ## 📦 NuGet
 

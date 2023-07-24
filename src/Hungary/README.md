@@ -45,7 +45,7 @@ Install-Package Mews.Fiscalizations.Hungary
 -   All endpoints are covered with tests.
 -   Intuitive immutable DTOs.
 -   Pipelines that run on both Windows and Linux operating systems.
--   Cross platform (uses .NET Standard).
+-   Cross platform (uses .NET 6).
 
 ## 📦 NuGet
 

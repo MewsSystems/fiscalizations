@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Mews</Authors>
     <Description>Client for ATrust - Austrian Registrierkassen</Description>
     <PackageTags>fiscalization;austria;Registrierkassen</PackageTags>
@@ -11,6 +11,7 @@
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageVersion>5.0.0</PackageVersion>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +23,7 @@
   <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="..\..\..\packageIcon.png">
       <Pack>True</Pack>
