@@ -33,6 +33,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         private const int RetryCount = 3;
 
         [Test]
+        [Ignore("Expired test environment certificate, will re-enable when the certificate gets updated.")]
         [Retry(RetryCount)]
         public async Task CheckNif()
         {
@@ -56,6 +57,7 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices
         }
 
         [Test]
+        [Ignore("Expired test environment certificate, will re-enable when the certificate gets updated.")]
         [Retry(RetryCount)]
         public async Task PostInvoice()
         {

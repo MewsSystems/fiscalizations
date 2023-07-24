@@ -2,7 +2,7 @@
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>10</LangVersion>
     <Authors>Mews</Authors>
     <Description>Core library for implementing other fiscalization libraries.</Description>
     <PackageTags>fiscalization core</PackageTags>
@@ -17,7 +17,7 @@
   <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="..\..\..\packageIcon.png">
       <Pack>True</Pack>
