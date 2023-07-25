@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Model
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
+
+public enum FiskalyEnvironment
 {
-    public enum FiskalyEnvironment
-    {
-        Test,
-        Production
-    }
+    Test,
+    Production
 }

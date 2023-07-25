@@ -6,62 +6,61 @@ using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Mews.Fiscalizations.Basque.Tests
+namespace Mews.Fiscalizations.Basque.Tests;
+
+public sealed class TestFixture
 {
-    public sealed class TestFixture
+    internal static readonly X509Certificate2 Certificate = new X509Certificate2(
+        rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("spanish_certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
+        password: System.Environment.GetEnvironmentVariable("spanish_certificate_password") ?? "INSERT_CERTIFICATE_PASSWORD",
+        keyStorageFlags: X509KeyStorageFlags.DefaultKeySet
+    );
+
+    internal static readonly TaxpayerIdentificationNumber LocalNif = TaxpayerIdentificationNumber.Create(
+        country: Countries.Spain,
+        taxpayerNumber: System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID"
+    ).Success.Get();
+
+    public TestFixture(Region region)
     {
-        internal static readonly X509Certificate2 Certificate = new X509Certificate2(
-            rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("spanish_certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
-            password: System.Environment.GetEnvironmentVariable("spanish_certificate_password") ?? "INSERT_CERTIFICATE_PASSWORD",
-            keyStorageFlags: X509KeyStorageFlags.DefaultKeySet
+        Region = region;
+    }
+
+    internal Region Region { get; }
+
+    internal TicketBaiClient Client => new TicketBaiClient(Certificate, Region, Environment.Test);
+
+    internal Software Software => Software.LocalSoftwareDeveloper(
+        nif: LocalNif,
+        license: Region.Match(
+            Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
+            Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE")
+        ),
+        name: String1To120.CreateUnsafe("Test"),
+        version: String1To20.CreateUnsafe("1.0.0")
+    );
+
+    internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("Test issuing company"), LocalNif.TaxpayerNumber).Success.Get();
+
+    internal static void AssertResponse(Region region, SendInvoiceResponse response, TicketBaiInvoiceData tbaiInvoiceData)
+    {
+        var validationResults = response.ValidationResults.Flatten();
+
+        // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
+        // Also the NIF must be registered in the Araba region.
+        var applicableValidationResults = region.Match(
+            Region.Gipuzkoa, _ => validationResults,
+            Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion))
         );
+        Assert.IsEmpty(applicableValidationResults);
+        Assert.IsNotEmpty(response.QrCodeUri);
+        Assert.IsNotEmpty(response.TBAIIdentifier);
+        Assert.IsNotEmpty(response.XmlRequestContent);
+        Assert.IsNotEmpty(response.XmlResponseContent);
 
-        internal static readonly TaxpayerIdentificationNumber LocalNif = TaxpayerIdentificationNumber.Create(
-            country: Countries.Spain,
-            taxpayerNumber: System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID"
-        ).Success.Get();
-
-        public TestFixture(Region region)
-        {
-            Region = region;
-        }
-
-        internal Region Region { get; }
-
-        internal TicketBaiClient Client => new TicketBaiClient(Certificate, Region, Environment.Test);
-
-        internal Software Software => Software.LocalSoftwareDeveloper(
-            nif: LocalNif,
-            license: Region.Match(
-                Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
-                Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE")
-            ),
-            name: String1To120.CreateUnsafe("Test"),
-            version: String1To20.CreateUnsafe("1.0.0")
-        );
-
-        internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("Test issuing company"), LocalNif.TaxpayerNumber).Success.Get();
-
-        internal static void AssertResponse(Region region, SendInvoiceResponse response, TicketBaiInvoiceData tbaiInvoiceData)
-        {
-            var validationResults = response.ValidationResults.Flatten();
-
-            // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
-            // Also the NIF must be registered in the Araba region.
-            var applicableValidationResults = region.Match(
-                Region.Gipuzkoa, _ => validationResults,
-                Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion))
-            );
-            Assert.IsEmpty(applicableValidationResults);
-            Assert.IsNotEmpty(response.QrCodeUri);
-            Assert.IsNotEmpty(response.TBAIIdentifier);
-            Assert.IsNotEmpty(response.XmlRequestContent);
-            Assert.IsNotEmpty(response.XmlResponseContent);
-
-            Assert.IsTrue(response.QrCodeUri.Contains(response.TBAIIdentifier));
-            Assert.AreEqual(response.State, InvoiceState.Received);
-            Assert.AreEqual(response.TBAIIdentifier, tbaiInvoiceData.TbaiIdentifier);
-            Assert.AreEqual(response.QrCodeUri, tbaiInvoiceData.QrCodeUri);
-        }
+        Assert.IsTrue(response.QrCodeUri.Contains(response.TBAIIdentifier));
+        Assert.AreEqual(response.State, InvoiceState.Received);
+        Assert.AreEqual(response.TBAIIdentifier, tbaiInvoiceData.TbaiIdentifier);
+        Assert.AreEqual(response.QrCodeUri, tbaiInvoiceData.QrCodeUri);
     }
 }

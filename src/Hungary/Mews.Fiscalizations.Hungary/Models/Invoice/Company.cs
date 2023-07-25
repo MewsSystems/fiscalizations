@@ -1,39 +1,38 @@
 ﻿using FuncSharp;
 
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+public sealed class Company : Coproduct2<LocalCompany, ForeignCompany>
 {
-    public sealed class Company : Coproduct2<LocalCompany, ForeignCompany>
+    public Company(LocalCompany localCompany)
+        : base(localCompany)
     {
-        public Company(LocalCompany localCompany)
-            : base(localCompany)
-        {
-        }
+    }
 
-        public Company(ForeignCompany foreignCompany)
-            : base(foreignCompany)
-        {
-        }
+    public Company(ForeignCompany foreignCompany)
+        : base(foreignCompany)
+    {
+    }
 
-        public Name Name
+    public Name Name
+    {
+        get
         {
-            get
-            {
-                return Match(
-                    local => local.Name,
-                    foreign => foreign.Name
-                );
-            }
+            return Match(
+                local => local.Name,
+                foreign => foreign.Name
+            );
         }
+    }
 
-        public SimpleAddress Address
+    public SimpleAddress Address
+    {
+        get
         {
-            get
-            {
-                return Match(
-                    local => local.Address,
-                    foreign => foreign.Address
-                );
-            }
+            return Match(
+                local => local.Address,
+                foreign => foreign.Address
+            );
         }
     }
 }

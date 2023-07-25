@@ -1,29 +1,28 @@
 ﻿using FuncSharp;
 using System.Xml;
 
-namespace Mews.Fiscalizations.Core.Model
+namespace Mews.Fiscalizations.Core.Model;
+
+public sealed class Name
 {
-    public sealed class Name
+    private Name(string value)
     {
-        private Name(string value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public string Value { get; }
+    public string Value { get; }
 
-        public static ITry<Name, Error> Create(string value)
+    public static ITry<Name, Error> Create(string value)
+    {
+        return StringValidations.LengthInRange(value, 0, 120).FlatMap(v =>
         {
-            return StringValidations.LengthInRange(value, 0, 120).FlatMap(v =>
-            {
-                var validatedName = Try.Catch<string, XmlException>(_ => XmlConvert.VerifyXmlChars(v)).MapError(_ => new Error("Name contains invalid characters."));
-                return validatedName.Map(n => new Name(n));
-            });
-        }
+            var validatedName = Try.Catch<string, XmlException>(_ => XmlConvert.VerifyXmlChars(v)).MapError(_ => new Error("Name contains invalid characters."));
+            return validatedName.Map(n => new Name(n));
+        });
+    }
 
-        public static Name CreateUnsafe(string value)
-        {
-            return Create(value).GetUnsafe();
-        }
+    public static Name CreateUnsafe(string value)
+    {
+        return Create(value).GetUnsafe();
     }
 }

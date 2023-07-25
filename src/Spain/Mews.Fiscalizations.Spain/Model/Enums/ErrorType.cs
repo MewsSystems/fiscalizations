@@ -1,9 +1,8 @@
 ﻿
-namespace Mews.Fiscalizations.Spain.Model.Enums
+namespace Mews.Fiscalizations.Spain.Model.Enums;
+
+public enum ErrorType
 {
-    public enum ErrorType
-    {
-        CertificateRevoked,
-        Unknown
-    }
+    CertificateRevoked,
+    Unknown
 }

@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Dto
+﻿namespace Mews.Fiscalizations.Germany.V2.Dto;
+
+internal enum TssState
 {
-    internal enum TssState
-    {
-        CREATED,
-        UNINITIALIZED,
-        INITIALIZED,
-        DISABLED,
-        DELETED
-    }
+    CREATED,
+    UNINITIALIZED,
+    INITIALIZED,
+    DISABLED,
+    DELETED
 }

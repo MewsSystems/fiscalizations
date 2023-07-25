@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Basque.Model
+﻿namespace Mews.Fiscalizations.Basque.Model;
+
+public enum CorrectingInvoiceCode
 {
-    public enum CorrectingInvoiceCode
-    {
-        CorrectedInvoice,
-        CorrectedInvoice2,
-        CorrectedInvoice3,
-        CorrectedInvoice4,
-        CorrectedInvoiceInSimplifiedInvoices,
-    }
+    CorrectedInvoice,
+    CorrectedInvoice2,
+    CorrectedInvoice3,
+    CorrectedInvoice4,
+    CorrectedInvoiceInSimplifiedInvoices,
 }

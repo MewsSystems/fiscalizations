@@ -3,66 +3,65 @@ using System.Linq;
 using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalizations.Spain.Nif
+namespace Mews.Fiscalizations.Spain.Nif;
+
+public enum NifSearchResult
 {
-    public enum NifSearchResult
+    Found,
+    NotFoundBecauseNifModifiedByServer,
+    NotFound,
+    NotProcessed,
+    Other
+}
+
+public class NifInfoEntry
+{
+    public NifInfoEntry(TaxpayerIdentificationNumber taxpayerNumber, string name)
     {
-        Found,
-        NotFoundBecauseNifModifiedByServer,
-        NotFound,
-        NotProcessed,
-        Other
+        TaxpayerNumber = Check.IsNotNull(taxpayerNumber, nameof(taxpayerNumber));
+        Name = Check.IsNotNull(name, nameof(name));
     }
 
-    public class NifInfoEntry
+    public TaxpayerIdentificationNumber TaxpayerNumber { get; }
+
+    public string Name { get; }
+}
+
+public class NifInfoResults
+{
+    public NifInfoResults(string taxId, string name, NifSearchResult result, string resultMessage = null)
     {
-        public NifInfoEntry(TaxpayerIdentificationNumber taxpayerNumber, string name)
-        {
-            TaxpayerNumber = Check.IsNotNull(taxpayerNumber, nameof(taxpayerNumber));
-            Name = Check.IsNotNull(name, nameof(name));
-        }
-
-        public TaxpayerIdentificationNumber TaxpayerNumber { get; }
-
-        public string Name { get; }
+        TaxId = taxId;
+        Name = name;
+        Result = result;
+        ResultMessage = resultMessage.ToOption();
     }
 
-    public class NifInfoResults
+    public string TaxId { get; }
+
+    public string Name { get; }
+
+    public NifSearchResult Result { get; }
+
+    public IOption<string> ResultMessage { get; }
+}
+
+public class Request
+{
+    public Request(INonEmptyEnumerable<NifInfoEntry> entries)
     {
-        public NifInfoResults(string taxId, string name, NifSearchResult result, string resultMessage = null)
-        {
-            TaxId = taxId;
-            Name = name;
-            Result = result;
-            ResultMessage = resultMessage.ToOption();
-        }
-
-        public string TaxId { get; }
-
-        public string Name { get; }
-
-        public NifSearchResult Result { get; }
-
-        public IOption<string> ResultMessage { get; }
+        Entries = entries;
     }
 
-    public class Request
-    {
-        public Request(INonEmptyEnumerable<NifInfoEntry> entries)
-        {
-            Entries = entries;
-        }
+    public INonEmptyEnumerable<NifInfoEntry> Entries { get; }
+}
 
-        public INonEmptyEnumerable<NifInfoEntry> Entries { get; }
+public class Response
+{
+    public Response(IEnumerable<NifInfoResults> results)
+    {
+        Results = results.ToList();
     }
 
-    public class Response
-    {
-        public Response(IEnumerable<NifInfoResults> results)
-        {
-            Results = results.ToList();
-        }
-
-        public IEnumerable<NifInfoResults> Results { get; }
-    }
+    public IEnumerable<NifInfoResults> Results { get; }
 }

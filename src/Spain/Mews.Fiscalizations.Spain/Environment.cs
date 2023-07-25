@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Spain
+﻿namespace Mews.Fiscalizations.Spain;
+
+public enum Environment
 {
-    public enum Environment
-    {
-        Production,
-        Test
-    }
+    Production,
+    Test
 }

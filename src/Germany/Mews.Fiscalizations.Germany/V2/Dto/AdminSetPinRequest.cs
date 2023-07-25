@@ -1,13 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace Mews.Fiscalizations.Germany.V2.Dto
-{
-    internal sealed class AdminSetPinRequest
-    {
-        [JsonProperty("admin_puk")]
-        public string AdminPuk { get; set; }
+namespace Mews.Fiscalizations.Germany.V2.Dto;
 
-        [JsonProperty("new_admin_pin")]
-        public string NewAdminPin { get; set; }
-    }
+internal sealed class AdminSetPinRequest
+{
+    [JsonProperty("admin_puk")]
+    public string AdminPuk { get; set; }
+
+    [JsonProperty("new_admin_pin")]
+    public string NewAdminPin { get; set; }
 }

@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Dto
+﻿namespace Mews.Fiscalizations.Germany.V2.Dto;
+
+internal enum FiskalyEnvironment
 {
-    internal enum FiskalyEnvironment
-    {
-        TEST,
-        LIVE
-    }
+    TEST,
+    LIVE
 }

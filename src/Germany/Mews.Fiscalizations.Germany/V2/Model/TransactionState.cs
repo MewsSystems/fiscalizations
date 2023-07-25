@@ -1,9 +1,8 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Model
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
+
+public enum TransactionState
 {
-    public enum TransactionState
-    {
-        Active,
-        Canceled,
-        Finished
-    }
+    Active,
+    Canceled,
+    Finished
 }

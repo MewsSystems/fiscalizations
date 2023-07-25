@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Italy.Dto.Invoice
+namespace Mews.Fiscalizations.Italy.Dto.Invoice;
+
+[Serializable, XmlType(Namespace = ElectronicInvoice.Namespace)]
+public enum IssuerType
 {
-    [Serializable, XmlType(Namespace = ElectronicInvoice.Namespace)]
-    public enum IssuerType
-    {
-        CC,
-        TZ,
-    }
+    CC,
+    TZ,
 }

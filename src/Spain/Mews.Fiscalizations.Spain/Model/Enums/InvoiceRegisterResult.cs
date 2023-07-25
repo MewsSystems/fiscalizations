@@ -1,9 +1,8 @@
-﻿namespace Mews.Fiscalizations.Spain.Model
+﻿namespace Mews.Fiscalizations.Spain.Model;
+
+public enum InvoiceRegisterResult
 {
-    public enum InvoiceRegisterResult
-    {
-        Accepted,
-        AcceptedWithErrors,
-        Rejected
-    }
+    Accepted,
+    AcceptedWithErrors,
+    Rejected
 }

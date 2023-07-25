@@ -1,8 +1,7 @@
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum SoftwareType
 {
-    public enum SoftwareType
-    {
-        LocalSoftware,
-        OnlineService
-    }
+    LocalSoftware,
+    OnlineService
 }

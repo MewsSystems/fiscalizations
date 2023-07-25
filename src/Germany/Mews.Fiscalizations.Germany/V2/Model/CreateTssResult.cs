@@ -1,13 +1,12 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Model
-{
-    public sealed class CreateTssResult : Tss
-    {
-        public CreateTssResult(string adminPuk, Tss tss)
-            : base(tss.Id, tss.Description, tss.State, tss.CreatedUtc, tss.InitializedUtc, tss.DisabledUtc, tss.Certificate, tss.SerialNumber, tss.PublicKey, tss.SignatureCounter, tss.SignatureAlgorithm, tss.TransactionCounter)
-        {
-            AdminPuk = adminPuk;
-        }
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
 
-        public string AdminPuk { get; }
+public sealed class CreateTssResult : Tss
+{
+    public CreateTssResult(string adminPuk, Tss tss)
+        : base(tss.Id, tss.Description, tss.State, tss.CreatedUtc, tss.InitializedUtc, tss.DisabledUtc, tss.Certificate, tss.SerialNumber, tss.PublicKey, tss.SignatureCounter, tss.SignatureAlgorithm, tss.TransactionCounter)
+    {
+        AdminPuk = adminPuk;
     }
+
+    public string AdminPuk { get; }
 }

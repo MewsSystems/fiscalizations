@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Model
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
+
+public enum TssState
 {
-    public enum TssState
-    {
-        Created,
-        Uninitialized,
-        Initialized,
-        Disabled,
-        Deleted
-    }
+    Created,
+    Uninitialized,
+    Initialized,
+    Disabled,
+    Deleted
 }

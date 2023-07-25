@@ -2,34 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+public sealed class InvoiceValidationResult
 {
-    public sealed class InvoiceValidationResult
+    public InvoiceValidationResult(string message, ValidationResultCode resultCode)
     {
-        public InvoiceValidationResult(string message, ValidationResultCode resultCode)
-        {
-            Message = message;
-            ResultCode = resultCode;
-        }
+        Message = message;
+        ResultCode = resultCode;
+    }
 
-        public string Message { get; }
+    public string Message { get; }
 
-        public ValidationResultCode ResultCode { get; }
+    public ValidationResultCode ResultCode { get; }
 
-        internal static IEnumerable<InvoiceValidationResult> Map(
-            IEnumerable<Dto.BusinessValidationResultType> businessValidations,
-            IEnumerable<Dto.TechnicalValidationResultType> technicalValidations)
-        {
-            return Enumerable.Concat(
-                businessValidations.OrEmptyIfNull().Select(v => new InvoiceValidationResult(
-                    message: v.message,
-                    resultCode: (ValidationResultCode)v.validationResultCode
-                )),
-                technicalValidations.OrEmptyIfNull().Select(v => new InvoiceValidationResult(
-                    message: v.message,
-                    resultCode: (ValidationResultCode)v.validationResultCode
-                ))
-            );
-        }
+    internal static IEnumerable<InvoiceValidationResult> Map(
+        IEnumerable<Dto.BusinessValidationResultType> businessValidations,
+        IEnumerable<Dto.TechnicalValidationResultType> technicalValidations)
+    {
+        return Enumerable.Concat(
+            businessValidations.OrEmptyIfNull().Select(v => new InvoiceValidationResult(
+                message: v.message,
+                resultCode: (ValidationResultCode)v.validationResultCode
+            )),
+            technicalValidations.OrEmptyIfNull().Select(v => new InvoiceValidationResult(
+                message: v.message,
+                resultCode: (ValidationResultCode)v.validationResultCode
+            ))
+        );
     }
 }

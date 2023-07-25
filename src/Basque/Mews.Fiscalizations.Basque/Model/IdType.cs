@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Basque.Model
+﻿namespace Mews.Fiscalizations.Basque.Model;
+
+public enum IdType
 {
-    public enum IdType
-    {
-        NifVat,
-        Passport,
-        OfficialIdentificationDocumentIssuedByTheCountry,
-        ResidenceCertificate,
-        OtherSupportingDocument
-    }
+    NifVat,
+    Passport,
+    OfficialIdentificationDocumentIssuedByTheCountry,
+    ResidenceCertificate,
+    OtherSupportingDocument
 }

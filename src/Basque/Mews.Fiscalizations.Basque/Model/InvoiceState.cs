@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Basque.Model
+﻿namespace Mews.Fiscalizations.Basque.Model;
+
+public enum InvoiceState
 {
-    public enum InvoiceState
-    {
-        Received = 00,
-        Refused = 01
-    }
+    Received = 00,
+    Refused = 01
 }

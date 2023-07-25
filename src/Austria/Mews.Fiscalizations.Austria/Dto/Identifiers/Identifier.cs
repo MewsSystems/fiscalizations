@@ -1,17 +1,16 @@
-﻿namespace Mews.Fiscalizations.Austria.Dto.Identifiers
+﻿namespace Mews.Fiscalizations.Austria.Dto.Identifiers;
+
+public abstract class Identifier<T>
 {
-    public abstract class Identifier<T>
+    protected Identifier(T value)
     {
-        protected Identifier(T value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public T Value { get; }
+    public T Value { get; }
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

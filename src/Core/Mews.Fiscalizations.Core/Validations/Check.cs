@@ -3,60 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Mews.Fiscalizations.Core.Model
+namespace Mews.Fiscalizations.Core.Model;
+
+public static class Check
 {
-    public static class Check
+    public static T IsNotNull<T>(T value, string valueName)
     {
-        public static T IsNotNull<T>(T value, string valueName)
-        {
-            return value ?? throw new ArgumentNullException(valueName);
-        }
+        return value ?? throw new ArgumentNullException(valueName);
+    }
 
-        public static void NonEmpty<T>(IEnumerable<T> collection, string message)
-        {
-            Condition(collection.NonEmpty(), message);
-        }
+    public static void NonEmpty<T>(IEnumerable<T> collection, string message)
+    {
+        Condition(collection.NonEmpty(), message);
+    }
 
-        public static void Regex(Regex pattern, string value, string message)
-        {
-            Condition(pattern.IsMatch(value), message);
-        }
+    public static void Regex(Regex pattern, string value, string message)
+    {
+        Condition(pattern.IsMatch(value), message);
+    }
 
-        public static void Condition(bool value, string message)
+    public static void Condition(bool value, string message)
+    {
+        if (!value)
         {
-            if (!value)
-            {
-                throw GetArgumentError(message);
-            }
+            throw GetArgumentError(message);
         }
+    }
 
-        public static void In<T>(T value, IEnumerable<T> values, string name)
+    public static void In<T>(T value, IEnumerable<T> values, string name)
+    {
+        if (!values.Contains(value))
         {
-            if (!values.Contains(value))
-            {
-                throw new ArgumentOutOfRangeException($"Value ({value}) is not allowed.", name);
-            }
+            throw new ArgumentOutOfRangeException($"Value ({value}) is not allowed.", name);
         }
+    }
 
-        public static void Digits(decimal value, int maxdigitCount)
+    public static void Digits(decimal value, int maxdigitCount)
+    {
+        if (!value.HasFewerDigitsThan(maxdigitCount))
         {
-            if (!value.HasFewerDigitsThan(maxdigitCount))
-            {
-                throw new ArgumentOutOfRangeException($"Value cannot have more than {maxdigitCount} digits.");
-            }
+            throw new ArgumentOutOfRangeException($"Value cannot have more than {maxdigitCount} digits.");
         }
+    }
 
-        public static void Precision(decimal value, int maxPrecision)
+    public static void Precision(decimal value, int maxPrecision)
+    {
+        if (!value.PrecisionSmallerThanOrEqualTo(maxPrecision))
         {
-            if (!value.PrecisionSmallerThanOrEqualTo(maxPrecision))
-            {
-                throw new ArgumentOutOfRangeException($"Precision cannot be higher than {maxPrecision}.");
-            }
+            throw new ArgumentOutOfRangeException($"Precision cannot be higher than {maxPrecision}.");
         }
+    }
 
-        private static Exception GetArgumentError(string message)
-        {
-            return new ArgumentException(message);
-        }
+    private static Exception GetArgumentError(string message)
+    {
+        return new ArgumentException(message);
     }
 }

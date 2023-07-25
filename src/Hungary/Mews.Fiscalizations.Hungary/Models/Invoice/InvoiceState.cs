@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum InvoiceState
 {
-    public enum InvoiceState
-    {
-        Received,
-        Processing,
-        Saved,
-        Done,
-        Aborted,
-    }
+    Received,
+    Processing,
+    Saved,
+    Done,
+    Aborted,
 }

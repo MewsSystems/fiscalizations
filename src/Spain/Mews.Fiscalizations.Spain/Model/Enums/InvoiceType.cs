@@ -1,14 +1,13 @@
-﻿namespace Mews.Fiscalizations.Spain.Model
+﻿namespace Mews.Fiscalizations.Spain.Model;
+
+public enum InvoiceType
 {
-    public enum InvoiceType
-    {
-        Invoice,
-        CorrectedInvoice,
-        CorrectedInvoice2,
-        CorrectedInvoice3,
-        CorrectedInvoice4,
-        CorrectedInvoiceInSimplifiedInvoices,
-        InvoiceIssuedToReplaceSimplifiedInvoices,
-        InvoiceSummaryEntry
-    }
+    Invoice,
+    CorrectedInvoice,
+    CorrectedInvoice2,
+    CorrectedInvoice3,
+    CorrectedInvoice4,
+    CorrectedInvoiceInSimplifiedInvoices,
+    InvoiceIssuedToReplaceSimplifiedInvoices,
+    InvoiceSummaryEntry
 }

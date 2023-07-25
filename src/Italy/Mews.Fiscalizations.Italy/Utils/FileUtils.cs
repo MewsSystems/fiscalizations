@@ -2,14 +2,13 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Mews.Fiscalizations.Italy.Utils
+namespace Mews.Fiscalizations.Italy.Utils;
+
+public static class FileUtils
 {
-    public static class FileUtils
+    public static string SanitizePath(string path)
     {
-        public static string SanitizePath(string path)
-        {
-            var illegalChars = Path.GetInvalidPathChars();
-            return new String(path.Where(c => !illegalChars.Contains(c)).ToArray());
-        }
+        var illegalChars = Path.GetInvalidPathChars();
+        return new String(path.Where(c => !illegalChars.Contains(c)).ToArray());
     }
 }

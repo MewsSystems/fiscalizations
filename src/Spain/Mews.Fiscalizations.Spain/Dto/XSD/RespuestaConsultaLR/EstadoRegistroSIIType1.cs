@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Spain.Dto.XSD.RespuestaConsultaLR
+﻿namespace Mews.Fiscalizations.Spain.Dto.XSD.RespuestaConsultaLR;
+
+[System.SerializableAttribute]
+[System.Xml.Serialization.XmlTypeAttribute(TypeName = "EstadoRegistroSIIType", Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaConsultaLR.xsd")]
+public enum EstadoRegistroSIIType1
 {
-    [System.SerializableAttribute]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName = "EstadoRegistroSIIType", Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/RespuestaConsultaLR.xsd")]
-    public enum EstadoRegistroSIIType1
-    {
-        Correcta,
-        AceptadaConErrores,
-        Anulada,
-    }
+    Correcta,
+    AceptadaConErrores,
+    Anulada,
 }

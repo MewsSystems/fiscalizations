@@ -1,9 +1,8 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum ValidationResultCode
 {
-    public enum ValidationResultCode
-    {
-        Error,
-        Warning,
-        Info
-    }
+    Error,
+    Warning,
+    Info
 }

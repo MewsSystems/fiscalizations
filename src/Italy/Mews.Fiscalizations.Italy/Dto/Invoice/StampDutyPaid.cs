@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Italy.Dto.Invoice
+namespace Mews.Fiscalizations.Italy.Dto.Invoice;
+
+[Serializable, XmlType(Namespace = ElectronicInvoice.Namespace)]
+public enum StampDutyPaid
 {
-    [Serializable, XmlType(Namespace = ElectronicInvoice.Namespace)]
-    public enum StampDutyPaid
-    {
-        /// <summary>
-        /// Yes.
-        /// </summary>
-        SI,
-    }
+    /// <summary>
+    /// Yes.
+    /// </summary>
+    SI,
 }

@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Spain.Model
+﻿namespace Mews.Fiscalizations.Spain.Model;
+
+public enum ResidenceCountryIdentificatorType
 {
-    public enum ResidenceCountryIdentificatorType
-    {
-        Passport,
-        OfficialIdentificationDocumentIssuedByTheCountry,
-        ResidenceCertificate,
-        OtherSupportingDocument,
-        NotSelected
-    }
+    Passport,
+    OfficialIdentificationDocumentIssuedByTheCountry,
+    ResidenceCertificate,
+    OtherSupportingDocument,
+    NotSelected
 }

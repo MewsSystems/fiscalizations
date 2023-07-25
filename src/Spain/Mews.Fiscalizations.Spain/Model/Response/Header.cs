@@ -1,15 +1,14 @@
-﻿namespace Mews.Fiscalizations.Spain.Model.Response
+﻿namespace Mews.Fiscalizations.Spain.Model.Response;
+
+public sealed class Header
 {
-    public sealed class Header
+    public Header(LocalCompany company, CommunicationType communicationType)
     {
-        public Header(LocalCompany company, CommunicationType communicationType)
-        {
-            Company = company;
-            CommunicationType = communicationType;
-        }
-
-        public LocalCompany Company { get; }
-
-        public CommunicationType CommunicationType { get; }
+        Company = company;
+        CommunicationType = communicationType;
     }
+
+    public LocalCompany Company { get; }
+
+    public CommunicationType CommunicationType { get; }
 }

@@ -1,11 +1,10 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum PaymentMethod
 {
-    public enum PaymentMethod
-    {
-        Transfer,
-        Cash,
-        Card,
-        Voucher,
-        Other
-    }
+    Transfer,
+    Cash,
+    Card,
+    Voucher,
+    Other
 }

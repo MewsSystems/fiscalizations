@@ -1,9 +1,8 @@
-﻿namespace Mews.Fiscalizations.Spain.Model
+﻿namespace Mews.Fiscalizations.Spain.Model;
+
+public enum CommunicationType
 {
-    public enum CommunicationType
-    {
-        Registration,
-        Amendment,
-        AmendmentForTravellers
-    }
+    Registration,
+    Amendment,
+    AmendmentForTravellers
 }

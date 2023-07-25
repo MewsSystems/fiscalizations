@@ -2,13 +2,12 @@
 using Mews.Fiscalizations.Core.Model;
 using System.Text.RegularExpressions;
 
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+internal static class ValidationExtensions
 {
-    internal static class ValidationExtensions
+    internal static ITry<string, Error> ValidateString(string value, int minLength, int maxLength, string regex)
     {
-        internal static ITry<string, Error> ValidateString(string value, int minLength, int maxLength, string regex)
-        {
-            return StringValidations.LengthInRange(value, minLength, maxLength).FlatMap(v => StringValidations.RegexMatch(v, new Regex(regex)));
-        }
+        return StringValidations.LengthInRange(value, minLength, maxLength).FlatMap(v => StringValidations.RegexMatch(v, new Regex(regex)));
     }
 }

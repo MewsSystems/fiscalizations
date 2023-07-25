@@ -1,9 +1,8 @@
-﻿namespace Mews.Fiscalizations.Spain.Model
+﻿namespace Mews.Fiscalizations.Spain.Model;
+
+public enum RegisterResult
 {
-    public enum RegisterResult
-    {
-        Correct,
-        PartialyIncorrect,
-        AllIncorrect
-    }
+    Correct,
+    PartialyIncorrect,
+    AllIncorrect
 }

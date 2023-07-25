@@ -1,7 +1,6 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum TaxPayerErrorCode
 {
-    public enum TaxPayerErrorCode
-    {
-        InvalidTaxPayer
-    }
+    InvalidTaxPayer
 }

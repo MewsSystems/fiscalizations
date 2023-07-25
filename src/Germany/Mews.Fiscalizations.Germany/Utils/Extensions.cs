@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Mews.Fiscalizations.Germany.Utils
+namespace Mews.Fiscalizations.Germany.Utils;
+
+internal static class Extensions
 {
-    internal static class Extensions
+    public static DateTime FromUnixTime(this long value)
     {
-        public static DateTime FromUnixTime(this long value)
-        {
-            return DateTimeOffset.FromUnixTimeSeconds(value).DateTime;
-        }
+        return DateTimeOffset.FromUnixTimeSeconds(value).DateTime;
     }
 }

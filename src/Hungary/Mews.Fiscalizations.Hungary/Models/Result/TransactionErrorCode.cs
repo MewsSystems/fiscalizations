@@ -1,7 +1,6 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum TransactionErrorCode
 {
-    public enum TransactionErrorCode
-    {
-        InvalidTransactionId
-    }
+    InvalidTransactionId
 }

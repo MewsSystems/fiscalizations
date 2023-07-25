@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum MeasurementUnit
 {
-    public enum MeasurementUnit
-    {
-        Night = 1,
-        Piece = 2
-    }
+    Night = 1,
+    Piece = 2
 }

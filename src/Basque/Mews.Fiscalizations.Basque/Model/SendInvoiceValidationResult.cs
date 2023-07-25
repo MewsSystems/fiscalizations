@@ -1,18 +1,17 @@
-﻿namespace Mews.Fiscalizations.Basque.Model
+﻿namespace Mews.Fiscalizations.Basque.Model;
+
+public sealed class SendInvoiceValidationResult
 {
-    public sealed class SendInvoiceValidationResult
+    public SendInvoiceValidationResult(ErrorCode errorCode, string description, string explanation)
     {
-        public SendInvoiceValidationResult(ErrorCode errorCode, string description, string explanation)
-        {
-            ErrorCode = errorCode;
-            Description = description;
-            Explanation = explanation;
-        }
-
-        public ErrorCode ErrorCode { get; }
-
-        public string Description { get; }
-
-        public string Explanation { get; }
+        ErrorCode = errorCode;
+        Description = description;
+        Explanation = explanation;
     }
+
+    public ErrorCode ErrorCode { get; }
+
+    public string Description { get; }
+
+    public string Explanation { get; }
 }

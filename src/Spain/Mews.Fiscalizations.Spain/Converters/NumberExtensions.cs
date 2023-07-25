@@ -1,12 +1,11 @@
 ﻿using System.Globalization;
 
-namespace Mews.Fiscalizations.Spain.Converters
+namespace Mews.Fiscalizations.Spain.Converters;
+
+public static class NumberExtensions
 {
-    public static class NumberExtensions
+    internal static string Serialize(this decimal value)
     {
-        internal static string Serialize(this decimal value)
-        {
-            return value.ToString("F2", CultureInfo.InvariantCulture);
-        }
+        return value.ToString("F2", CultureInfo.InvariantCulture);
     }
 }

@@ -1,21 +1,20 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Model
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
+
+public sealed class Signature
 {
-    public sealed class Signature
+    public Signature(string value, int counter, string algorithm, byte[] publicKey)
     {
-        public Signature(string value, int counter, string algorithm, byte[] publicKey)
-        {
-            Value = value;
-            Counter = counter;
-            Algorithm = algorithm;
-            PublicKey = publicKey;
-        }
-
-        public string Value { get; }
-
-        public int Counter { get; }
-
-        public string Algorithm { get; }
-
-        public byte[] PublicKey { get; }
+        Value = value;
+        Counter = counter;
+        Algorithm = algorithm;
+        PublicKey = publicKey;
     }
+
+    public string Value { get; }
+
+    public int Counter { get; }
+
+    public string Algorithm { get; }
+
+    public byte[] PublicKey { get; }
 }

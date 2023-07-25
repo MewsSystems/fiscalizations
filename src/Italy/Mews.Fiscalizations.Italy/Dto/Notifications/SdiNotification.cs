@@ -2,31 +2,30 @@
 using System.Xml.Serialization;
 using Mews.Fiscalizations.Italy.Dto.XmlSignature;
 
-namespace Mews.Fiscalizations.Italy.Dto.Notifications
+namespace Mews.Fiscalizations.Italy.Dto.Notifications;
+
+public class SdiNotification
 {
-    public class SdiNotification
+    public SdiNotification()
     {
-        public SdiNotification()
-        {
-            Version = "1.0";
-        }
-
-        [XmlElement("IdentificativoSdI", Form = XmlSchemaForm.Unqualified, DataType = "integer")]
-        public string SdiIdentification { get; set; }
-
-        [XmlElement("NomeFile", Form = XmlSchemaForm.Unqualified)]
-        public string FileName { get; set; }
-
-        [XmlElement("MessageId", Form = XmlSchemaForm.Unqualified)]
-        public string MessageId { get; set; }
-
-        [XmlAttribute("versione")]
-        public string Version { get; set; }
-
-        [XmlElement("Note", Form = XmlSchemaForm.Unqualified)]
-        public string Note { get; set; }
-
-        [XmlElement("Signature", Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-        public Signature Signature { get; set; }
+        Version = "1.0";
     }
+
+    [XmlElement("IdentificativoSdI", Form = XmlSchemaForm.Unqualified, DataType = "integer")]
+    public string SdiIdentification { get; set; }
+
+    [XmlElement("NomeFile", Form = XmlSchemaForm.Unqualified)]
+    public string FileName { get; set; }
+
+    [XmlElement("MessageId", Form = XmlSchemaForm.Unqualified)]
+    public string MessageId { get; set; }
+
+    [XmlAttribute("versione")]
+    public string Version { get; set; }
+
+    [XmlElement("Note", Form = XmlSchemaForm.Unqualified)]
+    public string Note { get; set; }
+
+    [XmlElement("Signature", Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+    public Signature Signature { get; set; }
 }

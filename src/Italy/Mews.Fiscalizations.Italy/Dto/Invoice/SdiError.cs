@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Italy.Dto.Invoice
+﻿namespace Mews.Fiscalizations.Italy.Dto.Invoice;
+
+public enum SdiError
 {
-    public enum SdiError
-    {
-        ServiceUnavailable,
-        UnauthorizedUser
-    }
+    ServiceUnavailable,
+    UnauthorizedUser
 }

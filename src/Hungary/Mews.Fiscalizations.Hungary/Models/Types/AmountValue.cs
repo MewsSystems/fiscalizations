@@ -1,16 +1,15 @@
 ﻿using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalizations.Hungary.Models
-{
-    public sealed class AmountValue
-    {
-        public AmountValue(decimal value)
-        {
-            Check.Digits(value, maxdigitCount: 18);
-            Check.Precision(value, maxPrecision: 2);
-            Value = value;
-        }
+namespace Mews.Fiscalizations.Hungary.Models;
 
-        public decimal Value { get; }
+public sealed class AmountValue
+{
+    public AmountValue(decimal value)
+    {
+        Check.Digits(value, maxdigitCount: 18);
+        Check.Precision(value, maxPrecision: 2);
+        Value = value;
     }
+
+    public decimal Value { get; }
 }

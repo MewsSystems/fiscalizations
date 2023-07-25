@@ -1,27 +1,25 @@
 ﻿using System.Text.RegularExpressions;
 using FuncSharp;
 
-namespace Mews.Fiscalizations.Core.Model
+namespace Mews.Fiscalizations.Core.Model;
+
+public class EuropeanUnionCountry
 {
-    public class EuropeanUnionCountry
+    internal EuropeanUnionCountry(string alpha2Code, Regex taxpayerNumberPattern, Regex taxpayerNumberPatternWithoutCountryCodePrefix)
     {
-        internal EuropeanUnionCountry(string alpha2Code, Regex taxpayerNumberPattern, Regex taxpayerNumberPatternWithoutCountryCodePrefix)
-        {
-            Alpha2Code = alpha2Code;
-            TaxpayerNumberPattern = taxpayerNumberPattern;
-            TaxpayerNumberPatternWithoutCountryCodePrefix = taxpayerNumberPatternWithoutCountryCodePrefix;
-        }
+        Alpha2Code = alpha2Code;
+        TaxpayerNumberPattern = taxpayerNumberPattern;
+        TaxpayerNumberPatternWithoutCountryCodePrefix = taxpayerNumberPatternWithoutCountryCodePrefix;
+    }
 
-        public string Alpha2Code { get; }
+    public string Alpha2Code { get; }
 
-        public Regex TaxpayerNumberPattern { get; }
+    public Regex TaxpayerNumberPattern { get; }
 
-        public Regex TaxpayerNumberPatternWithoutCountryCodePrefix { get; }
+    public Regex TaxpayerNumberPatternWithoutCountryCodePrefix { get; }
 
-        public static IOption<EuropeanUnionCountry> GetByCode(string alpha2Code)
-        {
-            return Countries.GetEuropeanUnionByCode(alpha2Code);
-        }
+    public static IOption<EuropeanUnionCountry> GetByCode(string alpha2Code)
+    {
+        return Countries.GetEuropeanUnionByCode(alpha2Code);
     }
 }
-

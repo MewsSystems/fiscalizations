@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Basque
+﻿namespace Mews.Fiscalizations.Basque;
+
+public enum Environment
 {
-    public enum Environment
-    {
-        Test,
-        Production
-    }
+    Test,
+    Production
 }

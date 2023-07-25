@@ -1,10 +1,9 @@
-namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
+
+internal enum UniwixProcesingState
 {
-    internal enum UniwixProcesingState
-    {
-        Waiting = 1,
-        Processed = 5,
-        Accepted = 6,
-        Rejected = 7
-    }
+    Waiting = 1,
+    Processed = 5,
+    Accepted = 6,
+    Rejected = 7
 }

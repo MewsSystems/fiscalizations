@@ -1,17 +1,16 @@
 ﻿using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalizations.Basque.Model
+namespace Mews.Fiscalizations.Basque.Model;
+
+public sealed class TaxExemptItem
 {
-    public sealed class TaxExemptItem
+    public TaxExemptItem(Amount amount, CauseOfExemption cause)
     {
-        public TaxExemptItem(Amount amount, CauseOfExemption cause)
-        {
-            Amount = Check.IsNotNull(amount, nameof(amount));
-            Cause = cause;
-        }
-
-        public Amount Amount { get; }
-
-        public CauseOfExemption Cause { get; }
+        Amount = Check.IsNotNull(amount, nameof(amount));
+        Cause = cause;
     }
+
+    public Amount Amount { get; }
+
+    public CauseOfExemption Cause { get; }
 }

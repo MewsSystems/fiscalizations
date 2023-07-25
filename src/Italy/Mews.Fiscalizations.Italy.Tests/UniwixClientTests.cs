@@ -9,228 +9,227 @@ using Mews.Fiscalizations.Italy.Uniwix.Communication;
 using Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
 using Mews.Fiscalizations.Italy.Uniwix.Errors;
 
-namespace Mews.Fiscalizations.Italy.Tests
+namespace Mews.Fiscalizations.Italy.Tests;
+
+[TestFixture]
+public sealed class UniwixClientTests
 {
-    [TestFixture]
-    public sealed class UniwixClientTests
+    private static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
+    private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
+
+    public static UniwixClient GetUniwixClient()
     {
-        private static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
-        private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
+        return new UniwixClient(new UniwixClientConfiguration(Username, Password));
+    }
 
-        public static UniwixClient GetUniwixClient()
+    [Test]
+    [Retry(3)]
+    public async Task SendInvoiceSucceeds()
+    {
+        var client = GetUniwixClient();
+        var invoiceNumber = new Random().Next(1, 9999).ToString();
+        var result = await client.SendInvoiceAsync(new ElectronicInvoice
         {
-            return new UniwixClient(new UniwixClientConfiguration(Username, Password));
-        }
+            Version = VersioneSchemaType.FPR12,
+            Header = GetInvoiceHeader(invoiceNumber),
+            Body = new[] { GetInvoiceBody(invoiceNumber) }
+        });
 
-        [Test]
-        [Retry(3)]
-        public async Task SendInvoiceSucceeds()
-        {
-            var client = GetUniwixClient();
-            var invoiceNumber = new Random().Next(1, 9999).ToString();
-            var result = await client.SendInvoiceAsync(new ElectronicInvoice
+        result.Match(
+            r =>
             {
-                Version = VersioneSchemaType.FPR12,
-                Header = GetInvoiceHeader(invoiceNumber),
-                Body = new[] { GetInvoiceBody(invoiceNumber) }
-            });
+                Assert.IsNotEmpty(r.FileId);
+                Assert.IsNotEmpty(r.Message);
 
-            result.Match(
-                r =>
-                {
-                    Assert.IsNotEmpty(r.FileId);
-                    Assert.IsNotEmpty(r.Message);
+                // In the testing environment, Uniwix keeps the records in Pending state.
+                var invoiceStateResult = client.GetInvoiceStateAsync(r.FileId).Result;
+                invoiceStateResult.Match(
+                    stateResult => Assert.AreEqual(stateResult.SdiState, SdiState.Pending),
+                    e => AssertFail(e)
+                );
+            },
+            e => AssertFail(e)
+        );
+    }
 
-                    // In the testing environment, Uniwix keeps the records in Pending state.
-                    var invoiceStateResult = client.GetInvoiceStateAsync(r.FileId).Result;
-                    invoiceStateResult.Match(
-                        stateResult => Assert.AreEqual(stateResult.SdiState, SdiState.Pending),
-                        e => AssertFail(e)
-                    );
-                },
-                e => AssertFail(e)
-            );
-        }
+    [Test]
+    public async Task VerifyCredentialsSucceeds()
+    {
+        var client = GetUniwixClient();
+        var result = await client.VerifyCredentialsAsync();
+        result.Match(
+            r => Assert.IsTrue(r),
+            e => AssertFail(e)
+        );
+    }
 
-        [Test]
-        public async Task VerifyCredentialsSucceeds()
+    private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)
+    {
+        return new ElectronicInvoiceHeader
         {
-            var client = GetUniwixClient();
-            var result = await client.VerifyCredentialsAsync();
-            result.Match(
-                r => Assert.IsTrue(r),
-                e => AssertFail(e)
-            );
-        }
-
-        private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)
-        {
-            return new ElectronicInvoiceHeader
+            TransmissionData = new TransmissionData
             {
-                TransmissionData = new TransmissionData
+                SequentialNumber = invoiceNumber,
+                DestinationCode = "1234567",
+                TransmitterId = GetSenderId(),
+                TransmissionFormat = TransmissionFormat.FPR12,
+            },
+            Provider = new Provider
+            {
+                IdentificationData = new IdentificationData
                 {
-                    SequentialNumber = invoiceNumber,
-                    DestinationCode = "1234567",
-                    TransmitterId = GetSenderId(),
-                    TransmissionFormat = TransmissionFormat.FPR12,
-                },
-                Provider = new Provider
-                {
-                    IdentificationData = new IdentificationData
+                    VatTaxId = GetSenderId(),
+                    Identity = new Identity
                     {
-                        VatTaxId = GetSenderId(),
-                        Identity = new Identity
-                        {
-                            CompanyName = "Italian company ltd."
-                        },
-                        FiscalRegime = FiscalRegime.Ordinary
+                        CompanyName = "Italian company ltd."
                     },
-                    OfficeAddress = GetAddress()
+                    FiscalRegime = FiscalRegime.Ordinary
                 },
-                Buyer = new Buyer
+                OfficeAddress = GetAddress()
+            },
+            Buyer = new Buyer
+            {
+                IdentityData = new SimpleIdentityData
                 {
-                    IdentityData = new SimpleIdentityData
+                    Identity = new Identity
                     {
-                        Identity = new Identity
-                        {
-                            FirstName = "John",
-                            LastName = "Smith"
-                        },
-                        TaxCode = "SDASDA96L27H501H"
+                        FirstName = "John",
+                        LastName = "Smith"
                     },
-                    OfficeAddress = GetAddress()
+                    TaxCode = "SDASDA96L27H501H"
+                },
+                OfficeAddress = GetAddress()
+            }
+        };
+    }
+
+    private ElectronicInvoiceBody GetInvoiceBody(string invoiceNumber)
+    {
+        var paymentData = new PaymentData
+        {
+            PaymentDetails = GetPaymentDetails().ToArray(),
+            PaymentTerms = PaymentTerms.LumpSum
+        };
+
+        return new ElectronicInvoiceBody
+        {
+            GeneralData = new GeneralData
+            {
+                GeneralDocumentData = new GeneralDocumentData
+                {
+                    DocumentType = DocumentType.Invoice,
+                    CurrencyCode = "EUR",
+                    IssueDate = DateTime.UtcNow,
+                    DocumentNumber = invoiceNumber,
+                    TotalAmount = 100m
                 }
-            };
-        }
-
-        private ElectronicInvoiceBody GetInvoiceBody(string invoiceNumber)
-        {
-            var paymentData = new PaymentData
+            },
+            ServiceData = new ServiceData
             {
-                PaymentDetails = GetPaymentDetails().ToArray(),
-                PaymentTerms = PaymentTerms.LumpSum
-            };
+                InvoiceLines = GetInvoiceLines().ToArray(),
+                TaxSummary = GetTaxRateSummaries().ToArray()
+            },
+            PaymentData = paymentData.ToEnumerable().ToArray()
+        };
+    }
 
-            return new ElectronicInvoiceBody
+    private INonEmptyEnumerable<TaxRateSummary> GetTaxRateSummaries()
+    {
+        return NonEmptyEnumerable.Create(
+            new TaxRateSummary
             {
-                GeneralData = new GeneralData
-                {
-                    GeneralDocumentData = new GeneralDocumentData
-                    {
-                        DocumentType = DocumentType.Invoice,
-                        CurrencyCode = "EUR",
-                        IssueDate = DateTime.UtcNow,
-                        DocumentNumber = invoiceNumber,
-                        TotalAmount = 100m
-                    }
-                },
-                ServiceData = new ServiceData
-                {
-                    InvoiceLines = GetInvoiceLines().ToArray(),
-                    TaxSummary = GetTaxRateSummaries().ToArray()
-                },
-                PaymentData = paymentData.ToEnumerable().ToArray()
-            };
-        }
-
-        private INonEmptyEnumerable<TaxRateSummary> GetTaxRateSummaries()
-        {
-            return NonEmptyEnumerable.Create(
-                new TaxRateSummary
-                {
-                    VatRate = 10m,
-                    TaxAmount = 9m,
-                    TaxableAmount = 90m,
-                    VatDueDate = VatDueDate.Immediate
-                },
-                new TaxRateSummary
-                {
-                    Kind = TaxKind.ExcludedArticle15,
-                    NormativeReference = NormativeReference.GetByInvoiceLineKind(TaxKind.ExcludedArticle15),
-                    VatRate = 0m,
-                    TaxAmount = 0m,
-                    TaxableAmount = 1m,
-                    VatDueDate = VatDueDate.Immediate
-                }
-            );
-        }
-
-        private INonEmptyEnumerable<InvoiceLine> GetInvoiceLines()
-        {
-            return NonEmptyEnumerable.Create(
-                new InvoiceLine
-                {
-                    LineNumber = "2",
-                    Description = "Item 1",
-                    UnitCount = 2m,
-                    PeriodStartingDate = DateTime.UtcNow,
-                    PeriodClosingDate = DateTime.UtcNow,
-                    UnitPrice = 0.5m,
-                    TotalPrice = 1m,
-                    VatRate = 0m,
-                    Kind = TaxKind.ExcludedArticle15
-                },
-                new InvoiceLine
-                {
-                    LineNumber = "2",
-                    Description = "Item 2",
-                    UnitCount = 2m,
-                    PeriodStartingDate = DateTime.UtcNow,
-                    PeriodClosingDate = DateTime.UtcNow,
-                    UnitPrice = -0.455m,
-                    TotalPrice = -0.91m,
-                    VatRate = 10m
-                },
-                new InvoiceLine
-                {
-                    LineNumber = "3",
-                    Description = "Item 3",
-                    UnitCount = 1m,
-                    PeriodStartingDate = DateTime.UtcNow,
-                    PeriodClosingDate = DateTime.UtcNow,
-                    UnitPrice = 90.91m,
-                    TotalPrice = 90.91m,
-                    VatRate = 10m
-                }
-            );
-        }
-
-        private static INonEmptyEnumerable<PaymentDetail> GetPaymentDetails()
-        {
-            return NonEmptyEnumerable.Create(new PaymentDetail
+                VatRate = 10m,
+                TaxAmount = 9m,
+                TaxableAmount = 90m,
+                VatDueDate = VatDueDate.Immediate
+            },
+            new TaxRateSummary
             {
-                PaymentMethod = PaymentMethod.Cash,
-                PaymentAmount = 100m
-            });
-        }
+                Kind = TaxKind.ExcludedArticle15,
+                NormativeReference = NormativeReference.GetByInvoiceLineKind(TaxKind.ExcludedArticle15),
+                VatRate = 0m,
+                TaxAmount = 0m,
+                TaxableAmount = 1m,
+                VatDueDate = VatDueDate.Immediate
+            }
+        );
+    }
 
-        private static SenderId GetSenderId()
-        {
-            return new SenderId
+    private INonEmptyEnumerable<InvoiceLine> GetInvoiceLines()
+    {
+        return NonEmptyEnumerable.Create(
+            new InvoiceLine
             {
-                CountryCode = Countries.Italy.Alpha2Code,
-                TaxCode = "1234567"
-            };
-        }
+                LineNumber = "2",
+                Description = "Item 1",
+                UnitCount = 2m,
+                PeriodStartingDate = DateTime.UtcNow,
+                PeriodClosingDate = DateTime.UtcNow,
+                UnitPrice = 0.5m,
+                TotalPrice = 1m,
+                VatRate = 0m,
+                Kind = TaxKind.ExcludedArticle15
+            },
+            new InvoiceLine
+            {
+                LineNumber = "2",
+                Description = "Item 2",
+                UnitCount = 2m,
+                PeriodStartingDate = DateTime.UtcNow,
+                PeriodClosingDate = DateTime.UtcNow,
+                UnitPrice = -0.455m,
+                TotalPrice = -0.91m,
+                VatRate = 10m
+            },
+            new InvoiceLine
+            {
+                LineNumber = "3",
+                Description = "Item 3",
+                UnitCount = 1m,
+                PeriodStartingDate = DateTime.UtcNow,
+                PeriodClosingDate = DateTime.UtcNow,
+                UnitPrice = 90.91m,
+                TotalPrice = 90.91m,
+                VatRate = 10m
+            }
+        );
+    }
 
-        private static Address GetAddress()
+    private static INonEmptyEnumerable<PaymentDetail> GetPaymentDetails()
+    {
+        return NonEmptyEnumerable.Create(new PaymentDetail
         {
-            return new Address
-            {
-                Street = "Roma Street",
-                City = "Rome",
-                CountryCode = Countries.Italy.Alpha2Code,
-                ProvinceCode = "RM",
-                Zip = "00031"
-            };
-        }
+            PaymentMethod = PaymentMethod.Cash,
+            PaymentAmount = 100m
+        });
+    }
 
-        private void AssertFail(ErrorResult errorResult)
+    private static SenderId GetSenderId()
+    {
+        return new SenderId
         {
-            Assert.Fail(errorResult.Message, new
-            {
-                Type = errorResult.Type.ToString()
-            });
-        }
+            CountryCode = Countries.Italy.Alpha2Code,
+            TaxCode = "1234567"
+        };
+    }
+
+    private static Address GetAddress()
+    {
+        return new Address
+        {
+            Street = "Roma Street",
+            City = "Rome",
+            CountryCode = Countries.Italy.Alpha2Code,
+            ProvinceCode = "RM",
+            Zip = "00031"
+        };
+    }
+
+    private void AssertFail(ErrorResult errorResult)
+    {
+        Assert.Fail(errorResult.Message, new
+        {
+            Type = errorResult.Type.ToString()
+        });
     }
 }

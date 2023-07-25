@@ -1,9 +1,8 @@
-﻿namespace Mews.Fiscalizations.Basque.Model
+﻿namespace Mews.Fiscalizations.Basque.Model;
+
+public enum IssuerType
 {
-    public enum IssuerType
-    {
-        IssuedByIssuer,
-        IssuedByThirdParty,
-        IssuedByTransactionRecipient
-    }
+    IssuedByIssuer,
+    IssuedByThirdParty,
+    IssuedByTransactionRecipient
 }

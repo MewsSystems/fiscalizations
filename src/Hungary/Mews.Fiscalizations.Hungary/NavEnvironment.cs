@@ -1,8 +1,7 @@
-namespace Mews.Fiscalizations.Hungary
+namespace Mews.Fiscalizations.Hungary;
+
+public enum NavEnvironment
 {
-    public enum NavEnvironment
-    {
-        Test,
-        Live
-    }
+    Test,
+    Live
 }

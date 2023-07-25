@@ -1,24 +1,23 @@
 using FuncSharp;
 
-namespace Mews.Fiscalizations.Core.Model
+namespace Mews.Fiscalizations.Core.Model;
+
+public class NonEmptyNorWhitespaceString
 {
-    public class NonEmptyNorWhitespaceString
+    private NonEmptyNorWhitespaceString(string value)
     {
-        private NonEmptyNorWhitespaceString(string value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public string Value { get; }
+    public string Value { get; }
 
-        public static ITry<NonEmptyNorWhitespaceString, Error> Create(string value)
-        {
-            return StringValidations.NonEmptyNorWhitespace(value).Map(v => new NonEmptyNorWhitespaceString(v));
-        }
+    public static ITry<NonEmptyNorWhitespaceString, Error> Create(string value)
+    {
+        return StringValidations.NonEmptyNorWhitespace(value).Map(v => new NonEmptyNorWhitespaceString(v));
+    }
 
-        public static NonEmptyNorWhitespaceString CreateUnsafe(string value)
-        {
-            return Create(value).GetUnsafe();
-        }
+    public static NonEmptyNorWhitespaceString CreateUnsafe(string value)
+    {
+        return Create(value).GetUnsafe();
     }
 }

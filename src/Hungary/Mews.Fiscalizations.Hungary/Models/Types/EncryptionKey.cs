@@ -2,24 +2,23 @@
 using Mews.Fiscalizations.Core.Model;
 using System.Text.RegularExpressions;
 
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+public sealed class EncryptionKey
 {
-    public sealed class EncryptionKey
+    private EncryptionKey(string value)
     {
-        private EncryptionKey(string value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public string Value { get; }
+    public string Value { get; }
 
-        public static ITry<EncryptionKey, Error> Create(string value)
+    public static ITry<EncryptionKey, Error> Create(string value)
+    {
+        return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
         {
-            return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
-            {
-                var validEncryptionKey = StringValidations.RegexMatch(v, new Regex("^[0-9A-Za-z]{16}$"));
-                return validEncryptionKey.Map(k => new EncryptionKey(k));
-            });
-        }
+            var validEncryptionKey = StringValidations.RegexMatch(v, new Regex("^[0-9A-Za-z]{16}$"));
+            return validEncryptionKey.Map(k => new EncryptionKey(k));
+        });
     }
 }

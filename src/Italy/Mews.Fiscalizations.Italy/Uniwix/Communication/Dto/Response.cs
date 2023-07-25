@@ -1,9 +1,8 @@
-namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto
-{
-    internal class Response<TResponse>
-    {
-        public int Code { get; set; }
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
 
-        public TResponse Result { get; set; }
-    }
+internal class Response<TResponse>
+{
+    public int Code { get; set; }
+
+    public TResponse Result { get; set; }
 }

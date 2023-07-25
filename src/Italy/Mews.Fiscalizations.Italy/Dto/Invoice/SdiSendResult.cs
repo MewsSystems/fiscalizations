@@ -1,23 +1,22 @@
-﻿namespace Mews.Fiscalizations.Italy.Dto.Invoice
+﻿namespace Mews.Fiscalizations.Italy.Dto.Invoice;
+
+public class SdiResponse
 {
-    public class SdiResponse
+    public SdiResponse(SdiFileInfo sdiFIleInfo)
     {
-        public SdiResponse(SdiFileInfo sdiFIleInfo)
-        {
-            SdiFIleInfo = sdiFIleInfo;
-        }
-
-        public SdiResponse(SdiError error)
-        {
-            Error = error;
-        }
-
-        public SdiFileInfo SdiFIleInfo { get; }
-
-        public SdiError? Error { get; }
-
-        public bool IsError => Error != null;
-
-        public bool IsSucces => !IsError;
+        SdiFIleInfo = sdiFIleInfo;
     }
+
+    public SdiResponse(SdiError error)
+    {
+        Error = error;
+    }
+
+    public SdiFileInfo SdiFIleInfo { get; }
+
+    public SdiError? Error { get; }
+
+    public bool IsError => Error != null;
+
+    public bool IsSucces => !IsError;
 }

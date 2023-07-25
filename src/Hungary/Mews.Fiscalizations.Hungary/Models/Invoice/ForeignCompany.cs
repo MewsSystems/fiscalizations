@@ -1,32 +1,31 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+public sealed class ForeignCompany
 {
-    public sealed class ForeignCompany
+    private ForeignCompany(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
     {
-        private ForeignCompany(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
-        {
-            Name = name;
-            Address = address;
-            TaxpayerId = taxpayerId.ToOption();
-        }
+        Name = name;
+        Address = address;
+        TaxpayerId = taxpayerId.ToOption();
+    }
 
-        public Name Name { get; }
+    public Name Name { get; }
 
-        public SimpleAddress Address { get; }
+    public SimpleAddress Address { get; }
 
-        public IOption<TaxpayerIdentificationNumber> TaxpayerId { get; }
+    public IOption<TaxpayerIdentificationNumber> TaxpayerId { get; }
 
-        public static ITry<ForeignCompany, Error> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
-        {
-            var optionalForeignTaxPayerId = taxpayerId.ToOption().ToOption().Where(i => i.Match(
-                identifier => !identifier.Country.Equals(Countries.Hungary),
-                _ => true
-            ));
-            return optionalForeignTaxPayerId.ToTry(_ => new Error($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")).Map(
-                i => new ForeignCompany(name, address, i.GetOrNull())
-            );
-        }
+    public static ITry<ForeignCompany, Error> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
+    {
+        var optionalForeignTaxPayerId = taxpayerId.ToOption().ToOption().Where(i => i.Match(
+            identifier => !identifier.Country.Equals(Countries.Hungary),
+            _ => true
+        ));
+        return optionalForeignTaxPayerId.ToTry(_ => new Error($"{nameof(TaxpayerIdentificationNumber)} must be a foreign (non-Hungarian) taxpayer number.")).Map(
+            i => new ForeignCompany(name, address, i.GetOrNull())
+        );
     }
 }

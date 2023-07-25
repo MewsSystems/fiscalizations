@@ -1,12 +1,11 @@
-﻿namespace Mews.Fiscalizations.Italy.Uniwix.Errors
+﻿namespace Mews.Fiscalizations.Italy.Uniwix.Errors;
+
+public enum ErrorType
 {
-    public enum ErrorType
-    {
-        Connection,
-        Unauthorized,
-        Validation,
-        Unknown,
-        InvoiceNotFound,
-        FileExistsInQueue
-    }
+    Connection,
+    Unauthorized,
+    Validation,
+    Unknown,
+    InvoiceNotFound,
+    FileExistsInQueue
 }

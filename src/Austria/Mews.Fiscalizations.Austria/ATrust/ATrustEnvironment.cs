@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Austria.ATrust
+﻿namespace Mews.Fiscalizations.Austria.ATrust;
+
+public enum ATrustEnvironment
 {
-    public enum ATrustEnvironment
-    {
-        Production,
-        Test
-    }
+    Production,
+    Test
 }

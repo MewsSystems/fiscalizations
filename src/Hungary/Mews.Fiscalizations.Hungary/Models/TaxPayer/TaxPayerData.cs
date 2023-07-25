@@ -1,30 +1,29 @@
 ﻿using FuncSharp;
 using System;
 
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+public sealed class TaxPayerData
 {
-    public sealed class TaxPayerData
+    public TaxPayerData(string id, string name, Address address, string vatCode, IncorporationType incorporationType, DateTime? infoDate = null)
     {
-        public TaxPayerData(string id, string name, Address address, string vatCode, IncorporationType incorporationType, DateTime? infoDate = null)
-        {
-            Id = id;
-            Name = name;
-            Address = address;
-            VatCode = vatCode;
-            IncorporationType = incorporationType;
-            InfoDate = infoDate.ToOption();
-        }
-
-        public string Id { get; }
-
-        public string Name { get; }
-
-        public Address Address { get; }
-
-        public string VatCode { get; }
-
-        public IncorporationType IncorporationType { get; }
-
-        public IOption<DateTime> InfoDate { get; }
+        Id = id;
+        Name = name;
+        Address = address;
+        VatCode = vatCode;
+        IncorporationType = incorporationType;
+        InfoDate = infoDate.ToOption();
     }
+
+    public string Id { get; }
+
+    public string Name { get; }
+
+    public Address Address { get; }
+
+    public string VatCode { get; }
+
+    public IncorporationType IncorporationType { get; }
+
+    public IOption<DateTime> InfoDate { get; }
 }

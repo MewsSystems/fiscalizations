@@ -1,15 +1,14 @@
-namespace Mews.Fiscalizations.Italy.Uniwix.Communication
+namespace Mews.Fiscalizations.Italy.Uniwix.Communication;
+
+public class UniwixClientConfiguration
 {
-    public class UniwixClientConfiguration
+    public UniwixClientConfiguration(string key, string password)
     {
-        public UniwixClientConfiguration(string key, string password)
-        {
-            Key = key;
-            Password = password;
-        }
-
-        public string Key { get; }
-
-        public string Password { get; }
+        Key = key;
+        Password = password;
     }
+
+    public string Key { get; }
+
+    public string Password { get; }
 }

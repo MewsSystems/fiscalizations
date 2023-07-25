@@ -1,24 +1,23 @@
 ﻿using FuncSharp;
 
-namespace Mews.Fiscalizations.Core.Model
+namespace Mews.Fiscalizations.Core.Model;
+
+public sealed class String1To120
 {
-    public sealed class String1To120
+    private String1To120(string value)
     {
-        private String1To120(string value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public string Value { get; }
+    public string Value { get; }
 
-        public static ITry<String1To120, Error> Create(string value)
-        {
-            return StringValidations.LengthInRange(value, 1, 120).Map(v => new String1To120(v));
-        }
+    public static ITry<String1To120, Error> Create(string value)
+    {
+        return StringValidations.LengthInRange(value, 1, 120).Map(v => new String1To120(v));
+    }
 
-        public static String1To120 CreateUnsafe(string value)
-        {
-            return Create(value).GetUnsafe();
-        }
+    public static String1To120 CreateUnsafe(string value)
+    {
+        return Create(value).GetUnsafe();
     }
 }

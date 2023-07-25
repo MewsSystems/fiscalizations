@@ -1,10 +1,9 @@
 ﻿using Mews.Fiscalizations.Austria.Dto;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalizations.Austria
+namespace Mews.Fiscalizations.Austria;
+
+public interface ISigner
 {
-    public interface ISigner
-    {
-        Task<SignerOutput> SignAsync(QrData qrData);
-    }
+    Task<SignerOutput> SignAsync(QrData qrData);
 }

@@ -1,20 +1,19 @@
 ﻿using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 
-namespace Mews.Fiscalizations.Hungary.Models
+namespace Mews.Fiscalizations.Hungary.Models;
+
+public sealed class LocalTaxpayerIdentificationNumber
 {
-    public sealed class LocalTaxpayerIdentificationNumber
+    private LocalTaxpayerIdentificationNumber(TaxpayerIdentificationNumber value)
     {
-        private LocalTaxpayerIdentificationNumber(TaxpayerIdentificationNumber value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public TaxpayerIdentificationNumber Value { get; }
+    public TaxpayerIdentificationNumber Value { get; }
 
-        public static ITry<LocalTaxpayerIdentificationNumber, Error> Create(string taxId)
-        {
-            return TaxpayerIdentificationNumber.Create(Countries.Hungary, taxId, isCountryCodePrefixAllowed: false).Map(n => new LocalTaxpayerIdentificationNumber(n));
-        }
+    public static ITry<LocalTaxpayerIdentificationNumber, Error> Create(string taxId)
+    {
+        return TaxpayerIdentificationNumber.Create(Countries.Hungary, taxId, isCountryCodePrefixAllowed: false).Map(n => new LocalTaxpayerIdentificationNumber(n));
     }
 }

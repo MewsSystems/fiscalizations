@@ -2,19 +2,18 @@
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Mews.Fiscalizations.Germany.Tests.V2
-{
-    [TestFixture]
-    public class AccessTokenTests
-    {
-        [Test]
-        public async Task GetAccessTokenSucceeds()
-        {
-            var client = TestFixture.FiskalyTestData.FiskalyClient;
-            var accessToken = await client.GetAccessTokenAsync();
+namespace Mews.Fiscalizations.Germany.Tests.V2;
 
-            Assert.IsTrue(accessToken.IsSuccess);
-            Assert.AreEqual(accessToken.SuccessResult.Environment, FiskalyEnvironment.Test, "Production API keys are used for tests.");
-        }
+[TestFixture]
+public class AccessTokenTests
+{
+    [Test]
+    public async Task GetAccessTokenSucceeds()
+    {
+        var client = TestFixture.FiskalyTestData.FiskalyClient;
+        var accessToken = await client.GetAccessTokenAsync();
+
+        Assert.IsTrue(accessToken.IsSuccess);
+        Assert.AreEqual(accessToken.SuccessResult.Environment, FiskalyEnvironment.Test, "Production API keys are used for tests.");
     }
 }

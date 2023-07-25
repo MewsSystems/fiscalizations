@@ -1,15 +1,14 @@
-﻿namespace Mews.Fiscalizations.Core.Model
+﻿namespace Mews.Fiscalizations.Core.Model;
+
+public sealed class Indexed<T>
 {
-    public sealed class Indexed<T>
+    public Indexed(int index, T value)
     {
-        public Indexed(int index, T value)
-        {
-            Index = index;
-            Value = value;
-        }
-
-        public int Index { get; }
-
-        public T Value { get; }
+        Index = index;
+        Value = value;
     }
+
+    public int Index { get; }
+
+    public T Value { get; }
 }

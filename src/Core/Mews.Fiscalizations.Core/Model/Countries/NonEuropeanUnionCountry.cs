@@ -1,12 +1,11 @@
-﻿namespace Mews.Fiscalizations.Core.Model
-{
-    public class NonEuropeanUnionCountry
-    {
-        internal NonEuropeanUnionCountry(string alpha2Code)
-        {
-            Alpha2Code = alpha2Code;
-        }
+﻿namespace Mews.Fiscalizations.Core.Model;
 
-        public string Alpha2Code { get; }
+public class NonEuropeanUnionCountry
+{
+    internal NonEuropeanUnionCountry(string alpha2Code)
+    {
+        Alpha2Code = alpha2Code;
     }
+
+    public string Alpha2Code { get; }
 }

@@ -1,24 +1,23 @@
 ﻿using System;
 
-namespace Mews.Fiscalizations.Austria.Dto
+namespace Mews.Fiscalizations.Austria.Dto;
+
+public class ByteValue
 {
-    public class ByteValue
+    public ByteValue(byte[] value)
     {
-        public ByteValue(byte[] value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public ByteValue(string base64Value)
-        {
-            Value = Convert.FromBase64String(base64Value);
-        }
+    public ByteValue(string base64Value)
+    {
+        Value = Convert.FromBase64String(base64Value);
+    }
 
-        public byte[] Value { get; }
+    public byte[] Value { get; }
 
-        public string ToBase64String()
-        {
-            return Convert.ToBase64String(Value);
-        }
+    public string ToBase64String()
+    {
+        return Convert.ToBase64String(Value);
     }
 }

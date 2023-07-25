@@ -1,16 +1,15 @@
 ﻿using System;
 
-namespace Mews.Fiscalizations.Austria.Dto.Identifiers
+namespace Mews.Fiscalizations.Austria.Dto.Identifiers;
+
+public class IntIdentifier : Identifier<int>
 {
-    public class IntIdentifier : Identifier<int>
+    protected IntIdentifier(int value, int lowerBound, int upperBound)
+        : base(value)
     {
-        protected IntIdentifier(int value, int lowerBound, int upperBound)
-            : base(value)
+        if (value < lowerBound || value > upperBound)
         {
-            if (value < lowerBound || value > upperBound)
-            {
-                throw new ArgumentException($"The value '{value}' is not within the expected range '[{lowerBound}, {upperBound}]'.");
-            }
+            throw new ArgumentException($"The value '{value}' is not within the expected range '[{lowerBound}, {upperBound}]'.");
         }
     }
 }

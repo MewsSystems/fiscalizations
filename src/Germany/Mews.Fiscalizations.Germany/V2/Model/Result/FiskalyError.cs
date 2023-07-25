@@ -1,15 +1,14 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Model
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
+
+public enum FiskalyError
 {
-    public enum FiskalyError
-    {
-        TssCreationConflict,
-        ClientCreationConflict,
-        InvalidTssId,
-        InvalidClientId,
-        InvalidCredentials,
-        InvalidTssOperation,
-        InvalidTransactionOperation,
-        ServerSide,
-        InvalidResponse
-    }
+    TssCreationConflict,
+    ClientCreationConflict,
+    InvalidTssId,
+    InvalidClientId,
+    InvalidCredentials,
+    InvalidTssOperation,
+    InvalidTransactionOperation,
+    ServerSide,
+    InvalidResponse
 }

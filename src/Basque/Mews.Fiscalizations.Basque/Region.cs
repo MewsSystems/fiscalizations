@@ -1,8 +1,7 @@
-﻿namespace Mews.Fiscalizations.Basque
+﻿namespace Mews.Fiscalizations.Basque;
+
+public enum Region
 {
-    public enum Region
-    {
-        Gipuzkoa,
-        Araba
-    }
+    Gipuzkoa,
+    Araba
 }

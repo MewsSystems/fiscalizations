@@ -1,7 +1,6 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models
+﻿namespace Mews.Fiscalizations.Hungary.Models;
+
+public enum ExchangeTokenErrorCode
 {
-    public enum ExchangeTokenErrorCode
-    {
-        InvalidEncryptionKey
-    }
+    InvalidEncryptionKey
 }
