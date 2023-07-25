@@ -20,10 +20,11 @@ namespace Mews.Fiscalizations.Hungary.Models
 
         internal static Amount Sum(IEnumerable<Amount> amounts)
         {
+            var amountsList = amounts.ToList();
             return new Amount(
-                net: new AmountValue(amounts.Sum(a => a.Net.Value)),
-                gross: new AmountValue(amounts.Sum(a => a.Gross.Value)),
-                tax: new AmountValue(amounts.Sum(a => a.Tax.Value))
+                net: new AmountValue(amountsList.Sum(a => a.Net.Value)),
+                gross: new AmountValue(amountsList.Sum(a => a.Gross.Value)),
+                tax: new AmountValue(amountsList.Sum(a => a.Tax.Value))
             );
         }
     }

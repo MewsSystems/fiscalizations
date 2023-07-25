@@ -273,11 +273,11 @@ namespace Mews.Fiscalizations.Hungary.Tests
                 Assert.AreEqual(value.Status, InvoiceState.Done);
             }
 
-            var errorValidationResults = invoiceStatuses.SelectMany(s => s.Value.ValidationResults).Where(r => r.ResultCode.Equals(ValidationResultCode.Error));
+            var errorValidationResults = invoiceStatuses.SelectMany(s => s.Value.ValidationResults).Where(r => r.ResultCode.Equals(ValidationResultCode.Error)).ToList();
             Assert.IsEmpty(errorValidationResults, "Response contains validation errors.", new
             {
-                Message = String.Join(", ", errorValidationResults.Select(r => r.Message)),
-                Code = String.Join(", ", errorValidationResults.Select(r => r.ResultCode.ToString()))
+                Message = string.Join(", ", errorValidationResults.Select(r => r.Message)),
+                Code = string.Join(", ", errorValidationResults.Select(r => r.ResultCode.ToString()))
             });
         }
     }

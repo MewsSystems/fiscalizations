@@ -22,24 +22,24 @@
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "urn:ticketbai:emision")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "urn:ticketbai:emision", IsNullable = false)]
-    public partial class TicketBaiResponse
+    [XmlType(AnonymousType = true, Namespace = "urn:ticketbai:emision")]
+    [XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
+    public class TicketBaiResponse
     {
 
         private Salida salidaField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public Salida Salida
         {
             get
             {
-                return this.salidaField;
+                return salidaField;
             }
             set
             {
-                this.salidaField = value;
+                salidaField = value;
             }
         }
     }
@@ -49,8 +49,8 @@
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:ticketbai:emision")]
-    public partial class Salida
+    [XmlType(Namespace = "urn:ticketbai:emision")]
+    public class Salida
     {
 
         private string identificadorTBAIField;
@@ -68,100 +68,100 @@
         private string cSVField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string IdentificadorTBAI
         {
             get
             {
-                return this.identificadorTBAIField;
+                return identificadorTBAIField;
             }
             set
             {
-                this.identificadorTBAIField = value;
+                identificadorTBAIField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string FechaRecepcion
         {
             get
             {
-                return this.fechaRecepcionField;
+                return fechaRecepcionField;
             }
             set
             {
-                this.fechaRecepcionField = value;
+                fechaRecepcionField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Estado
         {
             get
             {
-                return this.estadoField;
+                return estadoField;
             }
             set
             {
-                this.estadoField = value;
+                estadoField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Descripcion
         {
             get
             {
-                return this.descripcionField;
+                return descripcionField;
             }
             set
             {
-                this.descripcionField = value;
+                descripcionField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Azalpena
         {
             get
             {
-                return this.azalpenaField;
+                return azalpenaField;
             }
             set
             {
-                this.azalpenaField = value;
+                azalpenaField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ResultadosValidacion", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement("ResultadosValidacion", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public ResultadosValidacion[] ResultadosValidacion
         {
             get
             {
-                return this.resultadosValidacionField;
+                return resultadosValidacionField;
             }
             set
             {
-                this.resultadosValidacionField = value;
+                resultadosValidacionField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string CSV
         {
             get
             {
-                return this.cSVField;
+                return cSVField;
             }
             set
             {
-                this.cSVField = value;
+                cSVField = value;
             }
         }
     }
@@ -171,8 +171,8 @@
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:ticketbai:emision")]
-    public partial class ResultadosValidacion
+    [XmlType(Namespace = "urn:ticketbai:emision")]
+    public class ResultadosValidacion
     {
 
         private string codigoField;
@@ -182,44 +182,44 @@
         private string azalpenaField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Codigo
         {
             get
             {
-                return this.codigoField;
+                return codigoField;
             }
             set
             {
-                this.codigoField = value;
+                codigoField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Descripcion
         {
             get
             {
-                return this.descripcionField;
+                return descripcionField;
             }
             set
             {
-                this.descripcionField = value;
+                descripcionField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Azalpena
         {
             get
             {
-                return this.azalpenaField;
+                return azalpenaField;
             }
             set
             {
-                this.azalpenaField = value;
+                azalpenaField = value;
             }
         }
     }

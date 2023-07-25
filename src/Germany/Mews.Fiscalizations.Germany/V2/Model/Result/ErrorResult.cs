@@ -69,10 +69,10 @@ namespace Mews.Fiscalizations.Germany.V2.Model
         {
             return JsonConvert.SerializeObject(new
             {
-                StatusCode = errorResponse.StatusCode,
-                Code = errorResponse.Code,
-                Error = errorResponse.Error,
-                Message = errorResponse.Message
+                errorResponse.StatusCode,
+                errorResponse.Code,
+                errorResponse.Error,
+                errorResponse.Message
             });
         }
     }

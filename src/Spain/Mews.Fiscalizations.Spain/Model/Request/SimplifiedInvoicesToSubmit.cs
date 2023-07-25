@@ -21,7 +21,7 @@ namespace Mews.Fiscalizations.Spain.Model.Request
         {
             return Try.Aggregate(
                 ObjectValidations.NotNull(header),
-                invoices.OrEmptyIfNull().ToTry(i => i.Count() >= 1 && i.Count() <= 10000, _ => new Error($"{nameof(invoices)} count must be in range [1, 10000].")),
+                invoices.OrEmptyIfNull().ToList().ToTry(i => i.Any() && i.Count <= 10000, _ => new Error($"{nameof(invoices)} count must be in range [1, 10000].")),
                 (h, i) => new SimplifiedInvoicesToSubmit(h, i.ToArray())
             );
         }

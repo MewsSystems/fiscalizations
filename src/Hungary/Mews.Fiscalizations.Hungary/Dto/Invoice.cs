@@ -23,7 +23,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data", IsNullable = false)]
-    public partial class InvoiceData : InvoiceDataType
+    public class InvoiceData : InvoiceDataType
     {
     }
 
@@ -33,7 +33,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class InvoiceDataType
+    public class InvoiceDataType
     {
 
         private string invoiceNumberField;
@@ -104,7 +104,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class InvoiceMainType
+    public class InvoiceMainType
     {
 
         private object[] itemsField;
@@ -131,7 +131,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class BatchInvoiceType
+    public class BatchInvoiceType
     {
 
         private int batchIndexField;
@@ -171,7 +171,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class InvoiceType
+    public class InvoiceType
     {
 
         private InvoiceReferenceType invoiceReferenceField;
@@ -257,7 +257,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class InvoiceReferenceType
+    public class InvoiceReferenceType
     {
 
         private string originalInvoiceNumberField;
@@ -312,7 +312,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class SummaryGrossDataType
+    public class SummaryGrossDataType
     {
 
         private decimal invoiceGrossAmountField;
@@ -352,7 +352,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class SummarySimplifiedType
+    public class SummarySimplifiedType
     {
 
         private VatRateType vatRateField;
@@ -407,7 +407,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class VatRateType
+    public class VatRateType
     {
 
         private object itemField;
@@ -477,7 +477,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class VatAmountMismatchType
+    public class VatAmountMismatchType
     {
 
         private decimal vatRateField;
@@ -517,7 +517,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class DetailedReasonType
+    public class DetailedReasonType
     {
 
         private string caseField;
@@ -589,7 +589,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class VatRateGrossDataType
+    public class VatRateGrossDataType
     {
 
         private decimal vatRateGrossAmountField;
@@ -629,7 +629,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class VatRateVatDataType
+    public class VatRateVatDataType
     {
 
         private decimal vatRateVatAmountField;
@@ -669,7 +669,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class VatRateNetDataType
+    public class VatRateNetDataType
     {
 
         private decimal vatRateNetAmountField;
@@ -709,7 +709,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class SummaryByVatRateType
+    public class SummaryByVatRateType
     {
 
         private VatRateType vatRateField;
@@ -779,7 +779,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class SummaryNormalType
+    public class SummaryNormalType
     {
 
         private SummaryByVatRateType[] summaryByVatRateField;
@@ -865,7 +865,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class SummaryType
+    public class SummaryType
     {
 
         private object[] itemsField;
@@ -907,7 +907,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class PaymentEvidenceDocumentDataType
+    public class PaymentEvidenceDocumentDataType
     {
 
         private string evidenceDocumentNoField;
@@ -993,7 +993,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/base")]
-    public partial class AddressType
+    public class AddressType
     {
 
         private object itemField;
@@ -1020,7 +1020,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/base")]
-    public partial class DetailedAddressType
+    public class DetailedAddressType
     {
 
         private string countryCodeField;
@@ -1210,7 +1210,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/base")]
-    public partial class SimpleAddressType
+    public class SimpleAddressType
     {
 
         private string countryCodeField;
@@ -1296,7 +1296,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/base")]
-    public partial class TaxNumberType
+    public class TaxNumberType
     {
 
         private string taxpayerIdField;
@@ -1351,7 +1351,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class CustomerTaxNumberType : TaxNumberType
+    public class CustomerTaxNumberType : TaxNumberType
     {
 
         private TaxNumberType groupMemberTaxNumberField;
@@ -1376,7 +1376,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class ProductFeeSummaryType
+    public class ProductFeeSummaryType
     {
 
         private ProductFeeOperationType productFeeOperationField;
@@ -1461,7 +1461,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class ProductFeeDataType
+    public class ProductFeeDataType
     {
 
         private ProductCodeType productFeeCodeField;
@@ -1546,7 +1546,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class ProductCodeType
+    public class ProductCodeType
     {
 
         private ProductCodeCategoryType productCodeCategoryField;
@@ -1671,7 +1671,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class CustomerDeclarationType
+    public class CustomerDeclarationType
     {
 
         private ProductStreamType productStreamField;
@@ -1762,7 +1762,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class ProductFeeTakeoverDataType
+    public class ProductFeeTakeoverDataType
     {
 
         private TakeoverType takeoverReasonField;
@@ -1874,7 +1874,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class ProductFeeClauseType
+    public class ProductFeeClauseType
     {
 
         private object itemField;
@@ -1901,7 +1901,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class DieselOilPurchaseType
+    public class DieselOilPurchaseType
     {
 
         private SimpleAddressType purchaseLocationField;
@@ -1988,7 +1988,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class AircraftType
+    public class AircraftType
     {
 
         private decimal takeOffWeightField;
@@ -2043,7 +2043,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class VesselType
+    public class VesselType
     {
 
         private decimal lengthField;
@@ -2098,7 +2098,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class VehicleType
+    public class VehicleType
     {
 
         private decimal engineCapacityField;
@@ -2153,7 +2153,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class NewTransportMeanType
+    public class NewTransportMeanType
     {
 
         private string brandField;
@@ -2258,7 +2258,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class AggregateInvoiceLineDataType
+    public class AggregateInvoiceLineDataType
     {
 
         private decimal lineExchangeRateField;
@@ -2315,7 +2315,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LineAmountsSimplifiedType
+    public class LineAmountsSimplifiedType
     {
 
         private VatRateType lineVatRateField;
@@ -2370,7 +2370,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LineGrossAmountDataType
+    public class LineGrossAmountDataType
     {
 
         private decimal lineGrossAmountNormalField;
@@ -2410,7 +2410,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LineVatDataType
+    public class LineVatDataType
     {
 
         private decimal lineVatAmountField;
@@ -2450,7 +2450,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LineNetAmountDataType
+    public class LineNetAmountDataType
     {
 
         private decimal lineNetAmountField;
@@ -2490,7 +2490,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LineAmountsNormalType
+    public class LineAmountsNormalType
     {
 
         private LineNetAmountDataType lineNetAmountDataField;
@@ -2560,7 +2560,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class DiscountDataType
+    public class DiscountDataType
     {
 
         private string discountDescriptionField;
@@ -2647,7 +2647,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class AdvancePaymentDataType
+    public class AdvancePaymentDataType
     {
 
         private string advanceOriginalInvoiceField;
@@ -2703,7 +2703,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class AdvanceDataType
+    public class AdvanceDataType
     {
 
         private bool advanceIndicatorField;
@@ -2743,7 +2743,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LineModificationReferenceType
+    public class LineModificationReferenceType
     {
 
         private string lineNumberReferenceField;
@@ -2798,7 +2798,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LineType
+    public class LineType
     {
 
         private string lineNumberField;
@@ -3453,7 +3453,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class ConventionalInvoiceInfoType
+    public class ConventionalInvoiceInfoType
     {
 
         private string[] orderNumbersField;
@@ -3703,7 +3703,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class AdditionalDataType
+    public class AdditionalDataType
     {
 
         private string dataNameField;
@@ -3758,7 +3758,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class LinesType
+    public class LinesType
     {
 
         private bool mergedItemIndicatorField;
@@ -3799,7 +3799,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class InvoiceDetailType
+    public class InvoiceDetailType
     {
 
         private InvoiceCategoryType invoiceCategoryField;
@@ -4290,7 +4290,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class FiscalRepresentativeType
+    public class FiscalRepresentativeType
     {
 
         private TaxNumberType fiscalRepresentativeTaxNumberField;
@@ -4360,7 +4360,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class CustomerVatDataType
+    public class CustomerVatDataType
     {
 
         private object itemField;
@@ -4422,7 +4422,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class CustomerInfoType
+    public class CustomerInfoType
     {
 
         private CustomerVatStatusType customerVatStatusField;
@@ -4524,7 +4524,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class SupplierInfoType
+    public class SupplierInfoType
     {
 
         private TaxNumberType supplierTaxNumberField;
@@ -4670,7 +4670,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/data")]
-    public partial class InvoiceHeadType
+    public class InvoiceHeadType
     {
 
         private SupplierInfoType supplierInfoField;
@@ -4741,7 +4741,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class GeneralErrorResponse : GeneralErrorResponseType
+    public class GeneralErrorResponse : GeneralErrorResponseType
     {
     }
 
@@ -4751,7 +4751,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class GeneralErrorResponseType : GeneralErrorHeaderResponseType
+    public class GeneralErrorResponseType : GeneralErrorHeaderResponseType
     {
 
         private SoftwareType softwareField;
@@ -4792,7 +4792,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class SoftwareType
+    public class SoftwareType
     {
 
         private string softwareIdField;
@@ -4936,7 +4936,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class TechnicalValidationResultType
+    public class TechnicalValidationResultType
     {
 
         private TechnicalResultCodeType validationResultCodeField;
@@ -5006,7 +5006,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class GeneralErrorHeaderResponseType : BasicResponseType
+    public class GeneralErrorHeaderResponseType : BasicResponseType
     {
     }
 
@@ -5028,7 +5028,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class BasicResponseType
+    public class BasicResponseType
     {
 
         private BasicHeaderType headerField;
@@ -5068,7 +5068,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class BasicHeaderType
+    public class BasicHeaderType
     {
 
         private string requestIdField;
@@ -5138,7 +5138,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class BasicResultType
+    public class BasicResultType
     {
 
         private FunctionCodeType funcCodeField;
@@ -5223,7 +5223,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class NotificationType
+    public class NotificationType
     {
 
         private string notificationCodeField;
@@ -5272,7 +5272,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class BasicOnlineInvoiceResponseType : BasicResponseType
+    public class BasicOnlineInvoiceResponseType : BasicResponseType
     {
 
         private SoftwareType softwareField;
@@ -5297,7 +5297,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class TransactionResponseType : BasicOnlineInvoiceResponseType
+    public class TransactionResponseType : BasicOnlineInvoiceResponseType
     {
 
         private string transactionIdField;
@@ -5322,7 +5322,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class TokenExchangeResponseType : BasicOnlineInvoiceResponseType
+    public class TokenExchangeResponseType : BasicOnlineInvoiceResponseType
     {
 
         private byte[] encodedExchangeTokenField;
@@ -5378,7 +5378,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryTransactionStatusResponseType : BasicOnlineInvoiceResponseType
+    public class QueryTransactionStatusResponseType : BasicOnlineInvoiceResponseType
     {
 
         private ProcessingResultListType processingResultsField;
@@ -5403,7 +5403,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class ProcessingResultListType
+    public class ProcessingResultListType
     {
 
         private ProcessingResultType[] processingResultField;
@@ -5459,7 +5459,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class ProcessingResultType
+    public class ProcessingResultType
     {
 
         private int indexField;
@@ -5616,7 +5616,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class BusinessValidationResultType
+    public class BusinessValidationResultType
     {
 
         private BusinessResultCodeType validationResultCodeField;
@@ -5703,7 +5703,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class PointerType
+    public class PointerType
     {
 
         private string tagField;
@@ -5798,7 +5798,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class AnnulmentDataType
+    public class AnnulmentDataType
     {
 
         private AnnulmentVerificationStatusType annulmentVerificationStatusField;
@@ -5889,7 +5889,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryTransactionListResponseType : BasicOnlineInvoiceResponseType
+    public class QueryTransactionListResponseType : BasicOnlineInvoiceResponseType
     {
 
         private TransactionListResultType transactionListResultField;
@@ -5914,7 +5914,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class TransactionListResultType
+    public class TransactionListResultType
     {
 
         private int currentPageField;
@@ -5970,7 +5970,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class TransactionType
+    public class TransactionType
     {
 
         private System.DateTime insDateField;
@@ -6146,7 +6146,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryTaxpayerResponseType : BasicOnlineInvoiceResponseType
+    public class QueryTaxpayerResponseType : BasicOnlineInvoiceResponseType
     {
 
         private System.DateTime infoDateField;
@@ -6233,7 +6233,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class TaxpayerDataType
+    public class TaxpayerDataType
     {
 
         private string taxpayerNameField;
@@ -6351,7 +6351,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class TaxpayerAddressItemType
+    public class TaxpayerAddressItemType
     {
 
         private TaxpayerAddressTypeType taxpayerAddressTypeField;
@@ -6408,7 +6408,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryInvoiceDigestResponseType : BasicOnlineInvoiceResponseType
+    public class QueryInvoiceDigestResponseType : BasicOnlineInvoiceResponseType
     {
 
         private InvoiceDigestResultType invoiceDigestResultField;
@@ -6433,7 +6433,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceDigestResultType
+    public class InvoiceDigestResultType
     {
 
         private int currentPageField;
@@ -6489,7 +6489,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceDigestType
+    public class InvoiceDigestType
     {
 
         private string invoiceNumberField;
@@ -7132,7 +7132,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryInvoiceDataResponseType : BasicOnlineInvoiceResponseType
+    public class QueryInvoiceDataResponseType : BasicOnlineInvoiceResponseType
     {
 
         private InvoiceDataResultType invoiceDataResultField;
@@ -7157,7 +7157,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceDataResultType
+    public class InvoiceDataResultType
     {
 
         private byte[] invoiceDataField;
@@ -7228,7 +7228,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class AuditDataType
+    public class AuditDataType
     {
 
         private System.DateTime insdateField;
@@ -7375,7 +7375,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class CryptoType
+    public class CryptoType
     {
 
         private string cryptoTypeField;
@@ -7417,7 +7417,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryInvoiceCheckResponseType : BasicOnlineInvoiceResponseType
+    public class QueryInvoiceCheckResponseType : BasicOnlineInvoiceResponseType
     {
 
         private bool invoiceCheckResultField;
@@ -7442,7 +7442,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryInvoiceChainDigestResponseType : BasicOnlineInvoiceResponseType
+    public class QueryInvoiceChainDigestResponseType : BasicOnlineInvoiceResponseType
     {
 
         private InvoiceChainDigestResultType invoiceChainDigestResultField;
@@ -7467,7 +7467,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceChainDigestResultType
+    public class InvoiceChainDigestResultType
     {
 
         private int currentPageField;
@@ -7523,7 +7523,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceChainElementType
+    public class InvoiceChainElementType
     {
 
         private InvoiceChainDigestType invoiceChainDigestField;
@@ -7578,7 +7578,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceChainDigestType
+    public class InvoiceChainDigestType
     {
 
         private string invoiceNumberField;
@@ -7709,7 +7709,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceLinesType
+    public class InvoiceLinesType
     {
 
         private string maxLineNumberField;
@@ -7751,7 +7751,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class NewCreatedLinesType
+    public class NewCreatedLinesType
     {
 
         private string lineNumberIntervalStartField;
@@ -7793,7 +7793,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceReferenceDataType
+    public class InvoiceReferenceDataType
     {
 
         private string originalInvoiceNumberField;
@@ -7851,7 +7851,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class ManageAnnulmentRequest : ManageAnnulmentRequestType
+    public class ManageAnnulmentRequest : ManageAnnulmentRequestType
     {
     }
 
@@ -7861,7 +7861,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class ManageAnnulmentRequestType : BasicOnlineInvoiceRequestType
+    public class ManageAnnulmentRequestType : BasicOnlineInvoiceRequestType
     {
 
         private string exchangeTokenField;
@@ -7902,7 +7902,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class AnnulmentOperationType
+    public class AnnulmentOperationType
     {
 
         private int indexField;
@@ -7977,7 +7977,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class BasicOnlineInvoiceRequestType : BasicRequestType
+    public class BasicOnlineInvoiceRequestType : BasicRequestType
     {
 
         private SoftwareType softwareField;
@@ -8011,7 +8011,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class BasicRequestType
+    public class BasicRequestType
     {
 
         private BasicHeaderType headerField;
@@ -8051,7 +8051,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
-    public partial class UserHeaderType
+    public class UserHeaderType
     {
 
         private string loginField;
@@ -8121,7 +8121,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryTransactionStatusRequestType : BasicOnlineInvoiceRequestType
+    public class QueryTransactionStatusRequestType : BasicOnlineInvoiceRequestType
     {
 
         private string transactionIdField;
@@ -8177,7 +8177,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryTransactionListRequestType : BasicOnlineInvoiceRequestType
+    public class QueryTransactionListRequestType : BasicOnlineInvoiceRequestType
     {
 
         private int pageField;
@@ -8248,7 +8248,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class DateTimeIntervalParamType
+    public class DateTimeIntervalParamType
     {
 
         private System.DateTime dateTimeFromField;
@@ -8288,7 +8288,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryTaxpayerRequestType : BasicOnlineInvoiceRequestType
+    public class QueryTaxpayerRequestType : BasicOnlineInvoiceRequestType
     {
 
         private string taxNumberField;
@@ -8313,7 +8313,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryInvoiceDigestRequestType : BasicOnlineInvoiceRequestType
+    public class QueryInvoiceDigestRequestType : BasicOnlineInvoiceRequestType
     {
 
         private int pageField;
@@ -8382,7 +8382,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceQueryParamsType
+    public class InvoiceQueryParamsType
     {
 
         private MandatoryQueryParamsType mandatoryQueryParamsField;
@@ -8452,7 +8452,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class MandatoryQueryParamsType
+    public class MandatoryQueryParamsType
     {
 
         private object itemField;
@@ -8480,7 +8480,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class DateIntervalParamType
+    public class DateIntervalParamType
     {
 
         private System.DateTime dateFromField;
@@ -8522,7 +8522,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class AdditionalQueryParamsType
+    public class AdditionalQueryParamsType
     {
 
         private string taxNumberField;
@@ -8716,7 +8716,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class RelationalQueryParamsType
+    public class RelationalQueryParamsType
     {
 
         private RelationQueryDateType[] invoiceDeliveryField;
@@ -8822,7 +8822,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class RelationQueryDateType
+    public class RelationQueryDateType
     {
 
         private QueryOperatorType queryOperatorField;
@@ -8886,7 +8886,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class RelationQueryMonetaryType
+    public class RelationQueryMonetaryType
     {
 
         private QueryOperatorType queryOperatorField;
@@ -8926,7 +8926,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class TransactionQueryParamsType
+    public class TransactionQueryParamsType
     {
 
         private string transactionIdField;
@@ -9013,7 +9013,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryInvoiceDataRequestType : BasicOnlineInvoiceRequestType
+    public class QueryInvoiceDataRequestType : BasicOnlineInvoiceRequestType
     {
 
         private InvoiceNumberQueryType invoiceNumberQueryField;
@@ -9038,7 +9038,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceNumberQueryType
+    public class InvoiceNumberQueryType
     {
 
         private string invoiceNumberField;
@@ -9124,7 +9124,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class QueryInvoiceChainDigestRequestType : BasicOnlineInvoiceRequestType
+    public class QueryInvoiceChainDigestRequestType : BasicOnlineInvoiceRequestType
     {
 
         private int pageField;
@@ -9164,7 +9164,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceChainQueryType
+    public class InvoiceChainQueryType
     {
 
         private string invoiceNumberField;
@@ -9219,7 +9219,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class ManageInvoiceRequestType : BasicOnlineInvoiceRequestType
+    public class ManageInvoiceRequestType : BasicOnlineInvoiceRequestType
     {
 
         private string exchangeTokenField;
@@ -9259,7 +9259,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceOperationListType
+    public class InvoiceOperationListType
     {
 
         private bool compressedContentField;
@@ -9300,7 +9300,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
-    public partial class InvoiceOperationType
+    public class InvoiceOperationType
     {
 
         private int indexField;
@@ -9372,7 +9372,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class ManageAnnulmentResponse : TransactionResponseType
+    public class ManageAnnulmentResponse : TransactionResponseType
     {
     }
 
@@ -9383,7 +9383,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class ManageInvoiceRequest : ManageInvoiceRequestType
+    public class ManageInvoiceRequest : ManageInvoiceRequestType
     {
     }
 
@@ -9394,7 +9394,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class ManageInvoiceResponse : TransactionResponseType
+    public class ManageInvoiceResponse : TransactionResponseType
     {
     }
 
@@ -9405,7 +9405,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceChainDigestRequest : QueryInvoiceChainDigestRequestType
+    public class QueryInvoiceChainDigestRequest : QueryInvoiceChainDigestRequestType
     {
     }
 
@@ -9416,7 +9416,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceChainDigestResponse : QueryInvoiceChainDigestResponseType
+    public class QueryInvoiceChainDigestResponse : QueryInvoiceChainDigestResponseType
     {
     }
 
@@ -9427,7 +9427,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceCheckRequest : QueryInvoiceDataRequestType
+    public class QueryInvoiceCheckRequest : QueryInvoiceDataRequestType
     {
     }
 
@@ -9438,7 +9438,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceCheckResponse : QueryInvoiceCheckResponseType
+    public class QueryInvoiceCheckResponse : QueryInvoiceCheckResponseType
     {
     }
 
@@ -9449,7 +9449,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceDataRequest : QueryInvoiceDataRequestType
+    public class QueryInvoiceDataRequest : QueryInvoiceDataRequestType
     {
     }
 
@@ -9460,7 +9460,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceDataResponse : QueryInvoiceDataResponseType
+    public class QueryInvoiceDataResponse : QueryInvoiceDataResponseType
     {
     }
 
@@ -9471,7 +9471,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceDigestRequest : QueryInvoiceDigestRequestType
+    public class QueryInvoiceDigestRequest : QueryInvoiceDigestRequestType
     {
     }
 
@@ -9482,7 +9482,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryInvoiceDigestResponse : QueryInvoiceDigestResponseType
+    public class QueryInvoiceDigestResponse : QueryInvoiceDigestResponseType
     {
     }
 
@@ -9493,7 +9493,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryTaxpayerRequest : QueryTaxpayerRequestType
+    public class QueryTaxpayerRequest : QueryTaxpayerRequestType
     {
     }
 
@@ -9504,7 +9504,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryTaxpayerResponse : QueryTaxpayerResponseType
+    public class QueryTaxpayerResponse : QueryTaxpayerResponseType
     {
     }
 
@@ -9515,7 +9515,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryTransactionListRequest : QueryTransactionListRequestType
+    public class QueryTransactionListRequest : QueryTransactionListRequestType
     {
     }
 
@@ -9526,7 +9526,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryTransactionListResponse : QueryTransactionListResponseType
+    public class QueryTransactionListResponse : QueryTransactionListResponseType
     {
     }
 
@@ -9537,7 +9537,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryTransactionStatusRequest : QueryTransactionStatusRequestType
+    public class QueryTransactionStatusRequest : QueryTransactionStatusRequestType
     {
     }
 
@@ -9548,7 +9548,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class QueryTransactionStatusResponse : QueryTransactionStatusResponseType
+    public class QueryTransactionStatusResponse : QueryTransactionStatusResponseType
     {
     }
 
@@ -9559,7 +9559,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class TokenExchangeRequest : BasicOnlineInvoiceRequestType
+    public class TokenExchangeRequest : BasicOnlineInvoiceRequestType
     {
     }
 
@@ -9570,7 +9570,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/api", IsNullable = false)]
-    public partial class TokenExchangeResponse : TokenExchangeResponseType
+    public class TokenExchangeResponse : TokenExchangeResponseType
     {
     }
 
@@ -9581,7 +9581,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics", IsNullable = false)]
-    public partial class QueryServiceMetricsListResponse : QueryServiceMetricsListResponseType
+    public class QueryServiceMetricsListResponse : QueryServiceMetricsListResponseType
     {
     }
 
@@ -9591,7 +9591,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
-    public partial class QueryServiceMetricsListResponseType
+    public class QueryServiceMetricsListResponseType
     {
 
         private MetricDefinitionType[] metricDefinitionField;
@@ -9617,7 +9617,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
-    public partial class MetricDefinitionType
+    public class MetricDefinitionType
     {
 
         private string metricNameField;
@@ -9693,7 +9693,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
-    public partial class MetricDescriptionType
+    public class MetricDescriptionType
     {
 
         private LanguageType languageField;
@@ -9751,7 +9751,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics", IsNullable = false)]
-    public partial class QueryServiceMetricsResponse : QueryServiceMetricsResponseType
+    public class QueryServiceMetricsResponse : QueryServiceMetricsResponseType
     {
     }
 
@@ -9761,7 +9761,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
-    public partial class QueryServiceMetricsResponseType
+    public class QueryServiceMetricsResponseType
     {
 
         private BasicResultType resultField;
@@ -9833,7 +9833,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
-    public partial class MetricType
+    public class MetricType
     {
 
         private MetricDefinitionType metricDefinitionField;
@@ -9874,7 +9874,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/metrics")]
-    public partial class MetricValueType
+    public class MetricValueType
     {
 
         private decimal valueField;
@@ -9915,7 +9915,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/OSA/3.0/annul")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/annul", IsNullable = false)]
-    public partial class InvoiceAnnulment : InvoiceAnnulmentType
+    public class InvoiceAnnulment : InvoiceAnnulmentType
     {
     }
 
@@ -9925,7 +9925,7 @@
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.nav.gov.hu/OSA/3.0/annul")]
-    public partial class InvoiceAnnulmentType
+    public class InvoiceAnnulmentType
     {
 
         private string annulmentReferenceField;
@@ -10016,7 +10016,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common", IsNullable = false)]
-    public partial class GeneralErrorHeaderResponse : GeneralErrorHeaderResponseType
+    public class GeneralErrorHeaderResponse : GeneralErrorHeaderResponseType
     {
     }
 
@@ -10027,7 +10027,7 @@
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.nav.gov.hu/NTCA/1.0/common", IsNullable = false)]
-    public partial class GeneralExceptionResponse : BasicResultType
+    public class GeneralExceptionResponse : BasicResultType
     {
     }
 }

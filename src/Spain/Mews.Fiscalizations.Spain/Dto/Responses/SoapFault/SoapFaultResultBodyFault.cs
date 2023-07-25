@@ -3,7 +3,7 @@
 namespace Mews.Fiscalizations.Spain.Dto.Responses.SoapFault
 {
     [XmlType(AnonymousType = true, Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
-    public partial class SoapFaultResultBodyFault
+    public class SoapFaultResultBodyFault
     {
         [XmlElement(Namespace = "", ElementName = "faultcode")]
         public string Code { get; set; }

@@ -2,8 +2,5 @@
 {
     public sealed class Customer
     {
-        public Customer()
-        {
-        }
     }
 }

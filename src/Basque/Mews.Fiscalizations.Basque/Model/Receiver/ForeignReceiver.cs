@@ -1,5 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Basque.Model
 {

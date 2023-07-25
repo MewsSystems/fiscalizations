@@ -51,7 +51,7 @@ namespace Mews.Fiscalizations.Basque.Model
         {
             return Try.Aggregate(
                 ObjectValidations.NotNull(description),
-                items.ToTry(i => i.Count() >= 1 && i.Count() <= 1000, _ => new Error($"{nameof(items)} count must be in range [1, 1000].")),
+                items.ToList().ToTry(i => i.Any() && i.Count <= 1000, _ => new Error($"{nameof(items)} count must be in range [1, 1000].")),
                 taxModes.ToTry(t => t.NonEmpty(), _ => new Error($"{nameof(taxModes)} shouldn't be empty.")),
                 (d, i, t) => new InvoiceData(d, i, totalAmount, t, supportWithheldAmount, tax, transactionDate)
             );

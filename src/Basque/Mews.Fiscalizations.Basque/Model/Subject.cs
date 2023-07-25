@@ -27,7 +27,7 @@ namespace Mews.Fiscalizations.Basque.Model
         {
             return Try.Aggregate(
                 ObjectValidations.NotNull(issuer),
-                receivers.ToTry(i => i.Count() >= 1 && i.Count() <= 100, _ => new Error($"{nameof(receivers)} count must be in range [1, 100].")),
+                receivers.ToList().ToTry(i => i.Any() && i.Count <= 100, _ => new Error($"{nameof(receivers)} count must be in range [1, 100].")),
                 (i, r) => new Subject(i, r, issuerType)
             );
         }

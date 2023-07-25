@@ -1,5 +1,4 @@
-﻿using System;
-using FuncSharp;
+﻿using FuncSharp;
 using Mews.Fiscalizations.Spain.Model.Enums;
 
 namespace Mews.Fiscalizations.Spain.Model.Response

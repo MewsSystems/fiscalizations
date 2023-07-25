@@ -2,7 +2,6 @@
 using Mews.Fiscalizations.Hungary.Utils;
 using System.Linq;
 using FuncSharp;
-using Mews.Fiscalizations.Core.Xml;
 
 namespace Mews.Fiscalizations.Hungary
 {
@@ -124,11 +123,11 @@ namespace Mews.Fiscalizations.Hungary
                 number: address.number,
                 floor: address.floor,
                 door: address.door,
-                type: MapAddressType(addressItem.taxpayerAddressType, nameof(addressItem.taxpayerAddress))
+                type: MapAddressType(addressItem.taxpayerAddressType)
             );
         }
 
-        private static AddressType MapAddressType(Dto.TaxpayerAddressTypeType type, string parameterName)
+        private static AddressType MapAddressType(Dto.TaxpayerAddressTypeType type)
         {
             return type.Match(
                 Dto.TaxpayerAddressTypeType.HQ, _ => AddressType.HQ,
