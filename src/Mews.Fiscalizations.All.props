@@ -3,6 +3,6 @@
     <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mews.FuncSharp" Version="[5.0.2, 6)" />
+    <PackageReference Include="FuncSharp" Version="[6.0.0, 7)" />
   </ItemGroup>
 </Project>
