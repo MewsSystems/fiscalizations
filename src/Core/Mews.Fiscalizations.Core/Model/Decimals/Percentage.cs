@@ -11,7 +11,7 @@ public sealed class Percentage
 
     public decimal Value { get; }
 
-    public static ITry<Percentage, Error> Create(decimal value)
+    public static Try<Percentage, Error> Create(decimal value)
     {
         return DecimalValidations.InRange(value, 0, 100).FlatMap(v =>
         {

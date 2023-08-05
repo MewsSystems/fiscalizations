@@ -13,7 +13,7 @@ public sealed class SigningKey
 
     public string Value { get; }
 
-    public static ITry<SigningKey, Error> Create(string value)
+    public static Try<SigningKey, Error> Create(string value)
     {
         return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
         {

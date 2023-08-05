@@ -40,7 +40,7 @@ public sealed class InvoiceData
 
     public IOption<DateTime> TransactionDate { get; }
 
-    public static ITry<InvoiceData, IEnumerable<Error>> Create(
+    public static Try<InvoiceData, IEnumerable<Error>> Create(
         String1To250 description,
         IEnumerable<InvoiceItem> items,
         decimal totalAmount,

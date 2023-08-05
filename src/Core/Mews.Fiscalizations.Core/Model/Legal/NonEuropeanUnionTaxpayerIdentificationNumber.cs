@@ -14,7 +14,7 @@ public class NonEuropeanUnionTaxpayerIdentificationNumber
 
     public string TaxpayerNumber { get; }
 
-    public static ITry<NonEuropeanUnionTaxpayerIdentificationNumber, Error> Create(NonEuropeanUnionCountry country, string taxpayerNumber)
+    public static Try<NonEuropeanUnionTaxpayerIdentificationNumber, Error> Create(NonEuropeanUnionCountry country, string taxpayerNumber)
     {
         return ObjectValidations.NotNull(country).FlatMap(c =>
         {

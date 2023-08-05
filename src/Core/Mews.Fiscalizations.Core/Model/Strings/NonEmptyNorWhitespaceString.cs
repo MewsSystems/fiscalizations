@@ -11,7 +11,7 @@ public class NonEmptyNorWhitespaceString
 
     public string Value { get; }
 
-    public static ITry<NonEmptyNorWhitespaceString, Error> Create(string value)
+    public static Try<NonEmptyNorWhitespaceString, Error> Create(string value)
     {
         return StringValidations.NonEmptyNorWhitespace(value).Map(v => new NonEmptyNorWhitespaceString(v));
     }

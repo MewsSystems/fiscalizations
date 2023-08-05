@@ -22,7 +22,7 @@ public struct NonNegativeInt
         return a.Sum(b);
     }
 
-    public static ITry<NonNegativeInt, Error> Create(int value)
+    public static Try<NonNegativeInt, Error> Create(int value)
     {
         return IntValidations.HigherThanOrEqual(value, 0).Map(v => new NonNegativeInt(v));
     }

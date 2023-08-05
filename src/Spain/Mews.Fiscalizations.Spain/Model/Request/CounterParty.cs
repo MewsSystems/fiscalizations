@@ -17,7 +17,7 @@ public sealed class CounterParty : Coproduct2<LocalCounterParty, ForeignCounterP
         Check.IsNotNull(foreignCounterParty, nameof(foreignCounterParty));
     }
 
-    public static ITry<CounterParty, Error> Local(Name name, string nifVat)
+    public static Try<CounterParty, Error> Local(Name name, string nifVat)
     {
         return LocalCounterParty.Create(name, nifVat).Map(p => new CounterParty(p));
     }

@@ -31,7 +31,7 @@ internal class SoapClient
 
     private HttpClient HttpClient { get; }
 
-    internal async Task<ITry<TOut, ErrorResult>> SendAsync<TIn, TOut>(TIn messageBodyObject)
+    internal async Task<Try<TOut, ErrorResult>> SendAsync<TIn, TOut>(TIn messageBodyObject)
         where TIn : class, new()
         where TOut : class, new()
     {

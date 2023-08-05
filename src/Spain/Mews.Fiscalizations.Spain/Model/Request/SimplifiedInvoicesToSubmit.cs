@@ -17,7 +17,7 @@ public sealed class SimplifiedInvoicesToSubmit
 
     public SimplifiedInvoice[] Invoices { get; }
 
-    public static ITry<SimplifiedInvoicesToSubmit, IEnumerable<Error>> Create(Header header, SimplifiedInvoice[] invoices)
+    public static Try<SimplifiedInvoicesToSubmit, IEnumerable<Error>> Create(Header header, SimplifiedInvoice[] invoices)
     {
         return Try.Aggregate(
             ObjectValidations.NotNull(header),

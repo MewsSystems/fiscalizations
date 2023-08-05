@@ -13,7 +13,7 @@ public sealed class VatCode
 
     public string Value { get; }
 
-    public static ITry<VatCode, Error> Create(string value)
+    public static Try<VatCode, Error> Create(string value)
     {
         return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
         {

@@ -12,7 +12,7 @@ public sealed class Name
 
     public string Value { get; }
 
-    public static ITry<Name, Error> Create(string value)
+    public static Try<Name, Error> Create(string value)
     {
         return StringValidations.LengthInRange(value, 0, 120).FlatMap(v =>
         {

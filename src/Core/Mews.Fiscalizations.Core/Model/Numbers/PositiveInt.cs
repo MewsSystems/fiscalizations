@@ -32,7 +32,7 @@ public struct PositiveInt
         return a.Multiply(b);
     }
 
-    public static ITry<PositiveInt, Error> Create(int value)
+    public static Try<PositiveInt, Error> Create(int value)
     {
         return IntValidations.HigherThan(value, 0).Map(v => new PositiveInt(v));
     }

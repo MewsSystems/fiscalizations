@@ -12,7 +12,7 @@ public sealed class Year
 
     public int Value { get; }
 
-    public static ITry<Year, Error> Create(int value)
+    public static Try<Year, Error> Create(int value)
     {
         return IntValidations.InRange(value, 1000, 10000).Map(v => new Year(v));
     }

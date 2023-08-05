@@ -13,7 +13,7 @@ public sealed class EncryptionKey
 
     public string Value { get; }
 
-    public static ITry<EncryptionKey, Error> Create(string value)
+    public static Try<EncryptionKey, Error> Create(string value)
     {
         return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
         {

@@ -20,7 +20,7 @@ public class Receiver : Coproduct2<Customer, Company>
         return new Receiver(new Company(new LocalCompany(taxpayerId, name, address)));
     }
 
-    public static ITry<Receiver, Error> ForeignCompany(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
+    public static Try<Receiver, Error> ForeignCompany(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
     {
         return Models.ForeignCompany.Create(name, address, taxpayerId).Map(c => new Receiver(new Company(c)));
     }

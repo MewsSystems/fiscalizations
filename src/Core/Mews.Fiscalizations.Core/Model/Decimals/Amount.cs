@@ -11,7 +11,7 @@ public sealed class Amount
 
     public decimal Value { get; }
 
-    public static ITry<Amount, Error> Create(decimal value)
+    public static Try<Amount, Error> Create(decimal value)
     {
         return DecimalValidations.SmallerThan(value, 1000000000000).FlatMap(v =>
         {

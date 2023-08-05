@@ -12,7 +12,7 @@ public sealed class Name
 
     public string Value { get; }
 
-    public static ITry<Name, Error> Create(string value)
+    public static Try<Name, Error> Create(string value)
     {
         return ValidationExtensions.ValidateString(value, minLength: 1, maxLength: 512, regex: ".*[^\\s].*").Map(v => new Name(v));
     }

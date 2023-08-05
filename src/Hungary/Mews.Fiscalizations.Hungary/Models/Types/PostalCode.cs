@@ -13,7 +13,7 @@ public sealed class PostalCode
 
     public string Value { get; }
 
-    public static ITry<PostalCode, Error> Create(string value)
+    public static Try<PostalCode, Error> Create(string value)
     {
         return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
         {

@@ -15,7 +15,7 @@ public sealed class ForeignTaxpayerNumber
 
     public string Value { get; }
 
-    public static ITry<ForeignTaxpayerNumber, Error> Create(Country country, string value)
+    public static Try<ForeignTaxpayerNumber, Error> Create(Country country, string value)
     {
         return StringValidations.LengthInRange(value, 1, 20).FlatMap(i =>
         {
