@@ -9,7 +9,6 @@ namespace Mews.Fiscalizations.Basque.Tests;
 public class SendInvoiceTests
 {
     [Test]
-    [Ignore("Expired test environment certificate, will re-enable when the certificate gets updated.")]
     [TestCase(Region.Araba, false, false, TestName = "Araba - Send invoice with local receiver")]
     [TestCase(Region.Araba, true, false, TestName = "Araba - Send invoice with foreign receiver")]
     [TestCase(Region.Araba, false, true, TestName = "Araba - Send negative invoice with local receiver")]
@@ -30,7 +29,6 @@ public class SendInvoiceTests
     }
 
     [Test]
-    [Ignore("Expired test environment certificate, will re-enable when the certificate gets updated.")]
     [TestCase(Region.Araba, TestName = "Araba - Invoice chaining")]
     [TestCase(Region.Gipuzkoa, TestName = "Gipuzkoa - Invoice chaining")]
     [Retry(3)]
