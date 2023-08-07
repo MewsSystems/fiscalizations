@@ -11,7 +11,7 @@ public sealed class String1To30
 
     public string Value { get; }
 
-    public static ITry<String1To30, Error> Create(string value)
+    public static Try<String1To30, Error> Create(string value)
     {
         return StringValidations.LengthInRange(value, 1, 30).Map(v => new String1To30(v));
     }

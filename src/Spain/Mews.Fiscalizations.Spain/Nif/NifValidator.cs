@@ -25,7 +25,7 @@ public class NifValidator
 
     private SoapClient SoapClient { get; }
 
-    public async Task<ITry<Response, ErrorResult>> CheckNif(Request model)
+    public async Task<Try<Response, ErrorResult>> CheckNif(Request model)
     {
         var request = Convert(model);
         var response = await SoapClient.SendAsync<Entrada, Salida>(request);

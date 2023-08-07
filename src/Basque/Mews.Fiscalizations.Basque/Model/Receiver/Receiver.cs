@@ -17,7 +17,7 @@ public sealed class Receiver : Coproduct2<LocalReceiver, ForeignReceiver>
         Check.IsNotNull(foreignReceiver, nameof(foreignReceiver));
     }
 
-    public static ITry<Receiver, Error> Local(string nif, Name name, PostalCode postalCode, String1To250 address)
+    public static Try<Receiver, Error> Local(string nif, Name name, PostalCode postalCode, String1To250 address)
     {
         return LocalReceiver.Create(nif, name, postalCode, address).Map(r => new Receiver(r));
     }

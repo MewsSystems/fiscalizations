@@ -17,7 +17,7 @@ public sealed class TaxSummary
 
     public IOption<INonEmptyEnumerable<TaxRateSummary>> Taxed { get; }
 
-    public static ITry<TaxSummary, IEnumerable<Error>> Create(TaxExemptItem[] taxExempt = null, TaxRateSummary[] taxed = null)
+    public static Try<TaxSummary, IEnumerable<Error>> Create(TaxExemptItem[] taxExempt = null, TaxRateSummary[] taxed = null)
     {
         if (taxExempt.IsEmpty() && taxed.IsEmpty())
         {

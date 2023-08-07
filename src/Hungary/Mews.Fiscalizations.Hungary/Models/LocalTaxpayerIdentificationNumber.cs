@@ -12,7 +12,7 @@ public sealed class LocalTaxpayerIdentificationNumber
 
     public TaxpayerIdentificationNumber Value { get; }
 
-    public static ITry<LocalTaxpayerIdentificationNumber, Error> Create(string taxId)
+    public static Try<LocalTaxpayerIdentificationNumber, Error> Create(string taxId)
     {
         return TaxpayerIdentificationNumber.Create(Countries.Hungary, taxId, isCountryCodePrefixAllowed: false).Map(n => new LocalTaxpayerIdentificationNumber(n));
     }

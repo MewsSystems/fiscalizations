@@ -31,14 +31,14 @@ public class Client
 
     private SoapClient SoapClient { get; }
 
-    public async Task<ITry<ReceivedInvoices, ErrorResult>> SubmitInvoiceAsync(InvoicesToSubmit model)
+    public async Task<Try<ReceivedInvoices, ErrorResult>> SubmitInvoiceAsync(InvoicesToSubmit model)
     {
         var request = new ModelToDtoConverter().Convert(model);
         var response = await SoapClient.SendAsync<SubmitIssuedInvoicesRequest, SubmitIssuedInvoicesResponse>(request);
         return response.Map(r => new DtoToModelConverter().Convert(r));
     }
 
-    public async Task<ITry<ReceivedInvoices, ErrorResult>> SubmitSimplifiedInvoiceAsync(SimplifiedInvoicesToSubmit model)
+    public async Task<Try<ReceivedInvoices, ErrorResult>> SubmitSimplifiedInvoiceAsync(SimplifiedInvoicesToSubmit model)
     {
         var request = new ModelToDtoConverter().Convert(model);
         var response = await SoapClient.SendAsync<SubmitIssuedInvoicesRequest, SubmitIssuedInvoicesResponse>(request);

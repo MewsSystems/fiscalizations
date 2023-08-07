@@ -7,7 +7,7 @@ namespace Mews.Fiscalizations.Core.Model;
 
 public static class StringValidations
 {
-    public static ITry<string, Error> LengthInRange(string value, int min, int max)
+    public static Try<string, Error> LengthInRange(string value, int min, int max)
     {
         var nonNullValue = ObjectValidations.NotNull(value);
         return nonNullValue.FlatMap(v =>
@@ -17,22 +17,22 @@ public static class StringValidations
         });
     }
 
-    public static ITry<string, Error> RegexMatch(string value, Regex pattern)
+    public static Try<string, Error> RegexMatch(string value, Regex pattern)
     {
         return value.ToTry(v => v.IsNotNull() && pattern.IsMatch(v), _ => new Error($"Value '{value}' doesn't match the regex pattern '{pattern}'."));
     }
 
-    public static ITry<string, Error> In(string value, IEnumerable<string> allowedValues)
+    public static Try<string, Error> In(string value, IEnumerable<string> allowedValues)
     {
         return value.ToTry(v => allowedValues.Contains(v), _ => new Error($"Value '{value}' is not in allowed values."));
     }
 
-    public static ITry<string, Error> NonEmpty(string value)
+    public static Try<string, Error> NonEmpty(string value)
     {
         return value.ToTry(v => !string.IsNullOrEmpty(v), _ => new Error("Value cannot be null or empty."));
     }
 
-    public static ITry<string, Error> NonEmptyNorWhitespace(string value)
+    public static Try<string, Error> NonEmptyNorWhitespace(string value)
     {
         return value.ToTry(v => !string.IsNullOrWhiteSpace(v), _ => new Error("Value cannot be null, empty or whitespace."));
     }

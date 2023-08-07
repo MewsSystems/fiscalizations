@@ -12,7 +12,7 @@ public sealed class Region
 
     public string Value { get; }
 
-    public static ITry<Region, Error> Create(string value)
+    public static Try<Region, Error> Create(string value)
     {
         return ValidationExtensions.ValidateString(value, minLength: 0, maxLength: 50, regex: ".*[^\\s].*").Map(v => new Region(v));
     }

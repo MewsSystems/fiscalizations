@@ -14,7 +14,7 @@ public sealed class EuropeanUnionTaxpayerIdentificationNumber
 
     public string TaxpayerNumber { get; }
 
-    public static ITry<EuropeanUnionTaxpayerIdentificationNumber, Error> Create(
+    public static Try<EuropeanUnionTaxpayerIdentificationNumber, Error> Create(
         EuropeanUnionCountry country,
         string taxpayerNumber,
         bool isCountryCodePrefixAllowed = true)

@@ -13,7 +13,7 @@ public sealed class ApiKey
 
     public string Value { get; }
 
-    public static ITry<ApiKey, Error> Create(string value)
+    public static Try<ApiKey, Error> Create(string value)
     {
         return StringValidations.LengthInRange(value, 1, 512).FlatMap(v =>
         {

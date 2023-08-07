@@ -36,7 +36,7 @@ public class TaxpayerIdentificationNumber : Coproduct2<EuropeanUnionTaxpayerIden
         }
     }
 
-    public static ITry<TaxpayerIdentificationNumber, Error> Create(Country country, string taxpayerNumber, bool isCountryCodePrefixAllowed = true)
+    public static Try<TaxpayerIdentificationNumber, Error> Create(Country country, string taxpayerNumber, bool isCountryCodePrefixAllowed = true)
     {
         return ObjectValidations.NotNull(country).FlatMap(c => c.Match(
             europeanUnionCountry => EuropeanUnionTaxpayerIdentificationNumber.Create(europeanUnionCountry, taxpayerNumber, isCountryCodePrefixAllowed).Map(n => new TaxpayerIdentificationNumber(n)),

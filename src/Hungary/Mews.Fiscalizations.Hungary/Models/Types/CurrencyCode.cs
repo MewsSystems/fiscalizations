@@ -28,7 +28,7 @@ public sealed class CurrencyCode
         return Create("HUF").GetUnsafe();
     }
 
-    public static ITry<CurrencyCode, Error> Create(string value)
+    public static Try<CurrencyCode, Error> Create(string value)
     {
         return StringValidations.NonEmptyNorWhitespace(value).FlatMap(v =>
         {

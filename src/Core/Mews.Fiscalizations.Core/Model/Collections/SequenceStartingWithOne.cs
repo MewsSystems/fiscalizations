@@ -21,7 +21,7 @@ public sealed class SequenceStartingWithOne<T> : ISequenceStartingWithOne<T>
 
     public int StartIndex => Sequence.StartIndex;
 
-    public static ITry<ISequenceStartingWithOne<T>, Error> Create(IEnumerable<Indexed<T>> values)
+    public static Try<SequenceStartingWithOne<T>, Error> Create(IEnumerable<Indexed<T>> values)
     {
         var sequence = Sequence<T>.Create(values);
         var sequenceStartingWithOne = sequence.Where(
@@ -31,13 +31,13 @@ public sealed class SequenceStartingWithOne<T> : ISequenceStartingWithOne<T>
         return sequenceStartingWithOne.Map(s => new SequenceStartingWithOne<T>(s));
     }
 
-    public static IOption<ISequenceStartingWithOne<T>> FromPreordered(IEnumerable<T> values)
+    public static IOption<SequenceStartingWithOne<T>> FromPreordered(IEnumerable<T> values)
     {
         var sequence = Sequence<T>.FromPreordered(values, startIndex: 1);
         return sequence.Map(s => new SequenceStartingWithOne<T>(s));
     }
 
-    public static ISequenceStartingWithOne<T> FromPreordered(INonEmptyEnumerable<T> values)
+    public static SequenceStartingWithOne<T> FromPreordered(INonEmptyEnumerable<T> values)
     {
         var sequence = Sequence<T>.FromPreordered(values, startIndex: 1);
         return new SequenceStartingWithOne<T>(sequence);
@@ -46,17 +46,17 @@ public sealed class SequenceStartingWithOne<T> : ISequenceStartingWithOne<T>
 
 public static class SequenceStartingWithOne
 {
-    public static IOption<ISequenceStartingWithOne<T>> FromPreordered<T>(IEnumerable<T> values)
+    public static IOption<SequenceStartingWithOne<T>> FromPreordered<T>(IEnumerable<T> values)
     {
         return SequenceStartingWithOne<T>.FromPreordered(values);
     }
 
-    public static ISequenceStartingWithOne<T> FromPreordered<T>(INonEmptyEnumerable<T> values)
+    public static SequenceStartingWithOne<T> FromPreordered<T>(INonEmptyEnumerable<T> values)
     {
         return SequenceStartingWithOne<T>.FromPreordered(values);
     }
 
-    public static ITry<ISequenceStartingWithOne<T>, Error> Create<T>(IEnumerable<Indexed<T>> values)
+    public static Try<SequenceStartingWithOne<T>, Error> Create<T>(IEnumerable<Indexed<T>> values)
     {
         return SequenceStartingWithOne<T>.Create(values);
     }

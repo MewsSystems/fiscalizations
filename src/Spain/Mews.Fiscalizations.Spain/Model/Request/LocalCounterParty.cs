@@ -15,7 +15,7 @@ public sealed class LocalCounterParty
 
     public TaxpayerIdentificationNumber TaxpayerIdentificationNumber { get; }
 
-    public static ITry<LocalCounterParty, Error> Create(Name name, string nifVat)
+    public static Try<LocalCounterParty, Error> Create(Name name, string nifVat)
     {
         return TaxpayerIdentificationNumber.Create(Countries.Spain, nifVat).Map(n => new LocalCounterParty(name, n));
     }

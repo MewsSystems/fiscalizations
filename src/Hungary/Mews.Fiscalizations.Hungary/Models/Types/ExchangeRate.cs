@@ -15,7 +15,7 @@ public sealed class ExchangeRate
 
     public decimal Value { get; }
 
-    public static ITry<ExchangeRate, Error> Create(decimal value)
+    public static Try<ExchangeRate, Error> Create(decimal value)
     {
         return DecimalValidations.InRange(value, 0, 100_000_000, minIsAllowed: false, maxIsAllowed: false).FlatMap(v =>
         {
@@ -24,7 +24,7 @@ public sealed class ExchangeRate
         });
     }
 
-    internal static ITry<ExchangeRate, Error> Rounded(decimal value)
+    internal static Try<ExchangeRate, Error> Rounded(decimal value)
     {
         var roundedValue = Decimal.Round(value, MaxDecimalPlaces);
         return Create(roundedValue);

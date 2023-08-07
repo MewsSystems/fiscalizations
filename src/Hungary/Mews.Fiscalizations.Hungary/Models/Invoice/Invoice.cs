@@ -63,7 +63,7 @@ public class Invoice
 
     public bool IsCashAccounting { get; }
 
-    private ITry<ExchangeRate, Error> GetExchangeRate(ISequence<InvoiceItem> items)
+    private Try<ExchangeRate, Error> GetExchangeRate(ISequence<InvoiceItem> items)
     {
         var totalGrossHuf = items.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.AmountHUF.Gross.Value));
         var totalGross = items.Values.Sum(i => Math.Abs(i.Value.TotalAmounts.Amount.Gross.Value));

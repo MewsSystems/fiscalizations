@@ -40,7 +40,7 @@ public static class ObjectExtensions
         return x.CompareTo(y) >= 0;
     }
 
-    public static ITry<T, E> ToTry<T, E>(this T value, Func<T, bool> condition, Func<Unit, E> error)
+    public static Try<T, E> ToTry<T, E>(this T value, Func<T, bool> condition, Func<Unit, E> error)
     {
         return condition(value).Match(
             t => Try.Success<T, E>(value),

@@ -18,7 +18,7 @@ public sealed class ForeignCompany
 
     public IOption<TaxpayerIdentificationNumber> TaxpayerId { get; }
 
-    public static ITry<ForeignCompany, Error> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
+    public static Try<ForeignCompany, Error> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
     {
         var optionalForeignTaxPayerId = taxpayerId.ToOption().ToOption().Where(i => i.Match(
             identifier => !identifier.Country.Equals(Countries.Hungary),

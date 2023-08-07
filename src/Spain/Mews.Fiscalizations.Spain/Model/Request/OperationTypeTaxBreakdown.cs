@@ -15,7 +15,7 @@ public sealed class OperationTypeTaxBreakdown
 
     public IOption<TaxSummary> Delivery { get; }
 
-    public static ITry<OperationTypeTaxBreakdown, Error> Create(TaxSummary serviceProvision = null, TaxSummary delivery = null)
+    public static Try<OperationTypeTaxBreakdown, Error> Create(TaxSummary serviceProvision = null, TaxSummary delivery = null)
     {
         return (serviceProvision.IsNotNull() || delivery.IsNotNull()).ToTry(
             t => new OperationTypeTaxBreakdown(serviceProvision, delivery),

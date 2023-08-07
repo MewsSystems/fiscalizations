@@ -12,7 +12,7 @@ public sealed class AdditionalAddressDetail
 
     public string Value { get; }
 
-    public static ITry<AdditionalAddressDetail, Error> Create(string value)
+    public static Try<AdditionalAddressDetail, Error> Create(string value)
     {
         return ValidationExtensions.ValidateString(value, minLength: 1, maxLength: 255, regex: ".*[^\\s].*").Map(v => new AdditionalAddressDetail(v));
     }

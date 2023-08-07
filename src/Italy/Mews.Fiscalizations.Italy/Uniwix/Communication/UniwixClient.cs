@@ -34,7 +34,7 @@ public class UniwixClient
 
     private UniwixClientConfiguration Configuration { get; }
 
-    public async Task<ITry<SendInvoiceResult, ErrorResult>> SendInvoiceAsync(ElectronicInvoice invoice)
+    public async Task<Try<SendInvoiceResult, ErrorResult>> SendInvoiceAsync(ElectronicInvoice invoice)
     {
         var url = $"{UniwixBaseUrl}/Invoices/Upload";
         var invoiceFile = new ElectronicInvoiceFile(invoice);
@@ -47,7 +47,7 @@ public class UniwixClient
         return result.Map(r => new SendInvoiceResult(r.FileId, r.Message));
     }
 
-    public async Task<ITry<InvoiceState, ErrorResult>> GetInvoiceStateAsync(string fileId)
+    public async Task<Try<InvoiceState, ErrorResult>> GetInvoiceStateAsync(string fileId)
     {
         var url = $"{UniwixBaseUrl}/Invoices/{fileId}";
         var result = await GetAsync<List<InvoiceStateResult>>(url);
@@ -60,7 +60,7 @@ public class UniwixClient
         });
     }
 
-    public Task<ITry<UniwixUser, ErrorResult>> CreateUserAsync(CreateUserParameters createUserParameters)
+    public Task<Try<UniwixUser, ErrorResult>> CreateUserAsync(CreateUserParameters createUserParameters)
     {
         var url = $"{UniwixBaseUrl}/Users";
         var content = new MultipartFormDataContent
@@ -73,24 +73,24 @@ public class UniwixClient
         return PostAsync<UniwixUser>(url, content);
     }
 
-    public async Task<ITry<bool, ErrorResult>> VerifyCredentialsAsync()
+    public async Task<Try<bool, ErrorResult>> VerifyCredentialsAsync()
     {
         // This endpoint returns the account information, so if the ITry is success it means the credentials are valid.
         var result = await GetAsync<object>($"{UniwixBaseUrl}/Info");
         return result.Map(r => true);
     }
 
-    private Task<ITry<TResult, ErrorResult>> GetAsync<TResult>(string url)
+    private Task<Try<TResult, ErrorResult>> GetAsync<TResult>(string url)
     {
         return ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null);
     }
 
-    private Task<ITry<TResult, ErrorResult>> PostAsync<TResult>(string url, HttpContent content)
+    private Task<Try<TResult, ErrorResult>> PostAsync<TResult>(string url, HttpContent content)
     {
         return ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content);
     }
 
-    private Task<ITry<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
+    private Task<Try<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
     {
         return ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
         {
@@ -123,11 +123,11 @@ public class UniwixClient
         });
     }
 
-    private async Task<ITry<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(
+    private async Task<Try<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(
         string url,
         HttpMethod httpMethod,
         HttpContent content,
-        Func<HttpResponseMessage, Task<ITry<TResult, ErrorResult>>> responseProcessor)
+        Func<HttpResponseMessage, Task<Try<TResult, ErrorResult>>> responseProcessor)
     {
         var credentials = $"{Configuration.Key}:{Configuration.Password}";
         var authenticationHeaderValue = Convert.ToBase64String(Encoding.ASCII.GetBytes(credentials));

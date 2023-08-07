@@ -15,7 +15,7 @@ public sealed class Issuer
 
     public Name Name { get; }
 
-    public static ITry<Issuer, Error> Create(Name name, string nif)
+    public static Try<Issuer, Error> Create(Name name, string nif)
     {
         return TaxpayerIdentificationNumber.Create(Countries.Spain, nif, isCountryCodePrefixAllowed: false).Map(n => new Issuer(n, name));
     }
