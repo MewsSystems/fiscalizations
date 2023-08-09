@@ -314,7 +314,7 @@ internal class ModelToDtoConverter
         }
         var alpha2Code = country.Alpha2Code;
         var result = alpha2Code.ToEnum<CountryType2>();
-        return result.Get(_ => new Exception($"{alpha2Code} is not defined in {nameof(CountryType2)}."));
+        return result.Get(otherwise: _ => new Exception($"{alpha2Code} is not defined in {nameof(CountryType2)}."));
     }
 
     private string Convert(Amount totalAmount)
