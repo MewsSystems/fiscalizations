@@ -23,7 +23,7 @@ public sealed class Subject
 
     public IOption<IssuerType> IssuerType { get; }
 
-    public static Try<Subject, IEnumerable<Error>> Create(Issuer issuer, IEnumerable<Receiver> receivers, IssuerType? issuerType = null)
+    public static Try<Subject, IReadOnlyList<Error>> Create(Issuer issuer, IEnumerable<Receiver> receivers, IssuerType? issuerType = null)
     {
         return Try.Aggregate(
             ObjectValidations.NotNull(issuer),
