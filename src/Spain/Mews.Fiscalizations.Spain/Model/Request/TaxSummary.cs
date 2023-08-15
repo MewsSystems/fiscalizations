@@ -17,11 +17,11 @@ public sealed class TaxSummary
 
     public IOption<INonEmptyEnumerable<TaxRateSummary>> Taxed { get; }
 
-    public static Try<TaxSummary, IEnumerable<Error>> Create(TaxExemptItem[] taxExempt = null, TaxRateSummary[] taxed = null)
+    public static Try<TaxSummary, IReadOnlyList<Error>> Create(TaxExemptItem[] taxExempt = null, TaxRateSummary[] taxed = null)
     {
         if (taxExempt.IsEmpty() && taxed.IsEmpty())
         {
-            return Try.Error<TaxSummary, IEnumerable<Error>>(new Error("Tax summary must contain at least one item.").ToEnumerable());
+            return Try.Error<TaxSummary, IReadOnlyList<Error>>(new Error("Tax summary must contain at least one item.").ToEnumerable());
         }
 
         var validTaxExemptItems = taxExempt.ToOption().FlatMap(e => e.AsNonEmpty()).Match(

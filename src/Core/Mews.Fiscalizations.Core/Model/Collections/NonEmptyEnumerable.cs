@@ -6,7 +6,7 @@ using FuncSharp;
 
 namespace Mews.Fiscalizations.Core.Model;
 
-public interface INonEmptyEnumerable<out T> : IEnumerable<T>
+public interface INonEmptyEnumerable<out T> : IReadOnlyList<T>
 {
     T Head { get; }
 

@@ -17,7 +17,7 @@ public sealed class InvoicesToSubmit
 
     public Invoice[] Invoices { get; }
 
-    public static Try<InvoicesToSubmit, IEnumerable<Error>> Create(Header header, Invoice[] invoices)
+    public static Try<InvoicesToSubmit, IReadOnlyList<Error>> Create(Header header, Invoice[] invoices)
     {
         return Try.Aggregate(
             ObjectValidations.NotNull(header),
