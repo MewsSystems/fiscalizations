@@ -56,7 +56,7 @@ public class FiskalyTestFixture
     public async Task CleanupTestDataAsync()
     {
         var data = TestFixture.FiskalyTestData;
-        if (data.IsNotNull())
+        if (data is not null)
         {
             var fiskalyClient = data.FiskalyClient;
             var adminPin = TestFixture.AdminPin;

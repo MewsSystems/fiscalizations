@@ -5,6 +5,7 @@ using Mews.Fiscalizations.Basque.Model;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System;
+using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
 

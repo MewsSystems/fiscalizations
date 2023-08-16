@@ -7,6 +7,6 @@ public static class ObjectValidations
     public static Try<T, Error> NotNull<T>(T value)
         where T : class
     {
-        return value.ToTry(v => v.IsNotNull(), _ => new Error($"{typeof(T).Name} cannot be null."));
+        return value.ToTry(v => v is not null, _ => new Error($"{typeof(T).Name} cannot be null."));
     }
 }

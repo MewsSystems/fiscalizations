@@ -81,7 +81,7 @@ public class Invoice
             amountHUF: Amount.Sum(g.Select(i => i.Value.TotalAmounts.AmountHUF)),
             taxRatePercentage: g.Key.ToNullable()
         ));
-        return taxSummaryItems.AsList();
+        return taxSummaryItems.ToList();
     }
 
     private static void CheckConsistency(Invoice invoice)
