@@ -18,24 +18,9 @@ public static class CollectionExtensions
         return new HashSet<T>(source, comparer);
     }
 
-    public static IEnumerable<T> ExceptNulls<T>(this IEnumerable<T> source)
-    {
-        return source.Where(x => x.IsNotNull());
-    }
-
     public static IOption<INonEmptyEnumerable<T>> AsNonEmpty<T>(this IEnumerable<T> source)
     {
         return NonEmptyEnumerable.Create(source);
-    }
-
-    public static bool NonEmpty<T>(this IEnumerable<T> source)
-    {
-        return !source.IsEmpty();
-    }
-
-    public static bool IsEmpty<T>(this IEnumerable<T> source)
-    {
-        return source == null || !source.Any();
     }
 
     public static bool IsSequential<T>(this IEnumerable<T> source, Func<T, int> indexGetter, int startIndex)

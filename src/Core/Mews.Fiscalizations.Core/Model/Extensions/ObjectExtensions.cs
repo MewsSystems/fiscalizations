@@ -6,16 +6,6 @@ namespace Mews.Fiscalizations.Core.Model;
 
 public static class ObjectExtensions
 {
-    public static bool IsNotNull<T>(this T value)
-    {
-        return !value.IsNull();
-    }
-
-    public static bool IsNull<T>(this T value)
-    {
-        return value == null;
-    }
-
     public static bool Preceeds<T>(this T x, T y)
         where T : struct, IComparable
     {

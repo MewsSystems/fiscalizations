@@ -19,7 +19,7 @@ public static class StringValidations
 
     public static Try<string, Error> RegexMatch(string value, Regex pattern)
     {
-        return value.ToTry(v => v.IsNotNull() && pattern.IsMatch(v), _ => new Error($"Value '{value}' doesn't match the regex pattern '{pattern}'."));
+        return value.ToTry(v => v is not null && pattern.IsMatch(v), _ => new Error($"Value '{value}' doesn't match the regex pattern '{pattern}'."));
     }
 
     public static Try<string, Error> In(string value, IEnumerable<string> allowedValues)

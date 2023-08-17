@@ -17,6 +17,6 @@ public class ResponseResult<TResult>
 
     public bool IsSuccess
     {
-        get { return ErrorResult.IsNull(); }
+        get { return ErrorResult is null; }
     }
 }

@@ -17,7 +17,7 @@ public sealed class OperationTypeTaxBreakdown
 
     public static Try<OperationTypeTaxBreakdown, Error> Create(TaxSummary serviceProvision = null, TaxSummary delivery = null)
     {
-        return (serviceProvision.IsNotNull() || delivery.IsNotNull()).ToTry(
+        return (serviceProvision is not null || delivery is not null).ToTry(
             t => new OperationTypeTaxBreakdown(serviceProvision, delivery),
             f => new Error("At least 1 tax summary must be provided.")
         );

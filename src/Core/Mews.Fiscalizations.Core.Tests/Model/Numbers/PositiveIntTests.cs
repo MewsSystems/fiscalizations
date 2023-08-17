@@ -15,7 +15,7 @@ public sealed class PositiveIntTests
     [TestCase(1, true)]
     public void PositiveIntValidatesCorrectly(int value, bool isSuccess)
     {
-        Assert.AreEqual(isSuccess, PositiveInt.Create(value).IsSuccess);
+        Assert.AreEqual(isSuccess, PositiveInt.Create(value).NonEmpty);
 
         var exceptionConstraint = isSuccess.Match<IConstraint>(
             t => Throws.Nothing,
