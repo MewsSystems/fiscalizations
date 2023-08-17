@@ -39,7 +39,7 @@ internal class SoapMessage
 
         var soapEnvelopeElement = xmlDocument.CreateElement("s", "Envelope", "http://schemas.xmlsoap.org/soap/envelope/");
         var soapHeaderElement = xmlDocument.CreateElement("s", "Header", "http://schemas.xmlsoap.org/soap/envelope/");
-        if (Header.IsNotNull())
+        if (Header is not null)
         {
             var importedHeader = xmlDocument.ImportNode(Header, true);
             soapHeaderElement.AppendChild(importedHeader);

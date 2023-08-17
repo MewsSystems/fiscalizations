@@ -60,8 +60,8 @@ public sealed class TaxpayerIdentificationNumberTests
     [TestCase(null, null)]
     public void CreatingInvalidEuropeanTaxpayerNumberFails(string countryCode, string taxpayerNumber)
     {
-        var country = countryCode.IsNotNull() ? Country.GetByCode(countryCode).Get() : null;
-        var europeanCountry = countryCode.IsNotNull() ? EuropeanUnionCountry.GetByCode(countryCode).Get() : null;
+        var country = countryCode is not null ? Country.GetByCode(countryCode).Get() : null;
+        var europeanCountry = countryCode is not null ? EuropeanUnionCountry.GetByCode(countryCode).Get() : null;
         Assert.IsTrue(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsError);
         Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
     }
@@ -73,7 +73,7 @@ public sealed class TaxpayerIdentificationNumberTests
     [TestCase(null, null)]
     public void CreatingInvalidTaxpayerNumberFails(string countryCode, string taxpayerNumber)
     {
-        var country = countryCode.IsNotNull() ? Country.GetByCode(countryCode).Get() : null;
+        var country = countryCode is not null ? Country.GetByCode(countryCode).Get() : null;
         Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
     }
 

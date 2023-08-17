@@ -50,7 +50,7 @@ internal class Client
             Content = new StringContent(JsonConvert.SerializeObject(request, Formatting.None), Encoding.UTF8, "application/json")
         };
 
-        if (token.IsNotNull())
+        if (token is not null)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
         }
