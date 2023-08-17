@@ -8,19 +8,9 @@ namespace Mews.Fiscalizations.Core.Model;
 
 public static class CollectionExtensions
 {
-    public static List<T> AsList<T>(this IEnumerable<T> source)
-    {
-        return source as List<T> ?? source.ToList();
-    }
-
     public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer = null)
     {
         return new HashSet<T>(source, comparer);
-    }
-
-    public static IOption<INonEmptyEnumerable<T>> AsNonEmpty<T>(this IEnumerable<T> source)
-    {
-        return NonEmptyEnumerable.Create(source);
     }
 
     public static bool IsSequential<T>(this IEnumerable<T> source, Func<T, int> indexGetter, int startIndex)

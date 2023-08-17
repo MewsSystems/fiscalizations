@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FuncSharp;
 
 namespace Mews.Fiscalizations.Core.Model;
@@ -41,16 +40,6 @@ public static class ObjectExtensions
     public static bool Implies(this bool a, Func<bool> b)
     {
         return !a || b();
-    }
-
-    public static INonEmptyEnumerable<T> ToEnumerable<T>(this T value)
-    {
-        return NonEmptyEnumerable.Create(value);
-    }
-
-    public static INonEmptyEnumerable<T> Concat<T>(this T value, IEnumerable<T> others)
-    {
-        return NonEmptyEnumerable.Create(value, others);
     }
 
     public static bool HasFewerDigitsThan(this decimal value, int maxDigitCount)
