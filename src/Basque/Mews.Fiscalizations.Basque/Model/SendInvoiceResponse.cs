@@ -29,7 +29,7 @@ public sealed class SendInvoiceResponse
         Description = description;
         StateExplanation = stateExplanation;
         SignatureValue = signatureValue;
-        CSV = csv.ToNonEmptyOption();
+        CSV = csv.AsNonEmpty();
         ValidationResults = validationResults.ToOption();
     }
 
@@ -51,7 +51,7 @@ public sealed class SendInvoiceResponse
 
     public String1To100 SignatureValue { get; }
 
-    public IOption<string> CSV { get; }
+    public IOption<NonEmptyString> CSV { get; }
 
     public IOption<IEnumerable<SendInvoiceValidationResult>> ValidationResults { get; }
 }

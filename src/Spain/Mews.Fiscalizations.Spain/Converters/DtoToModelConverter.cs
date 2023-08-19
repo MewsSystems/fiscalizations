@@ -18,7 +18,7 @@ internal class DtoToModelConverter
             Convert(response.Cabecera),
             Convert(response.EstadoEnvio),
             response.RespuestaLinea.Select(i => Convert(i)).ToArray(),
-            response.CSV.ToNonEmptyOption().GetOrNull());
+            response.CSV.AsNonEmpty().GetOrNull());
     }
 
     private InvoiceResult Convert(RespuestaExpedidaType invoice)
@@ -28,8 +28,8 @@ internal class DtoToModelConverter
             id: Convert(invoice.IDFactura),
             result: result,
             errorCode: invoice.CodigoErrorRegistro.ToInt().Match(c => (int?)c, _ => null),
-            errorMessage: invoice.DescripcionErrorRegistro.ToNonEmptyOption().GetOrNull(),
-            secureVerificationCodeForOriginalInvoice: invoice.CSV.ToNonEmptyOption().GetOrNull()
+            errorMessage: invoice.DescripcionErrorRegistro.AsNonEmpty().GetOrNull(),
+            secureVerificationCodeForOriginalInvoice: invoice.CSV.AsNonEmpty().GetOrNull()
         );
     }
 

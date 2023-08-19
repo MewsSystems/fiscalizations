@@ -11,14 +11,14 @@ public sealed class ErrorResult
     {
         Message = message;
         Error = error;
-        Content = content.ToNonEmptyOption();
+        Content = content.AsNonEmpty();
     }
 
     public string Message { get; }
 
     public FiskalyError Error { get; }
 
-    public IOption<string> Content { get; }
+    public IOption<NonEmptyString> Content { get; }
 
     internal static ErrorResult Map(Dto.FiskalyErrorResponse error)
     {

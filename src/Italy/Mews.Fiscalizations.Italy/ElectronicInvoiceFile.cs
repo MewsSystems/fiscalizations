@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Italy.Utils;

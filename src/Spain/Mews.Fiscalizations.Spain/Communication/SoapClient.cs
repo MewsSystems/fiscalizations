@@ -1,5 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Core.Xml;
+﻿using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Spain.Dto.Responses.SoapFault;
 using Mews.Fiscalizations.Spain.Model.Response;
 using FuncSharp;

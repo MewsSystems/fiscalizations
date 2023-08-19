@@ -1,6 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-
-namespace Mews.Fiscalizations.Germany.V2.Model;
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
 
 public class ResponseResult<TResult>
     where TResult : class

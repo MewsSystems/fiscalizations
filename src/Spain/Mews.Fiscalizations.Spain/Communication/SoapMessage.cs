@@ -1,5 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using System;
+﻿using System;
 using System.Xml;
 
 namespace Mews.Fiscalizations.Spain.Communication;

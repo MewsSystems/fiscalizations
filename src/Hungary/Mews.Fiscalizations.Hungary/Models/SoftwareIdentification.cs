@@ -21,8 +21,8 @@ public sealed class SoftwareIdentification
         MainVersion = Check.IsNotNull(mainVersion, nameof(mainVersion));
         DeveloperName = Check.IsNotNull(developerName, nameof(developerName));
         DeveloperContact = Check.IsNotNull(developerContact, nameof(developerContact));
-        DeveloperCountry = developerCountry.ToNonEmptyOption();
-        DeveloperTaxNumber = developerTaxNumber.ToNonEmptyOption();
+        DeveloperCountry = developerCountry.AsNonEmpty();
+        DeveloperTaxNumber = developerTaxNumber.AsNonEmpty();
     }
 
     public string Id { get; }
@@ -37,7 +37,7 @@ public sealed class SoftwareIdentification
 
     public string DeveloperContact { get; }
 
-    public IOption<string> DeveloperCountry { get; }
+    public IOption<NonEmptyString> DeveloperCountry { get; }
 
-    public IOption<string> DeveloperTaxNumber { get; }
+    public IOption<NonEmptyString> DeveloperTaxNumber { get; }
 }

@@ -1,5 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Core.Xml;
+﻿using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Hungary.Models;
 using System;
 using System.Net.Http;

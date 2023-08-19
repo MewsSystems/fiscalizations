@@ -47,7 +47,7 @@ public sealed class InvoiceTests
     public async Task SendForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
     {
         var country = Countries.GetByCode(countryCode).Get();
-        var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
+        var taxpayerNumber = taxId.AsNonEmpty().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
         var receiver = Receiver.ForeignCompany(
             name: Models.Name.Create("Foreign test company ltd.").Success.Get(),
             address: CreateAddress(country),
@@ -96,7 +96,7 @@ public sealed class InvoiceTests
     public async Task SendCorrectionForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
     {
         var country = Countries.GetByCode(countryCode).Get();
-        var taxpayerNumber = taxId.ToNonEmptyOption().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
+        var taxpayerNumber = taxId.AsNonEmpty().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
         var receiver = Receiver.ForeignCompany(
             name: Models.Name.Create("Foreign test company ltd.").Success.Get(),
             address: CreateAddress(country),

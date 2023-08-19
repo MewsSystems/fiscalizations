@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
 using Mews.Fiscalizations.Italy.Uniwix.Errors;
 using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Uniwix.Communication;
 
