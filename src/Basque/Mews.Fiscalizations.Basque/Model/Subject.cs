@@ -21,7 +21,7 @@ public sealed class Subject
 
     public bool MultipleReceivers { get; }
 
-    public IOption<IssuerType> IssuerType { get; }
+    public Option<IssuerType> IssuerType { get; }
 
     public static Try<Subject, IReadOnlyList<Error>> Create(Issuer issuer, IEnumerable<Receiver> receivers, IssuerType? issuerType = null)
     {

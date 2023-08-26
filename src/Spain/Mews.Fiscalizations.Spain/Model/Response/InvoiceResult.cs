@@ -22,9 +22,9 @@ public sealed class InvoiceResult
 
     public InvoiceRegisterResult Result { get; }
 
-    public IOption<int> ErrorCode { get; }
+    public Option<int> ErrorCode { get; }
 
-    public IOption<string> ErrorMessage { get; }
+    public Option<string> ErrorMessage { get; }
 
-    public IOption<string> OriginalInvoiceRequestId { get; }
+    public Option<string> OriginalInvoiceRequestId { get; }
 }

@@ -37,7 +37,7 @@ public sealed class SoftwareIdentification
 
     public string DeveloperContact { get; }
 
-    public IOption<NonEmptyString> DeveloperCountry { get; }
+    public Option<NonEmptyString> DeveloperCountry { get; }
 
-    public IOption<NonEmptyString> DeveloperTaxNumber { get; }
+    public Option<NonEmptyString> DeveloperTaxNumber { get; }
 }

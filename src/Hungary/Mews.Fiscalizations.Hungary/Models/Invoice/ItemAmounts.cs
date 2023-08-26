@@ -21,5 +21,5 @@ public sealed class ItemAmounts
 
     public Amount AmountHUF { get; }
 
-    public IOption<decimal> TaxRatePercentage { get; }
+    public Option<decimal> TaxRatePercentage { get; }
 }

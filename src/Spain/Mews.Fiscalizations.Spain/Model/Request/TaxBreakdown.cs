@@ -32,7 +32,7 @@ public sealed class TaxBreakdown : Coproduct2<TaxSummary, OperationTypeTaxBreakd
         }
     }
 
-    private decimal CalculateTaxSummary(IOption<TaxSummary> taxSummary)
+    private decimal CalculateTaxSummary(Option<TaxSummary> taxSummary)
     {
         return taxSummary.Match(
             summary =>

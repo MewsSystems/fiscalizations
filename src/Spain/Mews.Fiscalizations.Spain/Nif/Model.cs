@@ -43,7 +43,7 @@ public class NifInfoResults
 
     public NifSearchResult Result { get; }
 
-    public IOption<string> ResultMessage { get; }
+    public Option<string> ResultMessage { get; }
 }
 
 public class Request

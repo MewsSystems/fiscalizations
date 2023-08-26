@@ -523,12 +523,12 @@ public static class Countries
 
     public static IReadOnlyDictionary<string, EuropeanUnionCountry> EuropeanUnionByCodes { get; }
 
-    public static IOption<Country> GetByCode(string code)
+    public static Option<Country> GetByCode(string code)
     {
         return AllByCodes.Get(code);
     }
 
-    public static IOption<EuropeanUnionCountry> GetEuropeanUnionByCode(string code)
+    public static Option<EuropeanUnionCountry> GetEuropeanUnionByCode(string code)
     {
         return EuropeanUnionByCodes.Get(code);
     }

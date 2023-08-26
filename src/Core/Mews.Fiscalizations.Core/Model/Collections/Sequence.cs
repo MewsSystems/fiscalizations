@@ -35,7 +35,7 @@ public class Sequence<T> : ISequence<T>
         return sequentialItems.Map(i => new Sequence<T>(i));
     }
 
-    public static IOption<Sequence<T>> FromPreordered(IEnumerable<T> values, int startIndex)
+    public static Option<Sequence<T>> FromPreordered(IEnumerable<T> values, int startIndex)
     {
         return values.AsNonEmpty().Map(v => FromPreordered(v, startIndex));
     }
@@ -49,7 +49,7 @@ public class Sequence<T> : ISequence<T>
 
 public static class Sequence
 {
-    public static IOption<Sequence<T>> FromPreordered<T>(IEnumerable<T> values, int startIndex)
+    public static Option<Sequence<T>> FromPreordered<T>(IEnumerable<T> values, int startIndex)
     {
         return Sequence<T>.FromPreordered(values, startIndex);
     }

@@ -31,13 +31,13 @@ public sealed class InvoiceHeader
 
     public DateTime Issued { get; }
 
-    public IOption<bool> IsSimplified { get; }
+    public Option<bool> IsSimplified { get; }
 
-    public IOption<bool> IssuedInSubstitutionOfSimplifiedInvoice { get; }
+    public Option<bool> IssuedInSubstitutionOfSimplifiedInvoice { get; }
 
-    public IOption<String1To20> Series { get; }
+    public Option<String1To20> Series { get; }
 
-    public IOption<CorrectingInvoice> CorrectingInvoice { get; }
+    public Option<CorrectingInvoice> CorrectingInvoice { get; }
 
-    public IOption<IEnumerable<CorrectedInvoice>> CorrectedInvoices { get; }
+    public Option<IEnumerable<CorrectedInvoice>> CorrectedInvoices { get; }
 }

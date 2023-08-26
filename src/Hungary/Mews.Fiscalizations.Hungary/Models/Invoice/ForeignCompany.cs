@@ -16,7 +16,7 @@ public sealed class ForeignCompany
 
     public SimpleAddress Address { get; }
 
-    public IOption<TaxpayerIdentificationNumber> TaxpayerId { get; }
+    public Option<TaxpayerIdentificationNumber> TaxpayerId { get; }
 
     public static Try<ForeignCompany, Error> Create(Name name, SimpleAddress address, TaxpayerIdentificationNumber taxpayerId = null)
     {

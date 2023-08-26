@@ -22,5 +22,5 @@ public sealed class InvoiceItem
 
     public decimal TotalAmount { get; }
 
-    public IOption<decimal> Discount { get; }
+    public Option<decimal> Discount { get; }
 }

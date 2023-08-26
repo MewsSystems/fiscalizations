@@ -18,5 +18,5 @@ public sealed class ReceivedInvoices
 
     public InvoiceResult[] Invoices { get; }
 
-    public IOption<string> SuccessfulRequestId { get; }
+    public Option<string> SuccessfulRequestId { get; }
 }

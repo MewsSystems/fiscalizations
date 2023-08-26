@@ -20,5 +20,5 @@ public sealed class OriginalInvoiceInfo
 
     public String1To100 Signature { get; }
 
-    public IOption<String1To20> Series { get; }
+    public Option<String1To20> Series { get; }
 }

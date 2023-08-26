@@ -31,7 +31,7 @@ public sealed class SequenceStartingWithOne<T> : ISequenceStartingWithOne<T>
         return sequenceStartingWithOne.Map(s => new SequenceStartingWithOne<T>(s));
     }
 
-    public static IOption<SequenceStartingWithOne<T>> FromPreordered(IEnumerable<T> values)
+    public static Option<SequenceStartingWithOne<T>> FromPreordered(IEnumerable<T> values)
     {
         var sequence = Sequence<T>.FromPreordered(values, startIndex: 1);
         return sequence.Map(s => new SequenceStartingWithOne<T>(s));
@@ -46,7 +46,7 @@ public sealed class SequenceStartingWithOne<T> : ISequenceStartingWithOne<T>
 
 public static class SequenceStartingWithOne
 {
-    public static IOption<SequenceStartingWithOne<T>> FromPreordered<T>(IEnumerable<T> values)
+    public static Option<SequenceStartingWithOne<T>> FromPreordered<T>(IEnumerable<T> values)
     {
         return SequenceStartingWithOne<T>.FromPreordered(values);
     }
