@@ -3,6 +3,6 @@
     <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FuncSharp" Version="[7.0.0-preview.6]" />
+    <PackageReference Include="FuncSharp" Version="[7.0, 8.0)" />
   </ItemGroup>
 </Project>
