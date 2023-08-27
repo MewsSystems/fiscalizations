@@ -14,7 +14,7 @@ public sealed class InvoiceFooter
 
     public Software Software { get; }
 
-    public IOption<OriginalInvoiceInfo> OriginalInvoiceInfo { get; }
+    public Option<OriginalInvoiceInfo> OriginalInvoiceInfo { get; }
 
-    public IOption<String1To30> DeviceSerialNumber { get; }
+    public Option<String1To30> DeviceSerialNumber { get; }
 }

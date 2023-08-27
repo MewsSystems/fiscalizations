@@ -25,5 +25,5 @@ public sealed class TaxPayerData
 
     public IncorporationType IncorporationType { get; }
 
-    public IOption<DateTime> InfoDate { get; }
+    public Option<DateTime> InfoDate { get; }
 }

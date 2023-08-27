@@ -45,7 +45,7 @@ public class Invoice
 
     public DateTime PaymentDate { get; }
 
-    public IOption<PaymentMethod> PaymentMethod { get; }
+    public Option<PaymentMethod> PaymentMethod { get; }
 
     public SupplierInfo SupplierInfo { get; }
 

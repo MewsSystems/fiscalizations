@@ -53,7 +53,7 @@ internal static class QrCodeUriGenerator
         ServiceInfo serviceInfo,
         Environment environment,
         string tbaiIdentifier,
-        IOption<String1To20> invoiceSeries,
+        Option<String1To20> invoiceSeries,
         string invoiceNumber,
         decimal total)
     {

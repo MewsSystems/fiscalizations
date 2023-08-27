@@ -12,9 +12,9 @@ public sealed class TaxSummary
         Taxed = taxed.ToOption();
     }
 
-    public IOption<INonEmptyEnumerable<TaxExemptItem>> TaxExempt { get; }
+    public Option<INonEmptyEnumerable<TaxExemptItem>> TaxExempt { get; }
 
-    public IOption<INonEmptyEnumerable<TaxRateSummary>> Taxed { get; }
+    public Option<INonEmptyEnumerable<TaxRateSummary>> Taxed { get; }
 
     public static Try<TaxSummary, IReadOnlyList<Error>> Create(TaxExemptItem[] taxExempt = null, TaxRateSummary[] taxed = null)
     {

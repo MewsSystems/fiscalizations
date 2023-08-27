@@ -14,5 +14,5 @@ public sealed class XmlSerializationParameters
 
     public Encoding Encoding { get; }
 
-    public IOption<IEnumerable<XmlNamespace>> Namespaces { get; }
+    public Option<IEnumerable<XmlNamespace>> Namespaces { get; }
 }

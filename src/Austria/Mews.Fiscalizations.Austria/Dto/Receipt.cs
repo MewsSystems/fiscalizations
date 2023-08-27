@@ -72,7 +72,7 @@ public sealed class Receipt
 
     public CertificateSerialNumber CertificateSerialNumber { get; }
 
-    public IOption<JwsRepresentation> PreviousJwsRepresentation { get; }
+    public Option<JwsRepresentation> PreviousJwsRepresentation { get; }
 
     public ChainValue ChainValue { get; }
 

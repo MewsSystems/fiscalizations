@@ -34,11 +34,11 @@ public sealed class InvoiceData
 
     public IEnumerable<TaxMode> TaxModes { get; }
 
-    public IOption<decimal> SupportWithheldAmount { get; }
+    public Option<decimal> SupportWithheldAmount { get; }
 
-    public IOption<decimal> Tax { get; }
+    public Option<decimal> Tax { get; }
 
-    public IOption<DateTime> TransactionDate { get; }
+    public Option<DateTime> TransactionDate { get; }
 
     public static Try<InvoiceData, IReadOnlyList<Error>> Create(
         String1To250 description,

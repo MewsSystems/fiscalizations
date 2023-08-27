@@ -18,7 +18,7 @@ public sealed class ErrorResult
 
     public FiskalyError Error { get; }
 
-    public IOption<NonEmptyString> Content { get; }
+    public Option<NonEmptyString> Content { get; }
 
     internal static ErrorResult Map(Dto.FiskalyErrorResponse error)
     {

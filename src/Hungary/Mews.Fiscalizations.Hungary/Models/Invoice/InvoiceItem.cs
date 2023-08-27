@@ -38,7 +38,7 @@ public sealed class InvoiceItem
 
     public int Quantity { get; }
 
-    public IOption<ExchangeRate> ExchangeRate { get; }
+    public Option<ExchangeRate> ExchangeRate { get; }
 
     public bool IsDeposit { get; }
 }

@@ -273,7 +273,7 @@ internal static class RequestMapper
         };
     }
 
-    private static Dto.VatRateType GetVatRate(IOption<decimal> taxRatePercentage)
+    private static Dto.VatRateType GetVatRate(Option<decimal> taxRatePercentage)
     {
         return taxRatePercentage.Match(
             p => new Dto.VatRateType

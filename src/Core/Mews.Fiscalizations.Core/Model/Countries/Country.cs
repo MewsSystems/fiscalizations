@@ -25,7 +25,7 @@ public class Country : Coproduct2<EuropeanUnionCountry, NonEuropeanUnionCountry>
         }
     }
 
-    public static IOption<Country> GetByCode(string alpha2Code)
+    public static Option<Country> GetByCode(string alpha2Code)
     {
         return Countries.GetByCode(alpha2Code);
     }

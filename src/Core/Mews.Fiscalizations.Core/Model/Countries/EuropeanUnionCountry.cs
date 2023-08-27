@@ -18,7 +18,7 @@ public class EuropeanUnionCountry
 
     public Regex TaxpayerNumberPatternWithoutCountryCodePrefix { get; }
 
-    public static IOption<EuropeanUnionCountry> GetByCode(string alpha2Code)
+    public static Option<EuropeanUnionCountry> GetByCode(string alpha2Code)
     {
         return Countries.GetEuropeanUnionByCode(alpha2Code);
     }

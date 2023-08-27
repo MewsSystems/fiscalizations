@@ -51,7 +51,7 @@ public sealed class SendInvoiceResponse
 
     public String1To100 SignatureValue { get; }
 
-    public IOption<NonEmptyString> CSV { get; }
+    public Option<NonEmptyString> CSV { get; }
 
-    public IOption<IEnumerable<SendInvoiceValidationResult>> ValidationResults { get; }
+    public Option<IEnumerable<SendInvoiceValidationResult>> ValidationResults { get; }
 }

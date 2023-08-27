@@ -16,7 +16,7 @@ public sealed class ErrorResult
 
     public ErrorType Type { get; }
 
-    public IOption<IEnumerable<string>> Errors { get; }
+    public Option<IEnumerable<string>> Errors { get; }
 
     public static ErrorResult Create(string message, ErrorType type, IEnumerable<string> errors = null)
     {

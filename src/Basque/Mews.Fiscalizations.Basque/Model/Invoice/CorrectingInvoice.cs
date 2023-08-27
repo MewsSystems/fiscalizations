@@ -15,5 +15,5 @@ public sealed class CorrectingInvoice
 
     public CorrectingInvoiceType Type { get; }
 
-    public IOption<CorrectingInvoiceAmount> Amount { get; }
+    public Option<CorrectingInvoiceAmount> Amount { get; }
 }

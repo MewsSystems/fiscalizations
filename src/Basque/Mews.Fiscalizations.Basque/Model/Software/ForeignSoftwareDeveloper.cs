@@ -16,5 +16,5 @@ public sealed class ForeignSoftwareDeveloper
 
     public String1To20 Id { get; }
 
-    public IOption<Country> Country { get; }
+    public Option<Country> Country { get; }
 }

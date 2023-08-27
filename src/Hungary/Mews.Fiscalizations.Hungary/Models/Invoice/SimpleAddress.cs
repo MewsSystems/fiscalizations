@@ -22,5 +22,5 @@ public sealed class SimpleAddress
 
     public PostalCode PostalCode { get; }
 
-    public IOption<Region> Region { get; }
+    public Option<Region> Region { get; }
 }

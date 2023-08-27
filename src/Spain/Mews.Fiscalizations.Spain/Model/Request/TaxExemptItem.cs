@@ -13,5 +13,5 @@ public sealed class TaxExemptItem
 
     public Amount Amount { get; }
 
-    public IOption<CauseOfExemption> Cause { get; }
+    public Option<CauseOfExemption> Cause { get; }
 }

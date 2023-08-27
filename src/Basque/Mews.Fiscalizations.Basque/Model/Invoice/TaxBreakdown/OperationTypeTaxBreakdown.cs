@@ -11,9 +11,9 @@ public sealed class OperationTypeTaxBreakdown
         Delivery = delivery.ToOption();
     }
 
-    public IOption<TaxSummary> ServiceProvision { get; }
+    public Option<TaxSummary> ServiceProvision { get; }
 
-    public IOption<TaxSummary> Delivery { get; }
+    public Option<TaxSummary> Delivery { get; }
 
     public static Try<OperationTypeTaxBreakdown, Error> Create(TaxSummary serviceProvision = null, TaxSummary delivery = null)
     {
