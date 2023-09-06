@@ -1,7 +1,4 @@
-﻿using Mews.Fiscalizations.Germany.V2.Model;
-using NUnit.Framework;
-
-namespace Mews.Fiscalizations.Germany.Tests.V2;
+﻿namespace Mews.Fiscalizations.Germany.Tests.V2;
 
 [TestFixture]
 public class ClientTests

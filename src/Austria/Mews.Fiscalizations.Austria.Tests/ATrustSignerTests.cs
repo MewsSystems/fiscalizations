@@ -1,10 +1,6 @@
-﻿using System.Globalization;
-using System.Runtime.InteropServices;
-using Mews.Fiscalizations.Austria.ATrust;
+﻿using Mews.Fiscalizations.Austria.ATrust;
 using Mews.Fiscalizations.Austria.Dto;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
-using NUnit.Framework;
-using TimeZoneConverter;
 
 namespace Mews.Fiscalizations.Austria.Tests;
 

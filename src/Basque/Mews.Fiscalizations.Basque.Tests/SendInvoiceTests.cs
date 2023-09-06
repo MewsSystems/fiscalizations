@@ -1,7 +1,4 @@
-﻿using Mews.Fiscalizations.Basque.Model;
-using NUnit.Framework;
-
-namespace Mews.Fiscalizations.Basque.Tests;
+﻿namespace Mews.Fiscalizations.Basque.Tests;
 
 [TestFixture]
 public class SendInvoiceTests

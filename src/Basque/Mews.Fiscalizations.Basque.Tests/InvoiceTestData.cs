@@ -1,6 +1,4 @@
-﻿using Mews.Fiscalizations.Basque.Model;
-
-namespace Mews.Fiscalizations.Basque.Tests;
+﻿namespace Mews.Fiscalizations.Basque.Tests;
 
 internal sealed class InvoiceTestData
 {
