@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using FuncSharp;
+﻿using System.Globalization;
 using Mews.Fiscalizations.Spain.Dto.Responses;
 using Mews.Fiscalizations.Spain.Dto.XSD.RespuestaSuministro;
 using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;

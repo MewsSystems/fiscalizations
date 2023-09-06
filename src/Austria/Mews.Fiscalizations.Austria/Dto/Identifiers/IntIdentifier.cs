@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalizations.Austria.Dto.Identifiers;
+﻿namespace Mews.Fiscalizations.Austria.Dto.Identifiers;
 
 public class IntIdentifier : Identifier<int>
 {

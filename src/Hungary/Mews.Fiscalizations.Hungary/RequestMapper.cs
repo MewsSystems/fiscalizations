@@ -1,10 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Hungary.Models;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Mews.Fiscalizations.Hungary;
+﻿namespace Mews.Fiscalizations.Hungary;
 
 internal static class RequestMapper
 {

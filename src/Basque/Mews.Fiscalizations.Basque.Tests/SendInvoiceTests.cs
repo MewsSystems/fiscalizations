@@ -1,7 +1,5 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Basque.Model;
+﻿using Mews.Fiscalizations.Basque.Model;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.Basque.Tests;
 

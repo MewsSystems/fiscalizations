@@ -1,7 +1,4 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using FuncSharp;
+﻿using System.Security.Cryptography.X509Certificates;
 using Mews.Fiscalizations.Spain.Communication;
 using Mews.Fiscalizations.Spain.Converters;
 using Mews.Fiscalizations.Spain.Dto.Requests;

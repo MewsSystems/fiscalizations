@@ -1,8 +1,5 @@
 using Mews.Fiscalizations.Germany.V2.Model;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.Germany.Tests.V2;
 

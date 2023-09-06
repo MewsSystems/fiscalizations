@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalizations.Austria.Dto;
+﻿namespace Mews.Fiscalizations.Austria.Dto;
 
 public class ByteValue
 {

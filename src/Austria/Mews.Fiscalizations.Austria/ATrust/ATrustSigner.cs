@@ -1,9 +1,7 @@
 ﻿using Mews.Fiscalizations.Austria.Dto;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.Austria.ATrust;
 

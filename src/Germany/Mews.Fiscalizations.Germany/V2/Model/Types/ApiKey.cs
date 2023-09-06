@@ -1,5 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
+﻿using Mews.Fiscalizations.Core.Model;
 using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalizations.Germany.V2.Model;

@@ -1,8 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mews.Fiscalizations.Core.Model;
-using NUnit.Framework;
-
-namespace Mews.Fiscalizations.Hungary.Tests;
+﻿namespace Mews.Fiscalizations.Hungary.Tests;
 
 [TestFixture]
 public class StatusTests

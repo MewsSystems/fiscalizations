@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mews.Fiscalizations.Germany.V2.Model;
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
 
 public enum PaymentType
 {

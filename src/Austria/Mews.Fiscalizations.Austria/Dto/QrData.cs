@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
 
 namespace Mews.Fiscalizations.Austria.Dto;

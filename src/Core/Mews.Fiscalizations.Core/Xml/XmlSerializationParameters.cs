@@ -1,6 +1,4 @@
-﻿using FuncSharp;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Mews.Fiscalizations.Core.Xml;
 

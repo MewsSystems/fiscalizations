@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-
-namespace Mews.Fiscalizations.Spain.Nif;
+﻿namespace Mews.Fiscalizations.Spain.Nif;
 
 public enum NifSearchResult
 {

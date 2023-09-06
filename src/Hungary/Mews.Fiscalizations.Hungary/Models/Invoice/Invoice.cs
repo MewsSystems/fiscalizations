@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-
 namespace Mews.Fiscalizations.Hungary.Models;
 
 public class Invoice

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
+﻿using System.Security.Cryptography.X509Certificates;
 using Mews.Fiscalizations.Spain.Communication;
 using Mews.Fiscalizations.Spain.Model.Response;
 

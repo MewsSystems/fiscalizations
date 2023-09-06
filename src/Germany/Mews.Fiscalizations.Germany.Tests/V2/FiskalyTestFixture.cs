@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using FuncSharp;
-using Mews.Fiscalizations.Germany.V2;
+﻿using Mews.Fiscalizations.Germany.V2;
 using Mews.Fiscalizations.Germany.V2.Model;
 using NUnit.Framework;
 

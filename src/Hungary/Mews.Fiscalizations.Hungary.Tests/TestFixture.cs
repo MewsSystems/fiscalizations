@@ -1,8 +1,4 @@
-﻿using Mews.Fiscalizations.Hungary.Models;
-using NUnit.Framework;
-using System;
-
-namespace Mews.Fiscalizations.Hungary.Tests;
+﻿namespace Mews.Fiscalizations.Hungary.Tests;
 
 public static class TestFixture
 {

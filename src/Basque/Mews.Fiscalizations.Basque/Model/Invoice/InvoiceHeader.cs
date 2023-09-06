@@ -1,10 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Mews.Fiscalizations.Basque.Model;
+﻿namespace Mews.Fiscalizations.Basque.Model;
 
 public sealed class InvoiceHeader
 {

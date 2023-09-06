@@ -1,7 +1,5 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Mews.Fiscalizations.Austria.ATrust;
 using Mews.Fiscalizations.Austria.Dto;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;

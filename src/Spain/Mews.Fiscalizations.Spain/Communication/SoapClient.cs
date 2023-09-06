@@ -1,13 +1,9 @@
 ﻿using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Spain.Dto.Responses.SoapFault;
 using Mews.Fiscalizations.Spain.Model.Response;
-using FuncSharp;
-using System;
 using System.Diagnostics;
-using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace Mews.Fiscalizations.Spain.Communication;

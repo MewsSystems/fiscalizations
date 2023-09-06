@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FuncSharp;
-
-namespace Mews.Fiscalizations.Core.Model;
+﻿namespace Mews.Fiscalizations.Core.Model;
 
 public interface ISequence<T>
 {

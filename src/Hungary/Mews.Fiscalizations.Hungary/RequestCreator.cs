@@ -1,10 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Core.Xml;
-using Mews.Fiscalizations.Hungary.Models;
-using Mews.Fiscalizations.Hungary.Utils;
-using System;
-using System.Linq;
+﻿using Mews.Fiscalizations.Core.Xml;
 
 namespace Mews.Fiscalizations.Hungary;
 

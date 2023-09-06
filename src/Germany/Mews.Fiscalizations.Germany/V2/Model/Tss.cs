@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalizations.Germany.V2.Model;
+﻿namespace Mews.Fiscalizations.Germany.V2.Model;
 
 public class Tss
 {
