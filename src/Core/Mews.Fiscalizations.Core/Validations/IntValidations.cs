@@ -1,5 +1,3 @@
-using FuncSharp;
-
 namespace Mews.Fiscalizations.Core.Model;
 
 public static class IntValidations

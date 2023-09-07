@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalizations.Germany.Utils;
+﻿namespace Mews.Fiscalizations.Germany.Utils;
 
 internal static class Extensions
 {

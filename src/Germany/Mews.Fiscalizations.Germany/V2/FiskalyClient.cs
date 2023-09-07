@@ -1,10 +1,4 @@
-﻿using System.Linq;
-using FuncSharp;
-using Mews.Fiscalizations.Germany.V2.Model;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using Mews.Fiscalizations.Germany.V2.Model;
 
 namespace Mews.Fiscalizations.Germany.V2;
 

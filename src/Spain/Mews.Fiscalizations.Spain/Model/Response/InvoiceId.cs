@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalizations.Spain.Model.Response;
+﻿namespace Mews.Fiscalizations.Spain.Model.Response;
 
 public sealed class InvoiceId
 {

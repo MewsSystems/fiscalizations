@@ -1,7 +1,5 @@
-﻿using System.IO;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Serialization;
-using FuncSharp;
 
 namespace Mews.Fiscalizations.Core.Xml;
 

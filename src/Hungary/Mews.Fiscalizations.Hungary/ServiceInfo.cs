@@ -1,6 +1,4 @@
 using Mews.Fiscalizations.Core.Xml;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Mews.Fiscalizations.Hungary;

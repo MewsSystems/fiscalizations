@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using FuncSharp;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;

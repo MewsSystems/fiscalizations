@@ -1,10 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Basque.Model;
-using Mews.Fiscalizations.Core.Model;
-using System;
-using System.Linq;
-
-namespace Mews.Fiscalizations.Basque.Tests;
+﻿namespace Mews.Fiscalizations.Basque.Tests;
 
 internal sealed class InvoiceTestData
 {

@@ -1,6 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Mews.Fiscalizations.Basque.Model;
 

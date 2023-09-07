@@ -1,7 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 using Mews.Fiscalizations.Austria.Dto;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using Microsoft.IdentityModel.Tokens;

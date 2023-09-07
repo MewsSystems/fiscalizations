@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalizations.Spain;
+﻿namespace Mews.Fiscalizations.Spain;
 
 public class HttpRequestFinishedEventArgs : EventArgs
 {

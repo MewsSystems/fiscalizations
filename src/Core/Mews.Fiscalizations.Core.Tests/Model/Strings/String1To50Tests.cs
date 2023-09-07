@@ -1,7 +1,3 @@
-using System;
-using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
 namespace Mews.Fiscalizations.Core.Tests.Model;

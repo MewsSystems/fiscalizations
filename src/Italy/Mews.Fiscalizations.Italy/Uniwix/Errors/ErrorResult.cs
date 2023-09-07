@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using FuncSharp;
-
-namespace Mews.Fiscalizations.Italy.Uniwix.Errors;
+﻿namespace Mews.Fiscalizations.Italy.Uniwix.Errors;
 
 public sealed class ErrorResult
 {

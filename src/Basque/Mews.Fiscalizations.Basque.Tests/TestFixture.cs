@@ -1,10 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Basque.Model;
-using Mews.Fiscalizations.Core.Model;
-using NUnit.Framework;
-using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Security.Cryptography.X509Certificates;
 
 namespace Mews.Fiscalizations.Basque.Tests;
 

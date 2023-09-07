@@ -1,4 +1,3 @@
-using System;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using Mews.Fiscalizations.Core.Model;

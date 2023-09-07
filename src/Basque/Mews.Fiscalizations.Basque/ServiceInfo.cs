@@ -1,7 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Basque.Dto;
-using System;
-using System.Collections.Generic;
+﻿using Mews.Fiscalizations.Basque.Dto;
 using System.Text;
 
 namespace Mews.Fiscalizations.Basque;

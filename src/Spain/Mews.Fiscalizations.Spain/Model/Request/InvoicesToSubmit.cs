@@ -1,9 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Mews.Fiscalizations.Spain.Model.Request;
+﻿namespace Mews.Fiscalizations.Spain.Model.Request;
 
 public sealed class InvoicesToSubmit
 {

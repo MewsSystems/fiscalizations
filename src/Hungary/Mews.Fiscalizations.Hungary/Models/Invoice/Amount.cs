@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Mews.Fiscalizations.Hungary.Models;
+﻿namespace Mews.Fiscalizations.Hungary.Models;
 
 public sealed class Amount
 {

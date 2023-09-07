@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using FuncSharp;
-
 namespace Mews.Fiscalizations.Core.Model;
 
 public interface ISequenceStartingWithZero<T> : ISequence<T>

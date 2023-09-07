@@ -1,8 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using System.Linq;
-
-namespace Mews.Fiscalizations.Spain.Model.Request;
+﻿namespace Mews.Fiscalizations.Spain.Model.Request;
 
 /// <summary>
 /// Either the revenue is broken down into service and delivery or it is just 1 tax summary altogether.

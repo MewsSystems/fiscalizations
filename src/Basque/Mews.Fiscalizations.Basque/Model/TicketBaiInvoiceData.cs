@@ -1,5 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using System.Xml;
+﻿using System.Xml;
 
 namespace Mews.Fiscalizations.Basque.Model;
 

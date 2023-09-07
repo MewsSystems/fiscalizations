@@ -1,6 +1,4 @@
-﻿using FuncSharp;
-
-namespace Mews.Fiscalizations.Hungary.Models;
+﻿namespace Mews.Fiscalizations.Hungary.Models;
 
 public sealed class Company : Coproduct2<LocalCompany, ForeignCompany>
 {

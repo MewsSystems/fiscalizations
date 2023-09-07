@@ -1,13 +1,7 @@
-﻿using System;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography.X509Certificates;
 using Mews.Fiscalizations.Austria.Dto;
 using Mews.Fiscalizations.Austria.Dto.Identifiers;
 using Mews.Fiscalizations.Austria.Offline;
-using NUnit.Framework;
-using TimeZoneConverter;
 
 namespace Mews.Fiscalizations.Austria.Tests;
 

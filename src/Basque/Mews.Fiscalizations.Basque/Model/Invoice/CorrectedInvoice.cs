@@ -1,7 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using System;
-
-namespace Mews.Fiscalizations.Basque.Model;
+﻿namespace Mews.Fiscalizations.Basque.Model;
 
 public sealed class CorrectedInvoice
 {

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
 
 namespace Mews.Fiscalizations.Germany.V2.Dto;
 

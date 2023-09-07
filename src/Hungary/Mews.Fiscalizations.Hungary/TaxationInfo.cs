@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Mews.Fiscalizations.Hungary.Models;
-
 namespace Mews.Fiscalizations.Hungary;
 
 public static class TaxationInfo

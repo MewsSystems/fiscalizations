@@ -1,7 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using System.Collections.Generic;
-
-namespace Mews.Fiscalizations.Hungary.Models;
+﻿namespace Mews.Fiscalizations.Hungary.Models;
 
 public sealed class InvoiceStatus
 {

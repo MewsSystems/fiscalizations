@@ -1,10 +1,4 @@
-﻿using System.Threading.Tasks;
-using FuncSharp;
-using Mews.Fiscalizations.Germany.V2;
-using Mews.Fiscalizations.Germany.V2.Model;
-using NUnit.Framework;
-
-namespace Mews.Fiscalizations.Germany.Tests.V2;
+﻿namespace Mews.Fiscalizations.Germany.Tests.V2;
 
 /// <summary>
 /// Fiskaly limits creation of data in the test environment to 5.

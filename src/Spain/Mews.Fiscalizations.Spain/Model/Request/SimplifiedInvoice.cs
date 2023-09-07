@@ -1,6 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-
-namespace Mews.Fiscalizations.Spain.Model.Request;
+﻿namespace Mews.Fiscalizations.Spain.Model.Request;
 
 public class SimplifiedInvoice
 {

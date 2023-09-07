@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using FuncSharp;
 
 namespace Mews.Fiscalizations.Core.Model;
 

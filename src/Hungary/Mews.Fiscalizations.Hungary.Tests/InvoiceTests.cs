@@ -1,13 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Hungary.Models;
-using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
-
-namespace Mews.Fiscalizations.Hungary.Tests;
+﻿namespace Mews.Fiscalizations.Hungary.Tests;
 
 [TestFixture]
 public sealed class InvoiceTests

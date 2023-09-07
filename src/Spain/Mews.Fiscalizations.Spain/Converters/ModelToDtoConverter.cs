@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Spain.Dto.Requests;
+﻿using Mews.Fiscalizations.Spain.Dto.Requests;
 using Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
 using Mews.Fiscalizations.Spain.Dto.XSD.SuministroLR;
 using Mews.Fiscalizations.Spain.Model;

@@ -1,5 +1,4 @@
-﻿using FuncSharp;
-using System.Xml;
+﻿using System.Xml;
 
 namespace Mews.Fiscalizations.Core.Model;
 

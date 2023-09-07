@@ -1,7 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-
-namespace Mews.Fiscalizations.Hungary.Models;
+﻿namespace Mews.Fiscalizations.Hungary.Models;
 
 public sealed class ForeignCompany
 {

@@ -1,6 +1,3 @@
-using Mews.Fiscalizations.Core.Model;
-using System;
-
 namespace Mews.Fiscalizations.Hungary.Models;
 
 public sealed class ModificationInvoice : Invoice

@@ -1,7 +1,4 @@
-﻿using System;
-using Mews.Fiscalizations.Germany.V2.Model;
-
-namespace Mews.Fiscalizations.Germany.Tests.V2;
+﻿namespace Mews.Fiscalizations.Germany.Tests.V2;
 
 public static class TestFixture
 {

@@ -1,11 +1,7 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Germany.V2.Model;
+﻿using Mews.Fiscalizations.Germany.V2.Model;
 using Newtonsoft.Json;
-using System;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mews.Fiscalizations.Germany.V2;
 

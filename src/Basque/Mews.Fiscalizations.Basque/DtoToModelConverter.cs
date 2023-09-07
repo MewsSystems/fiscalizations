@@ -1,9 +1,5 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Basque.Model;
-using Mews.Fiscalizations.Core.Model;
-using System;
+﻿using Mews.Fiscalizations.Basque.Model;
 using System.Globalization;
-using System.Linq;
 
 namespace Mews.Fiscalizations.Basque;
 

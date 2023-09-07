@@ -1,6 +1,4 @@
-﻿using FuncSharp;
-
-namespace Mews.Fiscalizations.Core.Model;
+﻿namespace Mews.Fiscalizations.Core.Model;
 
 public sealed class Percentage
 {

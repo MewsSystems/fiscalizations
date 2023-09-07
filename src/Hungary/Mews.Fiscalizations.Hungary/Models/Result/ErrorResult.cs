@@ -1,7 +1,4 @@
-﻿using FuncSharp;
-using System;
-
-namespace Mews.Fiscalizations.Hungary.Models;
+﻿namespace Mews.Fiscalizations.Hungary.Models;
 
 public sealed class ErrorResult<TCode>
     where TCode : struct

@@ -1,7 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.WebUtilities;
 using System.Globalization;
 
 namespace Mews.Fiscalizations.Basque;

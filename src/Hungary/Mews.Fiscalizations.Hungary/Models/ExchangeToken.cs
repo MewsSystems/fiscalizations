@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mews.Fiscalizations.Hungary.Models;
+﻿namespace Mews.Fiscalizations.Hungary.Models;
 
 public sealed class ExchangeToken
 {

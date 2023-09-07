@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;

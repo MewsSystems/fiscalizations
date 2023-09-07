@@ -1,8 +1,5 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Germany.V2.Model;
-using System;
+﻿using Mews.Fiscalizations.Germany.V2.Model;
 using System.Globalization;
-using System.Linq;
 
 namespace Mews.Fiscalizations.Germany.V2;
 

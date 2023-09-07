@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Newtonsoft.Json;
 using Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
 using Mews.Fiscalizations.Italy.Uniwix.Errors;
-using FuncSharp;
 
 namespace Mews.Fiscalizations.Italy.Uniwix.Communication;
 

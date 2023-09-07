@@ -1,6 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-
-namespace Mews.Fiscalizations.Basque.Model;
+﻿namespace Mews.Fiscalizations.Basque.Model;
 
 public sealed class TaxRateSummary
 {

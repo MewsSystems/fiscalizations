@@ -1,6 +1,4 @@
-﻿using FuncSharp;
-
-namespace Mews.Fiscalizations.Core.Model;
+﻿namespace Mews.Fiscalizations.Core.Model;
 
 public class Country : Coproduct2<EuropeanUnionCountry, NonEuropeanUnionCountry>
 {

@@ -1,5 +1,4 @@
 ﻿using FuncSharp;
-using System;
 using System.Globalization;
 
 namespace Mews.Fiscalizations.Austria.Dto;

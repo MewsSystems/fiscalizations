@@ -1,12 +1,4 @@
-﻿using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Hungary.Models;
-using Mews.Fiscalizations.Hungary.Utils;
-using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace Mews.Fiscalizations.Hungary;
+﻿namespace Mews.Fiscalizations.Hungary;
 
 public sealed class NavClient
 {

@@ -1,6 +1,4 @@
-﻿using FuncSharp;
-
-namespace Mews.Fiscalizations.Basque.Model;
+﻿namespace Mews.Fiscalizations.Basque.Model;
 
 public sealed class CorrectingInvoice
 {

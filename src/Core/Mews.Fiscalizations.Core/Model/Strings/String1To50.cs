@@ -1,5 +1,3 @@
-using FuncSharp;
-
 namespace Mews.Fiscalizations.Core.Model;
 
 public class String1To50
