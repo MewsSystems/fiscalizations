@@ -9,11 +9,6 @@ public static class Check
         return value ?? throw new ArgumentNullException(valueName);
     }
 
-    public static void NonEmpty<T>(IEnumerable<T> collection, string message)
-    {
-        Condition(collection.NonEmpty(), message);
-    }
-
     public static void Regex(Regex pattern, string value, string message)
     {
         Condition(pattern.IsMatch(value), message);

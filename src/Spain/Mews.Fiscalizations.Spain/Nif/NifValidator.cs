@@ -33,7 +33,7 @@ public class NifValidator
 
         return new Response(request.Contribuyente.Select(req =>
         {
-            var nifResponse = response.Contribuyente.FirstOption(res => res.Nif == req.Nif);
+            var nifResponse = response.Contribuyente.SafeFirstOption(res => res.Nif == req.Nif);
             return nifResponse.Match(
                 n =>
                 {
