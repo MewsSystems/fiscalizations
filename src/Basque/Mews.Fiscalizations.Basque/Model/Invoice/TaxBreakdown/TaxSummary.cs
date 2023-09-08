@@ -14,7 +14,7 @@ public sealed class TaxSummary
 
     public static Try<TaxSummary, IReadOnlyList<Error>> Create(TaxExemptItem[] taxExempt = null, TaxRateSummary[] taxed = null)
     {
-        if (taxExempt.IsEmpty() && taxed.IsEmpty())
+        if (taxExempt.IsEmptyOrNull() && taxed.IsEmptyOrNull())
         {
             return Try.Error<TaxSummary, IReadOnlyList<Error>>(new Error("Tax summary must contain at least one item.").ToEnumerable());
         }

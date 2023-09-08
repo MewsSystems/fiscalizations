@@ -1,4 +1,6 @@
-﻿namespace Mews.Fiscalizations.Germany.Tests.V2;
+using Mews.Fiscalizations.Core.Model;
+
+namespace Mews.Fiscalizations.Germany.Tests.V2;
 
 /// <summary>
 /// Fiskaly limits creation of data in the test environment to 5.
@@ -14,11 +16,11 @@ public class FiskalyTestFixture
         var accessToken = (await fiskalyClient.GetAccessTokenAsync()).SuccessResult;
         var allTsses = (await fiskalyClient.GetAllEnabledTSSsAsync(accessToken)).SuccessResult;
 
-        var firstInitalizedTss = allTsses.FirstOption(t => t.State == TssState.Initialized);
+        var firstInitalizedTss = allTsses.SafeFirstOption(t => t.State == TssState.Initialized);
         TestFixture.FiskalyTestData =  await firstInitalizedTss.Match(
             async t =>
             {
-                var firstRegisteredClient = (await fiskalyClient.GetRegisteredTssClientsAsync(accessToken, t.Id)).SuccessResult.FirstOption();
+                var firstRegisteredClient = (await fiskalyClient.GetRegisteredTssClientsAsync(accessToken, t.Id)).SuccessResult.SafeFirstOption();
                 var client = await firstRegisteredClient.Match(
                     c => Task.FromResult(c),
                     async _ =>
