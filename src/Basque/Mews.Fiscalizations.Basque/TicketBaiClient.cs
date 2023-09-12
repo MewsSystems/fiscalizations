@@ -12,6 +12,7 @@ public sealed class TicketBaiClient
     {
         Certificate = certificate;
         Environment = environment;
+        Region = region;
         ServiceInfo = new ServiceInfo(region);
 
         var requestHandler = new HttpClientHandler();
@@ -24,6 +25,8 @@ public sealed class TicketBaiClient
     private X509Certificate2 Certificate { get; }
 
     private Environment Environment { get; }
+
+    private Region Region { get; }
 
     private ServiceInfo ServiceInfo { get; }
 
@@ -60,7 +63,7 @@ public sealed class TicketBaiClient
     public TicketBaiInvoiceData GetTicketBaiInvoiceData(SendInvoiceRequest request)
     {
         var signedRequest = GetSignedInvoiceDocument(request);
-        var signatureValue = signedRequest.GetElementsByTagName("SignatureValue")[0].InnerText;
+        var signatureValue = signedRequest.GetElementsByTagName("ds:SignatureValue")[0].InnerText;
         var header = request.Invoice.Header;
         var tbaiIdentifier = GenerateTbaiIdentifier(signatureValue, request.Subject.Issuer.Nif.TaxpayerNumber, header.Issued);
         var qrCodeUri = QrCodeUriGenerator.Generate(
@@ -94,28 +97,8 @@ public sealed class TicketBaiClient
             encoding: ServiceInfo.Encoding,
             namespaces: NonEmptyEnumerable.Create(new XmlNamespace("http://www.w3.org/2000/09/xmldsig#"))
         ));
-        SignXml(xmlDoc.OwnerDocument);
-
+        xmlDoc.OwnerDocument.PreserveWhitespace = true;
+        SigningService.SignXmlWithXadesBes(Certificate, xmlDoc.OwnerDocument, Region);
         return xmlDoc;
-    }
-
-    private void SignXml(XmlDocument xmlDoc)
-    {
-        var keyInfo = new KeyInfo();
-        keyInfo.AddClause(new KeyInfoX509Data(Certificate));
-        var signedXml = new SignedXml(xmlDoc)
-        {
-            SigningKey = Certificate.GetRSAPrivateKey(),
-            KeyInfo = keyInfo
-        };
-
-        var reference = new Reference(uri: "");
-        var env = new XmlDsigEnvelopedSignatureTransform();
-        reference.AddTransform(env);
-        signedXml.AddReference(reference);
-        signedXml.ComputeSignature();
-
-        var xmlDigitalSignature = signedXml.GetXml();
-        xmlDoc.DocumentElement.AppendChild(xmlDoc.ImportNode(xmlDigitalSignature, true));
     }
 }
