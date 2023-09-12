@@ -21,7 +21,13 @@ internal sealed class ServiceInfo
             {
                 [Environment.Test] = new Uri("https://pruebas-ticketbai.araba.eus"),
                 [Environment.Production] = new Uri("https://ticketbai.araba.eus")
+            },
+            Region.Bizkaia, _ => new Dictionary<Environment, Uri> 
+            {
+                [Environment.Test] = new Uri("https://pruesarrerak.bizkaia.eus/N3B4000M/aurkezpena"),
+                [Environment.Production] = new Uri("https://sarrerak.bizkaia.eus/N3B4000M/aurkezpena"),
             }
+            
         );
         QrBaseUrls = region.Match(
             Region.Gipuzkoa, _ => new Dictionary<Environment, Uri>
@@ -32,16 +38,23 @@ internal sealed class ServiceInfo
             Region.Araba, _ => new Dictionary<Environment, Uri>
             {
                 [Environment.Test] = new Uri("https://pruebas-ticketbai.araba.eus"),
-                [Environment.Production] = new Uri("https://ticketbai.araba.eus")
+                [Environment.Production] = new Uri("https://ticketbai.araba.eus") 
+            },
+            Region.Bizkaia, _ => new Dictionary<Environment, Uri>
+            {
+                [Environment.Test] = new Uri("https://pruesarrerak.bizkaia.eus/"),
+                [Environment.Production] = new Uri("https://sarrerak.bizkaia.eus/"),
             }
         );
         RelativeSendInvoiceUri = region.Match(
             Region.Gipuzkoa, _ => new Uri("sarrerak/alta/", UriKind.Relative),
-            Region.Araba, _ => new Uri("TicketBAI/v1/facturas/", UriKind.Relative)
+            Region.Araba, _ => new Uri("TicketBAI/v1/facturas/", UriKind.Relative),
+            Region.Bizkaia, _ => new Uri("N3B4000M/aurkezpena", UriKind.Relative)
         );
         RelativeQrCodeUri = region.Match(
             Region.Gipuzkoa, _ => new Uri("qr/", UriKind.Relative),
-            Region.Araba, _ => new Uri("tbai/qrtbai/", UriKind.Relative)
+            Region.Araba, _ => new Uri("tbai/qrtbai/", UriKind.Relative),
+            Region.Bizkaia, _ => new Uri("", UriKind.Relative)
         );
         Encoding = Encoding.UTF8;
     }
