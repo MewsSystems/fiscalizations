@@ -1,2279 +1,3395 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Bizkaia.Dto
+namespace Mews.Fiscalizations.Bizkaia.Dto;
+
+
+// NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "urn:ticketbai:emision")]
+[XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
+public partial class TicketBai
 {
 
-    // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
+    private Cabecera1 cabeceraField;
+
+    private Sujetos sujetosField;
+
+    private Factura facturaField;
+
+    private HuellaTBAI huellaTBAIField;
+
+    private Signature signatureField;
+
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "urn:ticketbai:emision")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "urn:ticketbai:emision", IsNullable = false)]
-    public partial class TicketBai
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public Cabecera1 Cabecera
     {
-
-        private Cabecera cabeceraField;
-
-        private Sujetos sujetosField;
-
-        private Factura facturaField;
-
-        private HuellaTBAI huellaTBAIField;
-
-        private Signature signatureField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace = "")]
-        public Cabecera Cabecera
+        get
         {
-            get
-            {
-                return this.cabeceraField;
-            }
-            set
-            {
-                this.cabeceraField = value;
-            }
+            return cabeceraField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace = "")]
-        public Sujetos Sujetos
+        set
         {
-            get
-            {
-                return this.sujetosField;
-            }
-            set
-            {
-                this.sujetosField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace = "")]
-        public Factura Factura
-        {
-            get
-            {
-                return this.facturaField;
-            }
-            set
-            {
-                this.facturaField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace = "")]
-        public HuellaTBAI HuellaTBAI
-        {
-            get
-            {
-                return this.huellaTBAIField;
-            }
-            set
-            {
-                this.huellaTBAIField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-        public Signature Signature
-        {
-            get
-            {
-                return this.signatureField;
-            }
-            set
-            {
-                this.signatureField = value;
-            }
+            cabeceraField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class Cabecera
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public Sujetos Sujetos
     {
-
-        private decimal iDVersionTBAIField;
-
-        /// <remarks/>
-        public decimal IDVersionTBAI
+        get
         {
-            get
-            {
-                return this.iDVersionTBAIField;
-            }
-            set
-            {
-                this.iDVersionTBAIField = value;
-            }
+            return sujetosField;
+        }
+        set
+        {
+            sujetosField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class Sujetos
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public Factura Factura
     {
-
-        private SujetosEmisor emisorField;
-
-        private SujetosIDDestinatario[] destinatariosField;
-
-        private string variosDestinatariosField;
-
-        private string emitidaPorTercerosODestinatarioField;
-
-        /// <remarks/>
-        public SujetosEmisor Emisor
+        get
         {
-            get
-            {
-                return this.emisorField;
-            }
-            set
-            {
-                this.emisorField = value;
-            }
+            return facturaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("IDDestinatario", IsNullable = false)]
-        public SujetosIDDestinatario[] Destinatarios
+        set
         {
-            get
-            {
-                return this.destinatariosField;
-            }
-            set
-            {
-                this.destinatariosField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string VariosDestinatarios
-        {
-            get
-            {
-                return this.variosDestinatariosField;
-            }
-            set
-            {
-                this.variosDestinatariosField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string EmitidaPorTercerosODestinatario
-        {
-            get
-            {
-                return this.emitidaPorTercerosODestinatarioField;
-            }
-            set
-            {
-                this.emitidaPorTercerosODestinatarioField = value;
-            }
+            facturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class SujetosEmisor
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public HuellaTBAI HuellaTBAI
     {
-
-        private string nIFField;
-
-        private string apellidosNombreRazonSocialField;
-
-        /// <remarks/>
-        public string NIF
+        get
         {
-            get
-            {
-                return this.nIFField;
-            }
-            set
-            {
-                this.nIFField = value;
-            }
+            return huellaTBAIField;
         }
-
-        /// <remarks/>
-        public string ApellidosNombreRazonSocial
+        set
         {
-            get
-            {
-                return this.apellidosNombreRazonSocialField;
-            }
-            set
-            {
-                this.apellidosNombreRazonSocialField = value;
-            }
+            huellaTBAIField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class SujetosIDDestinatario
+    [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+    public Signature Signature
     {
-
-        private string nIFField;
-
-        private string apellidosNombreRazonSocialField;
-
-        private string codigoPostalField;
-
-        private string direccionField;
-
-        /// <remarks/>
-        public string NIF
+        get
         {
-            get
-            {
-                return this.nIFField;
-            }
-            set
-            {
-                this.nIFField = value;
-            }
+            return signatureField;
         }
-
-        /// <remarks/>
-        public string ApellidosNombreRazonSocial
+        set
         {
-            get
-            {
-                return this.apellidosNombreRazonSocialField;
-            }
-            set
-            {
-                this.apellidosNombreRazonSocialField = value;
-            }
+            signatureField = value;
         }
+    }
+}
 
-        /// <remarks/>
-        public string CodigoPostal
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(TypeName = "Cabecera", Namespace = "urn:ticketbai:emision")]
+public class Cabecera1
+{
+
+    private IDVersionTicketBaiType1 iDVersionTBAIField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public IDVersionTicketBaiType1 IDVersionTBAI
+    {
+        get
         {
-            get
-            {
-                return this.codigoPostalField;
-            }
-            set
-            {
-                this.codigoPostalField = value;
-            }
+            return iDVersionTBAIField;
         }
-
-        /// <remarks/>
-        public string Direccion
+        set
         {
-            get
-            {
-                return this.direccionField;
-            }
-            set
-            {
-                this.direccionField = value;
-            }
+            iDVersionTBAIField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(TypeName = "IDVersionTicketBaiType", Namespace = "urn:ticketbai:emision")]
+public enum IDVersionTicketBaiType1
+{
+
+    /// <remarks/>
+    [XmlEnum("1.2")]
+    Item12,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+[XmlRoot(Namespace = "", IsNullable = false)]
+public partial class Sujetos
+{
+
+    private Emisor1 emisorField;
+
+    private IDDestinatario[] destinatariosField;
+
+    private SiNoType variosDestinatariosField;
+
+    private bool variosDestinatariosFieldSpecified;
+
+    private EmitidaPorTercerosType? emitidaPorTercerosODestinatarioField;
+
+    private bool emitidaPorTercerosODestinatarioFieldSpecified;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public Emisor1 Emisor
+    {
+        get
+        {
+            return emisorField;
+        }
+        set
+        {
+            emisorField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class Factura
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public IDDestinatario[] Destinatarios
     {
-
-        private FacturaCabeceraFactura cabeceraFacturaField;
-
-        private FacturaDatosFactura datosFacturaField;
-
-        private FacturaTipoDesglose tipoDesgloseField;
-
-        /// <remarks/>
-        public FacturaCabeceraFactura CabeceraFactura
+        get
         {
-            get
-            {
-                return this.cabeceraFacturaField;
-            }
-            set
-            {
-                this.cabeceraFacturaField = value;
-            }
+            return destinatariosField;
         }
-
-        /// <remarks/>
-        public FacturaDatosFactura DatosFactura
+        set
         {
-            get
-            {
-                return this.datosFacturaField;
-            }
-            set
-            {
-                this.datosFacturaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public FacturaTipoDesglose TipoDesglose
-        {
-            get
-            {
-                return this.tipoDesgloseField;
-            }
-            set
-            {
-                this.tipoDesgloseField = value;
-            }
+            destinatariosField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaCabeceraFactura
+    public SiNoType VariosDestinatarios
     {
-
-        private string serieFacturaField;
-
-        private string numFacturaField;
-
-        private string fechaExpedicionFacturaField;
-
-        private string horaExpedicionFacturaField;
-
-        private string facturaSimplificadaField;
-
-        private string facturaEmitidaSustitucionSimplificadaField;
-
-        private FacturaCabeceraFacturaFacturaRectificativa facturaRectificativaField;
-
-        private FacturaCabeceraFacturaIDFacturaRectificadaSustituida[] facturasRectificadasSustituidasField;
-
-        /// <remarks/>
-        public string SerieFactura
+        get
         {
-            get
-            {
-                return this.serieFacturaField;
-            }
-            set
-            {
-                this.serieFacturaField = value;
-            }
+            return variosDestinatariosField;
         }
-
-        /// <remarks/>
-        public string NumFactura
+        set
         {
-            get
-            {
-                return this.numFacturaField;
-            }
-            set
-            {
-                this.numFacturaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string FechaExpedicionFactura
-        {
-            get
-            {
-                return this.fechaExpedicionFacturaField;
-            }
-            set
-            {
-                this.fechaExpedicionFacturaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string HoraExpedicionFactura
-        {
-            get
-            {
-                return this.horaExpedicionFacturaField;
-            }
-            set
-            {
-                this.horaExpedicionFacturaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string FacturaSimplificada
-        {
-            get
-            {
-                return this.facturaSimplificadaField;
-            }
-            set
-            {
-                this.facturaSimplificadaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string FacturaEmitidaSustitucionSimplificada
-        {
-            get
-            {
-                return this.facturaEmitidaSustitucionSimplificadaField;
-            }
-            set
-            {
-                this.facturaEmitidaSustitucionSimplificadaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public FacturaCabeceraFacturaFacturaRectificativa FacturaRectificativa
-        {
-            get
-            {
-                return this.facturaRectificativaField;
-            }
-            set
-            {
-                this.facturaRectificativaField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("IDFacturaRectificadaSustituida", IsNullable = false)]
-        public FacturaCabeceraFacturaIDFacturaRectificadaSustituida[] FacturasRectificadasSustituidas
-        {
-            get
-            {
-                return this.facturasRectificadasSustituidasField;
-            }
-            set
-            {
-                this.facturasRectificadasSustituidasField = value;
-            }
+            variosDestinatariosField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaCabeceraFacturaFacturaRectificativa
+    [XmlIgnore()]
+    public bool VariosDestinatariosSpecified
     {
-
-        private string codigoField;
-
-        private string tipoField;
-
-        private FacturaCabeceraFacturaFacturaRectificativaImporteRectificacionSustitutiva importeRectificacionSustitutivaField;
-
-        /// <remarks/>
-        public string Codigo
+        get
         {
-            get
-            {
-                return this.codigoField;
-            }
-            set
-            {
-                this.codigoField = value;
-            }
+            return variosDestinatariosFieldSpecified;
         }
-
-        /// <remarks/>
-        public string Tipo
+        set
         {
-            get
-            {
-                return this.tipoField;
-            }
-            set
-            {
-                this.tipoField = value;
-            }
-        }
-
-        /// <remarks/>
-        public FacturaCabeceraFacturaFacturaRectificativaImporteRectificacionSustitutiva ImporteRectificacionSustitutiva
-        {
-            get
-            {
-                return this.importeRectificacionSustitutivaField;
-            }
-            set
-            {
-                this.importeRectificacionSustitutivaField = value;
-            }
+            variosDestinatariosFieldSpecified = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaCabeceraFacturaFacturaRectificativaImporteRectificacionSustitutiva
+    public EmitidaPorTercerosType? EmitidaPorTercerosODestinatario
     {
-
-        private string baseRectificadaField;
-
-        private string cuotaRectificadaField;
-
-        private string cuotaRecargoRectificadaField;
-
-        /// <remarks/>
-        public string BaseRectificada
+        get
         {
-            get
-            {
-                return this.baseRectificadaField;
-            }
-            set
-            {
-                this.baseRectificadaField = value;
-            }
+            return emitidaPorTercerosODestinatarioField;
         }
-
-        /// <remarks/>
-        public string CuotaRectificada
+        set
         {
-            get
-            {
-                return this.cuotaRectificadaField;
-            }
-            set
-            {
-                this.cuotaRectificadaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string CuotaRecargoRectificada
-        {
-            get
-            {
-                return this.cuotaRecargoRectificadaField;
-            }
-            set
-            {
-                this.cuotaRecargoRectificadaField = value;
-            }
+            emitidaPorTercerosODestinatarioField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaCabeceraFacturaIDFacturaRectificadaSustituida
+    [XmlIgnore()]
+    public bool EmitidaPorTercerosODestinatarioSpecified
     {
-
-        private string serieFacturaField;
-
-        private string numFacturaField;
-
-        private string fechaExpedicionFacturaField;
-
-        /// <remarks/>
-        public string SerieFactura
+        get
         {
-            get
-            {
-                return this.serieFacturaField;
-            }
-            set
-            {
-                this.serieFacturaField = value;
-            }
+            return emitidaPorTercerosODestinatarioFieldSpecified;
         }
-
-        /// <remarks/>
-        public string NumFactura
+        set
         {
-            get
-            {
-                return this.numFacturaField;
-            }
-            set
-            {
-                this.numFacturaField = value;
-            }
+            emitidaPorTercerosODestinatarioFieldSpecified = value;
         }
+    }
+}
 
-        /// <remarks/>
-        public string FechaExpedicionFactura
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[XmlType(TypeName = "Emisor", Namespace = "urn:ticketbai:emision")]
+public class Emisor1
+{
+
+    private string nIFField;
+
+    private string apellidosNombreRazonSocialField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string NIF
+    {
+        get
         {
-            get
-            {
-                return this.fechaExpedicionFacturaField;
-            }
-            set
-            {
-                this.fechaExpedicionFacturaField = value;
-            }
+            return nIFField;
+        }
+        set
+        {
+            nIFField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaDatosFactura
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ApellidosNombreRazonSocial
     {
-
-        private string fechaOperacionField;
-
-        private string descripcionFacturaField;
-
-        private FacturaDatosFacturaIDDetalleFactura[] detallesFacturaField;
-
-        private string importeTotalFacturaField;
-
-        private string retencionSoportadaField;
-
-        private string baseImponibleACosteField;
-
-        private FacturaDatosFacturaIDClave[] clavesField;
-
-        /// <remarks/>
-        public string FechaOperacion
+        get
         {
-            get
-            {
-                return this.fechaOperacionField;
-            }
-            set
-            {
-                this.fechaOperacionField = value;
-            }
+            return apellidosNombreRazonSocialField;
         }
-
-        /// <remarks/>
-        public string DescripcionFactura
+        set
         {
-            get
-            {
-                return this.descripcionFacturaField;
-            }
-            set
-            {
-                this.descripcionFacturaField = value;
-            }
+            apellidosNombreRazonSocialField = value;
         }
+    }
+}
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("IDDetalleFactura", IsNullable = false)]
-        public FacturaDatosFacturaIDDetalleFactura[] DetallesFactura
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public partial class IDDestinatario
+{
+
+    private string nIFField;
+
+    private string apellidosNombreRazonSocialField;
+
+    private string codigoPostalField;
+
+    private string direccionField;
+
+    /// <remarks/>
+    [XmlElement("IDOtro", typeof(IDOtro1), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement("NIF", typeof(string), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string NIF
+    {
+        get
         {
-            get
-            {
-                return this.detallesFacturaField;
-            }
-            set
-            {
-                this.detallesFacturaField = value;
-            }
+            return nIFField;
         }
-
-        /// <remarks/>
-        public string ImporteTotalFactura
+        set
         {
-            get
-            {
-                return this.importeTotalFacturaField;
-            }
-            set
-            {
-                this.importeTotalFacturaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string RetencionSoportada
-        {
-            get
-            {
-                return this.retencionSoportadaField;
-            }
-            set
-            {
-                this.retencionSoportadaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string BaseImponibleACoste
-        {
-            get
-            {
-                return this.baseImponibleACosteField;
-            }
-            set
-            {
-                this.baseImponibleACosteField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("IDClave", IsNullable = false)]
-        public FacturaDatosFacturaIDClave[] Claves
-        {
-            get
-            {
-                return this.clavesField;
-            }
-            set
-            {
-                this.clavesField = value;
-            }
+            nIFField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaDatosFacturaIDDetalleFactura
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ApellidosNombreRazonSocial
     {
-
-        private string descripcionDetalleField;
-
-        private string cantidadField;
-
-        private string importeUnitarioField;
-
-        private string descuentoField;
-
-        private string importeTotalField;
-
-        /// <remarks/>
-        public string DescripcionDetalle
+        get
         {
-            get
-            {
-                return this.descripcionDetalleField;
-            }
-            set
-            {
-                this.descripcionDetalleField = value;
-            }
+            return apellidosNombreRazonSocialField;
         }
-
-        /// <remarks/>
-        public string Cantidad
+        set
         {
-            get
-            {
-                return this.cantidadField;
-            }
-            set
-            {
-                this.cantidadField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string ImporteUnitario
-        {
-            get
-            {
-                return this.importeUnitarioField;
-            }
-            set
-            {
-                this.importeUnitarioField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string Descuento
-        {
-            get
-            {
-                return this.descuentoField;
-            }
-            set
-            {
-                this.descuentoField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string ImporteTotal
-        {
-            get
-            {
-                return this.importeTotalField;
-            }
-            set
-            {
-                this.importeTotalField = value;
-            }
+            apellidosNombreRazonSocialField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaDatosFacturaIDClave
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string CodigoPostal
     {
-
-        private byte claveRegimenIvaOpTrascendenciaField;
-
-        /// <remarks/>
-        public byte ClaveRegimenIvaOpTrascendencia
+        get
         {
-            get
-            {
-                return this.claveRegimenIvaOpTrascendenciaField;
-            }
-            set
-            {
-                this.claveRegimenIvaOpTrascendenciaField = value;
-            }
+            return codigoPostalField;
+        }
+        set
+        {
+            codigoPostalField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaTipoDesglose
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string Direccion
     {
-
-        private FacturaTipoDesgloseDesgloseFactura desgloseFacturaField;
-
-        /// <remarks/>
-        public FacturaTipoDesgloseDesgloseFactura DesgloseFactura
+        get
         {
-            get
-            {
-                return this.desgloseFacturaField;
-            }
-            set
-            {
-                this.desgloseFacturaField = value;
-            }
+            return direccionField;
+        }
+        set
+        {
+            direccionField = value;
+        }
+    }
+}
+
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[XmlType(TypeName = "IDOtro", Namespace = "urn:ticketbai:emision")]
+public class IDOtro1
+{
+
+    private CountryType21? codigoPaisField;
+
+    private bool codigoPaisFieldSpecified;
+
+    private IDTypeType1 iDTypeField;
+
+    private string idField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public CountryType21? CodigoPais
+    {
+        get
+        {
+            return codigoPaisField;
+        }
+        set
+        {
+            codigoPaisField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaTipoDesgloseDesgloseFactura
+    [XmlIgnore()]
+    public bool CodigoPaisSpecified
     {
-
-        private FacturaTipoDesgloseDesgloseFacturaSujeta sujetaField;
-
-        private FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta[] noSujetaField;
-
-        /// <remarks/>
-        public FacturaTipoDesgloseDesgloseFacturaSujeta Sujeta
+        get
         {
-            get
-            {
-                return this.sujetaField;
-            }
-            set
-            {
-                this.sujetaField = value;
-            }
+            return codigoPaisFieldSpecified;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("DetalleNoSujeta", IsNullable = false)]
-        public FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta[] NoSujeta
+        set
         {
-            get
-            {
-                return this.noSujetaField;
-            }
-            set
-            {
-                this.noSujetaField = value;
-            }
+            codigoPaisFieldSpecified = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaTipoDesgloseDesgloseFacturaSujeta
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public IDTypeType1 IDType
     {
-
-        private FacturaTipoDesgloseDesgloseFacturaSujetaDetalleExenta[] exentaField;
-
-        private FacturaTipoDesgloseDesgloseFacturaSujetaDetalleNoExenta[] noExentaField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("DetalleExenta", IsNullable = false)]
-        public FacturaTipoDesgloseDesgloseFacturaSujetaDetalleExenta[] Exenta
+        get
         {
-            get
-            {
-                return this.exentaField;
-            }
-            set
-            {
-                this.exentaField = value;
-            }
+            return iDTypeField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("DetalleNoExenta", IsNullable = false)]
-        public FacturaTipoDesgloseDesgloseFacturaSujetaDetalleNoExenta[] NoExenta
+        set
         {
-            get
-            {
-                return this.noExentaField;
-            }
-            set
-            {
-                this.noExentaField = value;
-            }
+            iDTypeField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaTipoDesgloseDesgloseFacturaSujetaDetalleExenta
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ID
     {
-
-        private string causaExencionField;
-
-        private string baseImponibleField;
-
-        /// <remarks/>
-        public string CausaExencion
+        get
         {
-            get
-            {
-                return this.causaExencionField;
-            }
-            set
-            {
-                this.causaExencionField = value;
-            }
+            return idField;
         }
-
-        /// <remarks/>
-        public string BaseImponible
+        set
         {
-            get
-            {
-                return this.baseImponibleField;
-            }
-            set
-            {
-                this.baseImponibleField = value;
-            }
+            idField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(TypeName = "CountryType2", Namespace = "urn:ticketbai:emision")]
+public enum CountryType21
+{
+
+    /// <remarks/>
+    AF,
+
+    /// <remarks/>
+    AL,
+
+    /// <remarks/>
+    DE,
+
+    /// <remarks/>
+    AD,
+
+    /// <remarks/>
+    AO,
+
+    /// <remarks/>
+    AI,
+
+    /// <remarks/>
+    AQ,
+
+    /// <remarks/>
+    AG,
+
+    /// <remarks/>
+    SA,
+
+    /// <remarks/>
+    DZ,
+
+    /// <remarks/>
+    AR,
+
+    /// <remarks/>
+    AM,
+
+    /// <remarks/>
+    AW,
+
+    /// <remarks/>
+    AU,
+
+    /// <remarks/>
+    AT,
+
+    /// <remarks/>
+    AZ,
+
+    /// <remarks/>
+    BS,
+
+    /// <remarks/>
+    BH,
+
+    /// <remarks/>
+    BD,
+
+    /// <remarks/>
+    BB,
+
+    /// <remarks/>
+    BE,
+
+    /// <remarks/>
+    BZ,
+
+    /// <remarks/>
+    BJ,
+
+    /// <remarks/>
+    BM,
+
+    /// <remarks/>
+    BY,
+
+    /// <remarks/>
+    BO,
+
+    /// <remarks/>
+    BA,
+
+    /// <remarks/>
+    BW,
+
+    /// <remarks/>
+    BV,
+
+    /// <remarks/>
+    BR,
+
+    /// <remarks/>
+    BN,
+
+    /// <remarks/>
+    BG,
+
+    /// <remarks/>
+    BF,
+
+    /// <remarks/>
+    BI,
+
+    /// <remarks/>
+    BT,
+
+    /// <remarks/>
+    CV,
+
+    /// <remarks/>
+    KY,
+
+    /// <remarks/>
+    KH,
+
+    /// <remarks/>
+    CM,
+
+    /// <remarks/>
+    CA,
+
+    /// <remarks/>
+    CF,
+
+    /// <remarks/>
+    CC,
+
+    /// <remarks/>
+    CO,
+
+    /// <remarks/>
+    KM,
+
+    /// <remarks/>
+    CG,
+
+    /// <remarks/>
+    CD,
+
+    /// <remarks/>
+    CK,
+
+    /// <remarks/>
+    KP,
+
+    /// <remarks/>
+    KR,
+
+    /// <remarks/>
+    CI,
+
+    /// <remarks/>
+    CR,
+
+    /// <remarks/>
+    HR,
+
+    /// <remarks/>
+    CU,
+
+    /// <remarks/>
+    TD,
+
+    /// <remarks/>
+    CZ,
+
+    /// <remarks/>
+    CL,
+
+    /// <remarks/>
+    CN,
+
+    /// <remarks/>
+    CY,
+
+    /// <remarks/>
+    CW,
+
+    /// <remarks/>
+    DK,
+
+    /// <remarks/>
+    DM,
+
+    /// <remarks/>
+    DO,
+
+    /// <remarks/>
+    EC,
+
+    /// <remarks/>
+    EG,
+
+    /// <remarks/>
+    AE,
+
+    /// <remarks/>
+    ER,
+
+    /// <remarks/>
+    SK,
+
+    /// <remarks/>
+    SI,
+
+    /// <remarks/>
+    ES,
+
+    /// <remarks/>
+    US,
+
+    /// <remarks/>
+    EE,
+
+    /// <remarks/>
+    ET,
+
+    /// <remarks/>
+    FO,
+
+    /// <remarks/>
+    PH,
+
+    /// <remarks/>
+    FI,
+
+    /// <remarks/>
+    FJ,
+
+    /// <remarks/>
+    FR,
+
+    /// <remarks/>
+    GA,
+
+    /// <remarks/>
+    GM,
+
+    /// <remarks/>
+    GE,
+
+    /// <remarks/>
+    GS,
+
+    /// <remarks/>
+    GH,
+
+    /// <remarks/>
+    GI,
+
+    /// <remarks/>
+    GD,
+
+    /// <remarks/>
+    GR,
+
+    /// <remarks/>
+    GL,
+
+    /// <remarks/>
+    GU,
+
+    /// <remarks/>
+    GT,
+
+    /// <remarks/>
+    GG,
+
+    /// <remarks/>
+    GN,
+
+    /// <remarks/>
+    GQ,
+
+    /// <remarks/>
+    GW,
+
+    /// <remarks/>
+    GY,
+
+    /// <remarks/>
+    HT,
+
+    /// <remarks/>
+    HM,
+
+    /// <remarks/>
+    HN,
+
+    /// <remarks/>
+    HK,
+
+    /// <remarks/>
+    HU,
+
+    /// <remarks/>
+    IN,
+
+    /// <remarks/>
+    ID,
+
+    /// <remarks/>
+    IR,
+
+    /// <remarks/>
+    IQ,
+
+    /// <remarks/>
+    IE,
+
+    /// <remarks/>
+    IM,
+
+    /// <remarks/>
+    IS,
+
+    /// <remarks/>
+    IL,
+
+    /// <remarks/>
+    IT,
+
+    /// <remarks/>
+    JM,
+
+    /// <remarks/>
+    JP,
+
+    /// <remarks/>
+    JE,
+
+    /// <remarks/>
+    JO,
+
+    /// <remarks/>
+    KZ,
+
+    /// <remarks/>
+    KE,
+
+    /// <remarks/>
+    KG,
+
+    /// <remarks/>
+    KI,
+
+    /// <remarks/>
+    KW,
+
+    /// <remarks/>
+    LA,
+
+    /// <remarks/>
+    LS,
+
+    /// <remarks/>
+    LV,
+
+    /// <remarks/>
+    LB,
+
+    /// <remarks/>
+    LR,
+
+    /// <remarks/>
+    LY,
+
+    /// <remarks/>
+    LI,
+
+    /// <remarks/>
+    LT,
+
+    /// <remarks/>
+    LU,
+
+    /// <remarks/>
+    XG,
+
+    /// <remarks/>
+    MO,
+
+    /// <remarks/>
+    MK,
+
+    /// <remarks/>
+    MG,
+
+    /// <remarks/>
+    MY,
+
+    /// <remarks/>
+    MW,
+
+    /// <remarks/>
+    MV,
+
+    /// <remarks/>
+    ML,
+
+    /// <remarks/>
+    MT,
+
+    /// <remarks/>
+    FK,
+
+    /// <remarks/>
+    MP,
+
+    /// <remarks/>
+    MA,
+
+    /// <remarks/>
+    MH,
+
+    /// <remarks/>
+    MU,
+
+    /// <remarks/>
+    MR,
+
+    /// <remarks/>
+    YT,
+
+    /// <remarks/>
+    UM,
+
+    /// <remarks/>
+    MX,
+
+    /// <remarks/>
+    FM,
+
+    /// <remarks/>
+    MD,
+
+    /// <remarks/>
+    MC,
+
+    /// <remarks/>
+    MN,
+
+    /// <remarks/>
+    ME,
+
+    /// <remarks/>
+    MS,
+
+    /// <remarks/>
+    MZ,
+
+    /// <remarks/>
+    MM,
+
+    /// <remarks/>
+    NA,
+
+    /// <remarks/>
+    NR,
+
+    /// <remarks/>
+    CX,
+
+    /// <remarks/>
+    NP,
+
+    /// <remarks/>
+    NI,
+
+    /// <remarks/>
+    NE,
+
+    /// <remarks/>
+    NG,
+
+    /// <remarks/>
+    NU,
+
+    /// <remarks/>
+    NF,
+
+    /// <remarks/>
+    NO,
+
+    /// <remarks/>
+    NC,
+
+    /// <remarks/>
+    NZ,
+
+    /// <remarks/>
+    IO,
+
+    /// <remarks/>
+    OM,
+
+    /// <remarks/>
+    NL,
+
+    /// <remarks/>
+    BQ,
+
+    /// <remarks/>
+    PK,
+
+    /// <remarks/>
+    PW,
+
+    /// <remarks/>
+    PA,
+
+    /// <remarks/>
+    PG,
+
+    /// <remarks/>
+    PY,
+
+    /// <remarks/>
+    PE,
+
+    /// <remarks/>
+    PN,
+
+    /// <remarks/>
+    PF,
+
+    /// <remarks/>
+    PL,
+
+    /// <remarks/>
+    PT,
+
+    /// <remarks/>
+    PR,
+
+    /// <remarks/>
+    QA,
+
+    /// <remarks/>
+    GB,
+
+    /// <remarks/>
+    RW,
+
+    /// <remarks/>
+    RO,
+
+    /// <remarks/>
+    RU,
+
+    /// <remarks/>
+    SB,
+
+    /// <remarks/>
+    SV,
+
+    /// <remarks/>
+    WS,
+
+    /// <remarks/>
+    AS,
+
+    /// <remarks/>
+    KN,
+
+    /// <remarks/>
+    SM,
+
+    /// <remarks/>
+    SX,
+
+    /// <remarks/>
+    PM,
+
+    /// <remarks/>
+    VC,
+
+    /// <remarks/>
+    SH,
+
+    /// <remarks/>
+    LC,
+
+    /// <remarks/>
+    ST,
+
+    /// <remarks/>
+    SN,
+
+    /// <remarks/>
+    RS,
+
+    /// <remarks/>
+    SC,
+
+    /// <remarks/>
+    SL,
+
+    /// <remarks/>
+    SG,
+
+    /// <remarks/>
+    SY,
+
+    /// <remarks/>
+    SO,
+
+    /// <remarks/>
+    LK,
+
+    /// <remarks/>
+    SZ,
+
+    /// <remarks/>
+    ZA,
+
+    /// <remarks/>
+    SD,
+
+    /// <remarks/>
+    SS,
+
+    /// <remarks/>
+    SE,
+
+    /// <remarks/>
+    CH,
+
+    /// <remarks/>
+    SR,
+
+    /// <remarks/>
+    TH,
+
+    /// <remarks/>
+    TW,
+
+    /// <remarks/>
+    TZ,
+
+    /// <remarks/>
+    TJ,
+
+    /// <remarks/>
+    PS,
+
+    /// <remarks/>
+    TF,
+
+    /// <remarks/>
+    TL,
+
+    /// <remarks/>
+    TG,
+
+    /// <remarks/>
+    TK,
+
+    /// <remarks/>
+    TO,
+
+    /// <remarks/>
+    TT,
+
+    /// <remarks/>
+    TN,
+
+    /// <remarks/>
+    TC,
+
+    /// <remarks/>
+    TM,
+
+    /// <remarks/>
+    TR,
+
+    /// <remarks/>
+    TV,
+
+    /// <remarks/>
+    UA,
+
+    /// <remarks/>
+    UG,
+
+    /// <remarks/>
+    UY,
+
+    /// <remarks/>
+    UZ,
+
+    /// <remarks/>
+    VU,
+
+    /// <remarks/>
+    VA,
+
+    /// <remarks/>
+    VE,
+
+    /// <remarks/>
+    VN,
+
+    /// <remarks/>
+    VG,
+
+    /// <remarks/>
+    VI,
+
+    /// <remarks/>
+    WF,
+
+    /// <remarks/>
+    YE,
+
+    /// <remarks/>
+    DJ,
+
+    /// <remarks/>
+    ZM,
+
+    /// <remarks/>
+    ZW,
+
+    /// <remarks/>
+    QU,
+
+    /// <remarks/>
+    XB,
+
+    /// <remarks/>
+    XU,
+
+    /// <remarks/>
+    XN,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(TypeName = "IDTypeType", Namespace = "urn:ticketbai:emision")]
+public enum IDTypeType1
+{
+
+    /// <remarks/>
+    [XmlEnum("02")]
+    Item02,
+
+    /// <remarks/>
+    [XmlEnum("03")]
+    Item03,
+
+    /// <remarks/>
+    [XmlEnum("04")]
+    Item04,
+
+    /// <remarks/>
+    [XmlEnum("05")]
+    Item05,
+
+    /// <remarks/>
+    [XmlEnum("06")]
+    Item06,
+}
+
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum SiNoType
+{
+
+    /// <remarks/>
+    S,
+
+    /// <remarks/>
+    N,
+}
+
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum EmitidaPorTercerosType
+{
+
+    /// <remarks/>
+    N,
+
+    /// <remarks/>
+    T,
+
+    /// <remarks/>
+    D,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class Factura
+{
+    private CabeceraFacturaType1 cabeceraFacturaField;
+
+    private DatosFacturaType datosFacturaField;
+
+    private TipoDesgloseType tipoDesgloseField;
+
+    /// <remarks/>
+    public CabeceraFacturaType1 CabeceraFactura
+    {
+        get
+        {
+            return cabeceraFacturaField;
+        }
+        set
+        {
+            cabeceraFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaTipoDesgloseDesgloseFacturaSujetaDetalleNoExenta
+    public DatosFacturaType DatosFactura
     {
-
-        private string tipoNoExentaField;
-
-        private FacturaTipoDesgloseDesgloseFacturaSujetaDetalleNoExentaDetalleIVA[] desgloseIVAField;
-
-        /// <remarks/>
-        public string TipoNoExenta
+        get
         {
-            get
-            {
-                return this.tipoNoExentaField;
-            }
-            set
-            {
-                this.tipoNoExentaField = value;
-            }
+            return datosFacturaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("DetalleIVA", IsNullable = false)]
-        public FacturaTipoDesgloseDesgloseFacturaSujetaDetalleNoExentaDetalleIVA[] DesgloseIVA
+        set
         {
-            get
-            {
-                return this.desgloseIVAField;
-            }
-            set
-            {
-                this.desgloseIVAField = value;
-            }
+            datosFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaTipoDesgloseDesgloseFacturaSujetaDetalleNoExentaDetalleIVA
+    public TipoDesgloseType TipoDesglose
     {
-
-        private string baseImponibleField;
-
-        private string tipoImpositivoField;
-
-        private string cuotaImpuestoField;
-
-        private string tipoRecargoEquivalenciaField;
-
-        private string cuotaRecargoEquivalenciaField;
-
-        private string operacionEnRecargoDeEquivalenciaORegimenSimplificadoField;
-
-        /// <remarks/>
-        public string BaseImponible
+        get
         {
-            get
-            {
-                return this.baseImponibleField;
-            }
-            set
-            {
-                this.baseImponibleField = value;
-            }
+            return tipoDesgloseField;
         }
-
-        /// <remarks/>
-        public string TipoImpositivo
+        set
         {
-            get
-            {
-                return this.tipoImpositivoField;
-            }
-            set
-            {
-                this.tipoImpositivoField = value;
-            }
+            tipoDesgloseField = value;
         }
+    }
+}
 
-        /// <remarks/>
-        public string CuotaImpuesto
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(TypeName = "CabeceraFactura", Namespace = "urn:ticketbai:emision")]
+public partial class CabeceraFacturaType1
+{
+
+    private string serieFacturaField;
+
+    private string numFacturaField;
+
+    private string fechaExpedicionFacturaField;
+
+    private string horaExpedicionFacturaField;
+
+    private string facturaSimplificadaField;
+
+    private string facturaEmitidaSustitucionSimplificadaField;
+
+    private FacturaRectificativaType facturaRectificativaField;
+
+    private FacturaCabeceraFacturaIDFacturaRectificadaSustituida[] facturasRectificadasSustituidasField;
+
+    /// <remarks/>
+    public string SerieFactura
+    {
+        get
         {
-            get
-            {
-                return this.cuotaImpuestoField;
-            }
-            set
-            {
-                this.cuotaImpuestoField = value;
-            }
+            return serieFacturaField;
         }
-
-        /// <remarks/>
-        public string TipoRecargoEquivalencia
+        set
         {
-            get
-            {
-                return this.tipoRecargoEquivalenciaField;
-            }
-            set
-            {
-                this.tipoRecargoEquivalenciaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string CuotaRecargoEquivalencia
-        {
-            get
-            {
-                return this.cuotaRecargoEquivalenciaField;
-            }
-            set
-            {
-                this.cuotaRecargoEquivalenciaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string OperacionEnRecargoDeEquivalenciaORegimenSimplificado
-        {
-            get
-            {
-                return this.operacionEnRecargoDeEquivalenciaORegimenSimplificadoField;
-            }
-            set
-            {
-                this.operacionEnRecargoDeEquivalenciaORegimenSimplificadoField = value;
-            }
+            serieFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta
+    public string NumFactura
     {
-
-        private string causaField;
-
-        private string importeField;
-
-        /// <remarks/>
-        public string Causa
+        get
         {
-            get
-            {
-                return this.causaField;
-            }
-            set
-            {
-                this.causaField = value;
-            }
+            return numFacturaField;
         }
-
-        /// <remarks/>
-        public string Importe
+        set
         {
-            get
-            {
-                return this.importeField;
-            }
-            set
-            {
-                this.importeField = value;
-            }
+            numFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class HuellaTBAI
+    public string FechaExpedicionFactura
     {
-
-        private HuellaTBAIEncadenamientoFacturaAnterior encadenamientoFacturaAnteriorField;
-
-        private HuellaTBAISoftware softwareField;
-
-        private string numSerieDispositivoField;
-
-        /// <remarks/>
-        public HuellaTBAIEncadenamientoFacturaAnterior EncadenamientoFacturaAnterior
+        get
         {
-            get
-            {
-                return this.encadenamientoFacturaAnteriorField;
-            }
-            set
-            {
-                this.encadenamientoFacturaAnteriorField = value;
-            }
+            return fechaExpedicionFacturaField;
         }
-
-        /// <remarks/>
-        public HuellaTBAISoftware Software
+        set
         {
-            get
-            {
-                return this.softwareField;
-            }
-            set
-            {
-                this.softwareField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string NumSerieDispositivo
-        {
-            get
-            {
-                return this.numSerieDispositivoField;
-            }
-            set
-            {
-                this.numSerieDispositivoField = value;
-            }
+            fechaExpedicionFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class HuellaTBAIEncadenamientoFacturaAnterior
+    public string HoraExpedicionFactura
     {
-
-        private string serieFacturaAnteriorField;
-
-        private string numFacturaAnteriorField;
-
-        private string fechaExpedicionFacturaAnteriorField;
-
-        private string signatureValueFirmaFacturaAnteriorField;
-
-        /// <remarks/>
-        public string SerieFacturaAnterior
+        get
         {
-            get
-            {
-                return this.serieFacturaAnteriorField;
-            }
-            set
-            {
-                this.serieFacturaAnteriorField = value;
-            }
+            return horaExpedicionFacturaField;
         }
-
-        /// <remarks/>
-        public string NumFacturaAnterior
+        set
         {
-            get
-            {
-                return this.numFacturaAnteriorField;
-            }
-            set
-            {
-                this.numFacturaAnteriorField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string FechaExpedicionFacturaAnterior
-        {
-            get
-            {
-                return this.fechaExpedicionFacturaAnteriorField;
-            }
-            set
-            {
-                this.fechaExpedicionFacturaAnteriorField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string SignatureValueFirmaFacturaAnterior
-        {
-            get
-            {
-                return this.signatureValueFirmaFacturaAnteriorField;
-            }
-            set
-            {
-                this.signatureValueFirmaFacturaAnteriorField = value;
-            }
+            horaExpedicionFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class HuellaTBAISoftware
+    public string FacturaSimplificada
     {
-
-        private string licenciaTBAIField;
-
-        private HuellaTBAISoftwareEntidadDesarrolladora entidadDesarrolladoraField;
-
-        private string nombreField;
-
-        private string versionField;
-
-        /// <remarks/>
-        public string LicenciaTBAI
+        get
         {
-            get
-            {
-                return this.licenciaTBAIField;
-            }
-            set
-            {
-                this.licenciaTBAIField = value;
-            }
+            return facturaSimplificadaField;
         }
-
-        /// <remarks/>
-        public HuellaTBAISoftwareEntidadDesarrolladora EntidadDesarrolladora
+        set
         {
-            get
-            {
-                return this.entidadDesarrolladoraField;
-            }
-            set
-            {
-                this.entidadDesarrolladoraField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string Nombre
-        {
-            get
-            {
-                return this.nombreField;
-            }
-            set
-            {
-                this.nombreField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string Version
-        {
-            get
-            {
-                return this.versionField;
-            }
-            set
-            {
-                this.versionField = value;
-            }
+            facturaSimplificadaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class HuellaTBAISoftwareEntidadDesarrolladora
+    public string FacturaEmitidaSustitucionSimplificada
     {
-
-        private string nIFField;
-
-        /// <remarks/>
-        public string NIF
+        get
         {
-            get
-            {
-                return this.nIFField;
-            }
-            set
-            {
-                this.nIFField = value;
-            }
+            return facturaEmitidaSustitucionSimplificadaField;
+        }
+        set
+        {
+            facturaEmitidaSustitucionSimplificadaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
-    public partial class Signature
+    public FacturaRectificativaType FacturaRectificativa
     {
-
-        private SignatureSignedInfo signedInfoField;
-
-        private SignatureSignatureValue signatureValueField;
-
-        private SignatureKeyInfo keyInfoField;
-
-        private SignatureObject[] objectField;
-
-        private string idField;
-
-        /// <remarks/>
-        public SignatureSignedInfo SignedInfo
+        get
         {
-            get
-            {
-                return this.signedInfoField;
-            }
-            set
-            {
-                this.signedInfoField = value;
-            }
+            return facturaRectificativaField;
         }
-
-        /// <remarks/>
-        public SignatureSignatureValue SignatureValue
+        set
         {
-            get
-            {
-                return this.signatureValueField;
-            }
-            set
-            {
-                this.signatureValueField = value;
-            }
-        }
-
-        /// <remarks/>
-        public SignatureKeyInfo KeyInfo
-        {
-            get
-            {
-                return this.keyInfoField;
-            }
-            set
-            {
-                this.keyInfoField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Object")]
-        public SignatureObject[] Object
-        {
-            get
-            {
-                return this.objectField;
-            }
-            set
-            {
-                this.objectField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Id
-        {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
+            facturaRectificativaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureSignedInfo
+    [XmlArrayItem("IDFacturaRectificadaSustituida", IsNullable = false)]
+    public FacturaCabeceraFacturaIDFacturaRectificadaSustituida[] FacturasRectificadasSustituidas
     {
-
-        private SignatureSignedInfoCanonicalizationMethod canonicalizationMethodField;
-
-        private SignatureSignedInfoSignatureMethod signatureMethodField;
-
-        private SignatureSignedInfoReference[] referenceField;
-
-        private string idField;
-
-        /// <remarks/>
-        public SignatureSignedInfoCanonicalizationMethod CanonicalizationMethod
+        get
         {
-            get
-            {
-                return this.canonicalizationMethodField;
-            }
-            set
-            {
-                this.canonicalizationMethodField = value;
-            }
+            return facturasRectificadasSustituidasField;
         }
-
-        /// <remarks/>
-        public SignatureSignedInfoSignatureMethod SignatureMethod
+        set
         {
-            get
-            {
-                return this.signatureMethodField;
-            }
-            set
-            {
-                this.signatureMethodField = value;
-            }
+            facturasRectificadasSustituidasField = value;
         }
+    }
+}
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Reference")]
-        public SignatureSignedInfoReference[] Reference
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class FacturaRectificativaType
+{
+    private ClaveTipoFacturaType codigoField;
+
+    private ClaveTipoRectificativaType tipoField;
+
+    private ImporteRectificacionSustitutivaType importeRectificacionSustitutivaField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public ClaveTipoFacturaType Codigo
+    {
+        get
         {
-            get
-            {
-                return this.referenceField;
-            }
-            set
-            {
-                this.referenceField = value;
-            }
+            return codigoField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Id
+        set
         {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
+            codigoField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureSignedInfoCanonicalizationMethod
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public ClaveTipoRectificativaType Tipo
     {
-
-        private string algorithmField;
-
-        private string valueField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Algorithm
+        get
         {
-            get
-            {
-                return this.algorithmField;
-            }
-            set
-            {
-                this.algorithmField = value;
-            }
+            return tipoField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string Value
+        set
         {
-            get
-            {
-                return this.valueField;
-            }
-            set
-            {
-                this.valueField = value;
-            }
+            tipoField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureSignedInfoSignatureMethod
+    public ImporteRectificacionSustitutivaType ImporteRectificacionSustitutiva
     {
-
-        private byte hMACOutputLengthField;
-
-        private string[] textField;
-
-        private string algorithmField;
-
-        /// <remarks/>
-        public byte HMACOutputLength
+        get
         {
-            get
-            {
-                return this.hMACOutputLengthField;
-            }
-            set
-            {
-                this.hMACOutputLengthField = value;
-            }
+            return importeRectificacionSustitutivaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text
+        set
         {
-            get
-            {
-                return this.textField;
-            }
-            set
-            {
-                this.textField = value;
-            }
+            importeRectificacionSustitutivaField = value;
         }
+    }
+}
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Algorithm
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum ClaveTipoFacturaType
+{
+
+    /// <remarks/>
+    R1,
+
+    /// <remarks/>
+    R2,
+
+    /// <remarks/>
+    R3,
+
+    /// <remarks/>
+    R4,
+
+    /// <remarks/>
+    R5,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum ClaveTipoRectificativaType
+{
+
+    /// <remarks/>
+    S,
+
+    /// <remarks/>
+    I,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class ImporteRectificacionSustitutivaType
+{
+    private string baseRectificadaField;
+
+    private string cuotaRectificadaField;
+
+    private string cuotaRecargoRectificadaField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string BaseRectificada
+    {
+        get
         {
-            get
-            {
-                return this.algorithmField;
-            }
-            set
-            {
-                this.algorithmField = value;
-            }
+            return baseRectificadaField;
+        }
+        set
+        {
+            baseRectificadaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureSignedInfoReference
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string CuotaRectificada
     {
-
-        private SignatureSignedInfoReferenceTransform[] transformsField;
-
-        private SignatureSignedInfoReferenceDigestMethod digestMethodField;
-
-        private string digestValueField;
-
-        private string idField;
-
-        private string uRIField;
-
-        private string typeField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("Transform", IsNullable = false)]
-        public SignatureSignedInfoReferenceTransform[] Transforms
+        get
         {
-            get
-            {
-                return this.transformsField;
-            }
-            set
-            {
-                this.transformsField = value;
-            }
+            return cuotaRectificadaField;
         }
-
-        /// <remarks/>
-        public SignatureSignedInfoReferenceDigestMethod DigestMethod
+        set
         {
-            get
-            {
-                return this.digestMethodField;
-            }
-            set
-            {
-                this.digestMethodField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string DigestValue
-        {
-            get
-            {
-                return this.digestValueField;
-            }
-            set
-            {
-                this.digestValueField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Id
-        {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string URI
-        {
-            get
-            {
-                return this.uRIField;
-            }
-            set
-            {
-                this.uRIField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Type
-        {
-            get
-            {
-                return this.typeField;
-            }
-            set
-            {
-                this.typeField = value;
-            }
+            cuotaRectificadaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureSignedInfoReferenceTransform
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string CuotaRecargoRectificada
     {
-
-        private string[] itemsField;
-
-        private ItemsChoiceType[] itemsElementNameField;
-
-        private string[] textField;
-
-        private string algorithmField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("XPath", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("any_element", typeof(string), Namespace = "otherNS")]
-        [System.Xml.Serialization.XmlChoiceIdentifierAttribute("ItemsElementName")]
-        public string[] Items
+        get
         {
-            get
-            {
-                return this.itemsField;
-            }
-            set
-            {
-                this.itemsField = value;
-            }
+            return cuotaRecargoRectificadaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ItemsElementName")]
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public ItemsChoiceType[] ItemsElementName
+        set
         {
-            get
-            {
-                return this.itemsElementNameField;
-            }
-            set
-            {
-                this.itemsElementNameField = value;
-            }
+            cuotaRecargoRectificadaField = value;
         }
+    }
+}
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true)]
+public partial class FacturaCabeceraFacturaIDFacturaRectificadaSustituida
+{
+
+    private string serieFacturaField;
+
+    private string numFacturaField;
+
+    private string fechaExpedicionFacturaField;
+
+    /// <remarks/>
+    public string SerieFactura
+    {
+        get
         {
-            get
-            {
-                return this.textField;
-            }
-            set
-            {
-                this.textField = value;
-            }
+            return serieFacturaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Algorithm
+        set
         {
-            get
-            {
-                return this.algorithmField;
-            }
-            set
-            {
-                this.algorithmField = value;
-            }
+            serieFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.w3.org/2000/09/xmldsig#", IncludeInSchema = false)]
-    public enum ItemsChoiceType
+    public string NumFactura
     {
-
-        /// <remarks/>
-        XPath,
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlEnumAttribute("otherNS:any_element")]
-        any_element,
-    }
-
-    /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureSignedInfoReferenceDigestMethod
-    {
-
-        private string algorithmField;
-
-        private string valueField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Algorithm
+        get
         {
-            get
-            {
-                return this.algorithmField;
-            }
-            set
-            {
-                this.algorithmField = value;
-            }
+            return numFacturaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string Value
+        set
         {
-            get
-            {
-                return this.valueField;
-            }
-            set
-            {
-                this.valueField = value;
-            }
+            numFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureSignatureValue
+    public string FechaExpedicionFactura
     {
-
-        private string idField;
-
-        private string valueField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Id
+        get
         {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
+            return fechaExpedicionFacturaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string Value
+        set
         {
-            get
-            {
-                return this.valueField;
-            }
-            set
-            {
-                this.valueField = value;
-            }
+            fechaExpedicionFacturaField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public partial class DatosFacturaType
+{
+
+    private string fechaOperacionField;
+
+    private string descripcionFacturaField;
+
+    private IDDetalleFacturaType[] detallesFacturaField;
+
+    private string importeTotalFacturaField;
+
+    private string retencionSoportadaField;
+
+    private string baseImponibleACosteField;
+
+    private IDClaveType[] clavesField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string FechaOperacion
+    {
+        get
+        {
+            return fechaOperacionField;
+        }
+        set
+        {
+            fechaOperacionField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureKeyInfo
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string DescripcionFactura
     {
-
-        private string keyNameField;
-
-        private SignatureKeyInfoKeyValue keyValueField;
-
-        private SignatureKeyInfoRetrievalMethod retrievalMethodField;
-
-        private string[] textField;
-
-        private string idField;
-
-        /// <remarks/>
-        public string KeyName
+        get
         {
-            get
-            {
-                return this.keyNameField;
-            }
-            set
-            {
-                this.keyNameField = value;
-            }
+            return descripcionFacturaField;
         }
-
-        /// <remarks/>
-        public SignatureKeyInfoKeyValue KeyValue
+        set
         {
-            get
-            {
-                return this.keyValueField;
-            }
-            set
-            {
-                this.keyValueField = value;
-            }
-        }
-
-        /// <remarks/>
-        public SignatureKeyInfoRetrievalMethod RetrievalMethod
-        {
-            get
-            {
-                return this.retrievalMethodField;
-            }
-            set
-            {
-                this.retrievalMethodField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text
-        {
-            get
-            {
-                return this.textField;
-            }
-            set
-            {
-                this.textField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Id
-        {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
+            descripcionFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureKeyInfoKeyValue
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem("IDDetalleFactura", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public IDDetalleFacturaType[] DetallesFactura
     {
-
-        private SignatureKeyInfoKeyValueDSAKeyValue dSAKeyValueField;
-
-        private string[] textField;
-
-        /// <remarks/>
-        public SignatureKeyInfoKeyValueDSAKeyValue DSAKeyValue
+        get
         {
-            get
-            {
-                return this.dSAKeyValueField;
-            }
-            set
-            {
-                this.dSAKeyValueField = value;
-            }
+            return detallesFacturaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text
+        set
         {
-            get
-            {
-                return this.textField;
-            }
-            set
-            {
-                this.textField = value;
-            }
+            detallesFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureKeyInfoKeyValueDSAKeyValue
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ImporteTotalFactura
     {
-
-        private string pField;
-
-        private string qField;
-
-        private string gField;
-
-        private string yField;
-
-        private string jField;
-
-        private string seedField;
-
-        private string pgenCounterField;
-
-        /// <remarks/>
-        public string P
+        get
         {
-            get
-            {
-                return this.pField;
-            }
-            set
-            {
-                this.pField = value;
-            }
+            return importeTotalFacturaField;
         }
-
-        /// <remarks/>
-        public string Q
+        set
         {
-            get
-            {
-                return this.qField;
-            }
-            set
-            {
-                this.qField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string G
-        {
-            get
-            {
-                return this.gField;
-            }
-            set
-            {
-                this.gField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string Y
-        {
-            get
-            {
-                return this.yField;
-            }
-            set
-            {
-                this.yField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string J
-        {
-            get
-            {
-                return this.jField;
-            }
-            set
-            {
-                this.jField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string Seed
-        {
-            get
-            {
-                return this.seedField;
-            }
-            set
-            {
-                this.seedField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string PgenCounter
-        {
-            get
-            {
-                return this.pgenCounterField;
-            }
-            set
-            {
-                this.pgenCounterField = value;
-            }
+            importeTotalFacturaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureKeyInfoRetrievalMethod
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string RetencionSoportada
     {
-
-        private string uRIField;
-
-        private string typeField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string URI
+        get
         {
-            get
-            {
-                return this.uRIField;
-            }
-            set
-            {
-                this.uRIField = value;
-            }
+            return retencionSoportadaField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Type
+        set
         {
-            get
-            {
-                return this.typeField;
-            }
-            set
-            {
-                this.typeField = value;
-            }
+            retencionSoportadaField = value;
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureObject
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string BaseImponibleACoste
     {
-
-        private string[] any_elementField;
-
-        private string[] textField;
-
-        private string idField;
-
-        private string mimeTypeField;
-
-        private string encodingField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("any_element", Namespace = "urn:ticketbai:emision")]
-        public string[] any_element
+        get
         {
-            get
-            {
-                return this.any_elementField;
-            }
-            set
-            {
-                this.any_elementField = value;
-            }
+            return baseImponibleACosteField;
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text
+        set
         {
-            get
-            {
-                return this.textField;
-            }
-            set
-            {
-                this.textField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Id
-        {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string MimeType
-        {
-            get
-            {
-                return this.mimeTypeField;
-            }
-            set
-            {
-                this.mimeTypeField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Encoding
-        {
-            get
-            {
-                return this.encodingField;
-            }
-            set
-            {
-                this.encodingField = value;
-            }
+            baseImponibleACosteField = value;
         }
     }
 
+    /// <remarks/>
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem("IDClave", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public IDClaveType[] Claves
+    {
+        get
+        {
+            return clavesField;
+        }
+        set
+        {
+            clavesField = value;
+        }
+    }
+}
 
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class IDDetalleFacturaType
+{
+    private string descripcionDetalleField;
+
+    private string cantidadField;
+
+    private string importeUnitarioField;
+
+    private string descuentoField;
+
+    private string importeTotalField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string DescripcionDetalle
+    {
+        get
+        {
+            return descripcionDetalleField;
+        }
+        set
+        {
+            descripcionDetalleField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string Cantidad
+    {
+        get
+        {
+            return cantidadField;
+        }
+        set
+        {
+            cantidadField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ImporteUnitario
+    {
+        get
+        {
+            return importeUnitarioField;
+        }
+        set
+        {
+            importeUnitarioField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string Descuento
+    {
+        get
+        {
+            return descuentoField;
+        }
+        set
+        {
+            descuentoField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ImporteTotal
+    {
+        get
+        {
+            return importeTotalField;
+        }
+        set
+        {
+            importeTotalField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public partial class IDClaveType
+{
+
+    private IdOperacionesTrascendenciaTributariaType claveRegimenIvaOpTrascendenciaField;
+
+    /// <remarks/>
+    public IdOperacionesTrascendenciaTributariaType ClaveRegimenIvaOpTrascendencia
+    {
+        get
+        {
+            return claveRegimenIvaOpTrascendenciaField;
+        }
+        set
+        {
+            claveRegimenIvaOpTrascendenciaField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum IdOperacionesTrascendenciaTributariaType
+{
+
+    /// <remarks/>
+    [XmlEnum("01")]
+    Item01,
+
+    /// <remarks/>
+    [XmlEnum("02")]
+    Item02,
+
+    /// <remarks/>
+    [XmlEnum("03")]
+    Item03,
+
+    /// <remarks/>
+    [XmlEnum("04")]
+    Item04,
+
+    /// <remarks/>
+    [XmlEnum("05")]
+    Item05,
+
+    /// <remarks/>
+    [XmlEnum("06")]
+    Item06,
+
+    /// <remarks/>
+    [XmlEnum("07")]
+    Item07,
+
+    /// <remarks/>
+    [XmlEnum("08")]
+    Item08,
+
+    /// <remarks/>
+    [XmlEnum("09")]
+    Item09,
+
+    /// <remarks/>
+    [XmlEnum("10")]
+    Item10,
+
+    /// <remarks/>
+    [XmlEnum("11")]
+    Item11,
+
+    /// <remarks/>
+    [XmlEnum("12")]
+    Item12,
+
+    /// <remarks/>
+    [XmlEnum("13")]
+    Item13,
+
+    /// <remarks/>
+    [XmlEnum("14")]
+    Item14,
+
+    /// <remarks/>
+    [XmlEnum("15")]
+    Item15,
+
+    /// <remarks/>
+    [XmlEnum("51")]
+    Item51,
+
+    /// <remarks/>
+    [XmlEnum("52")]
+    Item52,
+
+    /// <remarks/>
+    [XmlEnum("53")]
+    Item53,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public partial class TipoDesgloseType
+{
+
+    private DesgloseFacturaType itemField;
+
+    public DesgloseFacturaType DesgloseFactura
+    {
+        get
+        {
+            return itemField;
+        }
+        set
+        {
+            itemField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public partial class DesgloseFacturaType
+{
+
+    private SujetaType sujetaField;
+
+    private FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta[] noSujetaField;
+
+    /// <remarks/>
+    public SujetaType Sujeta
+    {
+        get
+        {
+            return sujetaField;
+        }
+        set
+        {
+            sujetaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlArrayItem("DetalleNoSujeta", IsNullable = false)]
+    public FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta[] NoSujeta
+    {
+        get
+        {
+            return noSujetaField;
+        }
+        set
+        {
+            noSujetaField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public partial class SujetaType
+{
+
+    private DetalleExentaType[] exentaField;
+
+    private DetalleNoExentaType[] noExentaField;
+
+    /// <remarks/>
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem("DetalleExenta", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public DetalleExentaType[] Exenta
+    {
+        get
+        {
+            return exentaField;
+        }
+        set
+        {
+            exentaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem("DetalleNoExenta", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public DetalleNoExentaType[] NoExenta
+    {
+        get
+        {
+            return noExentaField;
+        }
+        set
+        {
+            noExentaField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class DetalleExentaType
+{
+
+    private CausaExencionType causaExencionField;
+
+    private string baseImponibleField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public CausaExencionType CausaExencion
+    {
+        get
+        {
+            return causaExencionField;
+        }
+        set
+        {
+            causaExencionField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string BaseImponible
+    {
+        get
+        {
+            return baseImponibleField;
+        }
+        set
+        {
+            baseImponibleField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum CausaExencionType
+{
+
+    /// <remarks/>
+    E1,
+
+    /// <remarks/>
+    E2,
+
+    /// <remarks/>
+    E3,
+
+    /// <remarks/>
+    E4,
+
+    /// <remarks/>
+    E5,
+
+    /// <remarks/>
+    E6,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public partial class DetalleNoExentaType
+{
+
+    private TipoOperacionSujetaNoExentaType tipoNoExentaField;
+
+    private DetalleIVAType[] desgloseIVAField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public TipoOperacionSujetaNoExentaType TipoNoExenta
+    {
+        get
+        {
+            return tipoNoExentaField;
+        }
+        set
+        {
+            tipoNoExentaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlArrayItem("DetalleIVA", IsNullable = false)]
+    public DetalleIVAType[] DesgloseIVA
+    {
+        get
+        {
+            return desgloseIVAField;
+        }
+        set
+        {
+            desgloseIVAField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum TipoOperacionSujetaNoExentaType
+{
+
+    /// <remarks/>
+    S1,
+
+    /// <remarks/>
+    S2,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class DetalleIVAType
+{
+
+    private string baseImponibleField;
+
+    private string tipoImpositivoField;
+
+    private string cuotaImpuestoField;
+
+    private string tipoRecargoEquivalenciaField;
+
+    private string cuotaRecargoEquivalenciaField;
+
+    private SiNoType operacionEnRecargoDeEquivalenciaORegimenSimplificadoField;
+
+    private bool operacionEnRecargoDeEquivalenciaORegimenSimplificadoFieldSpecified;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string BaseImponible
+    {
+        get
+        {
+            return baseImponibleField;
+        }
+        set
+        {
+            baseImponibleField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string TipoImpositivo
+    {
+        get
+        {
+            return tipoImpositivoField;
+        }
+        set
+        {
+            tipoImpositivoField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string CuotaImpuesto
+    {
+        get
+        {
+            return cuotaImpuestoField;
+        }
+        set
+        {
+            cuotaImpuestoField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string TipoRecargoEquivalencia
+    {
+        get
+        {
+            return tipoRecargoEquivalenciaField;
+        }
+        set
+        {
+            tipoRecargoEquivalenciaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string CuotaRecargoEquivalencia
+    {
+        get
+        {
+            return cuotaRecargoEquivalenciaField;
+        }
+        set
+        {
+            cuotaRecargoEquivalenciaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SiNoType OperacionEnRecargoDeEquivalenciaORegimenSimplificado
+    {
+        get
+        {
+            return operacionEnRecargoDeEquivalenciaORegimenSimplificadoField;
+        }
+        set
+        {
+            operacionEnRecargoDeEquivalenciaORegimenSimplificadoField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlIgnore()]
+    public bool OperacionEnRecargoDeEquivalenciaORegimenSimplificadoSpecified
+    {
+        get
+        {
+            return operacionEnRecargoDeEquivalenciaORegimenSimplificadoFieldSpecified;
+        }
+        set
+        {
+            operacionEnRecargoDeEquivalenciaORegimenSimplificadoFieldSpecified = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true)]
+public partial class FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta
+{
+
+    private string causaField;
+
+    private string importeField;
+
+    /// <remarks/>
+    public string Causa
+    {
+        get
+        {
+            return causaField;
+        }
+        set
+        {
+            causaField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string Importe
+    {
+        get
+        {
+            return importeField;
+        }
+        set
+        {
+            importeField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true)]
+[XmlRoot(Namespace = "", IsNullable = false)]
+public partial class HuellaTBAI
+{
+
+    private HuellaTBAIEncadenamientoFacturaAnterior encadenamientoFacturaAnteriorField;
+
+    private HuellaTBAISoftware softwareField;
+
+    private string numSerieDispositivoField;
+
+    /// <remarks/>
+    public HuellaTBAIEncadenamientoFacturaAnterior EncadenamientoFacturaAnterior
+    {
+        get
+        {
+            return encadenamientoFacturaAnteriorField;
+        }
+        set
+        {
+            encadenamientoFacturaAnteriorField = value;
+        }
+    }
+
+    /// <remarks/>
+    public HuellaTBAISoftware Software
+    {
+        get
+        {
+            return softwareField;
+        }
+        set
+        {
+            softwareField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string NumSerieDispositivo
+    {
+        get
+        {
+            return numSerieDispositivoField;
+        }
+        set
+        {
+            numSerieDispositivoField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true)]
+public partial class HuellaTBAIEncadenamientoFacturaAnterior
+{
+
+    private string serieFacturaAnteriorField;
+
+    private string numFacturaAnteriorField;
+
+    private string fechaExpedicionFacturaAnteriorField;
+
+    private string signatureValueFirmaFacturaAnteriorField;
+
+    /// <remarks/>
+    public string SerieFacturaAnterior
+    {
+        get
+        {
+            return serieFacturaAnteriorField;
+        }
+        set
+        {
+            serieFacturaAnteriorField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string NumFacturaAnterior
+    {
+        get
+        {
+            return numFacturaAnteriorField;
+        }
+        set
+        {
+            numFacturaAnteriorField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string FechaExpedicionFacturaAnterior
+    {
+        get
+        {
+            return fechaExpedicionFacturaAnteriorField;
+        }
+        set
+        {
+            fechaExpedicionFacturaAnteriorField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string SignatureValueFirmaFacturaAnterior
+    {
+        get
+        {
+            return signatureValueFirmaFacturaAnteriorField;
+        }
+        set
+        {
+            signatureValueFirmaFacturaAnteriorField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true)]
+public partial class HuellaTBAISoftware
+{
+
+    private string licenciaTBAIField;
+
+    private HuellaTBAISoftwareEntidadDesarrolladora entidadDesarrolladoraField;
+
+    private string nombreField;
+
+    private string versionField;
+
+    /// <remarks/>
+    public string LicenciaTBAI
+    {
+        get
+        {
+            return licenciaTBAIField;
+        }
+        set
+        {
+            licenciaTBAIField = value;
+        }
+    }
+
+    /// <remarks/>
+    public HuellaTBAISoftwareEntidadDesarrolladora EntidadDesarrolladora
+    {
+        get
+        {
+            return entidadDesarrolladoraField;
+        }
+        set
+        {
+            entidadDesarrolladoraField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string Nombre
+    {
+        get
+        {
+            return nombreField;
+        }
+        set
+        {
+            nombreField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string Version
+    {
+        get
+        {
+            return versionField;
+        }
+        set
+        {
+            versionField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true)]
+public partial class HuellaTBAISoftwareEntidadDesarrolladora
+{
+
+    private string nIFField;
+
+    /// <remarks/>
+    public string NIF
+    {
+        get
+        {
+            return nIFField;
+        }
+        set
+        {
+            nIFField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+[XmlRoot(Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
+public partial class Signature
+{
+
+    private SignatureSignedInfo signedInfoField;
+
+    private SignatureSignatureValue signatureValueField;
+
+    private SignatureKeyInfo keyInfoField;
+
+    private SignatureObject[] objectField;
+
+    private string idField;
+
+    /// <remarks/>
+    public SignatureSignedInfo SignedInfo
+    {
+        get
+        {
+            return signedInfoField;
+        }
+        set
+        {
+            signedInfoField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SignatureSignatureValue SignatureValue
+    {
+        get
+        {
+            return signatureValueField;
+        }
+        set
+        {
+            signatureValueField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SignatureKeyInfo KeyInfo
+    {
+        get
+        {
+            return keyInfoField;
+        }
+        set
+        {
+            keyInfoField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement("Object")]
+    public SignatureObject[] Object
+    {
+        get
+        {
+            return objectField;
+        }
+        set
+        {
+            objectField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Id
+    {
+        get
+        {
+            return idField;
+        }
+        set
+        {
+            idField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureSignedInfo
+{
+
+    private SignatureSignedInfoCanonicalizationMethod canonicalizationMethodField;
+
+    private SignatureSignedInfoSignatureMethod signatureMethodField;
+
+    private SignatureSignedInfoReference[] referenceField;
+
+    private string idField;
+
+    /// <remarks/>
+    public SignatureSignedInfoCanonicalizationMethod CanonicalizationMethod
+    {
+        get
+        {
+            return canonicalizationMethodField;
+        }
+        set
+        {
+            canonicalizationMethodField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SignatureSignedInfoSignatureMethod SignatureMethod
+    {
+        get
+        {
+            return signatureMethodField;
+        }
+        set
+        {
+            signatureMethodField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement("Reference")]
+    public SignatureSignedInfoReference[] Reference
+    {
+        get
+        {
+            return referenceField;
+        }
+        set
+        {
+            referenceField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Id
+    {
+        get
+        {
+            return idField;
+        }
+        set
+        {
+            idField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureSignedInfoCanonicalizationMethod
+{
+
+    private string algorithmField;
+
+    private string valueField;
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Algorithm
+    {
+        get
+        {
+            return algorithmField;
+        }
+        set
+        {
+            algorithmField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string Value
+    {
+        get
+        {
+            return valueField;
+        }
+        set
+        {
+            valueField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureSignedInfoSignatureMethod
+{
+
+    private byte hMACOutputLengthField;
+
+    private string[] textField;
+
+    private string algorithmField;
+
+    /// <remarks/>
+    public byte HMACOutputLength
+    {
+        get
+        {
+            return hMACOutputLengthField;
+        }
+        set
+        {
+            hMACOutputLengthField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string[] Text
+    {
+        get
+        {
+            return textField;
+        }
+        set
+        {
+            textField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Algorithm
+    {
+        get
+        {
+            return algorithmField;
+        }
+        set
+        {
+            algorithmField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureSignedInfoReference
+{
+
+    private SignatureSignedInfoReferenceTransform[] transformsField;
+
+    private SignatureSignedInfoReferenceDigestMethod digestMethodField;
+
+    private string digestValueField;
+
+    private string idField;
+
+    private string uRIField;
+
+    private string typeField;
+
+    /// <remarks/>
+    [XmlArrayItem("Transform", IsNullable = false)]
+    public SignatureSignedInfoReferenceTransform[] Transforms
+    {
+        get
+        {
+            return transformsField;
+        }
+        set
+        {
+            transformsField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SignatureSignedInfoReferenceDigestMethod DigestMethod
+    {
+        get
+        {
+            return digestMethodField;
+        }
+        set
+        {
+            digestMethodField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string DigestValue
+    {
+        get
+        {
+            return digestValueField;
+        }
+        set
+        {
+            digestValueField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Id
+    {
+        get
+        {
+            return idField;
+        }
+        set
+        {
+            idField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string URI
+    {
+        get
+        {
+            return uRIField;
+        }
+        set
+        {
+            uRIField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Type
+    {
+        get
+        {
+            return typeField;
+        }
+        set
+        {
+            typeField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureSignedInfoReferenceTransform
+{
+
+    private string[] itemsField;
+
+    private ItemsChoiceType[] itemsElementNameField;
+
+    private string[] textField;
+
+    private string algorithmField;
+
+    /// <remarks/>
+    [XmlElement("XPath", typeof(string))]
+    [XmlElement("any_element", typeof(string), Namespace = "otherNS")]
+    [XmlChoiceIdentifier("ItemsElementName")]
+    public string[] Items
+    {
+        get
+        {
+            return itemsField;
+        }
+        set
+        {
+            itemsField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement("ItemsElementName")]
+    [XmlIgnore()]
+    public ItemsChoiceType[] ItemsElementName
+    {
+        get
+        {
+            return itemsElementNameField;
+        }
+        set
+        {
+            itemsElementNameField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string[] Text
+    {
+        get
+        {
+            return textField;
+        }
+        set
+        {
+            textField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Algorithm
+    {
+        get
+        {
+            return algorithmField;
+        }
+        set
+        {
+            algorithmField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#", IncludeInSchema = false)]
+public enum ItemsChoiceType
+{
+
+    /// <remarks/>
+    XPath,
+
+    /// <remarks/>
+    [XmlEnum("otherNS:any_element")]
+    any_element,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureSignedInfoReferenceDigestMethod
+{
+
+    private string algorithmField;
+
+    private string valueField;
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Algorithm
+    {
+        get
+        {
+            return algorithmField;
+        }
+        set
+        {
+            algorithmField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string Value
+    {
+        get
+        {
+            return valueField;
+        }
+        set
+        {
+            valueField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureSignatureValue
+{
+
+    private string idField;
+
+    private string valueField;
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Id
+    {
+        get
+        {
+            return idField;
+        }
+        set
+        {
+            idField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string Value
+    {
+        get
+        {
+            return valueField;
+        }
+        set
+        {
+            valueField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureKeyInfo
+{
+
+    private string keyNameField;
+
+    private SignatureKeyInfoKeyValue keyValueField;
+
+    private SignatureKeyInfoRetrievalMethod retrievalMethodField;
+
+    private string[] textField;
+
+    private string idField;
+
+    /// <remarks/>
+    public string KeyName
+    {
+        get
+        {
+            return keyNameField;
+        }
+        set
+        {
+            keyNameField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SignatureKeyInfoKeyValue KeyValue
+    {
+        get
+        {
+            return keyValueField;
+        }
+        set
+        {
+            keyValueField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SignatureKeyInfoRetrievalMethod RetrievalMethod
+    {
+        get
+        {
+            return retrievalMethodField;
+        }
+        set
+        {
+            retrievalMethodField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string[] Text
+    {
+        get
+        {
+            return textField;
+        }
+        set
+        {
+            textField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Id
+    {
+        get
+        {
+            return idField;
+        }
+        set
+        {
+            idField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureKeyInfoKeyValue
+{
+
+    private SignatureKeyInfoKeyValueDSAKeyValue dSAKeyValueField;
+
+    private string[] textField;
+
+    /// <remarks/>
+    public SignatureKeyInfoKeyValueDSAKeyValue DSAKeyValue
+    {
+        get
+        {
+            return dSAKeyValueField;
+        }
+        set
+        {
+            dSAKeyValueField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string[] Text
+    {
+        get
+        {
+            return textField;
+        }
+        set
+        {
+            textField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureKeyInfoKeyValueDSAKeyValue
+{
+
+    private string pField;
+
+    private string qField;
+
+    private string gField;
+
+    private string yField;
+
+    private string jField;
+
+    private string seedField;
+
+    private string pgenCounterField;
+
+    /// <remarks/>
+    public string P
+    {
+        get
+        {
+            return pField;
+        }
+        set
+        {
+            pField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string Q
+    {
+        get
+        {
+            return qField;
+        }
+        set
+        {
+            qField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string G
+    {
+        get
+        {
+            return gField;
+        }
+        set
+        {
+            gField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string Y
+    {
+        get
+        {
+            return yField;
+        }
+        set
+        {
+            yField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string J
+    {
+        get
+        {
+            return jField;
+        }
+        set
+        {
+            jField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string Seed
+    {
+        get
+        {
+            return seedField;
+        }
+        set
+        {
+            seedField = value;
+        }
+    }
+
+    /// <remarks/>
+    public string PgenCounter
+    {
+        get
+        {
+            return pgenCounterField;
+        }
+        set
+        {
+            pgenCounterField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureKeyInfoRetrievalMethod
+{
+
+    private string uRIField;
+
+    private string typeField;
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string URI
+    {
+        get
+        {
+            return uRIField;
+        }
+        set
+        {
+            uRIField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Type
+    {
+        get
+        {
+            return typeField;
+        }
+        set
+        {
+            typeField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class SignatureObject
+{
+
+    private string[] any_elementField;
+
+    private string[] textField;
+
+    private string idField;
+
+    private string mimeTypeField;
+
+    private string encodingField;
+
+    /// <remarks/>
+    [XmlElement("any_element", Namespace = "urn:ticketbai:emision")]
+    public string[] any_element
+    {
+        get
+        {
+            return any_elementField;
+        }
+        set
+        {
+            any_elementField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string[] Text
+    {
+        get
+        {
+            return textField;
+        }
+        set
+        {
+            textField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Id
+    {
+        get
+        {
+            return idField;
+        }
+        set
+        {
+            idField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string MimeType
+    {
+        get
+        {
+            return mimeTypeField;
+        }
+        set
+        {
+            mimeTypeField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Encoding
+    {
+        get
+        {
+            return encodingField;
+        }
+        set
+        {
+            encodingField = value;
+        }
+    }
 }
