@@ -46,7 +46,7 @@ public sealed class InvoiceData
         return Try.Aggregate(
             ObjectValidations.NotNull(description),
             items.ToList().ToTry(i => i.Any() && i.Count <= 1000, _ => new Error($"{nameof(items)} count must be in range [1, 1000].")),
-            taxModes.ToTry(t => t.NonEmptyNorNull(), _ => new Error($"{nameof(taxModes)} shouldn't be empty.")),
+            taxModes.ToTry(t => t.NonEmpty(), _ => new Error($"{nameof(taxModes)} shouldn't be empty.")),
             (d, i, t) => new InvoiceData(d, i, totalAmount, t, supportWithheldAmount, tax, transactionDate)
         );
     }

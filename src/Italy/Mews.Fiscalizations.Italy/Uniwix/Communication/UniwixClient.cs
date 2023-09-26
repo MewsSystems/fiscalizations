@@ -46,7 +46,7 @@ public class UniwixClient
         var url = $"{UniwixBaseUrl}/Invoices/{fileId}";
         var result = await GetAsync<List<InvoiceStateResult>>(url);
 
-        var validatedResult = result.Where(a => a.NonEmptyNorNull(), _ => ErrorResult.Create($"Invoice {fileId} not found.", ErrorType.InvoiceNotFound));
+        var validatedResult = result.Where(a => a is not null && a.NonEmpty(), _ => ErrorResult.Create($"Invoice {fileId} not found.", ErrorType.InvoiceNotFound));
         return validatedResult.Map(r =>
         {
             var state = r.OrderByDescending(s => s.Date).First();
