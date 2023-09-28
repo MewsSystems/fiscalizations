@@ -3,190 +3,197 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using static System.Net.WebRequestMethods;
 
 namespace Mews.Fiscalizations.Bizkaia.Dto
 {
 
     // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(AnonymousType = true, Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
         "tidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
+    [XmlRoot(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
         "tidas_ConSG_AltaRespuesta_V1_0_1.xsd", IsNullable = false)]
-    public partial class LROEPJ240FacturasEmitidasConSGAltaRespuesta
+    public class LROEPJ240FacturasEmitidasConSGAltaRespuesta
     {
-
         private Cabecera cabeceraField;
 
         private DatosPresentacion datosPresentacionField;
 
-        private RegistrosRegistro[] registrosField;
+        private Registro[] registrosField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace = "")]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public Cabecera Cabecera
         {
             get
             {
-                return this.cabeceraField;
+                return cabeceraField;
             }
             set
             {
-                this.cabeceraField = value;
+                cabeceraField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace = "")]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public DatosPresentacion DatosPresentacion
         {
             get
             {
-                return this.datosPresentacionField;
+                return datosPresentacionField;
             }
             set
             {
-                this.datosPresentacionField = value;
+                datosPresentacionField = value;
             }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Namespace = "")]
-        [System.Xml.Serialization.XmlArrayItemAttribute("Registro", IsNullable = false)]
-        public RegistrosRegistro[] Registros
+        [XmlArray(ElementName = "Registros", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlArrayItem(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+        public Registro[] Registros
         {
             get
             {
-                return this.registrosField;
+                return registrosField;
             }
             set
             {
-                this.registrosField = value;
+                registrosField = value;
             }
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class Cabecera
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class Cabecera
     {
 
-        private byte modeloField;
+        private string modeloField;
 
-        private byte capituloField;
+        private string capituloField;
 
-        private decimal subcapituloField;
+        private string subcapituloField;
 
         private string operacionField;
 
-        private decimal versionField;
+        private string versionField;
 
-        private byte ejercicioField;
+        private string ejercicioField;
 
-        private CabeceraObligadoTributario obligadoTributarioField;
+        private ObligadoTributario obligadoTributarioField;
 
         /// <remarks/>
-        public byte Modelo
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Modelo
         {
             get
             {
-                return this.modeloField;
+                return modeloField;
             }
             set
             {
-                this.modeloField = value;
+                modeloField = value;
             }
         }
 
         /// <remarks/>
-        public byte Capitulo
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Capitulo
         {
             get
             {
-                return this.capituloField;
+                return capituloField;
             }
             set
             {
-                this.capituloField = value;
+                capituloField = value;
             }
         }
 
         /// <remarks/>
-        public decimal Subcapitulo
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Subcapitulo
         {
             get
             {
-                return this.subcapituloField;
+                return subcapituloField;
             }
             set
             {
-                this.subcapituloField = value;
+                subcapituloField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Operacion
         {
             get
             {
-                return this.operacionField;
+                return operacionField;
             }
             set
             {
-                this.operacionField = value;
+                operacionField = value;
             }
         }
 
         /// <remarks/>
-        public decimal Version
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Version
         {
             get
             {
-                return this.versionField;
+                return versionField;
             }
             set
             {
-                this.versionField = value;
+                versionField = value;
             }
         }
 
         /// <remarks/>
-        public byte Ejercicio
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Ejercicio
         {
             get
             {
-                return this.ejercicioField;
+                return ejercicioField;
             }
             set
             {
-                this.ejercicioField = value;
+                ejercicioField = value;
             }
         }
 
         /// <remarks/>
-        public CabeceraObligadoTributario ObligadoTributario
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ObligadoTributario ObligadoTributario
         {
             get
             {
-                return this.obligadoTributarioField;
+                return obligadoTributarioField;
             }
             set
             {
-                this.obligadoTributarioField = value;
+                obligadoTributarioField = value;
             }
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class CabeceraObligadoTributario
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class ObligadoTributario
     {
 
         private string nIFField;
@@ -194,38 +201,39 @@ namespace Mews.Fiscalizations.Bizkaia.Dto
         private string apellidosNombreRazonSocialField;
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string NIF
         {
             get
             {
-                return this.nIFField;
+                return nIFField;
             }
             set
             {
-                this.nIFField = value;
+                nIFField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string ApellidosNombreRazonSocial
         {
             get
             {
-                return this.apellidosNombreRazonSocialField;
+                return apellidosNombreRazonSocialField;
             }
             set
             {
-                this.apellidosNombreRazonSocialField = value;
+                apellidosNombreRazonSocialField = value;
             }
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class DatosPresentacion
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class DatosPresentacion
     {
 
         private string fechaPresentacionField;
@@ -233,100 +241,104 @@ namespace Mews.Fiscalizations.Bizkaia.Dto
         private string nIFPresentadorField;
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string FechaPresentacion
         {
             get
             {
-                return this.fechaPresentacionField;
+                return fechaPresentacionField;
             }
             set
             {
-                this.fechaPresentacionField = value;
+                fechaPresentacionField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string NIFPresentador
         {
             get
             {
-                return this.nIFPresentadorField;
+                return nIFPresentadorField;
             }
             set
             {
-                this.nIFPresentadorField = value;
+                nIFPresentadorField = value;
             }
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class RegistrosRegistro
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class Registro
     {
 
-        private RegistrosRegistroIdentificador identificadorField;
+        private Identificador identificadorField;
 
-        private RegistrosRegistroSituacionRegistro situacionRegistroField;
+        private SituacionRegistro situacionRegistroField;
 
         /// <remarks/>
-        public RegistrosRegistroIdentificador Identificador
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public Identificador Identificador
         {
             get
             {
-                return this.identificadorField;
+                return identificadorField;
             }
             set
             {
-                this.identificadorField = value;
+                identificadorField = value;
             }
         }
 
         /// <remarks/>
-        public RegistrosRegistroSituacionRegistro SituacionRegistro
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SituacionRegistro SituacionRegistro
         {
             get
             {
-                return this.situacionRegistroField;
+                return situacionRegistroField;
             }
             set
             {
-                this.situacionRegistroField = value;
-            }
-        }
-    }
-
-    /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class RegistrosRegistroIdentificador
-    {
-
-        private RegistrosRegistroIdentificadorIDFactura iDFacturaField;
-
-        /// <remarks/>
-        public RegistrosRegistroIdentificadorIDFactura IDFactura
-        {
-            get
-            {
-                return this.iDFacturaField;
-            }
-            set
-            {
-                this.iDFacturaField = value;
+                situacionRegistroField = value;
             }
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class RegistrosRegistroIdentificadorIDFactura
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class Identificador
     {
 
+        private IDFactura iDFacturaField;
+
+        /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public IDFactura IDFactura
+        {
+            get
+            {
+                return iDFacturaField;
+            }
+            set
+            {
+                iDFacturaField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class IDFactura
+    {
         private string serieFacturaField;
 
         private string numFacturaField;
@@ -334,50 +346,53 @@ namespace Mews.Fiscalizations.Bizkaia.Dto
         private string fechaExpedicionFacturaField;
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string SerieFactura
         {
             get
             {
-                return this.serieFacturaField;
+                return serieFacturaField;
             }
             set
             {
-                this.serieFacturaField = value;
+                serieFacturaField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string NumFactura
         {
             get
             {
-                return this.numFacturaField;
+                return numFacturaField;
             }
             set
             {
-                this.numFacturaField = value;
+                numFacturaField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string FechaExpedicionFactura
         {
             get
             {
-                return this.fechaExpedicionFacturaField;
+                return fechaExpedicionFacturaField;
             }
             set
             {
-                this.fechaExpedicionFacturaField = value;
+                fechaExpedicionFacturaField = value;
             }
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class RegistrosRegistroSituacionRegistro
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class SituacionRegistro
     {
 
         private string estadoRegistroField;
@@ -389,79 +404,83 @@ namespace Mews.Fiscalizations.Bizkaia.Dto
         private string descripcionErrorRegistroEUField;
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string EstadoRegistro
         {
             get
             {
-                return this.estadoRegistroField;
+                return estadoRegistroField;
             }
             set
             {
-                this.estadoRegistroField = value;
+                estadoRegistroField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string CodigoErrorRegistro
         {
             get
             {
-                return this.codigoErrorRegistroField;
+                return codigoErrorRegistroField;
             }
             set
             {
-                this.codigoErrorRegistroField = value;
+                codigoErrorRegistroField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string DescripcionErrorRegistroES
         {
             get
             {
-                return this.descripcionErrorRegistroESField;
+                return descripcionErrorRegistroESField;
             }
             set
             {
-                this.descripcionErrorRegistroESField = value;
+                descripcionErrorRegistroESField = value;
             }
         }
 
         /// <remarks/>
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string DescripcionErrorRegistroEU
         {
             get
             {
-                return this.descripcionErrorRegistroEUField;
+                return descripcionErrorRegistroEUField;
             }
             set
             {
-                this.descripcionErrorRegistroEUField = value;
+                descripcionErrorRegistroEUField = value;
             }
         }
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class Registros
+    [Serializable()]
+    [System.ComponentModel.DesignerCategory("code")]
+    [XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd")]
+    public class Registros
     {
 
-        private RegistrosRegistro[] registroField;
+        private Registro[] registroField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Registro")]
-        public RegistrosRegistro[] Registro
+        [XmlArray(ElementName = "Registros", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlArrayItem(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+        public Registro[] Registro
         {
             get
             {
-                return this.registroField;
+                return registroField;
             }
             set
             {
-                this.registroField = value;
+                registroField = value;
             }
         }
     }
