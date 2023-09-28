@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
+    <Folder Include="Model\Invoice\TaxBreakdown\" />
+    <Folder Include="Model\Software\" />
+    <Folder Include="Model\Receiver\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FuncSharp" Version="8.0.0-preview.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
   </ItemGroup>
 
 </Project>
