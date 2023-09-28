@@ -9,9 +9,8 @@ namespace Mews.Fiscalizations.Bizkaia.Dto;
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(AnonymousType = true, Namespace = "urn:ticketbai:emision")]
 [XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
-public partial class TicketBai
+public class TicketBai
 {
-
     private Cabecera1 cabeceraField;
 
     private Sujetos sujetosField;
@@ -134,9 +133,8 @@ public enum IDVersionTicketBaiType1
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
 [XmlRoot(Namespace = "", IsNullable = false)]
-public partial class Sujetos
+public class Sujetos
 {
-
     private Emisor1 emisorField;
 
     private IDDestinatario[] destinatariosField;
@@ -277,9 +275,8 @@ public class Emisor1
 [Serializable()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-public partial class IDDestinatario
+public class IDDestinatario
 {
-
     private string nIFField;
 
     private string apellidosNombreRazonSocialField;
@@ -1277,9 +1274,8 @@ public class Factura
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "CabeceraFactura", Namespace = "urn:ticketbai:emision")]
-public partial class CabeceraFacturaType1
+public class CabeceraFacturaType1
 {
-
     private string serieFacturaField;
 
     private string numFacturaField;
@@ -1288,15 +1284,20 @@ public partial class CabeceraFacturaType1
 
     private string horaExpedicionFacturaField;
 
-    private string facturaSimplificadaField;
+    private SiNoType facturaSimplificadaField;
 
-    private string facturaEmitidaSustitucionSimplificadaField;
+    private bool facturaSimplificadaFieldSpecified;
+
+    private SiNoType facturaEmitidaSustitucionSimplificadaField;
+
+    private bool facturaEmitidaSustitucionSimplificadaFieldSpecified;
 
     private FacturaRectificativaType facturaRectificativaField;
 
-    private FacturaCabeceraFacturaIDFacturaRectificadaSustituida[] facturasRectificadasSustituidasField;
+    private IDFacturaRectificadaSustituidaType[] facturasRectificadasSustituidasField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string SerieFactura
     {
         get
@@ -1310,6 +1311,7 @@ public partial class CabeceraFacturaType1
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NumFactura
     {
         get
@@ -1323,6 +1325,7 @@ public partial class CabeceraFacturaType1
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string FechaExpedicionFactura
     {
         get
@@ -1336,6 +1339,7 @@ public partial class CabeceraFacturaType1
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string HoraExpedicionFactura
     {
         get
@@ -1349,7 +1353,8 @@ public partial class CabeceraFacturaType1
     }
 
     /// <remarks/>
-    public string FacturaSimplificada
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SiNoType FacturaSimplificada
     {
         get
         {
@@ -1362,7 +1367,22 @@ public partial class CabeceraFacturaType1
     }
 
     /// <remarks/>
-    public string FacturaEmitidaSustitucionSimplificada
+    [XmlIgnore()]
+    public bool FacturaSimplificadaSpecified
+    {
+        get
+        {
+            return facturaSimplificadaFieldSpecified;
+        }
+        set
+        {
+            facturaSimplificadaFieldSpecified = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SiNoType FacturaEmitidaSustitucionSimplificada
     {
         get
         {
@@ -1375,6 +1395,21 @@ public partial class CabeceraFacturaType1
     }
 
     /// <remarks/>
+    [XmlIgnore()]
+    public bool FacturaEmitidaSustitucionSimplificadaSpecified
+    {
+        get
+        {
+            return facturaEmitidaSustitucionSimplificadaFieldSpecified;
+        }
+        set
+        {
+            facturaEmitidaSustitucionSimplificadaFieldSpecified = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public FacturaRectificativaType FacturaRectificativa
     {
         get
@@ -1388,8 +1423,9 @@ public partial class CabeceraFacturaType1
     }
 
     /// <remarks/>
-    [XmlArrayItem("IDFacturaRectificadaSustituida", IsNullable = false)]
-    public FacturaCabeceraFacturaIDFacturaRectificadaSustituida[] FacturasRectificadasSustituidas
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem("IDFacturaRectificadaSustituida", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public IDFacturaRectificadaSustituidaType[] FacturasRectificadasSustituidas
     {
         get
         {
@@ -1443,6 +1479,7 @@ public class FacturaRectificativaType
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public ImporteRectificacionSustitutivaType ImporteRectificacionSustitutiva
     {
         get
@@ -1551,8 +1588,8 @@ public class ImporteRectificacionSustitutivaType
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true)]
-public partial class FacturaCabeceraFacturaIDFacturaRectificadaSustituida
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class IDFacturaRectificadaSustituidaType
 {
 
     private string serieFacturaField;
@@ -1562,6 +1599,7 @@ public partial class FacturaCabeceraFacturaIDFacturaRectificadaSustituida
     private string fechaExpedicionFacturaField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string SerieFactura
     {
         get
@@ -1575,6 +1613,7 @@ public partial class FacturaCabeceraFacturaIDFacturaRectificadaSustituida
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NumFactura
     {
         get
@@ -1588,6 +1627,7 @@ public partial class FacturaCabeceraFacturaIDFacturaRectificadaSustituida
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string FechaExpedicionFactura
     {
         get
@@ -1605,9 +1645,8 @@ public partial class FacturaCabeceraFacturaIDFacturaRectificadaSustituida
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-public partial class DatosFacturaType
+public class DatosFacturaType
 {
-
     private string fechaOperacionField;
 
     private string descripcionFacturaField;
@@ -1814,7 +1853,7 @@ public class IDDetalleFacturaType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-public partial class IDClaveType
+public class IDClaveType
 {
 
     private IdOperacionesTrascendenciaTributariaType claveRegimenIvaOpTrascendenciaField;
@@ -1917,11 +1956,12 @@ public enum IdOperacionesTrascendenciaTributariaType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-public partial class TipoDesgloseType
+public class TipoDesgloseType
 {
 
     private DesgloseFacturaType itemField;
 
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public DesgloseFacturaType DesgloseFactura
     {
         get
@@ -1939,14 +1979,15 @@ public partial class TipoDesgloseType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-public partial class DesgloseFacturaType
+public class DesgloseFacturaType
 {
 
     private SujetaType sujetaField;
 
-    private FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta[] noSujetaField;
+    private DetalleNoSujeta[] noSujetaField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SujetaType Sujeta
     {
         get
@@ -1960,8 +2001,9 @@ public partial class DesgloseFacturaType
     }
 
     /// <remarks/>
-    [XmlArrayItem("DetalleNoSujeta", IsNullable = false)]
-    public FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta[] NoSujeta
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public DetalleNoSujeta[] NoSujeta
     {
         get
         {
@@ -1978,7 +2020,7 @@ public partial class DesgloseFacturaType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-public partial class SujetaType
+public class SujetaType
 {
 
     private DetalleExentaType[] exentaField;
@@ -2086,7 +2128,7 @@ public enum CausaExencionType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-public partial class DetalleNoExentaType
+public class DetalleNoExentaType
 {
 
     private TipoOperacionSujetaNoExentaType tipoNoExentaField;
@@ -2108,7 +2150,8 @@ public partial class DetalleNoExentaType
     }
 
     /// <remarks/>
-    [XmlArrayItem("DetalleIVA", IsNullable = false)]
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem("DetalleIVA", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
     public DetalleIVAType[] DesgloseIVA
     {
         get
@@ -2258,17 +2301,18 @@ public class DetalleIVAType
 
 /// <remarks/>
 [Serializable()]
-[System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true)]
-public partial class FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class DetalleNoSujeta
 {
 
-    private string causaField;
+    private CausaNoSujetaType causaField;
 
     private string importeField;
 
     /// <remarks/>
-    public string Causa
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public CausaNoSujetaType Causa
     {
         get
         {
@@ -2281,6 +2325,7 @@ public partial class FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string Importe
     {
         get
@@ -2295,21 +2340,35 @@ public partial class FacturaTipoDesgloseDesgloseFacturaDetalleNoSujeta
 }
 
 /// <remarks/>
-[Serializable()]
-[System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true)]
-[XmlRoot(Namespace = "", IsNullable = false)]
-public partial class HuellaTBAI
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public enum CausaNoSujetaType
 {
 
-    private HuellaTBAIEncadenamientoFacturaAnterior encadenamientoFacturaAnteriorField;
+    /// <remarks/>
+    OT,
 
-    private HuellaTBAISoftware softwareField;
+    /// <remarks/>
+    RL,
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(TypeName = "HuellaTBAI", Namespace = "urn:ticketbai:emision")]
+public class HuellaTBAI
+{
+
+    private EncadenamientoFacturaAnteriorType encadenamientoFacturaAnteriorField;
+
+    private SoftwareFacturacionType softwareField;
 
     private string numSerieDispositivoField;
 
     /// <remarks/>
-    public HuellaTBAIEncadenamientoFacturaAnterior EncadenamientoFacturaAnterior
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public EncadenamientoFacturaAnteriorType EncadenamientoFacturaAnterior
     {
         get
         {
@@ -2322,7 +2381,8 @@ public partial class HuellaTBAI
     }
 
     /// <remarks/>
-    public HuellaTBAISoftware Software
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SoftwareFacturacionType Software
     {
         get
         {
@@ -2335,6 +2395,7 @@ public partial class HuellaTBAI
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NumSerieDispositivo
     {
         get
@@ -2351,8 +2412,8 @@ public partial class HuellaTBAI
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true)]
-public partial class HuellaTBAIEncadenamientoFacturaAnterior
+[XmlType(Namespace = "urn:ticketbai:emision")]
+public class EncadenamientoFacturaAnteriorType
 {
 
     private string serieFacturaAnteriorField;
@@ -2364,6 +2425,7 @@ public partial class HuellaTBAIEncadenamientoFacturaAnterior
     private string signatureValueFirmaFacturaAnteriorField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string SerieFacturaAnterior
     {
         get
@@ -2377,6 +2439,7 @@ public partial class HuellaTBAIEncadenamientoFacturaAnterior
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NumFacturaAnterior
     {
         get
@@ -2390,6 +2453,7 @@ public partial class HuellaTBAIEncadenamientoFacturaAnterior
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string FechaExpedicionFacturaAnterior
     {
         get
@@ -2403,6 +2467,7 @@ public partial class HuellaTBAIEncadenamientoFacturaAnterior
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string SignatureValueFirmaFacturaAnterior
     {
         get
@@ -2419,19 +2484,20 @@ public partial class HuellaTBAIEncadenamientoFacturaAnterior
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true)]
-public partial class HuellaTBAISoftware
+[XmlType(TypeName = "SoftwareFacturacionType", Namespace = "urn:ticketbai:emision")]
+public class SoftwareFacturacionType
 {
 
     private string licenciaTBAIField;
 
-    private HuellaTBAISoftwareEntidadDesarrolladora entidadDesarrolladoraField;
+    private EntidadDesarrolladoraType entidadDesarrolladoraField;
 
     private string nombreField;
 
     private string versionField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string LicenciaTBAI
     {
         get
@@ -2445,7 +2511,8 @@ public partial class HuellaTBAISoftware
     }
 
     /// <remarks/>
-    public HuellaTBAISoftwareEntidadDesarrolladora EntidadDesarrolladora
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public EntidadDesarrolladoraType EntidadDesarrolladora
     {
         get
         {
@@ -2458,6 +2525,7 @@ public partial class HuellaTBAISoftware
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string Nombre
     {
         get
@@ -2471,6 +2539,7 @@ public partial class HuellaTBAISoftware
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string Version
     {
         get
@@ -2487,22 +2556,24 @@ public partial class HuellaTBAISoftware
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true)]
-public partial class HuellaTBAISoftwareEntidadDesarrolladora
+[XmlType(TypeName = "EntidadDesarrolladoraType", Namespace = "urn:ticketbai:emision")]
+public class EntidadDesarrolladoraType
 {
 
-    private string nIFField;
+    private object itemField;
 
     /// <remarks/>
-    public string NIF
+    [XmlElement("IDOtro", typeof(IDOtro1), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement("NIF", typeof(string), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public object Item
     {
         get
         {
-            return nIFField;
+            return itemField;
         }
         set
         {
-            nIFField = value;
+            itemField = value;
         }
     }
 }
@@ -2510,23 +2581,22 @@ public partial class HuellaTBAISoftwareEntidadDesarrolladora
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-[XmlRoot(Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
-public partial class Signature
+[XmlType(TypeName = "Signature", Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class Signature
 {
+    private SignedInfoType signedInfoField;
 
-    private SignatureSignedInfo signedInfoField;
+    private SignatureValueType signatureValueField;
 
-    private SignatureSignatureValue signatureValueField;
-
-    private SignatureKeyInfo keyInfoField;
+    private KeyInfoType keyInfoField;
 
     private SignatureObject[] objectField;
 
     private string idField;
 
     /// <remarks/>
-    public SignatureSignedInfo SignedInfo
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SignedInfoType SignedInfo
     {
         get
         {
@@ -2539,7 +2609,8 @@ public partial class Signature
     }
 
     /// <remarks/>
-    public SignatureSignatureValue SignatureValue
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SignatureValueType SignatureValue
     {
         get
         {
@@ -2552,7 +2623,8 @@ public partial class Signature
     }
 
     /// <remarks/>
-    public SignatureKeyInfo KeyInfo
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public KeyInfoType KeyInfo
     {
         get
         {
@@ -2565,7 +2637,7 @@ public partial class Signature
     }
 
     /// <remarks/>
-    [XmlElement("Object")]
+    [XmlElement("Object", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SignatureObject[] Object
     {
         get
@@ -2596,20 +2668,20 @@ public partial class Signature
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureSignedInfo
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class SignedInfoType
 {
+    private CanonicalizationMethodType canonicalizationMethodField;
 
-    private SignatureSignedInfoCanonicalizationMethod canonicalizationMethodField;
+    private SignatureMethodType signatureMethodField;
 
-    private SignatureSignedInfoSignatureMethod signatureMethodField;
-
-    private SignatureSignedInfoReference[] referenceField;
+    private ReferenceType[] referenceField;
 
     private string idField;
 
     /// <remarks/>
-    public SignatureSignedInfoCanonicalizationMethod CanonicalizationMethod
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public CanonicalizationMethodType CanonicalizationMethod
     {
         get
         {
@@ -2622,7 +2694,8 @@ public partial class SignatureSignedInfo
     }
 
     /// <remarks/>
-    public SignatureSignedInfoSignatureMethod SignatureMethod
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SignatureMethodType SignatureMethod
     {
         get
         {
@@ -2635,8 +2708,8 @@ public partial class SignatureSignedInfo
     }
 
     /// <remarks/>
-    [XmlElement("Reference")]
-    public SignatureSignedInfoReference[] Reference
+    [XmlElement("Reference", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public ReferenceType[] Reference
     {
         get
         {
@@ -2666,8 +2739,8 @@ public partial class SignatureSignedInfo
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureSignedInfoCanonicalizationMethod
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class CanonicalizationMethodType
 {
 
     private string algorithmField;
@@ -2706,18 +2779,19 @@ public partial class SignatureSignedInfoCanonicalizationMethod
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureSignedInfoSignatureMethod
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class SignatureMethodType
 {
 
-    private byte hMACOutputLengthField;
+    private int hMACOutputLengthField;
 
     private string[] textField;
 
     private string algorithmField;
 
     /// <remarks/>
-    public byte HMACOutputLength
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public int HMACOutputLength
     {
         get
         {
@@ -2761,13 +2835,13 @@ public partial class SignatureSignedInfoSignatureMethod
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureSignedInfoReference
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class ReferenceType
 {
 
-    private SignatureSignedInfoReferenceTransform[] transformsField;
+    private TransformType[] transformsField;
 
-    private SignatureSignedInfoReferenceDigestMethod digestMethodField;
+    private DigestMethodType digestMethodField;
 
     private string digestValueField;
 
@@ -2779,7 +2853,7 @@ public partial class SignatureSignedInfoReference
 
     /// <remarks/>
     [XmlArrayItem("Transform", IsNullable = false)]
-    public SignatureSignedInfoReferenceTransform[] Transforms
+    public TransformType[] Transforms
     {
         get
         {
@@ -2792,7 +2866,7 @@ public partial class SignatureSignedInfoReference
     }
 
     /// <remarks/>
-    public SignatureSignedInfoReferenceDigestMethod DigestMethod
+    public DigestMethodType DigestMethod
     {
         get
         {
@@ -2863,10 +2937,9 @@ public partial class SignatureSignedInfoReference
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureSignedInfoReferenceTransform
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class TransformType
 {
-
     private string[] itemsField;
 
     private ItemsChoiceType[] itemsElementNameField;
@@ -2952,8 +3025,8 @@ public enum ItemsChoiceType
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureSignedInfoReferenceDigestMethod
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class DigestMethodType
 {
 
     private string algorithmField;
@@ -2992,10 +3065,9 @@ public partial class SignatureSignedInfoReferenceDigestMethod
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureSignatureValue
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class SignatureValueType
 {
-
     private string idField;
 
     private string valueField;
@@ -3032,21 +3104,21 @@ public partial class SignatureSignatureValue
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureKeyInfo
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class KeyInfoType
 {
-
     private string keyNameField;
 
-    private SignatureKeyInfoKeyValue keyValueField;
+    private KeyValueType keyValueField;
 
-    private SignatureKeyInfoRetrievalMethod retrievalMethodField;
+    private RetrievalMethodType retrievalMethodField;
 
     private string[] textField;
 
     private string idField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string KeyName
     {
         get
@@ -3060,7 +3132,8 @@ public partial class SignatureKeyInfo
     }
 
     /// <remarks/>
-    public SignatureKeyInfoKeyValue KeyValue
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public KeyValueType KeyValue
     {
         get
         {
@@ -3073,7 +3146,8 @@ public partial class SignatureKeyInfo
     }
 
     /// <remarks/>
-    public SignatureKeyInfoRetrievalMethod RetrievalMethod
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public RetrievalMethodType RetrievalMethod
     {
         get
         {
@@ -3117,16 +3191,16 @@ public partial class SignatureKeyInfo
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureKeyInfoKeyValue
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class KeyValueType
 {
-
-    private SignatureKeyInfoKeyValueDSAKeyValue dSAKeyValueField;
+    private DSAKeyValueType dSAKeyValueField;
 
     private string[] textField;
 
     /// <remarks/>
-    public SignatureKeyInfoKeyValueDSAKeyValue DSAKeyValue
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public DSAKeyValueType DSAKeyValue
     {
         get
         {
@@ -3156,10 +3230,9 @@ public partial class SignatureKeyInfoKeyValue
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureKeyInfoKeyValueDSAKeyValue
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class DSAKeyValueType
 {
-
     private string pField;
 
     private string qField;
@@ -3175,6 +3248,7 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
     private string pgenCounterField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string P
     {
         get
@@ -3188,6 +3262,7 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string Q
     {
         get
@@ -3201,6 +3276,7 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string G
     {
         get
@@ -3214,6 +3290,7 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string Y
     {
         get
@@ -3227,6 +3304,7 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string J
     {
         get
@@ -3240,6 +3318,7 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string Seed
     {
         get
@@ -3253,6 +3332,7 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string PgenCounter
     {
         get
@@ -3269,8 +3349,8 @@ public partial class SignatureKeyInfoKeyValueDSAKeyValue
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureKeyInfoRetrievalMethod
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class RetrievalMethodType
 {
 
     private string uRIField;
@@ -3310,9 +3390,8 @@ public partial class SignatureKeyInfoRetrievalMethod
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public partial class SignatureObject
+public class SignatureObject
 {
-
     private string[] any_elementField;
 
     private string[] textField;
