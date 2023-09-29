@@ -7,7 +7,7 @@ namespace Mews.Fiscalizations.Bizkaia.Dto;
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "urn:ticketbai:emision")]
+[XmlType(Namespace = "urn:ticketbai:emision")]
 [XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
 public class TicketBai
 {
@@ -95,7 +95,8 @@ public class TicketBai
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(TypeName = "Cabecera", Namespace = "urn:ticketbai:emision")]
+[XmlType(Namespace = "urn:ticketbai:emision", TypeName = "Cabecera")]
+[XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
 public class Cabecera1
 {
 
@@ -132,7 +133,6 @@ public enum IDVersionTicketBaiType1
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
-[XmlRoot(Namespace = "", IsNullable = false)]
 public class Sujetos
 {
     private Emisor1 emisorField;
@@ -233,7 +233,7 @@ public class Sujetos
 
 /// <remarks/>
 [Serializable()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "Emisor", Namespace = "urn:ticketbai:emision")]
 public class Emisor1
 {
@@ -273,7 +273,7 @@ public class Emisor1
 
 /// <remarks/>
 [Serializable()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
 public class IDDestinatario
 {
@@ -286,7 +286,7 @@ public class IDDestinatario
     private string direccionField;
 
     /// <remarks/>
-    [XmlElement("IDOtro", typeof(IDOtro1), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    //[XmlElement("IDOtro", typeof(IDOtro1), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     [XmlElement("NIF", typeof(string), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NIF
     {
@@ -2301,7 +2301,7 @@ public class DetalleIVAType
 
 /// <remarks/>
 [Serializable()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
 public class DetalleNoSujeta
 {
@@ -2590,7 +2590,7 @@ public class Signature
 
     private KeyInfoType keyInfoField;
 
-    private SignatureObject[] objectField;
+    private ObjectType[] objectField;
 
     private string idField;
 
@@ -2638,7 +2638,7 @@ public class Signature
 
     /// <remarks/>
     [XmlElement("Object", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public SignatureObject[] Object
+    public ObjectType[] Object
     {
         get
         {
@@ -3107,27 +3107,23 @@ public class SignatureValueType
 [XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
 public class KeyInfoType
 {
-    private string keyNameField;
+    private X509DataType x509DataField;
 
     private KeyValueType keyValueField;
-
-    private RetrievalMethodType retrievalMethodField;
-
-    private string[] textField;
 
     private string idField;
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string KeyName
+    public X509DataType X509Data
     {
         get
         {
-            return keyNameField;
+            return x509DataField;
         }
         set
         {
-            keyNameField = value;
+            x509DataField = value;
         }
     }
 
@@ -3142,34 +3138,6 @@ public class KeyInfoType
         set
         {
             keyValueField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public RetrievalMethodType RetrievalMethod
-    {
-        get
-        {
-            return retrievalMethodField;
-        }
-        set
-        {
-            retrievalMethodField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlText()]
-    public string[] Text
-    {
-        get
-        {
-            return textField;
-        }
-        set
-        {
-            textField = value;
         }
     }
 
@@ -3191,38 +3159,47 @@ public class KeyInfoType
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public class KeyValueType
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class X509DataType
 {
-    private DSAKeyValueType dSAKeyValueField;
 
-    private string[] textField;
+    private string x509CertificateField;
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public DSAKeyValueType DSAKeyValue
+    public string X509Certificate
     {
         get
         {
-            return dSAKeyValueField;
+            return x509CertificateField;
         }
         set
         {
-            dSAKeyValueField = value;
+            x509CertificateField = value;
         }
     }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public partial class KeyValueType
+{
+
+    private RSAKeyValueType rSAKeyValueField;
 
     /// <remarks/>
-    [XmlText()]
-    public string[] Text
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public RSAKeyValueType RSAKeyValue
     {
         get
         {
-            return textField;
+            return rSAKeyValueField;
         }
         set
         {
-            textField = value;
+            rSAKeyValueField = value;
         }
     }
 }
@@ -3231,120 +3208,41 @@ public class KeyValueType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public class DSAKeyValueType
+public partial class RSAKeyValueType
 {
-    private string pField;
 
-    private string qField;
+    private string modulusField;
 
-    private string gField;
-
-    private string yField;
-
-    private string jField;
-
-    private string seedField;
-
-    private string pgenCounterField;
+    private string exponentField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string P
+    public string Modulus
     {
         get
         {
-            return pField;
+            return modulusField;
         }
         set
         {
-            pField = value;
+            modulusField = value;
         }
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Q
+    public string Exponent
     {
         get
         {
-            return qField;
+            return exponentField;
         }
         set
         {
-            qField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string G
-    {
-        get
-        {
-            return gField;
-        }
-        set
-        {
-            gField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Y
-    {
-        get
-        {
-            return yField;
-        }
-        set
-        {
-            yField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string J
-    {
-        get
-        {
-            return jField;
-        }
-        set
-        {
-            jField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Seed
-    {
-        get
-        {
-            return seedField;
-        }
-        set
-        {
-            seedField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string PgenCounter
-    {
-        get
-        {
-            return pgenCounterField;
-        }
-        set
-        {
-            pgenCounterField = value;
+            exponentField = value;
         }
     }
 }
+
+
 
 /// <remarks/>
 [Serializable()]
@@ -3389,44 +3287,49 @@ public class RetrievalMethodType
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-public class SignatureObject
+[XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+public class ObjectType
 {
-    private string[] any_elementField;
+    private QualifyingProperties qualifyingPropertiesField;
 
-    private string[] textField;
+    /// <remarks/>
+    [XmlElement(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+    public QualifyingProperties QualifyingProperties
+    {
+        get
+        {
+            return qualifyingPropertiesField;
+        }
+        set
+        {
+            qualifyingPropertiesField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public partial class QualifyingProperties
+{
+
+    private SignedPropertiesType signedPropertiesField;
 
     private string idField;
 
-    private string mimeTypeField;
-
-    private string encodingField;
+    private string targetField;
 
     /// <remarks/>
-    [XmlElement("any_element", Namespace = "urn:ticketbai:emision")]
-    public string[] any_element
+    public SignedPropertiesType SignedProperties
     {
         get
         {
-            return any_elementField;
+            return signedPropertiesField;
         }
         set
         {
-            any_elementField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlText()]
-    public string[] Text
-    {
-        get
-        {
-            return textField;
-        }
-        set
-        {
-            textField = value;
+            signedPropertiesField = value;
         }
     }
 
@@ -3446,6 +3349,543 @@ public class SignatureObject
 
     /// <remarks/>
     [XmlAttribute()]
+    public string Target
+    {
+        get
+        {
+            return targetField;
+        }
+        set
+        {
+            targetField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public partial class SignedPropertiesType
+{
+
+    private SignedSignaturePropertiesType signedSignaturePropertiesField;
+
+    private SignedDataObjectPropertiesType signedDataObjectPropertiesField;
+
+    private string idField;
+
+    /// <remarks/>
+    public SignedSignaturePropertiesType SignedSignatureProperties
+    {
+        get
+        {
+            return signedSignaturePropertiesField;
+        }
+        set
+        {
+            signedSignaturePropertiesField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SignedDataObjectPropertiesType SignedDataObjectProperties
+    {
+        get
+        {
+            return signedDataObjectPropertiesField;
+        }
+        set
+        {
+            signedDataObjectPropertiesField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Id
+    {
+        get
+        {
+            return idField;
+        }
+        set
+        {
+            idField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SignedSignaturePropertiesType
+{
+    private string signingTimeField;
+
+    private SigningCertificateType signingCertificateField;
+
+    private SignaturePolicyIdentifierType signaturePolicyIdentifierField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string SigningTime
+    {
+        get
+        {
+            return signingTimeField;
+        }
+        set
+        {
+            signingTimeField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SigningCertificateType SigningCertificate
+    {
+        get
+        {
+            return signingCertificateField;
+        }
+        set
+        {
+            signingCertificateField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SignaturePolicyIdentifierType SignaturePolicyIdentifier
+    {
+        get
+        {
+            return signaturePolicyIdentifierField;
+        }
+        set
+        {
+            signaturePolicyIdentifierField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SignaturePolicyIdentifierType
+{
+
+    private SignaturePolicyIdType signaturePolicyIdField;
+
+    /// <remarks/>
+    public SignaturePolicyIdType SignaturePolicyId
+    {
+        get
+        {
+            return signaturePolicyIdField;
+        }
+        set
+        {
+            signaturePolicyIdField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SignaturePolicyIdType
+{
+
+    private SigPolicyIdType sigPolicyIdField;
+
+    private SigPolicyHashType sigPolicyHashField;
+
+    private SigPolicyQualifiersType sigPolicyQualifiersField;
+
+    /// <remarks/>
+    public SigPolicyIdType SigPolicyId
+    {
+        get
+        {
+            return sigPolicyIdField;
+        }
+        set
+        {
+            sigPolicyIdField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SigPolicyHashType SigPolicyHash
+    {
+        get
+        {
+            return sigPolicyHashField;
+        }
+        set
+        {
+            sigPolicyHashField = value;
+        }
+    }
+
+    /// <remarks/>
+    public SigPolicyQualifiersType SigPolicyQualifiers
+    {
+        get
+        {
+            return sigPolicyQualifiersField;
+        }
+        set
+        {
+            sigPolicyQualifiersField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SigPolicyQualifiersType
+{
+
+    private SigPolicyQualifierType sigPolicyQualifierField;
+
+    /// <remarks/>
+    public SigPolicyQualifierType SigPolicyQualifier
+    {
+        get
+        {
+            return sigPolicyQualifierField;
+        }
+        set
+        {
+            sigPolicyQualifierField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SigPolicyQualifierType
+{
+
+    private string sPURIField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string SPURI
+    {
+        get
+        {
+            return sPURIField;
+        }
+        set
+        {
+            sPURIField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SigPolicyHashType
+{
+
+    private DigestMethodType digestMethodField;
+
+    private string digestValueField;
+
+    /// <remarks/>
+    [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+    public DigestMethodType DigestMethod
+    {
+        get
+        {
+            return digestMethodField;
+        }
+        set
+        {
+            digestMethodField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+    public string DigestValue
+    {
+        get
+        {
+            return digestValueField;
+        }
+        set
+        {
+            digestValueField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SigPolicyIdType
+{
+
+    private string identifierField;
+
+    private string descriptionField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string Identifier
+    {
+        get
+        {
+            return identifierField;
+        }
+        set
+        {
+            identifierField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string Description
+    {
+        get
+        {
+            return descriptionField;
+        }
+        set
+        {
+            descriptionField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SigningCertificateType
+{
+
+    private CertType certField;
+
+    /// <remarks/>
+    public CertType Cert
+    {
+        get
+        {
+            return certField;
+        }
+        set
+        {
+            certField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class CertType
+{
+
+    private CertDigestType certDigestField;
+
+    private IssuerSerialType issuerSerialField;
+
+    /// <remarks/>
+    public CertDigestType CertDigest
+    {
+        get
+        {
+            return certDigestField;
+        }
+        set
+        {
+            certDigestField = value;
+        }
+    }
+
+    /// <remarks/>
+    public IssuerSerialType IssuerSerial
+    {
+        get
+        {
+            return issuerSerialField;
+        }
+        set
+        {
+            issuerSerialField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class IssuerSerialType
+{
+
+    private string x509IssuerNameField;
+
+    private string x509SerialNumberField;
+
+    /// <remarks/>
+    [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+    public string X509IssuerName
+    {
+        get
+        {
+            return x509IssuerNameField;
+        }
+        set
+        {
+            x509IssuerNameField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#", DataType = "integer")]
+    public string X509SerialNumber
+    {
+        get
+        {
+            return x509SerialNumberField;
+        }
+        set
+        {
+            x509SerialNumberField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class CertDigestType
+{
+
+    private DigestMethodType digestMethodField;
+
+    private string digestValueField;
+
+    /// <remarks/>
+    [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+    public DigestMethodType DigestMethod
+    {
+        get
+        {
+            return digestMethodField;
+        }
+        set
+        {
+            digestMethodField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+    public string DigestValue
+    {
+        get
+        {
+            return digestValueField;
+        }
+        set
+        {
+            digestValueField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class SignedDataObjectPropertiesType
+{
+
+    private DataObjectFormatType dataObjectFormatField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public DataObjectFormatType DataObjectFormat
+    {
+        get
+        {
+            return dataObjectFormatField;
+        }
+        set
+        {
+            dataObjectFormatField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class DataObjectFormatType
+{
+
+    private string descriptionField;
+
+    private ObjectIdentifierType objectIdentifierField;
+
+    private string mimeTypeField;
+
+    private string encodingField;
+
+    private string objectReferenceField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string Description
+    {
+        get
+        {
+            return descriptionField;
+        }
+        set
+        {
+            descriptionField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public ObjectIdentifierType ObjectIdentifier
+    {
+        get
+        {
+            return objectIdentifierField;
+        }
+        set
+        {
+            objectIdentifierField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string MimeType
     {
         get
@@ -3459,7 +3899,7 @@ public class SignatureObject
     }
 
     /// <remarks/>
-    [XmlAttribute()]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string Encoding
     {
         get
@@ -3469,6 +3909,100 @@ public class SignatureObject
         set
         {
             encodingField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string ObjectReference
+    {
+        get
+        {
+            return objectReferenceField;
+        }
+        set
+        {
+            objectReferenceField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class ObjectIdentifierType
+{
+
+    private IdentifierType identifierField;
+
+    private string descriptionField;
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public IdentifierType Identifier
+    {
+        get
+        {
+            return identifierField;
+        }
+        set
+        {
+            identifierField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string Description
+    {
+        get
+        {
+            return descriptionField;
+        }
+        set
+        {
+            descriptionField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[Serializable()]
+[System.ComponentModel.DesignerCategory("code")]
+[XmlType(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
+public class IdentifierType
+{
+
+    private string qualifierField;
+
+    private string valueField;
+
+    /// <remarks/>
+    [XmlAttribute()]
+    public string Qualifier
+    {
+        get
+        {
+            return qualifierField;
+        }
+        set
+        {
+            qualifierField = value;
+        }
+    }
+
+    /// <remarks/>
+    [XmlText()]
+    public string Value
+    {
+        get
+        {
+            return valueField;
+        }
+        set
+        {
+            valueField = value;
         }
     }
 }

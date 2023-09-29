@@ -1,6 +1,4 @@
-﻿using FuncSharp;
-
-namespace Mews.Fiscalizations.Bizkaia.Model;
+﻿namespace Mews.Fiscalizations.Bizkaia.Model;
 
 /// <summary>
 /// Either the revenue is broken down into service and delivery or it is just 1 tax summary altogether.

@@ -16,4 +16,26 @@
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Mews.Fiscalizations.Bizkaia\Mews.Fiscalizations.Bizkaia.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Xsd\batuz_Enumerados.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Xsd\batuz_TiposBasicos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Xsd\batuz_TiposComplejos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Xsd\LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaRespuesta_V1_0_1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Xsd\ticketBaiV1-2-1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
 </Project>

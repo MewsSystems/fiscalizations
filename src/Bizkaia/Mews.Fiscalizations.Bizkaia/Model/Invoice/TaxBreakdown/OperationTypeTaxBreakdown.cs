@@ -1,7 +1,4 @@
-﻿using FuncSharp;
-using Mews.Fiscalizations.Core.Model;
-
-namespace Mews.Fiscalizations.Bizkaia.Model;
+﻿namespace Mews.Fiscalizations.Bizkaia.Model;
 
 public sealed class OperationTypeTaxBreakdown
 {
