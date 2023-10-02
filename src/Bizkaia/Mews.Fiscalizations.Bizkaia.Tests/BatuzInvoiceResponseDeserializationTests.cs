@@ -12,6 +12,7 @@ public class BatuzInvoiceResponseDeserializationTests
     private const string CorrectResponseFilename = @"..\..\..\Documents\LROE_240_FacturasEmitidasConSG_Correcta.xml";
     private const string PartiallyCorrectResponseFilename = @"..\..\..\Documents\LROE_240_FacturasEmitidasConSG_Parc_Correcta.xml";
     private const string IncorrectResponseFilename = @"..\..\..\Documents\LROE_240_FacturasEmitidasConSG_Incorrecta.xml";
+    private const string TicketBaiFilename = @"..\..\..\Documents\ticketBai.xml";
     private const string OkStatus = "Correcto";
     private const string FailedStatus = "Incorrecto";
     private const int NumberOfRecords = 2;
@@ -55,5 +56,18 @@ public class BatuzInvoiceResponseDeserializationTests
         Assert.IsNotNull(response);
         Assert.True(response.Registros.Length == NumberOfRecords);
         Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(FailedStatus)));
+    }
+
+    [Test]
+    public void WrongFileFormat_Deserialization_Fails()
+    {
+        try
+        {
+            LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
+                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename);
+        } catch (Exception e)
+        {
+            Assert.IsInstanceOf(typeof(InvalidOperationException), e);
+        }
     }
 }
