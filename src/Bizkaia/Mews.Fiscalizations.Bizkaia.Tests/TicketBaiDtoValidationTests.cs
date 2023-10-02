@@ -5,7 +5,7 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
     [TestFixture]
     public class TicketBaiDtoValidationTests
     {
-        private const string TicketBaiInvoiceFilename = @"C:\Users\InakiEsteve\Documents\Batuz\Ejemplos\ticketBAI_decoded_ok.xml"; //"ticketBai.xml";
+        private const string TicketBaiInvoiceFilename = "ticketBai.xml";
         private const string TicketBaiXsdFilename = @"..\..\..\Xsd\ticketBaiV1-2-1.xsd";
 
         [Test]
@@ -33,7 +33,7 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
             Assert.True(serializationSucceeds);
 
             bool xsdValidationSucceeds = XmlSchemaHelper.XmlSchemaValidationSucceeds(xmlFilenameToValidate: TicketBaiInvoiceFilename, 
-                validatingXsd: TicketBaiXsdFilename);
+                validatingXsd: TicketBaiXsdFilename, additionalNamespaces: new string[] { @"http://www.w3.org/2000/09/xmldsig#" });
             Assert.True(xsdValidationSucceeds);
 
         }

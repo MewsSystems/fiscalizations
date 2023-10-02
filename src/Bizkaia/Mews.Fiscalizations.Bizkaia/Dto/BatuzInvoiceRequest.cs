@@ -211,7 +211,7 @@ public class ObligadoTributarioType
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
+[XmlType(TypeName = "FacturaEmitida", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
     "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
 public class FacturaEmitidaType
 {
