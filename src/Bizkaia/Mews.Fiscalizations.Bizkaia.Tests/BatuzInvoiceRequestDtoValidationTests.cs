@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Mews.Fiscalizations.Bizkaia.Tests
 {
     [TestFixture]
-    internal class BatuzInvoiceRequestDtoValidationTests
+    public class BatuzInvoiceRequestDtoValidationTests
     {
         private const string BatuzRequestFilename = "batuzRequest.xml";
         private const string BatuzXsdFilename = @"..\..\..\Xsd\LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd";

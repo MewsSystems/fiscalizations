@@ -20,5 +20,11 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
             document.LoadXml(xmlElement.OuterXml);
             document.Save(filename);
         }
+
+        public static T Deserialize<T>(string filename) where T: class
+        {
+            string content = File.ReadAllText(filename);
+            return XmlSerializer.Deserialize<T>(content);
+        }
     }
 }
