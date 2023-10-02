@@ -8,17 +8,12 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
 {
     public static class XmlSerializationHelper<T>
     {
-        public static void SerializeToFile<T>(T t, string filename, IEnumerable<string> namespaces) where T : class
+        public static XmlElement Serialize<T>(T t, IEnumerable<string> namespaces) where T : class
         {
-            
-            var xmlElement = XmlSerializer.Serialize(t, new XmlSerializationParameters(
+            return XmlSerializer.Serialize(t, new XmlSerializationParameters(
             encoding: Encoding.UTF8,
             namespaces: namespaces.Select(ns => new XmlNamespace(ns))
             ));
-
-            var document = new XmlDocument();
-            document.LoadXml(xmlElement.OuterXml);
-            document.Save(filename);
         }
 
         public static T Deserialize<T>(string filename) where T: class

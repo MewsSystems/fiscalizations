@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Mews.Fiscalizations.Bizkaia.Tests
 {
     [TestFixture]
     public class BatuzInvoiceRequestDtoValidationTests
     {
-        private const string BatuzRequestFilename = "batuzRequest.xml";
         private const string BatuzXsdFilename = @"..\..\..\Xsd\LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd";
         private const string BatuzTiposComplejosFilename = @"..\..\..\Xsd\batuz_TiposComplejos.xsd";
         private const string BatuzEnumeradosFilename = @"..\..\..\Xsd\batuz_Enumerados.xsd";
@@ -23,10 +23,11 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
             var batuzInvoiceRequest = BatuzInvoiceRequestHelper.CreateSampleBatuzRequest();
 
             //act check that xml serialization of the ticketBai succeeds without errors
-            bool serializationSucceeds = XmlSerializationSucceeds(batuzInvoiceRequest, BatuzRequestFilename);
+            bool serializationSucceeds = XmlSerializationSucceeds(batuzInvoiceRequest, out XmlElement xmlElement);
 
             //assert that xml serialization was possible
             Assert.True(serializationSucceeds);
+            Assert.NotNull(xmlElement);
         }
 
         [Test]
@@ -43,26 +44,26 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
             };
 
             //act check that xml serialization of the ticketBai succeeds without errors
-            bool serializationSucceeds = XmlSerializationSucceeds(batuzInvoiceRequest, BatuzRequestFilename);
+            bool serializationSucceeds = XmlSerializationSucceeds(batuzInvoiceRequest, out XmlElement xmlElement);
             //assert that xml serialization was possible
             Assert.True(serializationSucceeds);
 
-            bool xsdValidationSucceeds = XmlSchemaHelper.XmlSchemaValidationSucceeds(xmlFilenameToValidate: BatuzRequestFilename,
+            bool xsdValidationSucceeds = XmlSchemaHelper.XmlSchemaValidationSucceeds(element: xmlElement,
                 validatingXsdFilename: BatuzXsdFilename, schemas);
             Assert.True(xsdValidationSucceeds);
 
         }
 
-        private bool XmlSerializationSucceeds(LROEPJ240FacturasEmitidasConSGAltaPeticion batuzInvoiceRequest, string batuzRequestFilename)
+        private bool XmlSerializationSucceeds(LROEPJ240FacturasEmitidasConSGAltaPeticion batuzInvoiceRequest, out XmlElement? xmlElement)
         {
             try
             {
-                XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaPeticion>.SerializeToFile(batuzInvoiceRequest, batuzRequestFilename, Array.Empty<string>());
+                xmlElement = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaPeticion>.Serialize(batuzInvoiceRequest, Array.Empty<string>());
                 return true;
             }
-            catch (Exception e)
+            catch 
             {
-                Console.WriteLine(e.Message);
+                xmlElement = null;
                 return false;
             }
         }

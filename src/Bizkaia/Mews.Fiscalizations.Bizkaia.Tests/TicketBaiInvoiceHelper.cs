@@ -103,9 +103,9 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
             };
         }
 
-        private static HuellaTBAI CreateFingerprint()
+        private static HuellaTBAINEW CreateFingerprint()
         {
-            return new HuellaTBAI
+            return new HuellaTBAINEW
             {
                 EncadenamientoFacturaAnterior = new EncadenamientoFacturaAnteriorType
                 {

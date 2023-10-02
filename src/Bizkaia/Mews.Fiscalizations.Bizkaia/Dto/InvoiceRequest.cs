@@ -17,12 +17,12 @@ public class TicketBai
 
     private Factura facturaField;
 
-    private HuellaTBAI huellaTBAIField;
+    private HuellaTBAINEW huellaTBAIField;
 
     private Signature signatureField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Namespace = "")]
     public Cabecera1 Cabecera
     {
         get
@@ -36,7 +36,7 @@ public class TicketBai
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Namespace = "")]
     public Sujetos Sujetos
     {
         get
@@ -50,7 +50,7 @@ public class TicketBai
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Namespace = "")]
     public Factura Factura
     {
         get
@@ -64,8 +64,8 @@ public class TicketBai
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public HuellaTBAI HuellaTBAI
+    [XmlElement(Namespace = "")]
+    public HuellaTBAINEW HuellaTBAI
     {
         get
         {
@@ -1230,6 +1230,7 @@ public class Factura
     private TipoDesgloseType tipoDesgloseField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public CabeceraFacturaType1 CabeceraFactura
     {
         get
@@ -1243,6 +1244,7 @@ public class Factura
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public DatosFacturaType DatosFactura
     {
         get
@@ -1256,6 +1258,7 @@ public class Factura
     }
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public TipoDesgloseType TipoDesglose
     {
         get
@@ -1858,6 +1861,7 @@ public class IDClaveType
     private IdOperacionesTrascendenciaTributariaType claveRegimenIvaOpTrascendenciaField;
 
     /// <remarks/>
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public IdOperacionesTrascendenciaTributariaType ClaveRegimenIvaOpTrascendencia
     {
         get
@@ -2356,7 +2360,7 @@ public enum CausaNoSujetaType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "HuellaTBAI", Namespace = "urn:ticketbai:emision")]
-public class HuellaTBAI
+public class HuellaTBAINEW
 {
 
     private EncadenamientoFacturaAnteriorType encadenamientoFacturaAnteriorField;
@@ -2581,6 +2585,7 @@ public class EntidadDesarrolladoraType
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "Signature", Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+[XmlRoot(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
 public class Signature
 {
     private SignedInfoType signedInfoField;
@@ -2594,7 +2599,6 @@ public class Signature
     private string idField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SignedInfoType SignedInfo
     {
         get
@@ -2608,7 +2612,6 @@ public class Signature
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SignatureValueType SignatureValue
     {
         get
@@ -2622,7 +2625,6 @@ public class Signature
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public KeyInfoType KeyInfo
     {
         get
@@ -2636,7 +2638,6 @@ public class Signature
     }
 
     /// <remarks/>
-    [XmlElement("Object", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public ObjectType[] Object
     {
         get
@@ -2668,6 +2669,7 @@ public class Signature
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
+[XmlRoot("SignedInfo", Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
 public class SignedInfoType
 {
     private CanonicalizationMethodType canonicalizationMethodField;
@@ -2679,7 +2681,6 @@ public class SignedInfoType
     private string idField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public CanonicalizationMethodType CanonicalizationMethod
     {
         get
@@ -2693,7 +2694,6 @@ public class SignedInfoType
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SignatureMethodType SignatureMethod
     {
         get
@@ -2707,7 +2707,7 @@ public class SignedInfoType
     }
 
     /// <remarks/>
-    [XmlElement("Reference", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement("Reference")]
     public ReferenceType[] Reference
     {
         get
@@ -2789,7 +2789,6 @@ public class SignatureMethodType
     private string algorithmField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public int HMACOutputLength
     {
         get
@@ -3113,7 +3112,6 @@ public class KeyInfoType
     private string idField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public X509DataType X509Data
     {
         get
@@ -3127,7 +3125,6 @@ public class KeyInfoType
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public KeyValueType KeyValue
     {
         get
@@ -3189,7 +3186,6 @@ public partial class KeyValueType
     private RSAKeyValueType rSAKeyValueField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public RSAKeyValueType RSAKeyValue
     {
         get
