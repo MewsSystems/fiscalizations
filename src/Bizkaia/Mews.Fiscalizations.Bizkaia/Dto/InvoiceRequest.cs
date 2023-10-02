@@ -95,8 +95,7 @@ public class TicketBai
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(Namespace = "urn:ticketbai:emision", TypeName = "Cabecera")]
-[XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
+[XmlType(TypeName = "Cabecera", Namespace = "urn:ticketbai:emision")]
 public class Cabecera1
 {
 

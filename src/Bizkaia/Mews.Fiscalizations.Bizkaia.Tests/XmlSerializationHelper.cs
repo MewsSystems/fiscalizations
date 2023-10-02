@@ -6,15 +6,14 @@ using XmlSerializer = Mews.Fiscalizations.Core.Xml.XmlSerializer;
 
 namespace Mews.Fiscalizations.Bizkaia.Tests
 {
-    public static class XmlSerializationHelper
+    public static class XmlSerializationHelper<T>
     {
-        public static void SerializeToFile(TicketBai ticketBai, string filename)
+        public static void SerializeToFile<T>(T t, string filename, IEnumerable<string> namespaces) where T : class
         {
-            var xmlElement = XmlSerializer.Serialize(ticketBai, new XmlSerializationParameters(
+            
+            var xmlElement = XmlSerializer.Serialize(t, new XmlSerializationParameters(
             encoding: Encoding.UTF8,
-            namespaces: NonEmptyEnumerable.Create(
-                new XmlNamespace("http://www.w3.org/2000/09/xmldsig#")
-                )
+            namespaces: namespaces.Select(ns => new XmlNamespace(ns))
             ));
 
             var document = new XmlDocument();

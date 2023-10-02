@@ -1,9 +1,11 @@
-﻿namespace Mews.Fiscalizations.Bizkaia.Tests
+﻿using FuncSharp;
+
+namespace Mews.Fiscalizations.Bizkaia.Tests
 {
     [TestFixture]
     public class TicketBaiDtoValidationTests
     {
-        private const string TicketBaiInvoiceFilename = "ticketBai.xml";
+        private const string TicketBaiInvoiceFilename = @"C:\Users\InakiEsteve\Documents\Batuz\Ejemplos\ticketBAI_decoded_ok.xml"; //"ticketBai.xml";
         private const string TicketBaiXsdFilename = @"..\..\..\Xsd\ticketBaiV1-2-1.xsd";
 
         [Test]
@@ -27,11 +29,11 @@
 
             //act check that xml serialization of the ticketBai succeeds without errors
             bool serializationSucceeds = XmlSerializationSucceeds(ticketBai, TicketBaiInvoiceFilename);
-            bool xsdValidationSucceeds = XmlSchemaHelper.XmlSchemaValidationSucceeds(xmlFilenameToValidate: TicketBaiInvoiceFilename, 
-                validatingXsd: TicketBaiXsdFilename);
-
             //assert that xml serialization was possible
             Assert.True(serializationSucceeds);
+
+            bool xsdValidationSucceeds = XmlSchemaHelper.XmlSchemaValidationSucceeds(xmlFilenameToValidate: TicketBaiInvoiceFilename, 
+                validatingXsd: TicketBaiXsdFilename);
             Assert.True(xsdValidationSucceeds);
 
         }
@@ -40,7 +42,7 @@
         {
             try
             {
-                XmlSerializationHelper.SerializeToFile(ticketBai, TicketBaiInvoiceFilename);
+                XmlSerializationHelper<TicketBai>.SerializeToFile(ticketBai, TicketBaiInvoiceFilename, ReadOnlyList.Create("http://www.w3.org/2000/09/xmldsig#"));
                 return true;
             } catch (Exception e)
             {
