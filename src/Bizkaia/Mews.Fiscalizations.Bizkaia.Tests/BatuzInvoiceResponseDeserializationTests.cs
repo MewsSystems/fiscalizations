@@ -21,7 +21,7 @@ public class BatuzInvoiceResponseDeserializationTests
     public void CorrectResponse_Deserialization_Succeeds()
     {
         LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(CorrectResponseFilename);
+            Deserialize(CorrectResponseFilename);
 
         Assert.IsNotNull(response);
         Assert.True(response.Registros.Length == NumberOfRecords);
@@ -33,7 +33,7 @@ public class BatuzInvoiceResponseDeserializationTests
     public void PartiallyCorrectResponse_Deserialization_Succeeds()
     {
         LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(PartiallyCorrectResponseFilename);
+            Deserialize(PartiallyCorrectResponseFilename);
 
         Assert.IsNotNull(response);
         Assert.True(response.Registros.Length == NumberOfRecords);
@@ -51,7 +51,7 @@ public class BatuzInvoiceResponseDeserializationTests
     public void IncorrectResponse_Deserialization_Succeeds()
     {
         LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(IncorrectResponseFilename);
+            Deserialize(IncorrectResponseFilename);
 
         Assert.IsNotNull(response);
         Assert.True(response.Registros.Length == NumberOfRecords);
@@ -64,7 +64,7 @@ public class BatuzInvoiceResponseDeserializationTests
         Assert.Throws<InvalidOperationException>(() => 
         {
             XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename); 
+                Deserialize(TicketBaiFilename); 
         });
     }
 
