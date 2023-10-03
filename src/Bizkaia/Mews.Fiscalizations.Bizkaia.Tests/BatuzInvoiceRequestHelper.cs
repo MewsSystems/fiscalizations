@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mews.Fiscalizations.Bizkaia.Tests
+﻿namespace Mews.Fiscalizations.Bizkaia.Tests
 {
     internal static class BatuzInvoiceRequestHelper
     {
