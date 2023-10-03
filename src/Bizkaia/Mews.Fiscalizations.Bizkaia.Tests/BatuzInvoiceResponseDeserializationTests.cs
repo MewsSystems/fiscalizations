@@ -61,12 +61,11 @@ public class BatuzInvoiceResponseDeserializationTests
     [Test]
     public void WrongFileFormat_Deserialization_Fails()
     {
-        Assert.Throws<InvalidOperationException>(InvalidFileformatDeserialization);
+        Assert.Throws<InvalidOperationException>(() => 
+        {
+            XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
+                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename); 
+        });
     }
 
-    private void InvalidFileformatDeserialization()
-    {
-        XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename);
-    }
 }
