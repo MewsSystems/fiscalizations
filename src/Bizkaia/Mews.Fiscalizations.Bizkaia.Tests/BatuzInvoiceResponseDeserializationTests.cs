@@ -9,10 +9,10 @@ namespace Mews.Fiscalizations.Bizkaia.Tests;
 [TestFixture]
 public class BatuzInvoiceResponseDeserializationTests
 {
-    private const string CorrectResponseFilename = @"..\..\..\Documents\LROE_240_FacturasEmitidasConSG_Correcta.xml";
-    private const string PartiallyCorrectResponseFilename = @"..\..\..\Documents\LROE_240_FacturasEmitidasConSG_Parc_Correcta.xml";
-    private const string IncorrectResponseFilename = @"..\..\..\Documents\LROE_240_FacturasEmitidasConSG_Incorrecta.xml";
-    private const string TicketBaiFilename = @"..\..\..\Documents\ticketBai.xml";
+    private const string CorrectResponseFilename = @"./Documents/LROE_240_FacturasEmitidasConSG_Correcta.xml";
+    private const string PartiallyCorrectResponseFilename = @"./Documents/LROE_240_FacturasEmitidasConSG_Parc_Correcta.xml";
+    private const string IncorrectResponseFilename = @"./Documents/LROE_240_FacturasEmitidasConSG_Incorrecta.xml";
+    private const string TicketBaiFilename = @"./Documents/ticketBai.xml";
     private const string OkStatus = "Correcto";
     private const string FailedStatus = "Incorrecto";
     private const int NumberOfRecords = 2;
