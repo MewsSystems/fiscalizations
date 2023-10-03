@@ -6,8 +6,8 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
     [TestFixture]
     public class TicketBaiDtoValidationTests
     {
-        private const string TicketBaiXsdFilename = @"./Xsd\ticketBaiV1-2-1.xsd";
-        private const string SignatureXsdFilename = @"./Xsd\xmldsig-core-schema.xsd";
+        private const string TicketBaiXsdFilename = @"./Xsd/ticketBaiV1-2-1.xsd";
+        private const string SignatureXsdFilename = @"./Xsd/xmldsig-core-schema.xsd";
         private const string TicketBaiNamespace = "urn:ticketbai:emision";
         private const string SignatureNamespace = "http://www.w3.org/2000/09/xmldsig#";
 
