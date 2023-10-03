@@ -35,9 +35,8 @@ public static class XmlSchemaHelper
                 return true;
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            var msg = e.Message;
             return false;
         }
     }

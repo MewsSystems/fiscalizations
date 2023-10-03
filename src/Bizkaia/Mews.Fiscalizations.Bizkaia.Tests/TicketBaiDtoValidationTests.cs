@@ -55,7 +55,7 @@ namespace Mews.Fiscalizations.Bizkaia.Tests
             {
                 xmlElement = XmlSerializationHelper<TicketBai>.Serialize(ticketBai, ReadOnlyList.Create("http://www.w3.org/2000/09/xmldsig#"));
                 return true;
-            } catch (Exception e)
+            } catch 
             {
                 xmlElement = null;
                 return false;
