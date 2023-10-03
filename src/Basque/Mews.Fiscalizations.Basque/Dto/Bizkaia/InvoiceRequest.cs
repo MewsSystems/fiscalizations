@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Mews.Fiscalizations.Bizkaia.Dto;
+namespace Mews.Fiscalizations.Basque.Dto.Bizkaia;
 
 
 // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
