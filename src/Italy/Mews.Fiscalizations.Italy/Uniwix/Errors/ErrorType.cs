@@ -7,5 +7,8 @@ public enum ErrorType
     Validation,
     Unknown,
     InvoiceNotFound,
-    FileExistsInQueue
+    FileExistsInQueue,
+    InsufficientCredit,
+    InvoiceStatusNotFound,
+    FileNotAvailable
 }
