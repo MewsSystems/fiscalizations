@@ -51,6 +51,7 @@ public sealed class UniwixClientTests
     }
 
     [Test]
+    [Retry(3)]
     public async Task VerifyCredentialsSucceeds()
     {
         var client = GetUniwixClient();
@@ -59,6 +60,14 @@ public sealed class UniwixClientTests
             r => Assert.IsTrue(r),
             e => AssertFail(e)
         );
+    }
+
+    [Test]
+    public async Task GetInvoiceStateWithInvalidFileIdReturnsCorrectErrorType()
+    {
+        var client = GetUniwixClient();
+        var result = await client.GetInvoiceStateAsync("InvoiceThatDoesntExist");
+        Assert.AreEqual(result.Error.Get().Type, ErrorType.InvoiceNotFound);
     }
 
     private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)

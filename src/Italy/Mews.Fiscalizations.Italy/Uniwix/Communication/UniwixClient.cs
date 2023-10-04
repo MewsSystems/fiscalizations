@@ -108,13 +108,29 @@ public class UniwixClient
             }
 
             var errorResponse = JsonConvert.DeserializeObject<Response<string>>(json);
-            if (errorResponse.Code == -12)
-            {
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", ErrorType.FileExistsInQueue));
-            }
-
-            return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", ErrorType.Unknown));
+            return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", MapErrorType(errorResponse.Code)));
         });
+    }
+
+    private ErrorType MapErrorType(int errorCode)
+    {
+        return errorCode.Match(
+            -1, _ => ErrorType.Validation,
+            -2, _ => ErrorType.Validation,
+            -3, _ => ErrorType.Validation,
+            -4, _ => ErrorType.InsufficientCredit,
+            -5, _ => ErrorType.Connection,
+            -6, _ => ErrorType.InvoiceNotFound,
+            -7, _ => ErrorType.InvoiceStatusNotFound,
+            -8, _ => ErrorType.Validation,
+            -9, _ => ErrorType.Connection,
+            -10, _ => ErrorType.FileNotAvailable,
+            -11, _ => ErrorType.Validation,
+            -12, _ => ErrorType.FileExistsInQueue,
+            -13, _ => ErrorType.Unauthorized,
+            -15, _ => ErrorType.FileExistsInQueue,
+            _ => ErrorType.Unknown
+        );
     }
 
     private async Task<Try<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(
