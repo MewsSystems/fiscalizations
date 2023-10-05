@@ -5,14 +5,12 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;
 
 
 [TestFixture]
-public class BatuzInvoiceResponseDeserializationTests
+public class LROEResponseDeserializationTests
 {
     private const string CorrectResponseFilename = "./Documents/LROE_240_FacturasEmitidasConSG_Correcta.xml";
     private const string PartiallyCorrectResponseFilename = "./Documents/LROE_240_FacturasEmitidasConSG_Parc_Correcta.xml";
     private const string IncorrectResponseFilename = "./Documents/LROE_240_FacturasEmitidasConSG_Incorrecta.xml";
     private const string TicketBaiFilename = "./Documents/ticketBai.xml";
-    private const string OkStatus = "Correcto";
-    private const string FailedStatus = "Incorrecto";
     private const int NumberOfRecords = 2;
 
     [Test]

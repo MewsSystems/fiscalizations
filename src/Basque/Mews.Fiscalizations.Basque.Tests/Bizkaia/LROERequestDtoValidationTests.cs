@@ -4,7 +4,7 @@ using System.Text;
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 {
     [TestFixture]
-    public class BatuzInvoiceRequestDtoValidationTests
+    public class LROERequestDtoValidationTests
     {
         private const string BatuzXsdFilename = "./Xsd/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd";
         private const string BatuzTiposComplejosFilename = "./Xsd/batuz_TiposComplejos.xsd";
@@ -14,7 +14,7 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
         [Test]
         public void CreateTBatuzInvoiceDto_XmlSerialization_Succeeds()
         {
-            var batuzInvoiceRequest = BatuzInvoiceRequestHelper.CreateSampleBatuzRequest();
+            var batuzInvoiceRequest = LROERequestHelper.CreateSampleBatuzRequest();
 
             Assert.DoesNotThrow(() =>
             {
@@ -29,7 +29,7 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
         [Test]
         public void CreateTicketBaiInvoice_XsdValidation_Succeeds()
         {
-            var batuzInvoiceRequest = BatuzInvoiceRequestHelper.CreateSampleBatuzRequest();
+            var batuzInvoiceRequest = LROERequestHelper.CreateSampleBatuzRequest();
             var schemas = new Dictionary<string, string>
             {
                 {"https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd", BatuzXsdFilename },

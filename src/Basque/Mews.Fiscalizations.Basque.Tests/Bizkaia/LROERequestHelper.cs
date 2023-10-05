@@ -2,7 +2,7 @@
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 {
-    internal static class BatuzInvoiceRequestHelper
+    internal static class LROERequestHelper
     {
         internal static LROEPJ240FacturasEmitidasConSGAltaPeticion CreateSampleBatuzRequest()
         {
