@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Core.Xml;
+﻿using Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers;
+using Mews.Fiscalizations.Core.Xml;
 using System.Text;
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia

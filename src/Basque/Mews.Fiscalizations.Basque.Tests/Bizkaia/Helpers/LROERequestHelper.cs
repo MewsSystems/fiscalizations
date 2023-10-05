@@ -1,6 +1,6 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 
-namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
+namespace Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers
 {
     internal static class LROERequestHelper
     {

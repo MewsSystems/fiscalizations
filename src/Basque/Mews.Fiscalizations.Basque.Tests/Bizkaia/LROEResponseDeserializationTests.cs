@@ -1,4 +1,5 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
+using Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers;
 using Microsoft.VisualBasic;
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;

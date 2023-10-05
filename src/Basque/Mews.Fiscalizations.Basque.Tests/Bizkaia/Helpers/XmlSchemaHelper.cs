@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using System.Xml.Schema;
 
-namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;
+namespace Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers;
 
 public static class XmlSchemaHelper
 {
