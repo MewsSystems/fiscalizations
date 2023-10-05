@@ -55,23 +55,25 @@ public class LROEPJ240FacturasEmitidasConSGAltaPeticion
 public class Cabecera2
 {
 
-    private string modeloField;
+    private Modelo240Enum modeloField;
 
-    private string capituloField;
+    private CapituloModelo240Enum capituloField;
 
-    private string subcapituloField;
+    private SubcapituloModelo240Enum subcapituloField;
 
-    private string operacionField;
+    private bool subcapituloFieldSpecified;
 
-    private string versionField;
+    private OperacionEnum operacionField;
 
-    private string ejercicioField;
+    private IDVersionEnum versionField;
 
-    private ObligadoTributarioType obligadoTributarioField;
+    private int ejercicioField;
+
+    private NIFPersonaType obligadoTributarioField;
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Modelo
+    public Modelo240Enum Modelo
     {
         get
         {
@@ -85,7 +87,7 @@ public class Cabecera2
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Capitulo
+    public CapituloModelo240Enum Capitulo
     {
         get
         {
@@ -99,7 +101,7 @@ public class Cabecera2
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Subcapitulo
+    public SubcapituloModelo240Enum Subcapitulo
     {
         get
         {
@@ -112,8 +114,22 @@ public class Cabecera2
     }
 
     /// <remarks/>
+    [XmlIgnore()]
+    public bool SubcapituloSpecified
+    {
+        get
+        {
+            return subcapituloFieldSpecified;
+        }
+        set
+        {
+            subcapituloFieldSpecified = value;
+        }
+    }
+
+    /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Operacion
+    public OperacionEnum Operacion
     {
         get
         {
@@ -127,7 +143,7 @@ public class Cabecera2
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Version
+    public IDVersionEnum Version
     {
         get
         {
@@ -141,7 +157,7 @@ public class Cabecera2
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Ejercicio
+    public int Ejercicio
     {
         get
         {
@@ -155,7 +171,7 @@ public class Cabecera2
 
     /// <remarks/>
     [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public ObligadoTributarioType ObligadoTributario
+    public NIFPersonaType ObligadoTributario
     {
         get
         {
@@ -169,18 +185,146 @@ public class Cabecera2
 }
 
 /// <remarks/>
-[Serializable()]
-[System.ComponentModel.DesignerCategory("code")]
-[XmlType(TypeName = "ObligadoTributario", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
-    "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
-public class ObligadoTributarioType
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+public enum Modelo240Enum
 {
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("240")]
+    Item240,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+public enum CapituloModelo240Enum
+{
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("1")]
+    Item1,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("2")]
+    Item2,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("3")]
+    Item3,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("4")]
+    Item4,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("5")]
+    Item5,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("6")]
+    Item6,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+public enum SubcapituloModelo240Enum
+{
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("1.1")]
+    Item11,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("1.2")]
+    Item12,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("4.1")]
+    Item41,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("4.2")]
+    Item42,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("5.1")]
+    Item51,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("5.2")]
+    Item52,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("6.1")]
+    Item61,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("6.2")]
+    Item62,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("6.3")]
+    Item63,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+public enum OperacionEnum
+{
+
+    /// <remarks/>
+    A00,
+
+    /// <remarks/>
+    A01,
+
+    /// <remarks/>
+    M00,
+
+    /// <remarks/>
+    M01,
+
+    /// <remarks/>
+    AN0,
+
+    /// <remarks/>
+    C00,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+public enum IDVersionEnum
+{
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("1.0")]
+    Item10,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+public class NIFPersonaType
+{
+
     private string nIFField;
 
     private string apellidosNombreRazonSocialField;
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NIF
     {
         get
@@ -194,7 +338,7 @@ public class ObligadoTributarioType
     }
 
     /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string ApellidosNombreRazonSocial
     {
         get
@@ -252,225 +396,6 @@ public class FacturaEmitidaType
 /// <remarks/>
 [Serializable()]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(TypeName = "OtraInformacionTrascendenciaTributaria", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
-    "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
-public class OtraInformacionTrascendenciaTributariaType
-{
-
-    private string nIFRepresentanteDeclaradoField;
-
-    private DetalleInmuebleType[] inmueblesField;
-
-    private string importeTransmisionInmueblesSujetoAIVAField;
-
-    private string numRegistroAcuerdoFacturacionField;
-
-    private string referenciaExternaField;
-
-    private string cuponField;
-
-    private EntidadSucedidaType entidadSucedidaField;
-
-    private string facturacionDispAdicionalSegundaYQuintaField;
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string NIFRepresentanteDeclarado
-    {
-        get
-        {
-            return nIFRepresentanteDeclaradoField;
-        }
-        set
-        {
-            nIFRepresentanteDeclaradoField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    [XmlArrayItem(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
-    public DetalleInmuebleType[] Inmuebles
-    {
-        get
-        {
-            return inmueblesField;
-        }
-        set
-        {
-            inmueblesField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string ImporteTransmisionInmueblesSujetoAIVA
-    {
-        get
-        {
-            return importeTransmisionInmueblesSujetoAIVAField;
-        }
-        set
-        {
-            importeTransmisionInmueblesSujetoAIVAField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string NumRegistroAcuerdoFacturacion
-    {
-        get
-        {
-            return numRegistroAcuerdoFacturacionField;
-        }
-        set
-        {
-            numRegistroAcuerdoFacturacionField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string ReferenciaExterna
-    {
-        get
-        {
-            return referenciaExternaField;
-        }
-        set
-        {
-            referenciaExternaField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string Cupon
-    {
-        get
-        {
-            return cuponField;
-        }
-        set
-        {
-            cuponField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public EntidadSucedidaType EntidadSucedida
-    {
-        get
-        {
-            return entidadSucedidaField;
-        }
-        set
-        {
-            entidadSucedidaField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string FacturacionDispAdicionalSegundaYQuinta
-    {
-        get
-        {
-            return facturacionDispAdicionalSegundaYQuintaField;
-        }
-        set
-        {
-            facturacionDispAdicionalSegundaYQuintaField = value;
-        }
-    }
-}
-
-/// <remarks/>
-[Serializable()]
-[System.ComponentModel.DesignerCategory("code")]
-[XmlType(TypeName = "DetalleInmueble", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
-    "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
-public class DetalleInmuebleType
-{
-
-    private string situacionInmuebleField;
-
-    private string referenciaCatastralField;
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string SituacionInmueble
-    {
-        get
-        {
-            return situacionInmuebleField;
-        }
-        set
-        {
-            situacionInmuebleField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string ReferenciaCatastral
-    {
-        get
-        {
-            return referenciaCatastralField;
-        }
-        set
-        {
-            referenciaCatastralField = value;
-        }
-    }
-}
-
-/// <remarks/>
-[Serializable()]
-[System.ComponentModel.DesignerCategory("code")]
-[XmlType(TypeName = "EntidadSucedida", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd")]
-public class EntidadSucedidaType
-{
-
-    private string nombreRazonField;
-
-    private string nIFField;
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string NombreRazon
-    {
-        get
-        {
-            return nombreRazonField;
-        }
-        set
-        {
-            nombreRazonField = value;
-        }
-    }
-
-    /// <remarks/>
-    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public string NIF
-    {
-        get
-        {
-            return nIFField;
-        }
-        set
-        {
-            nIFField = value;
-        }
-    }
-}
-
-/// <remarks/>
-[Serializable()]
-[System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "FacturasEmitidas", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd")]
 public class FacturasEmitidasType
 {
@@ -488,6 +413,340 @@ public class FacturasEmitidasType
         set
         {
             facturaEmitidaField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+public partial class EntidadSucedidaType
+{
+
+    private string nombreRazonField;
+
+    private string nIFField;
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string NombreRazon
+    {
+        get
+        {
+            return nombreRazonField;
+        }
+        set
+        {
+            nombreRazonField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string NIF
+    {
+        get
+        {
+            return nIFField;
+        }
+        set
+        {
+            nIFField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+public partial class DetalleInmuebleType
+{
+
+    private SituacionInmuebleEnum situacionInmuebleField;
+
+    private string referenciaCatastralField;
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SituacionInmuebleEnum SituacionInmueble
+    {
+        get
+        {
+            return situacionInmuebleField;
+        }
+        set
+        {
+            situacionInmuebleField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ReferenciaCatastral
+    {
+        get
+        {
+            return referenciaCatastralField;
+        }
+        set
+        {
+            referenciaCatastralField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+public enum SituacionInmuebleEnum
+{
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("1")]
+    Item1,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("2")]
+    Item2,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("3")]
+    Item3,
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("4")]
+    Item4,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+public class OtraInformacionTrascendenciaTributariaType
+{
+    private string nIFRepresentanteDeclaradoField;
+
+    private DetalleInmuebleType[] inmueblesField;
+
+    private string importeTransmisionInmueblesSujetoAIVAField;
+
+    private string numRegistroAcuerdoFacturacionField;
+
+    private string referenciaExternaField;
+
+    private SiNoEnum cuponField;
+
+    private bool cuponFieldSpecified;
+
+    private EntidadSucedidaType entidadSucedidaField;
+
+    private SiNoEnum facturacionDispAdicionalSegundaYQuintaField;
+
+    private bool facturacionDispAdicionalSegundaYQuintaFieldSpecified;
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string NIFRepresentanteDeclarado
+    {
+        get
+        {
+            return nIFRepresentanteDeclaradoField;
+        }
+        set
+        {
+            nIFRepresentanteDeclaradoField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlArrayAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [System.Xml.Serialization.XmlArrayItemAttribute("DetalleInmueble", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    public DetalleInmuebleType[] Inmuebles
+    {
+        get
+        {
+            return inmueblesField;
+        }
+        set
+        {
+            inmueblesField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ImporteTransmisionInmueblesSujetoAIVA
+    {
+        get
+        {
+            return importeTransmisionInmueblesSujetoAIVAField;
+        }
+        set
+        {
+            importeTransmisionInmueblesSujetoAIVAField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string NumRegistroAcuerdoFacturacion
+    {
+        get
+        {
+            return numRegistroAcuerdoFacturacionField;
+        }
+        set
+        {
+            numRegistroAcuerdoFacturacionField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public string ReferenciaExterna
+    {
+        get
+        {
+            return referenciaExternaField;
+        }
+        set
+        {
+            referenciaExternaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SiNoEnum Cupon
+    {
+        get
+        {
+            return cuponField;
+        }
+        set
+        {
+            cuponField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIgnoreAttribute()]
+    public bool CuponSpecified
+    {
+        get
+        {
+            return cuponFieldSpecified;
+        }
+        set
+        {
+            cuponFieldSpecified = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public EntidadSucedidaType EntidadSucedida
+    {
+        get
+        {
+            return entidadSucedidaField;
+        }
+        set
+        {
+            entidadSucedidaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public SiNoEnum FacturacionDispAdicionalSegundaYQuinta
+    {
+        get
+        {
+            return facturacionDispAdicionalSegundaYQuintaField;
+        }
+        set
+        {
+            facturacionDispAdicionalSegundaYQuintaField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIgnoreAttribute()]
+    public bool FacturacionDispAdicionalSegundaYQuintaSpecified
+    {
+        get
+        {
+            return facturacionDispAdicionalSegundaYQuintaFieldSpecified;
+        }
+        set
+        {
+            facturacionDispAdicionalSegundaYQuintaFieldSpecified = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+public enum SiNoEnum
+{
+
+    /// <remarks/>
+    S,
+
+    /// <remarks/>
+    N,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+public class DetalleEmitidaConSGCodificadoType
+{
+
+    private byte[] ticketBaiField;
+
+    private OtraInformacionTrascendenciaTributariaType otraInformacionTrascendenciaTributariaField;
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "base64Binary")]
+    public byte[] TicketBai
+    {
+        get
+        {
+            return ticketBaiField;
+        }
+        set
+        {
+            ticketBaiField = value;
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public OtraInformacionTrascendenciaTributariaType OtraInformacionTrascendenciaTributaria
+    {
+        get
+        {
+            return otraInformacionTrascendenciaTributariaField;
+        }
+        set
+        {
+            otraInformacionTrascendenciaTributariaField = value;
         }
     }
 }
