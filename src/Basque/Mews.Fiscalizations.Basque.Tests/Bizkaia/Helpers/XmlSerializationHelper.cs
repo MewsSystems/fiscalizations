@@ -2,11 +2,11 @@
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers
 {
-    public static class XmlSerializationHelper
+    internal static class XmlSerializationHelper
     {
         public static T Deserialize<T>(string filename)
         {
-            string content = File.ReadAllText(filename);
+            var content = File.ReadAllText(filename);
             return XmlSerializer.Deserialize<T>(content);
         }
     }

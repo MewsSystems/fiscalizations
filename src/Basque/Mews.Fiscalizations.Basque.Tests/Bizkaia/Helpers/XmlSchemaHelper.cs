@@ -8,12 +8,14 @@ public static class XmlSchemaHelper
 {
     public static void RunXmlSchemaValidation(XmlElement element, string validatingXsdFilename, Dictionary<string, string> schemasDictionary)
     {
-        var settings = new XmlReaderSettings();
-        settings.DtdProcessing = DtdProcessing.Ignore;
-        settings.ValidationType = ValidationType.Schema;
-
-        using (StringReader reader = new StringReader(element.OuterXml))
-        using (XmlReader xmlReader = XmlReader.Create(reader, settings))
+        var settings = new XmlReaderSettings
+        {
+            DtdProcessing = DtdProcessing.Ignore,
+            ValidationType = ValidationType.Schema,
+        };
+        
+        using (var reader = new StringReader(element.OuterXml))
+        using (var xmlReader = XmlReader.Create(reader, settings))
         {
             var xDoc = XDocument.Load(xmlReader);
             var schemas = new XmlSchemaSet();

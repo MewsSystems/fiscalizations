@@ -17,11 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Bizkaia\Documents\" />
-    <Folder Include="Bizkaia\Xsd\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Bizkaia\Documents\LROE_240_FacturasEmitidasConSG_Correcta.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

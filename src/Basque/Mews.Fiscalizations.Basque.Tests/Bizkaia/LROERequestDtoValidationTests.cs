@@ -13,16 +13,13 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
         private const string BatuzTiposBasicosFilename = "./Bizkaia/Xsd/batuz_TiposBasicos.xsd";
 
         [Test]
-        public void CreateTBatuzInvoiceDto_XmlSerialization_Succeeds()
+        public void CreateBatuzInvoiceDto_XmlSerialization_Succeeds()
         {
             var batuzInvoiceRequest = LROERequestHelper.CreateSampleBatuzRequest();
 
             Assert.DoesNotThrow(() =>
             {
-                var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest, new XmlSerializationParameters(
-                    encoding: Encoding.UTF8,
-                    namespaces: Array.Empty<XmlNamespace>()));
-                Assert.NotNull(xmlElement);
+                var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest);
             });
 
         }
@@ -41,9 +38,7 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 
             Assert.DoesNotThrow(() =>
             {
-                var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest, new XmlSerializationParameters(
-                    encoding: Encoding.UTF8,
-                    namespaces: Array.Empty<XmlNamespace>()));
+                var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest);
                 XmlSchemaHelper.RunXmlSchemaValidation(element: xmlElement,
                 validatingXsdFilename: BatuzXsdFilename, schemas);
             });
