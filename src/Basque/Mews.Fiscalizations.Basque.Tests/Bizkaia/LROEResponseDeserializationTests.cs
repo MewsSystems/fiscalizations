@@ -1,7 +1,7 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Microsoft.VisualBasic;
 
-namespace Mews.Fiscalizations.Basque.Tests;
+namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;
 
 
 [TestFixture]
@@ -33,8 +33,8 @@ public class BatuzInvoiceResponseDeserializationTests
     [Test]
     public void PartiallyCorrectResponse_Deserialization_Succeeds()
     {
-        Assert.DoesNotThrow(() => 
-        { 
+        Assert.DoesNotThrow(() =>
+        {
             LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper.
             Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(PartiallyCorrectResponseFilename);
 
@@ -48,7 +48,7 @@ public class BatuzInvoiceResponseDeserializationTests
             //second registro is incorrect
             var secondRecord = response.Registros.Last();
             Assert.True(secondRecord.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto));
-        }); 
+        });
     }
 
     [Test]
@@ -68,10 +68,10 @@ public class BatuzInvoiceResponseDeserializationTests
     [Test]
     public void WrongFileFormat_Deserialization_Fails()
     {
-        Assert.Throws<InvalidOperationException>(() => 
+        Assert.Throws<InvalidOperationException>(() =>
         {
             XmlSerializationHelper.
-                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename); 
+                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename);
         });
     }
 

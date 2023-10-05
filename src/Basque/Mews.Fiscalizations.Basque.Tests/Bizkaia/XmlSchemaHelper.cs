@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using System.Xml.Schema;
 
-namespace Mews.Fiscalizations.Basque.Tests;
+namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;
 
 public static class XmlSchemaHelper
 {
@@ -11,7 +11,7 @@ public static class XmlSchemaHelper
         var settings = new XmlReaderSettings();
         settings.DtdProcessing = DtdProcessing.Ignore;
         settings.ValidationType = ValidationType.Schema;
-        
+
         using (StringReader reader = new StringReader(element.OuterXml))
         using (XmlReader xmlReader = XmlReader.Create(reader, settings))
         {
@@ -26,7 +26,7 @@ public static class XmlSchemaHelper
             xDoc.Validate(schemas, null);
 
         }
-        
+
     }
 
 }

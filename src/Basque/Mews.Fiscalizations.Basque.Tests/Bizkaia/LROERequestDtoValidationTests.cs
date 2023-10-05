@@ -1,7 +1,7 @@
 ﻿using Mews.Fiscalizations.Core.Xml;
 using System.Text;
 
-namespace Mews.Fiscalizations.Basque.Tests
+namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 {
     [TestFixture]
     public class BatuzInvoiceRequestDtoValidationTests
@@ -16,7 +16,7 @@ namespace Mews.Fiscalizations.Basque.Tests
         {
             var batuzInvoiceRequest = BatuzInvoiceRequestHelper.CreateSampleBatuzRequest();
 
-            Assert.DoesNotThrow(() => 
+            Assert.DoesNotThrow(() =>
             {
                 var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest, new XmlSerializationParameters(
                     encoding: Encoding.UTF8,
@@ -46,7 +46,7 @@ namespace Mews.Fiscalizations.Basque.Tests
                 XmlSchemaHelper.RunXmlSchemaValidation(element: xmlElement,
                 validatingXsdFilename: BatuzXsdFilename, schemas);
             });
-            
+
         }
 
     }

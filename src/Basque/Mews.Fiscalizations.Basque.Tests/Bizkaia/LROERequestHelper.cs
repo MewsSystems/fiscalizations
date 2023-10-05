@@ -1,6 +1,6 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 
-namespace Mews.Fiscalizations.Basque.Tests
+namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 {
     internal static class BatuzInvoiceRequestHelper
     {

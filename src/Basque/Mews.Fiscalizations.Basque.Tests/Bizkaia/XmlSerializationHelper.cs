@@ -1,6 +1,6 @@
 ﻿using Mews.Fiscalizations.Core.Xml;
 
-namespace Mews.Fiscalizations.Basque.Tests
+namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 {
     public static class XmlSerializationHelper
     {
