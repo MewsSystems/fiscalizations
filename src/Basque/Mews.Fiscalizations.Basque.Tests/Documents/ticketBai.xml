@@ -1,0 +1,155 @@
+<TicketBai xmlns="urn:ticketbai:emision">
+  <Cabecera xmlns="">
+    <IDVersionTBAI>1.2</IDVersionTBAI>
+  </Cabecera>
+  <Sujetos xmlns="">
+    <Emisor>
+      <NIF>B00000034</NIF>
+      <ApellidosNombreRazonSocial>HOTEL ADIBIDEZ</ApellidosNombreRazonSocial>
+    </Emisor>
+    <Destinatarios>
+      <IDDestinatario>
+        <NIF>B26248146</NIF>
+        <ApellidosNombreRazonSocial>EMPRESA LANTEGIA</ApellidosNombreRazonSocial>
+      </IDDestinatario>
+    </Destinatarios>
+  </Sujetos>
+  <Factura xmlns="">
+    <CabeceraFactura xmlns="urn:ticketbai:emision">
+      <SerieFactura xmlns="">B2022</SerieFactura>
+      <NumFactura xmlns="">0100</NumFactura>
+      <FechaExpedicionFactura xmlns="">30-01-2022</FechaExpedicionFactura>
+      <HoraExpedicionFactura xmlns="">18:00:17</HoraExpedicionFactura>
+    </CabeceraFactura>
+    <DatosFactura xmlns="urn:ticketbai:emision">
+      <DescripcionFactura xmlns="">Servicios Hotel</DescripcionFactura>
+      <ImporteTotalFactura xmlns="">2343.00</ImporteTotalFactura>
+      <Claves xmlns="">
+        <IDClave>
+          <ClaveRegimenIvaOpTrascendencia xmlns="urn:ticketbai:emision">01</ClaveRegimenIvaOpTrascendencia>
+        </IDClave>
+      </Claves>
+    </DatosFactura>
+    <TipoDesglose xmlns="urn:ticketbai:emision">
+      <DesgloseFactura xmlns="">
+        <Sujeta>
+          <NoExenta>
+            <DetalleNoExenta>
+              <TipoNoExenta>S1</TipoNoExenta>
+              <DesgloseIVA>
+                <DetalleIVA>
+                  <BaseImponible>300.00</BaseImponible>
+                  <TipoImpositivo>21.00</TipoImpositivo>
+                  <CuotaImpuesto>63.00</CuotaImpuesto>
+                </DetalleIVA>
+                <DetalleIVA>
+                  <BaseImponible>1800.00</BaseImponible>
+                  <TipoImpositivo>10.00</TipoImpositivo>
+                  <CuotaImpuesto>180.00</CuotaImpuesto>
+                </DetalleIVA>
+              </DesgloseIVA>
+            </DetalleNoExenta>
+          </NoExenta>
+        </Sujeta>
+      </DesgloseFactura>
+    </TipoDesglose>
+  </Factura>
+  <HuellaTBAI xmlns="">
+    <EncadenamientoFacturaAnterior>
+      <SerieFacturaAnterior>B2022</SerieFacturaAnterior>
+      <NumFacturaAnterior>0099</NumFacturaAnterior>
+      <FechaExpedicionFacturaAnterior>29-01-2022</FechaExpedicionFacturaAnterior>
+      <SignatureValueFirmaFacturaAnterior>BeMkKwXaFsxHQec65SKpVP7EU9o4nUXOx7SAftIToFsxH+2j2tXPXhpBUnS26dhdSpiMl2DlTuqRsFdZfWyYazaGHgSRQHZZAnFt</SignatureValueFirmaFacturaAnterior>
+    </EncadenamientoFacturaAnterior>
+    <Software>
+      <LicenciaTBAI>TBAIPRUEBA</LicenciaTBAI>
+      <EntidadDesarrolladora>
+        <NIF>A48119820</NIF>
+      </EntidadDesarrolladora>
+      <Nombre>DFBTBAI</Nombre>
+      <Version>1.04.00</Version>
+    </Software>
+    <NumSerieDispositivo>GP4FC5J</NumSerieDispositivo>
+  </HuellaTBAI>
+  <Signature Id="Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-Signature" xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo xmlns="">
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256">
+        <HMACOutputLength>0</HMACOutputLength>
+      </SignatureMethod>
+      <Reference Id="Reference-cf54e6a9-7bf2-4128-8cae-474a267a16a1" URI="" Type="http://www.w3.org/2000/09/xmldsig#Object">
+        <Transforms xmlns="http://www.w3.org/2000/09/xmldsig#">
+          <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+          <Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116">
+            <XPath>not(ancestor-or-self::ds:Signature)</XPath>
+          </Transform>
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" xmlns="http://www.w3.org/2000/09/xmldsig#" />
+        <DigestValue xmlns="http://www.w3.org/2000/09/xmldsig#">iU0b5R4S1WQlJgzMUW74XmUjDxuDmSUvGQUfVgDrNvkqoRTnW3tgbYJhYK0PHTeRiFBMEl1zd9vqwnK9O00r5A==</DigestValue>
+      </Reference>
+      <Reference URI="#Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-SignedProperties" Type="http://uri.etsi.org/01903#SignedProperties">
+        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" xmlns="http://www.w3.org/2000/09/xmldsig#" />
+        <DigestValue xmlns="http://www.w3.org/2000/09/xmldsig#">+tVpModLD/ECct8v0HCxYz+UuAP5QU1GfiPhQU85Sgnscnj3OuLzLg74C/8G9EtS9qzaBbyyr3eTx/zu5/Shrw==</DigestValue>
+      </Reference>
+      <Reference URI="#Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-KeyInfo">
+        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" xmlns="http://www.w3.org/2000/09/xmldsig#" />
+        <DigestValue xmlns="http://www.w3.org/2000/09/xmldsig#">9PwT2aXW6Wa81pwlZmQjvuJzy3a/HJ6gUuaJGJGB0ZQGpMsvYuJ5imlZgNtgldG9EvX0CJioRs9KIia3WyF6ig==</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue Id="Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-SignatureValue" xmlns="">DSI1XA1ErCoqaEln++216eTQpN0qF7HQb/I3QhF54V11LEGY3ucMVH33GceRE9LtYJI7AoI0YS3q0qPOn+eTlH6ZHVXXkcVZyi2gBZcuCKqRiRzSiuS0MazDgYqBdrDWhAIByP6AJ2vRhxhZceACeHFNzfmjeDpjX01cUox/RFT//C4cUOuTWADlkq/PqEN0dK/UQbZEOssk4diIlCeYU/exVYoRIpkE9OcFrlwOJv/UJ3ezBlL9pd/6G5rhNMtwqnPXLkbBq993uuVCU2SeKi79HuAa/gCvHlFwrjhwJV6VgcGhPylJ67xJk6dq+ukSW2s6kI4OgauH4SzYUaICAQ==</SignatureValue>
+    <KeyInfo Id="Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-KeyInfo" xmlns="">
+      <KeyValue>
+        <RSAKeyValue>
+          <Modulus xmlns="http://www.w3.org/2000/09/xmldsig#">uX1Cod1XbgABYf/Vyv8x5HoaJp5jn4qcAIvGaXbTL+MVkTAw1uWMCbrwPpAg8aUWvdOYrDk+sZ1P7Egw/LmDp+v0VhtUln9LfGhKpNJGHwr0E6IW9W1HnCTSmVrmdqKUc4Rj8ys7P0dMo22iCO0bBHJMs55A7BQrBI2urKjmF/ele7tqL2T3zMoRLwG9KAbmyDcKarUDnp5ghdyFQtFFzsE+LeYoxlrH0UHhtdkqzS35IKn3sAxNyB3QwESywEQZMRCubYVAfES1UhIrJLy7WrP/3VUt0IL3iSkYdILzLczGQ5kNzwpooSjZiJdabWO4vo9ekhC3YQuSUFIYQuo0iQ==</Modulus>
+          <Exponent xmlns="http://www.w3.org/2000/09/xmldsig#">AQAB</Exponent>
+        </RSAKeyValue>
+      </KeyValue>
+    </KeyInfo>
+    <Object xmlns="">
+      <QualifyingProperties Id="Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-QualifyingProperties" Target="#Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-Signature" xmlns="http://uri.etsi.org/01903/v1.3.2#">
+        <SignedProperties Id="Signature-a53a6ab2-f904-4f7c-be64-603333f651bf-SignedProperties">
+          <SignedSignatureProperties>
+            <SigningTime xmlns="">2020-10-02T14:54:50+02:00</SigningTime>
+            <SigningCertificate xmlns="">
+              <Cert xmlns="http://uri.etsi.org/01903/v1.3.2#">
+                <CertDigest>
+                  <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" xmlns="http://www.w3.org/2000/09/xmldsig#" />
+                  <DigestValue xmlns="http://www.w3.org/2000/09/xmldsig#">+iJollIf11D+A9/mAzOUM6SSJvFPOneoOn7NIKf+NqkpcE7VUMx4xiGjw0D8JNrfrexJwxmlMTWd3Eg/d3Bq2Q==</DigestValue>
+                </CertDigest>
+                <IssuerSerial>
+                  <X509IssuerName xmlns="http://www.w3.org/2000/09/xmldsig#">CN=CA AAPP Vascas (2) - DESARROLLO, OU=AZZ Ziurtagiri publikoa - Certificado publico SCA, O=IZENPE S.A., C=ES</X509IssuerName>
+                  <X509SerialNumber xmlns="http://www.w3.org/2000/09/xmldsig#">56643058864757982732206463601082748842</X509SerialNumber>
+                </IssuerSerial>
+              </Cert>
+            </SigningCertificate>
+            <SignaturePolicyIdentifier xmlns="">
+              <SignaturePolicyId xmlns="http://uri.etsi.org/01903/v1.3.2#">
+                <SigPolicyId>
+                  <Identifier xmlns="">https://www.batuz.eus/fitxategiak/batuz/ticketbai/sinadura_elektronikoaren_zehaztapenak_especificaciones_de_la_firma_electronica_v1_0.pdf</Identifier>
+                </SigPolicyId>
+                <SigPolicyHash>
+                  <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" xmlns="http://www.w3.org/2000/09/xmldsig#" />
+                  <DigestValue xmlns="http://www.w3.org/2000/09/xmldsig#">Quzn98x3PMbSHwbUzaj5f5KOpiH0u8bvmwbbbNkO9Es=</DigestValue>
+                </SigPolicyHash>
+                <SigPolicyQualifiers>
+                  <SigPolicyQualifier>
+                    <SPURI xmlns="">https://www.batuz.eus/fitxategiak/batuz/ticketbai/sinadura_elektronikoaren_zehaztapenak_especificaciones_de_la_firma_electronica_v1_0.pdf</SPURI>
+                  </SigPolicyQualifier>
+                </SigPolicyQualifiers>
+              </SignaturePolicyId>
+            </SignaturePolicyIdentifier>
+          </SignedSignatureProperties>
+          <SignedDataObjectProperties>
+            <DataObjectFormat ObjectReference="#Reference-cf54e6a9-7bf2-4128-8cae-474a267a16a1" xmlns="">
+              <ObjectIdentifier>
+                <Identifier Qualifier="OIDAsURN">urn:oid:1.2.840.10003.5.109.10</Identifier>
+              </ObjectIdentifier>
+              <MimeType>text/xml</MimeType>
+            </DataObjectFormat>
+          </SignedDataObjectProperties>
+        </SignedProperties>
+      </QualifyingProperties>
+    </Object>
+  </Signature>
+</TicketBai>
