@@ -6,10 +6,10 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
     [TestFixture]
     public class LROERequestDtoValidationTests
     {
-        private const string BatuzXsdFilename = "./Xsd/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd";
-        private const string BatuzTiposComplejosFilename = "./Xsd/batuz_TiposComplejos.xsd";
-        private const string BatuzEnumeradosFilename = "./Xsd/batuz_Enumerados.xsd";
-        private const string BatuzTiposBasicosFilename = "./Xsd/batuz_TiposBasicos.xsd";
+        private const string BatuzXsdFilename = "./Bizkaia/Xsd/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd";
+        private const string BatuzTiposComplejosFilename = "./Bizkaia/Xsd/batuz_TiposComplejos.xsd";
+        private const string BatuzEnumeradosFilename = "./Bizkaia/Xsd/batuz_Enumerados.xsd";
+        private const string BatuzTiposBasicosFilename = "./Bizkaia/Xsd/batuz_TiposBasicos.xsd";
 
         [Test]
         public void CreateTBatuzInvoiceDto_XmlSerialization_Succeeds()
