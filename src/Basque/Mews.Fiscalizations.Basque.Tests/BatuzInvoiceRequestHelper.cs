@@ -10,13 +10,14 @@ namespace Mews.Fiscalizations.Basque.Tests
             {
                 Cabecera = new Cabecera2
                 {
-                    Modelo = "240",
-                    Capitulo = "1",
-                    Subcapitulo = "1.1",
-                    Operacion = "A00",
-                    Version = "1.0",
-                    Ejercicio = "2022",
-                    ObligadoTributario = new ObligadoTributarioType
+                    Modelo = Modelo240Enum.Item240,
+                    Capitulo = CapituloModelo240Enum.Item1,
+                    Subcapitulo = SubcapituloModelo240Enum.Item11,
+                    Operacion = OperacionEnum.A00,
+                    Version = IDVersionEnum.Item10,
+                    Ejercicio = 2022,
+                    SubcapituloSpecified = true,
+                    ObligadoTributario = new NIFPersonaType
                     {
                         NIF = "B00000034",
                         ApellidosNombreRazonSocial = "HOTEL ADIBIDEZ"
