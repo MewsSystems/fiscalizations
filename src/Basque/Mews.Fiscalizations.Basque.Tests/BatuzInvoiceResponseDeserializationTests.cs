@@ -1,4 +1,5 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
+using Microsoft.VisualBasic;
 
 namespace Mews.Fiscalizations.Basque.Tests;
 
@@ -25,7 +26,7 @@ public class BatuzInvoiceResponseDeserializationTests
             Assert.IsNotNull(response);
             Assert.True(response.Registros.Length == NumberOfRecords);
 
-            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(OkStatus)));
+            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Correcto)));
         });
     }
 
@@ -42,11 +43,11 @@ public class BatuzInvoiceResponseDeserializationTests
 
             //first registro is correct
             var firstRecord = response.Registros.First();
-            Assert.True(firstRecord.SituacionRegistro.EstadoRegistro.Equals(OkStatus));
+            Assert.True(firstRecord.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Correcto));
 
             //second registro is incorrect
             var secondRecord = response.Registros.Last();
-            Assert.True(secondRecord.SituacionRegistro.EstadoRegistro.Equals(FailedStatus));
+            Assert.True(secondRecord.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto));
         }); 
     }
 
@@ -60,7 +61,7 @@ public class BatuzInvoiceResponseDeserializationTests
 
             Assert.IsNotNull(response);
             Assert.True(response.Registros.Length == NumberOfRecords);
-            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(FailedStatus)));
+            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto)));
         });
     }
 
