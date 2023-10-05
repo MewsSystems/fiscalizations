@@ -19,9 +19,7 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 
             Assert.DoesNotThrow(() =>
             {
-                var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest, new XmlSerializationParameters(
-                    encoding: Encoding.UTF8,
-                    namespaces: Array.Empty<XmlNamespace>()));
+                var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest);
                 Assert.NotNull(xmlElement);
             });
 
