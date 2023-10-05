@@ -1,6 +1,6 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 
-namespace Mews.Fiscalizations.Bizkaia.Tests;
+namespace Mews.Fiscalizations.Basque.Tests;
 
 
 [TestFixture]
@@ -17,42 +17,51 @@ public class BatuzInvoiceResponseDeserializationTests
     [Test]
     public void CorrectResponse_Deserialization_Succeeds()
     {
-        LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-            Deserialize(CorrectResponseFilename);
+        Assert.DoesNotThrow(() =>
+        {
+            LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper.
+            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(CorrectResponseFilename);
 
-        Assert.IsNotNull(response);
-        Assert.True(response.Registros.Length == NumberOfRecords);
+            Assert.IsNotNull(response);
+            Assert.True(response.Registros.Length == NumberOfRecords);
 
-        Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(OkStatus)));
+            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(OkStatus)));
+        });
     }
 
     [Test]
     public void PartiallyCorrectResponse_Deserialization_Succeeds()
     {
-        LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-            Deserialize(PartiallyCorrectResponseFilename);
+        Assert.DoesNotThrow(() => 
+        { 
+            LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper.
+            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(PartiallyCorrectResponseFilename);
 
-        Assert.IsNotNull(response);
-        Assert.True(response.Registros.Length == NumberOfRecords);
+            Assert.IsNotNull(response);
+            Assert.True(response.Registros.Length == NumberOfRecords);
 
-        //first registro is correct
-        var firstRecord = response.Registros.First();
-        Assert.True(firstRecord.SituacionRegistro.EstadoRegistro.Equals(OkStatus));
+            //first registro is correct
+            var firstRecord = response.Registros.First();
+            Assert.True(firstRecord.SituacionRegistro.EstadoRegistro.Equals(OkStatus));
 
-        //second registro is incorrect
-        var secondRecord = response.Registros.Last();
-        Assert.True(secondRecord.SituacionRegistro.EstadoRegistro.Equals(FailedStatus));
+            //second registro is incorrect
+            var secondRecord = response.Registros.Last();
+            Assert.True(secondRecord.SituacionRegistro.EstadoRegistro.Equals(FailedStatus));
+        }); 
     }
 
     [Test]
     public void IncorrectResponse_Deserialization_Succeeds()
     {
-        LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-            Deserialize(IncorrectResponseFilename);
+        Assert.DoesNotThrow(() =>
+        {
+            LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper.
+            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(IncorrectResponseFilename);
 
-        Assert.IsNotNull(response);
-        Assert.True(response.Registros.Length == NumberOfRecords);
-        Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(FailedStatus)));
+            Assert.IsNotNull(response);
+            Assert.True(response.Registros.Length == NumberOfRecords);
+            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(FailedStatus)));
+        });
     }
 
     [Test]
@@ -60,9 +69,10 @@ public class BatuzInvoiceResponseDeserializationTests
     {
         Assert.Throws<InvalidOperationException>(() => 
         {
-            XmlSerializationHelper<LROEPJ240FacturasEmitidasConSGAltaRespuesta>.
-                Deserialize(TicketBaiFilename); 
+            XmlSerializationHelper.
+                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename); 
         });
     }
+
 
 }

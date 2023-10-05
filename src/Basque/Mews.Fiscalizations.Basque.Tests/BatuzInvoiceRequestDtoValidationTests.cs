@@ -1,7 +1,7 @@
 ﻿using Mews.Fiscalizations.Core.Xml;
 using System.Text;
 
-namespace Mews.Fiscalizations.Bizkaia.Tests
+namespace Mews.Fiscalizations.Basque.Tests
 {
     [TestFixture]
     public class BatuzInvoiceRequestDtoValidationTests
