@@ -3,7 +3,6 @@ using Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers;
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;
 
-
 [TestFixture]
 public class LROEResponseDeserializationTests
 {
@@ -18,12 +17,9 @@ public class LROEResponseDeserializationTests
     {
         Assert.DoesNotThrow(() =>
         {
-            LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper.
-            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(CorrectResponseFilename);
+            var response = XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(CorrectResponseFilename);
 
-            Assert.IsNotNull(response);
             Assert.True(response.Registros.Length == NumberOfRecords);
-
             Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Correcto)));
         });
     }
@@ -33,10 +29,8 @@ public class LROEResponseDeserializationTests
     {
         Assert.DoesNotThrow(() =>
         {
-            LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper.
-            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(PartiallyCorrectResponseFilename);
+            var response = XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(PartiallyCorrectResponseFilename);
 
-            Assert.IsNotNull(response);
             Assert.True(response.Registros.Length == NumberOfRecords);
 
             //first registro is correct
@@ -54,10 +48,8 @@ public class LROEResponseDeserializationTests
     {
         Assert.DoesNotThrow(() =>
         {
-            LROEPJ240FacturasEmitidasConSGAltaRespuesta response = XmlSerializationHelper.
-            Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(IncorrectResponseFilename);
+            var response = XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(IncorrectResponseFilename);
 
-            Assert.IsNotNull(response);
             Assert.True(response.Registros.Length == NumberOfRecords);
             Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto)));
         });
@@ -68,8 +60,7 @@ public class LROEResponseDeserializationTests
     {
         Assert.Throws<InvalidOperationException>(() =>
         {
-            XmlSerializationHelper.
-                Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename);
+            XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(TicketBaiFilename);
         });
     }
 

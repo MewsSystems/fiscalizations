@@ -1,6 +1,5 @@
 ﻿using Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers;
 using Mews.Fiscalizations.Core.Xml;
-using System.Text;
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
 {
@@ -40,7 +39,7 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia
             {
                 var xmlElement = XmlSerializer.Serialize(batuzInvoiceRequest);
                 XmlSchemaHelper.RunXmlSchemaValidation(element: xmlElement,
-                validatingXsdFilename: BatuzXsdFilename, schemas);
+                schemasDictionary: schemas);
             });
 
         }

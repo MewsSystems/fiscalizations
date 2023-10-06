@@ -6,7 +6,7 @@ namespace Mews.Fiscalizations.Basque.Tests.Bizkaia.Helpers;
 
 public static class XmlSchemaHelper
 {
-    public static void RunXmlSchemaValidation(XmlElement element, string validatingXsdFilename, Dictionary<string, string> schemasDictionary)
+    public static void RunXmlSchemaValidation(XmlElement element, Dictionary<string, string> schemasDictionary)
     {
         var settings = new XmlReaderSettings
         {
