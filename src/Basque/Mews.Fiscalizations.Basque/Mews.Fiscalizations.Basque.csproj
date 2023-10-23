@@ -14,10 +14,7 @@
     <LangVersion>10</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Dto\Bizkaia\Header\Drs.cs" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
