@@ -1,13 +1,9 @@
 ﻿namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 
-public partial class BizkaiaData
+public class Inte
 {
-    public class Inte
-    {
-        public string nif { get; set; }
-        public string nrs { get; set; }
-        public string ap1 { get; set; }
-        public string ap2 { get; set; }
-    }
-
+    public string nif { get; set; }
+    public string nrs { get; set; }
+    public string ap1 { get; set; }
+    public string ap2 { get; set; }
 }

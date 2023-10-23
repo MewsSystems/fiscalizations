@@ -10,14 +10,14 @@ internal class BizkaiaDataHelper
         {
             con = "LROE",
             apa = "1.1",
-            inte = new BizkaiaData.Inte
+            inte = new Inte
             {
                 nif = "NIF",
                 nrs = "Name",
                 ap1 = "Family name 1",
                 ap2 = "Family name 2"
             },
-            drs = new BizkaiaData.Drs
+            drs = new Drs
             {
                 mode = "140/240",
                 ejer = "ejercicio"
