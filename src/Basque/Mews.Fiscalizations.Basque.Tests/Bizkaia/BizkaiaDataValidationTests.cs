@@ -27,11 +27,9 @@ public class BizkaiaDataValidationTests
     [Test]
     public void Create_BizkaiaData_JsonSerialization_Succeeds()
     {
-        var bizkaiaData = SampleBizkaiData;
-
         Assert.DoesNotThrow(() =>
         {
-            var serializedData = JsonSerializer.Serialize(bizkaiaData);
+            var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
             Assert.IsNotEmpty(serializedData);
         });
     }
