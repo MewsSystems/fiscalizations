@@ -1,46 +1,44 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 
-public class BizkaiaHeaderData
+public sealed class BizkaiaHeaderData
 {
-    [JsonProperty("con")]
-    public string With { get; } = "LROE";
+    [JsonPropertyName("con")]
+    public static string HeaderType => "LROE";
     
-    [JsonProperty("apa")]
-    public string Section { get; set; }
+    [JsonPropertyName("apa")]
+    public static string Section => "1.1";
 
-    [JsonProperty("inte")]
+    [JsonPropertyName("inte")]
     public IssuerData Issuer { get; set; }
 
-    [JsonProperty("drs")]
+    [JsonPropertyName("drs")]
     public FiscalData FiscalData { get; set; }
 }
 
-public class FiscalData
+public sealed class FiscalData
 {
-    [JsonProperty("mode")]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonPropertyName("mode")]
     public Mode Mode { get; set; } 
 
-    [JsonProperty("ejer")]
+    [JsonPropertyName("ejer")]
     public int FiscalYear { get; set; }
 }
 
-public class IssuerData
+public sealed class IssuerData
 {
-    [JsonProperty("nif")]
+    [JsonPropertyName("nif")]
     public string TaxpayerIdentificationNumber { get; set; }
 
-    [JsonProperty("nrs")]
+    [JsonPropertyName("nrs")]
     public string FirstNameOrCompanyName { get; set; }
 
-    [JsonProperty("ap1")]
+    [JsonPropertyName("ap1")]
     public string Surname { get; set; }
 
-    [JsonProperty("ap2")]
+    [JsonPropertyName("ap2")]
     public string SecondSurname { get; set; }
 }
 

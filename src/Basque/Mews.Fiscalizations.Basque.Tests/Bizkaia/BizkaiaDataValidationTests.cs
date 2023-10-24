@@ -8,7 +8,6 @@ public class BizkaiaDataValidationTests
 {
     private static readonly BizkaiaHeaderData SampleBizkaiData = new BizkaiaHeaderData
     {
-        Section = "1.1",
         Issuer = new IssuerData
         {
             TaxpayerIdentificationNumber = "NIF",

@@ -1,31 +1,29 @@
 ﻿using System.IO.Compression;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace Mews.Fiscalizations.Core.Compression
+namespace Mews.Fiscalizations.Core.Compression;
+
+public static class GzipCompressorHelper
 {
-    public static class GzipCompressorHelper
+    public static async Task<byte[]> CompressAsync(this string inputString, Encoding encoding, CancellationToken cancellationToken)
     {
-        public static byte[] Compress(this string inputString, Encoding encoding)
+        var bytes = encoding.GetBytes(inputString);
+        using var memoryStream = new MemoryStream();
+        await using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress))
         {
-            var bytes = encoding.GetBytes(inputString);
-            using var memoryStream = new MemoryStream();
-            using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress))
-            {
-                gzipStream.Write(bytes);
-            }
-            return memoryStream.ToArray();
+            await gzipStream.WriteAsync(bytes, cancellationToken);
         }
+        return memoryStream.ToArray();
+    }
 
-        public static string Decompress(this byte[] compressedBytes, Encoding encoding)
+    public static async Task<string> DecompressAsync(this byte[] compressedBytes, Encoding encoding, CancellationToken cancellationToken)
+    {
+        using var memoryStream = new MemoryStream(compressedBytes);
+        using var outputStream = new MemoryStream();
+        await using (var decompressStream = new GZipStream(memoryStream, CompressionMode.Decompress))
         {
-            using var memoryStream = new MemoryStream(compressedBytes);
-            using var outputStream = new MemoryStream();
-            using (var decompressStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-            {
-                decompressStream.CopyTo(outputStream);
-            }
-            return encoding.GetString(outputStream.ToArray());
+            await decompressStream.CopyToAsync(outputStream, cancellationToken);
         }
+        return encoding.GetString(outputStream.ToArray());
     }
 }
