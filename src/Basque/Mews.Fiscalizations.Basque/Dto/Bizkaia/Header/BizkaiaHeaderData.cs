@@ -29,7 +29,7 @@ public class Drs
 public class Inte
 {
     [JsonPropertyName("nif")]
-    public string TaxPayerIdentificationNumber { get; set; }
+    public string TaxpayerIdentificationNumber { get; set; }
 
     [JsonPropertyName("nrs")]
     public string Name { get; set; }
