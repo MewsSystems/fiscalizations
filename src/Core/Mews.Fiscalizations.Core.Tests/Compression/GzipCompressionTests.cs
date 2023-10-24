@@ -1,4 +1,5 @@
 ﻿using Mews.Fiscalizations.Core.Compression;
+using System.Text;
 
 namespace Mews.Fiscalizations.Core.Tests.Compression;
 
@@ -12,9 +13,9 @@ public class GzipCompressionTests
     {
         Assert.DoesNotThrow(() =>
         {
-            var compressedBytes = Message.Compress(encoding: System.Text.Encoding.ASCII);
+            var compressedBytes = Message.Compress(encoding: Encoding.ASCII);
 
-            var decompressedString = compressedBytes.Decompress(encoding: System.Text.Encoding.ASCII);
+            var decompressedString = compressedBytes.Decompress(encoding: Encoding.ASCII);
 
             Assert.AreEqual(Message, decompressedString);
         });

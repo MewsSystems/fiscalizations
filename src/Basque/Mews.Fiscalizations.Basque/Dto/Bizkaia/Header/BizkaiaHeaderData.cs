@@ -1,42 +1,53 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 
 public class BizkaiaHeaderData
 {
-    [JsonPropertyName("con")]
-    public string With { get; set; }
+    [JsonProperty("con")]
+    public string With { get; } = "LROE";
     
-    [JsonPropertyName("apa")]
+    [JsonProperty("apa")]
     public string Section { get; set; }
 
-    [JsonPropertyName("inte")]
-    public Inte Inte { get; set; }
+    [JsonProperty("inte")]
+    public IssuerData Issuer { get; set; }
 
-    [JsonPropertyName("drs")]
-    public Drs Drs { get; set; }
+    [JsonProperty("drs")]
+    public FiscalData FiscalData { get; set; }
 }
 
-public class Drs
+public class FiscalData
 {
-    [JsonPropertyName("mode")]
-    public string Mode { get; set; }
+    [JsonProperty("mode")]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public Mode Mode { get; set; } 
 
-    [JsonPropertyName("ejer")]
-    public string FiscalYear { get; set; }
+    [JsonProperty("ejer")]
+    public int FiscalYear { get; set; }
 }
 
-public class Inte
+public class IssuerData
 {
-    [JsonPropertyName("nif")]
-    public string TaxPayerIdentificationNumber { get; set; }
+    [JsonProperty("nif")]
+    public string TaxpayerIdentificationNumber { get; set; }
 
-    [JsonPropertyName("nrs")]
-    public string Name { get; set; }
+    [JsonProperty("nrs")]
+    public string FirstNameOrCompanyName { get; set; }
 
-    [JsonPropertyName("ap1")]
-    public string FamilyName1 { get; set; }
+    [JsonProperty("ap1")]
+    public string Surname { get; set; }
 
-    [JsonPropertyName("ap2")]
-    public string FamiliyName2 { get; set; }
+    [JsonProperty("ap2")]
+    public string SecondSurname { get; set; }
+}
+
+public enum Mode
+{
+    [EnumMember(Value = "140")]
+    Item140,
+    [EnumMember(Value = "240")]
+    Item240
 }

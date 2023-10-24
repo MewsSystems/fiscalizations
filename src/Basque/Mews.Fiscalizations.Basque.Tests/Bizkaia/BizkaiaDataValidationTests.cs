@@ -1,5 +1,5 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;
 
@@ -8,19 +8,18 @@ public class BizkaiaDataValidationTests
 {
     private static readonly BizkaiaHeaderData SampleBizkaiData = new BizkaiaHeaderData
     {
-        With = "LROE",
         Section = "1.1",
-        Inte = new Inte
+        Issuer = new IssuerData
         {
-            TaxPayerIdentificationNumber = "NIF",
-            Name = "Name",
-            FamilyName1 = "Family name 1",
-            FamiliyName2 = "Family name 2"
+            TaxpayerIdentificationNumber = "NIF",
+            FirstNameOrCompanyName = "Name",
+            Surname = "Family name 1",
+            SecondSurname = "Family name 2"
         },
-        Drs = new Drs
+        FiscalData = new FiscalData
         {
-            Mode = "240",
-            FiscalYear = "2022"
+            Mode = Mode.Item240,
+            FiscalYear = 2022
         }
     };
 
@@ -29,7 +28,7 @@ public class BizkaiaDataValidationTests
     {
         Assert.DoesNotThrow(() =>
         {
-            var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
+            var serializedData = JsonConvert.SerializeObject(SampleBizkaiData);
             Assert.IsNotEmpty(serializedData);
         });
     }
