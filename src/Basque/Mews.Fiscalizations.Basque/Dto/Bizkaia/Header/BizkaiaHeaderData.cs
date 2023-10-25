@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿
+
 using System.Text.Json.Serialization;
 
 namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
@@ -6,10 +7,10 @@ namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 public sealed class BizkaiaHeaderData
 {
     [JsonPropertyName("con")]
-    public static string HeaderType => "LROE";
+    public string HeaderType => "LROE";
     
     [JsonPropertyName("apa")]
-    public static string Section => "1.1";
+    public string Section => "1.1";
 
     [JsonPropertyName("inte")]
     public IssuerData Issuer { get; set; }
@@ -21,7 +22,7 @@ public sealed class BizkaiaHeaderData
 public sealed class FiscalData
 {
     [JsonPropertyName("mode")]
-    public Mode Mode { get; set; } 
+    public string Mode => "240";
 
     [JsonPropertyName("ejer")]
     public int FiscalYear { get; set; }
@@ -40,12 +41,4 @@ public sealed class IssuerData
 
     [JsonPropertyName("ap2")]
     public string SecondSurname { get; set; }
-}
-
-public enum Mode
-{
-    [EnumMember(Value = "140")]
-    Item140,
-    [EnumMember(Value = "240")]
-    Item240
 }
