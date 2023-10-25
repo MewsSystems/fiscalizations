@@ -29,7 +29,6 @@ public class BizkaiaDataValidationTests
         Assert.DoesNotThrow(() =>
         {
             var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
-            File.WriteAllText("tmp.json", serializedData);
             Assert.IsNotEmpty(serializedData);
             Assert.AreEqual(serializedData, ExpectedSerializationResult);
         });
