@@ -1,6 +1,4 @@
-﻿
-
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 
