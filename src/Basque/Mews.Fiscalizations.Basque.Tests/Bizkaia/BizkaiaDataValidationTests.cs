@@ -1,5 +1,5 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Mews.Fiscalizations.Basque.Tests.Bizkaia;
 
@@ -22,13 +22,29 @@ public class BizkaiaDataValidationTests
         }
     };
 
+    private const string ExpectedSerializationResult = "{\"con\":\"LROE\",\"apa\":\"1.1\",\"inte\":{\"nif\":\"NIF\",\"nrs\":\"Name\",\"ap1\":\"Family name 1\",\"ap2\":\"Family name 2\"},\"drs\":{\"mode\":240,\"ejer\":2022}}";
+
     [Test]
     public void Create_BizkaiaData_JsonSerialization_Succeeds()
     {
         Assert.DoesNotThrow(() =>
         {
-            var serializedData = JsonConvert.SerializeObject(SampleBizkaiData);
+            var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
+            Assert.IsNotEmpty(serializedData);
+            Assert.AreEqual(serializedData, ExpectedSerializationResult);
+        });
+    }
+
+    [Test]
+    public void Create_BizkaiaData_With_Enum_Mode_Serialization_Deserialization_Succeeds()
+    {
+        Assert.DoesNotThrow(() =>
+        {
+            var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
+            var bizkaiaHeaderDataDeserialized = JsonSerializer.Deserialize<BizkaiaHeaderData>(serializedData);
+            Assert.AreEqual(bizkaiaHeaderDataDeserialized, SampleBizkaiData);
             Assert.IsNotEmpty(serializedData);
         });
     }
+
 }
