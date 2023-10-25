@@ -36,21 +36,15 @@ public class BizkaiaDataValidationTests
     }
 
     [Test]
-    public void Create_BizkaiaData_Serialization_Deserialization_Succeeds()
+    public void Create_BizkaiaData_Json_Serialization_Deserialization_Succeeds()
     {
         Assert.DoesNotThrow(() =>
         {
             var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
-            var bizkaiaHeaderDataDeserialized = JsonSerializer.Deserialize<BizkaiaHeaderData>(serializedData);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.HeaderType, SampleBizkaiData.HeaderType);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.Section, SampleBizkaiData.Section);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.FiscalData.FiscalYear, SampleBizkaiData.FiscalData.FiscalYear);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.FiscalData.Mode, SampleBizkaiData.FiscalData.Mode);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.Issuer.FirstNameOrCompanyName, SampleBizkaiData.Issuer.FirstNameOrCompanyName);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.Issuer.TaxpayerIdentificationNumber, SampleBizkaiData.Issuer.TaxpayerIdentificationNumber);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.Issuer.Surname, SampleBizkaiData.Issuer.Surname);
-            Assert.AreEqual(bizkaiaHeaderDataDeserialized.Issuer.SecondSurname, SampleBizkaiData.Issuer.SecondSurname);
             Assert.IsNotEmpty(serializedData);
+
+            var deserializedData = JsonSerializer.Deserialize<BizkaiaHeaderData>(serializedData);
+            Assert.AreEqual(serializedData, JsonSerializer.Serialize(deserializedData));
         });
     }
 
