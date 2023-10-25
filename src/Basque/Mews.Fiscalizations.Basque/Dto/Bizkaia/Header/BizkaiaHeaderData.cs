@@ -21,7 +21,7 @@ public sealed class BizkaiaHeaderData
 
 public sealed class FiscalData
 {
-    [JsonProperty("mode")]
+    [JsonPropertyName("mode")]
     public string Mode => "240";
 
     [JsonPropertyName("ejer")]
