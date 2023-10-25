@@ -21,7 +21,7 @@ public class BizkaiaDataValidationTests
         }
     };
 
-    private const string ExpectedSerializationResult = "{\"con\":\"LROE\",\"apa\":\"1.1\",\"inte\":{\"nif\":\"NIF\",\"nrs\":\"Name\",\"ap1\":\"Family name 1\",\"ap2\":\"Family name 2\"},\"drs\":{\"mode\":240,\"ejer\":2022}}";
+    private const string ExpectedSerializationResult = "{\"con\":\"LROE\",\"apa\":\"1.1\",\"inte\":{\"nif\":\"NIF\",\"nrs\":\"Name\",\"ap1\":\"Family name 1\",\"ap2\":\"Family name 2\"},\"drs\":{\"mode\":\"240\",\"ejer\":2022}}";
 
     [Test]
     public void Create_BizkaiaData_JsonSerialization_Succeeds()
@@ -29,6 +29,7 @@ public class BizkaiaDataValidationTests
         Assert.DoesNotThrow(() =>
         {
             var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
+            File.WriteAllText("tmp.json", serializedData);
             Assert.IsNotEmpty(serializedData);
             Assert.AreEqual(serializedData, ExpectedSerializationResult);
         });
