@@ -1,51 +1,50 @@
-﻿using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 
 public sealed class BizkaiaHeaderData
 {
-    [JsonPropertyName("con")]
+    [JsonProperty("con")]
     public static string HeaderType => "LROE";
     
-    [JsonPropertyName("apa")]
+    [JsonProperty("apa")]
     public static string Section => "1.1";
 
-    [JsonPropertyName("inte")]
+    [JsonProperty("inte")]
     public IssuerData Issuer { get; set; }
 
-    [JsonPropertyName("drs")]
+    [JsonProperty("drs")]
     public FiscalData FiscalData { get; set; }
 }
 
 public sealed class FiscalData
 {
-    [JsonPropertyName("mode")]
+    [JsonProperty("mode")]
     public Mode Mode { get; set; } 
 
-    [JsonPropertyName("ejer")]
+    [JsonProperty("ejer")]
     public int FiscalYear { get; set; }
 }
 
 public sealed class IssuerData
 {
-    [JsonPropertyName("nif")]
+    [JsonProperty("nif")]
     public string TaxpayerIdentificationNumber { get; set; }
 
-    [JsonPropertyName("nrs")]
+    [JsonProperty("nrs")]
     public string FirstNameOrCompanyName { get; set; }
 
-    [JsonPropertyName("ap1")]
+    [JsonProperty("ap1")]
     public string Surname { get; set; }
 
-    [JsonPropertyName("ap2")]
+    [JsonProperty("ap2")]
     public string SecondSurname { get; set; }
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
 public enum Mode
 {
-    [EnumMember(Value = "140")]
-    Item140,
-    [EnumMember(Value = "240")]
-    Item240
+    Item140 = 140,
+    Item240 = 240
 }
