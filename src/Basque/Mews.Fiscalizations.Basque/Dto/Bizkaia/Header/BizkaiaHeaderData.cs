@@ -21,8 +21,8 @@ public sealed class BizkaiaHeaderData
 
 public sealed class FiscalData
 {
-    [JsonPropertyName("mode")]
-    public Mode Mode { get; set; } 
+    [JsonProperty("mode")]
+    public string Mode => "240";
 
     [JsonPropertyName("ejer")]
     public int FiscalYear { get; set; }
@@ -41,10 +41,4 @@ public sealed class IssuerData
 
     [JsonPropertyName("ap2")]
     public string SecondSurname { get; set; }
-}
-
-public enum Mode
-{
-    Item140 = 140,
-    Item240 = 240
 }
