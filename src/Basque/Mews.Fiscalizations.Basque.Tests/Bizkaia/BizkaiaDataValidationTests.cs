@@ -17,7 +17,6 @@ public class BizkaiaDataValidationTests
         },
         FiscalData = new FiscalData
         {
-            Mode = Mode.Item240,
             FiscalYear = 2022
         }
     };

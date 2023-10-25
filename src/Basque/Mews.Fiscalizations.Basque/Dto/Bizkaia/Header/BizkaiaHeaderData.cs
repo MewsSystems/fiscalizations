@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 
@@ -21,7 +20,7 @@ public sealed class BizkaiaHeaderData
 public sealed class FiscalData
 {
     [JsonProperty("mode")]
-    public Mode Mode { get; set; } 
+    public string Mode => "240";
 
     [JsonProperty("ejer")]
     public int FiscalYear { get; set; }
@@ -40,11 +39,4 @@ public sealed class IssuerData
 
     [JsonProperty("ap2")]
     public string SecondSurname { get; set; }
-}
-
-[JsonConverter(typeof(StringEnumConverter))]
-public enum Mode
-{
-    Item140 = 140,
-    Item240 = 240
 }
