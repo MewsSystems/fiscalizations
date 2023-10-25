@@ -35,7 +35,7 @@ public class BizkaiaDataValidationTests
     }
 
     [Test]
-    public void Create_BizkaiaData_With_Enum_Mode_Serialization_Deserialization_Succeeds()
+    public void Create_BizkaiaData_Serialization_Deserialization_Succeeds()
     {
         Assert.DoesNotThrow(() =>
         {
