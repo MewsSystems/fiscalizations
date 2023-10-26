@@ -196,7 +196,8 @@ internal static  class SigningService
         var sigPolicyIdentifierNode = document.CreateElement(SignaturePrefix, "Identifier", SignatureNamespace);
         sigPolicyIdentifierNode.InnerText = region.Match(
             Region.Gipuzkoa, _ => "https://www.gipuzkoa.eus/ticketbai/sinadura",
-            Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/"
+            Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/",
+            Region.Bizkaia, _ => "https://www.batuz.eus/fitxategiak/batuz/ticketbai/sinadura_elektronikoaren_zehaztapenak_especificaciones_de_la_firma_electronica_v1_0.pdf"
         );
 
         var sigPolicyDescriptionNode = document.CreateElement(SignaturePrefix, "Description", SignatureNamespace);
@@ -210,7 +211,8 @@ internal static  class SigningService
         var sigPolicyHashDigestValueNode = document.CreateElement(SignaturePrefix, "DigestValue", SignatureNamespace);
         sigPolicyHashDigestValueNode.InnerText = region.Match(
             Region.Gipuzkoa, _ => "vSe1CH7eAFVkGN0X2Y7Nl9XGUoBnziDA5BGUSsyt8mg=",
-            Region.Araba, _ => "4Vk3uExj7tGn9DyUCPDsV9HRmK6KZfYdRiW3StOjcQA="
+            Region.Araba, _ => "4Vk3uExj7tGn9DyUCPDsV9HRmK6KZfYdRiW3StOjcQA=",
+            Region.Bizkaia, _=> "Quzn98x3PMbSHwbUzaj5f5KOpiH0u8bvmwbbbNkO9Es="
         );
 
         var sigPolicyQualifiersNode = document.CreateElement(SignaturePrefix, "SigPolicyQualifiers", SignatureNamespace);
@@ -219,7 +221,8 @@ internal static  class SigningService
         var spuriNode = document.CreateElement(SignaturePrefix, "SPURI", SignatureNamespace);
         spuriNode.InnerText = region.Match(
             Region.Gipuzkoa, _ => "https://www.gipuzkoa.eus/ticketbai/sinadura",
-            Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/"
+            Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/",
+            Region.Bizkaia, _ => "https://www.batuz.eus/fitxategiak/batuz/ticketbai/sinadura_elektronikoaren_zehaztapenak_especificaciones_de_la_firma_electronica_v1_0.pdf"
         );
 
         sigPolicyQualifiersNode.AppendChild(sigPolicyQualifierNode);

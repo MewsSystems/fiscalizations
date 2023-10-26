@@ -1,7 +1,15 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Globalization;
+using System.Net.Mime;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
+using System.Text;
+using System.Text.Json;
 using System.Xml;
+using Mews.Fiscalizations.Basque.Dto;
+using Mews.Fiscalizations.Basque.Dto.Bizkaia;
+using Mews.Fiscalizations.Basque.Dto.Bizkaia.Header;
 using Mews.Fiscalizations.Basque.Model;
+using Mews.Fiscalizations.Core.Compression;
 using Mews.Fiscalizations.Core.Xml;
 
 namespace Mews.Fiscalizations.Basque;
@@ -40,7 +48,13 @@ public sealed class TicketBaiClient
     public async Task<SendInvoiceResponse> SendInvoiceAsync(TicketBaiInvoiceData invoiceData)
     {
         var signedRequest = invoiceData.SignedRequest;
-        var requestContent = new StringContent(signedRequest.OuterXml, ServiceInfo.Encoding, "application/xml");
+        var requestContent = new StringContent(CreateRequest(signedRequest.OuterXml), ServiceInfo.Encoding, "application/xml");
+        
+        Region.Match(
+            Region.Bizkaia, _ => AddBizkaiaHeaders(invoiceData.SignedRequest),
+            _ => HttpClient.DefaultRequestHeaders.Clear()
+            );
+        
         var response = await HttpClient.PostAsync(ServiceInfo.SendInvoiceUri(Environment), requestContent);
 
         var responseContent = await response.Content.ReadAsStringAsync();
@@ -52,6 +66,91 @@ public sealed class TicketBaiClient
             xmlResponseContent: responseContent,
             signatureValue: invoiceData.TrimmedSignature
         );
+    }
+
+    private void AddBizkaiaHeaders(XmlDocument signedRequest)
+    {
+        HttpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+        HttpClient.DefaultRequestHeaders.Add("Content-Encoding", "gzip");
+        HttpClient.DefaultRequestHeaders.Add("Content-Length", signedRequest.OuterXml.Length.ToString(CultureInfo.InvariantCulture)); //TODO: this is not correct, fix later
+        HttpClient.DefaultRequestHeaders.Add("Content-Type", MediaTypeNames.Application.Octet);
+        HttpClient.DefaultRequestHeaders.Add("eus-bizkaia-n3-version", "1.0");
+        HttpClient.DefaultRequestHeaders.Add("eus-bizkaia-n3-content-type", MediaTypeNames.Application.Xml);
+        HttpClient.DefaultRequestHeaders.Add("eus-bizkaia-n3-data", CreateBizkaiaHeaderData(signedRequest));
+    }
+
+    private string CreateBizkaiaHeaderData(XmlDocument ticketBaiRequest)
+    {
+        var ticketBaiOriginalInvoice = XmlSerializer.Deserialize<TicketBai>(ticketBaiRequest.OuterXml);
+        var bizkaiaHeaderData = new BizkaiaHeaderData
+        {
+            Issuer = new IssuerData
+            {
+                TaxpayerIdentificationNumber = ticketBaiOriginalInvoice.Sujetos.Emisor.NIF,
+                FirstNameOrCompanyName = ticketBaiOriginalInvoice.Sujetos.Emisor.ApellidosNombreRazonSocial,
+                Surname = string.Empty,
+                SecondSurname = string.Empty
+            },
+            FiscalData = new FiscalData
+            {
+                FiscalYear = GetInvoiceDate(ticketBaiOriginalInvoice.Factura.CabeceraFactura.FechaExpedicionFactura).Year
+            }
+        };
+
+        return JsonSerializer.Serialize(bizkaiaHeaderData);
+    }
+
+    private string CreateRequest(string requestXml)
+    {
+        if (Region == Region.Bizkaia)
+        {
+            return CreateBizkaiaRequest(requestXml);
+        }
+
+        return requestXml;
+    }
+
+    private string CreateBizkaiaRequest(string requestXml)
+    {
+        var lroeRequest = new LROEPJ240FacturasEmitidasConSGAltaPeticion
+        {
+            Cabecera = CreateBizkaiaHeaderRequest(requestXml),
+            FacturasEmitidas = new FacturaEmitidaType[]
+            {
+                new FacturaEmitidaType
+                {
+                    TicketBai = Convert.ToBase64String(ServiceInfo.Encoding.GetBytes(requestXml))
+                }
+            }
+        };
+        string lroeRequestAsXml = XmlSerializer.Serialize(lroeRequest).OuterXml;
+        var compressedBytes = lroeRequestAsXml.CompressAsync(ServiceInfo.Encoding, CancellationToken.None).Result;
+        return Convert.ToBase64String(compressedBytes);
+    }
+
+    private Cabecera2 CreateBizkaiaHeaderRequest(string requestXml)
+    {
+        var ticketBaiOriginalInvoice = XmlSerializer.Deserialize<TicketBai>(requestXml);
+        var invoiceDate = GetInvoiceDate(ticketBaiOriginalInvoice.Factura.CabeceraFactura.FechaExpedicionFactura);
+        return new Cabecera2
+        {
+            Modelo = Modelo240Enum.Item240,
+            Capitulo = CapituloModelo240Enum.Item1,
+            Subcapitulo = SubcapituloModelo240Enum.Item11,
+            Operacion = OperacionEnum.A00,
+            Version = IDVersionEnum.Item10,
+            Ejercicio = invoiceDate.Year,
+            ObligadoTributario = new NIFPersonaType
+            {
+                NIF = ticketBaiOriginalInvoice.Sujetos.Emisor.NIF,
+                ApellidosNombreRazonSocial = ticketBaiOriginalInvoice.Sujetos.Emisor.ApellidosNombreRazonSocial
+            }
+        };
+    }
+
+    private DateTime GetInvoiceDate(string invoiceDate)
+    {
+        return DateTime.Parse(invoiceDate, CultureInfo.InvariantCulture);
     }
 
     /// <summary>

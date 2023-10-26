@@ -3,5 +3,6 @@
 public enum Region
 {
     Gipuzkoa,
-    Araba
+    Araba,
+    Bizkaia
 }
