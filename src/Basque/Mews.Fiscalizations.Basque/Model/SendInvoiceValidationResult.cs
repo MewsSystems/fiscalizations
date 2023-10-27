@@ -2,16 +2,13 @@
 
 public sealed class SendInvoiceValidationResult
 {
-    public SendInvoiceValidationResult(ErrorCode errorCode, string description, string explanation)
+    public SendInvoiceValidationResult(ErrorCode errorCode, string description)
     {
         ErrorCode = errorCode;
         Description = description;
-        Explanation = explanation;
     }
 
     public ErrorCode ErrorCode { get; }
 
     public string Description { get; }
-
-    public string Explanation { get; }
 }

@@ -50,6 +50,7 @@ public sealed class TicketBaiClient
             qrCodeUri: invoiceData.QrCodeUri,
             xmlRequestContent: signedRequest.OuterXml,
             xmlResponseContent: responseContent,
+            tbaiIdentifier: invoiceData.TbaiIdentifier,
             signatureValue: invoiceData.TrimmedSignature
         );
     }
