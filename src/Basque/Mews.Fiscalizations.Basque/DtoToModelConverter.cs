@@ -37,17 +37,19 @@ internal static class DtoToModelConverter
         String1To100 signatureValue
         )
     {
+        var invoiceIdentifier = response.Registros.Single().Identificador.Item as IDFacturaType;
+        var invoiceState = response.Registros.Single().SituacionRegistro;
         return new SendInvoiceResponse(
             xmlRequestContent: xmlRequestContent,
             xmlResponseContent: xmlResponseContent,
             qrCodeUri: qrCodeUri,
-            tbaiIdentifier: string.Empty, //TODO: figure out how to retrieve this
-            received: DateTime.ParseExact((response.Registros.Single().Identificador.Item as IDFacturaType).FechaExpedicionFactura, "dd-MM-yyyy", CultureInfo.InvariantCulture),
-            state: ConvertBizkaiaState(response.Registros.Single().SituacionRegistro.EstadoRegistro),
-            description: response.Registros.Single().SituacionRegistro.DescripcionErrorRegistroEU,
+            tbaiIdentifier: invoiceIdentifier.NumFactura,
+            received: DateTime.ParseExact(invoiceIdentifier.FechaExpedicionFactura, "dd-MM-yyyy", CultureInfo.InvariantCulture),
+            state: ConvertBizkaiaState(invoiceState.EstadoRegistro),
+            description: invoiceState.DescripcionErrorRegistroES,
             stateExplanation: string.Empty,
             signatureValue: signatureValue,
-            csv: string.Empty, 
+            csv: string.Empty,
             validationResults: response.Registros?.Select(v => Convert(v.SituacionRegistro))
         );
     }
