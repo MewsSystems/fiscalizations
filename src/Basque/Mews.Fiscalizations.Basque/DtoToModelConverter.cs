@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Basque.Model;
+﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
+using Mews.Fiscalizations.Basque.Model;
 using System.Globalization;
 
 namespace Mews.Fiscalizations.Basque;
@@ -28,9 +29,41 @@ internal static class DtoToModelConverter
         );
     }
 
+    public static SendInvoiceResponse Convert(
+        LROEPJ240FacturasEmitidasConSGAltaRespuesta response,
+        string qrCodeUri,
+        string xmlRequestContent,
+        string xmlResponseContent,
+        String1To100 signatureValue
+        )
+    {
+        return new SendInvoiceResponse(
+            xmlRequestContent: xmlRequestContent,
+            xmlResponseContent: xmlResponseContent,
+            qrCodeUri: qrCodeUri,
+            tbaiIdentifier: string.Empty, //TODO: figure out how to retrieve this
+            received: DateTime.ParseExact((response.Registros.Single().Identificador.Item as IDFacturaType).FechaExpedicionFactura, "dd-MM-yyyy", CultureInfo.InvariantCulture),
+            state: ConvertBizkaiaState(response.Registros.Single().SituacionRegistro.EstadoRegistro),
+            description: response.Registros.Single().SituacionRegistro.DescripcionErrorRegistroEU,
+            stateExplanation: string.Empty,
+            signatureValue: signatureValue,
+            csv: string.Empty, 
+            validationResults: response.Registros?.Select(v => Convert(v.SituacionRegistro))
+        );
+    }
+
     private static SendInvoiceValidationResult Convert(Dto.ResultadosValidacion validation)
     {
         return new SendInvoiceValidationResult(ParseEnum<ErrorCode>(validation.Codigo), validation.Descripcion, validation.Azalpena);
+    }
+
+    private static SendInvoiceValidationResult Convert(SituacionRegistroType situacionRegistro)
+    {
+        return new SendInvoiceValidationResult(
+            errorCode: ConvertBizkaiaErrorCodes(situacionRegistro.CodigoErrorRegistro), 
+            description: situacionRegistro.DescripcionErrorRegistroEU, 
+            explanation: string.Empty
+        );
     }
 
     private static T ParseEnum<T>(string value)
@@ -40,5 +73,42 @@ internal static class DtoToModelConverter
             u => result,
             _ => throw new NotImplementedException($"{value} is not implemented in {typeof(T).Name}.")
         );
+    }
+    
+    private static InvoiceState ConvertBizkaiaState(EstadoRegistroEnum state)
+    {
+        return state.Match(
+            EstadoRegistroEnum.Correcto, _ => InvoiceState.Received,
+            EstadoRegistroEnum.AceptadoConErrores, _ => InvoiceState.Received,
+            EstadoRegistroEnum.Incorrecto, _ => InvoiceState.Refused,
+            EstadoRegistroEnum.Anulado, _ => InvoiceState.Refused
+        );
+    }
+
+    private static ErrorCode ConvertBizkaiaErrorCodes(string bizkaiaErrorCode)
+    {
+        switch (bizkaiaErrorCode)
+        {
+            case "B4_2000001":
+            case "B4_1000001": return ErrorCode.XsdSchemeViolation;
+            case "B4_2000003":
+            case "B4_1000005": return ErrorCode.DuplicateInvoice;
+            case "B4_2000000": return ErrorCode.MissingMandatoryData;
+            case "B4_1000004": return ErrorCode.ServerErrorTryAgain;
+            case "B4_2000013": return ErrorCode.TaxIdentifierCountryCodeDoesntMatchCountryCodeField;
+            case "B4_2000011": return ErrorCode.InvalidReceiverTaxIdentifierFormat;
+            case "B4_2000012": return ErrorCode.MissingCountryCode;
+            case "B4_2000008": return ErrorCode.InvoiceIssueDateGreaterThanCurrentDate;
+            case "B4_2000016": return ErrorCode.CorrectedInvoiceMustNotBeReportedWhenCorrectiveInvoiceIsNotReported;
+            case "B4_2000045": return ErrorCode.CorrectedInvoiceNotIndicated;
+            case "B4_2000070": return ErrorCode.InvalidSignatureOrSigningCertificate;
+            case "B4_2000060": 
+            case "B4_2000061": return ErrorCode.InvalidOrMissingInvoiceChain;
+            case "B4_2000038": return ErrorCode.BreakdownMustHaveProvisionOrDeliveryOrBoth;
+            case "B4_2000030": return ErrorCode.InvoiceMustContainAtLeastOneExemptOrNonExemptParty;
+
+            default: throw new NotImplementedException("We currently have no support for this error code.");
+            
+        }
     }
 }
