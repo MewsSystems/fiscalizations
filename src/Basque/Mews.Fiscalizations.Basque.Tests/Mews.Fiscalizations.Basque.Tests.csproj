@@ -26,6 +26,12 @@
     <None Update="Bizkaia\Documents\LROE_240_FacturasEmitidasConSG_Parc_Correcta.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Bizkaia\Documents\ResponseTest_Correcta.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Bizkaia\Documents\ResponseTest_Incorrecta.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Bizkaia\Documents\ticketBai.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
