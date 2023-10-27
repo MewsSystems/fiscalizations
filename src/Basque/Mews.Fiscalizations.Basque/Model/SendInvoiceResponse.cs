@@ -10,9 +10,7 @@ public sealed class SendInvoiceResponse
         DateTime received,
         InvoiceState state,
         string description,
-        string stateExplanation,
         String1To100 signatureValue,
-        string csv,
         IEnumerable<SendInvoiceValidationResult> validationResults = null)
     {
         XmlRequestContent = xmlRequestContent;
@@ -22,9 +20,7 @@ public sealed class SendInvoiceResponse
         Received = received;
         State = state;
         Description = description;
-        StateExplanation = stateExplanation;
         SignatureValue = signatureValue;
-        CSV = csv.AsNonEmpty();
         ValidationResults = validationResults.ToOption();
     }
 
@@ -42,11 +38,7 @@ public sealed class SendInvoiceResponse
 
     public string Description { get; }
 
-    public string StateExplanation { get; }
-
     public String1To100 SignatureValue { get; }
-
-    public Option<NonEmptyString> CSV { get; }
 
     public Option<IEnumerable<SendInvoiceValidationResult>> ValidationResults { get; }
 }
