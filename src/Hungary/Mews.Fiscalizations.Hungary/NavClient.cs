@@ -22,17 +22,18 @@ public sealed class NavClient
         Client = new Client(HttpClient, environment);
     }
 
-    public Task<ResponseResult<ExchangeToken, ExchangeTokenErrorCode>> GetExchangeTokenAsync()
+    public async Task<ResponseResult<ExchangeToken, ExchangeTokenErrorCode>> GetExchangeTokenAsync(CancellationToken cancellationToken = default)
     {
         var request = RequestCreator.CreateTokenExchangeRequest(TechnicalUser, SoftwareIdentification);
-        return Client.ProcessRequestAsync<Dto.TokenExchangeRequest, Dto.TokenExchangeResponse, ExchangeToken, ExchangeTokenErrorCode>(
+        return await Client.ProcessRequestAsync<Dto.TokenExchangeRequest, Dto.TokenExchangeResponse, ExchangeToken, ExchangeTokenErrorCode>(
             endpoint: "tokenExchange",
             request: request,
-            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapExchangeToken(requestXml, responseXml, responseDto, TechnicalUser)
+            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapExchangeToken(requestXml, responseXml, responseDto, TechnicalUser),
+            cancellationToken: cancellationToken
         );
     }
 
-    public Task<ResponseResult<TransactionStatus, TransactionErrorCode>> GetTransactionStatusAsync(string transactionId)
+    public async Task<ResponseResult<TransactionStatus, TransactionErrorCode>> GetTransactionStatusAsync(string transactionId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(transactionId))
         {
@@ -40,38 +41,40 @@ public sealed class NavClient
         }
 
         var request = RequestCreator.CreateQueryTransactionStatusRequest(TechnicalUser, SoftwareIdentification, transactionId);
-        return Client.ProcessRequestAsync<Dto.QueryTransactionStatusRequest, Dto.QueryTransactionStatusResponse, TransactionStatus, TransactionErrorCode>(
+        return await Client.ProcessRequestAsync<Dto.QueryTransactionStatusRequest, Dto.QueryTransactionStatusResponse, TransactionStatus, TransactionErrorCode>(
             endpoint: "queryTransactionStatus",
             request: request,
-            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapTransactionStatus(requestXml, responseXml, responseDto)
+            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapTransactionStatus(requestXml, responseXml, responseDto),
+            cancellationToken: cancellationToken
         );
     }
 
-    public Task<ResponseResult<TaxPayerData, TaxPayerErrorCode>> GetTaxPayerDataAsync(TaxpayerIdentificationNumber taxId)
+    public async Task<ResponseResult<TaxPayerData, TaxPayerErrorCode>> GetTaxPayerDataAsync(TaxpayerIdentificationNumber taxId, CancellationToken cancellationToken = default)
     {
         var request = RequestCreator.CreateQueryTaxpayerRequest(TechnicalUser, SoftwareIdentification, taxId.TaxpayerNumber);
-        return Client.ProcessRequestAsync<Dto.QueryTaxpayerRequest, Dto.QueryTaxpayerResponse, TaxPayerData, TaxPayerErrorCode>(
+        return await Client.ProcessRequestAsync<Dto.QueryTaxpayerRequest, Dto.QueryTaxpayerResponse, TaxPayerData, TaxPayerErrorCode>(
             endpoint: "queryTaxpayer",
             request: request,
-            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapTaxPayerData(requestXml, responseXml, responseDto)
+            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapTaxPayerData(requestXml, responseXml, responseDto),
+            cancellationToken: cancellationToken
         );
     }
 
-    public Task<ResponseResult<string, ResultErrorCode>> SendInvoicesAsync(ExchangeToken token, ISequence<Invoice> invoices)
+    public async Task<ResponseResult<string, ResultErrorCode>> SendInvoicesAsync(ExchangeToken token, ISequence<Invoice> invoices, CancellationToken cancellationToken = default)
     {
         var request = RequestCreator.CreateManageInvoicesRequest(TechnicalUser, SoftwareIdentification, token, invoices);
-        return ManageInvoicesAsync(request, invoices);
+        return await ManageInvoicesAsync(request, invoices, cancellationToken);
     }
 
-    public Task<ResponseResult<string, ResultErrorCode>> SendModificationDocumentsAsync(ExchangeToken token, ISequence<ModificationInvoice> invoices)
+    public async Task<ResponseResult<string, ResultErrorCode>> SendModificationDocumentsAsync(ExchangeToken token, ISequence<ModificationInvoice> invoices, CancellationToken cancellationToken = default)
     {
         var request = RequestCreator.CreateManageInvoicesRequest(TechnicalUser, SoftwareIdentification, token, invoices);
-        return ManageInvoicesAsync(request, invoices);
+        return await ManageInvoicesAsync(request, invoices, cancellationToken);
     }
 
-    private Task<ResponseResult<string, ResultErrorCode>> ManageInvoicesAsync<TDocument>(Dto.ManageInvoiceRequest request, ISequence<TDocument> invoices)
+    private async Task<ResponseResult<string, ResultErrorCode>> ManageInvoicesAsync<TDocument>(Dto.ManageInvoiceRequest request, ISequence<TDocument> invoices, CancellationToken cancellationToken = default)
     {
-        if (invoices.Values.Count() > ServiceInfo.MaxInvoiceBatchSize)
+        if (invoices.Values.Count > ServiceInfo.MaxInvoiceBatchSize)
         {
             throw new ArgumentException($"Max invoice batch size ({ServiceInfo.MaxInvoiceBatchSize}) exceeded.", nameof(invoices));
         }
@@ -81,10 +84,11 @@ public sealed class NavClient
             throw new ArgumentException("Items need to be indexed from 1.", nameof(invoices));
         }
 
-        return Client.ProcessRequestAsync<Dto.ManageInvoiceRequest, Dto.ManageInvoiceResponse, string, ResultErrorCode>(
+        return await Client.ProcessRequestAsync<Dto.ManageInvoiceRequest, Dto.ManageInvoiceResponse, string, ResultErrorCode>(
             endpoint: "manageInvoice",
             request: request,
-            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapManageInvoice(requestXml, responseXml, responseDto)
+            successFunc: (responseDto, requestXml, responseXml) => ModelMapper.MapManageInvoice(requestXml, responseXml, responseDto),
+            cancellationToken: cancellationToken
         );
     }
 }
