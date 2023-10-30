@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Mews</Authors>
     <Description>TicketBAI client.</Description>
     <PackageTags>fiscalization;spain;basque;ticketbai</PackageTags>
@@ -11,7 +11,7 @@
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageVersion>6.0.0</PackageVersion>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
 
