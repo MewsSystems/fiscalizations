@@ -18,7 +18,7 @@ public sealed class TestFixture
             taxpayerNumber: Region.Match(
                 Region.Gipuzkoa, _ => "A01111111",
                 Region.Araba, _ => System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID",
-                Region.Bizkaia, _ => "B00000034"
+                Region.Bizkaia, _ => "A99800005"
             )
         ).Success.Get();
     }
@@ -49,8 +49,8 @@ public sealed class TestFixture
         // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
         // Also the NIF must be registered in the Araba region.
         var applicableValidationResults = region.Match(
-            Region.Gipuzkoa, _ => validationResults,
-            Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion))
+            Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion)),
+            _ => validationResults
         );
         Assert.IsEmpty(applicableValidationResults);
         Assert.IsNotEmpty(response.QrCodeUri);
