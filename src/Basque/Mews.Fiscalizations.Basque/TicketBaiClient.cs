@@ -61,8 +61,17 @@ public sealed class TicketBaiClient
         var response = await HttpClient.SendAsync(requestMessage);
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        return await DeserializeBizkaiaResponse(responseContent, invoiceData);
+        var responseDecompressed = await GzipCompressorHelper.DecompressAsync(Convert.FromBase64String(responseContent), ServiceInfo.Encoding, CancellationToken.None);
+        var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseDecompressed);
 
+        return DtoToModelConverter.Convert(
+            response: lroeResponse,
+            qrCodeUri: invoiceData.QrCodeUri,
+            xmlRequestContent: invoiceData.SignedRequest.OuterXml,
+            xmlResponseContent: responseContent,
+            tbaiIdentifier: invoiceData.TbaiIdentifier,
+            signatureValue: invoiceData.TrimmedSignature
+        );
     }
     
     private async Task<SendInvoiceResponse> SendTicketBaiInvoiceAsync(TicketBaiInvoiceData invoiceData)
@@ -77,21 +86,6 @@ public sealed class TicketBaiClient
             response: ticketBaiResponse,
             qrCodeUri: invoiceData.QrCodeUri,
             xmlRequestContent: signedRequest.OuterXml,
-            xmlResponseContent: responseContent,
-            tbaiIdentifier: invoiceData.TbaiIdentifier,
-            signatureValue: invoiceData.TrimmedSignature
-        );
-    }
-
-    private async Task<SendInvoiceResponse> DeserializeBizkaiaResponse(string responseContent, TicketBaiInvoiceData invoiceData)
-    {
-        var responseDecompressed = await GzipCompressorHelper.DecompressAsync(Convert.FromBase64String(responseContent), ServiceInfo.Encoding, CancellationToken.None);
-        var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseDecompressed);
-
-        return DtoToModelConverter.Convert(
-            response: lroeResponse,
-            qrCodeUri: invoiceData.QrCodeUri,
-            xmlRequestContent: invoiceData.SignedRequest.OuterXml,
             xmlResponseContent: responseContent,
             tbaiIdentifier: invoiceData.TbaiIdentifier,
             signatureValue: invoiceData.TrimmedSignature
