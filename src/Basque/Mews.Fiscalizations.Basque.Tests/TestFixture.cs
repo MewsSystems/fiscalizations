@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using FuncSharp;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Mews.Fiscalizations.Basque.Tests;
 
@@ -18,7 +19,7 @@ public sealed class TestFixture
             taxpayerNumber: Region.Match(
                 Region.Gipuzkoa, _ => "A01111111",
                 Region.Araba, _ => System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID",
-                Region.Bizkaia, _ => "A99800005"
+                Region.Bizkaia, _ => "A01111111"
             )
         ).Success.Get();
     }
@@ -34,13 +35,13 @@ public sealed class TestFixture
         license: Region.Match(
             Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
             Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE"),
-            Region.Bizkaia, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_bizkaia_license") ?? "INSERT_LICENSE")
+            Region.Bizkaia, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_bizkaia_license") ?? "TBAIBI00000000PRUEBA")
         ),
-        name: String1To120.CreateUnsafe("Test"),
+        name: String1To120.CreateUnsafe("IZENPE S.A"),
         version: String1To20.CreateUnsafe("1.0.0")
     );
 
-    internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("Test issuing company"), LocalNif.TaxpayerNumber).Success.Get();
+    internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("IZENPE S.A"), LocalNif.TaxpayerNumber).Success.Get();
 
     internal static void AssertResponse(Region region, SendInvoiceResponse response, TicketBaiInvoiceData tbaiInvoiceData)
     {

@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Mews.Fiscalizations.Basque.Model;
@@ -18,6 +19,10 @@ public sealed class TicketBaiClient
         
         var requestHandler = new HttpClientHandler();
         requestHandler.ClientCertificates.Add(certificate);
+        if (region is Region.Bizkaia)
+        {
+            requestHandler.AutomaticDecompression = DecompressionMethods.GZip;
+        }
         HttpClient = new HttpClient(requestHandler);
 
     }
@@ -73,8 +78,7 @@ public sealed class TicketBaiClient
             );
         }
 
-        var responseDecompressed = await GzipCompressorHelper.DecompressAsync(Convert.FromBase64String(responseContent), ServiceInfo.Encoding, CancellationToken.None);
-        var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseDecompressed);
+        var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseContent);
 
         return DtoToModelConverter.Convert(
             response: lroeResponse,

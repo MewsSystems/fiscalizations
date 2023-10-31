@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Basque;
 
 public static class BizkaiaRequestHelper
 {
-    public async static Task<string> CreateBizkaiaRequest(string ticketBaiInvoiceXml, Encoding encoding)
+    public async static Task<byte[]> CreateBizkaiaRequest(string ticketBaiInvoiceXml, Encoding encoding)
     {
         var lroeRequest = new LROEPJ240FacturasEmitidasConSGAltaPeticion
         {
@@ -28,14 +28,14 @@ public static class BizkaiaRequestHelper
         };
         var lroeRequestAsXml = XmlSerializer.Serialize(lroeRequest).OuterXml;
         var compressedBytes = await lroeRequestAsXml.CompressAsync(encoding, CancellationToken.None);
-        return Convert.ToBase64String(compressedBytes);
+        return compressedBytes;
     }
 
-    public static HttpRequestMessage CreateBizkaiaRequestMessage(Uri uri, StringContent stringContent, string ticketBaiRequest)
+    public static HttpRequestMessage CreateBizkaiaRequestMessage(Uri uri, ByteArrayContent content, string ticketBaiRequest)
     {
         var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
         
-        requestMessage.Content = stringContent;
+        requestMessage.Content = content;
         requestMessage.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
         requestMessage.Headers.TryAddWithoutValidation("eus-bizkaia-n3-version", "1.0");
         requestMessage.Headers.TryAddWithoutValidation("eus-bizkaia-n3-content-type", MediaTypeNames.Application.Xml);
@@ -44,9 +44,9 @@ public static class BizkaiaRequestHelper
         return requestMessage;
     }
 
-    public static StringContent CreateBizkaiaRequestContent(string requestBody)
+    public static ByteArrayContent CreateBizkaiaRequestContent(byte[] requestBody)
     {
-        var requestContent = new StringContent(requestBody);
+        var requestContent = new ByteArrayContent(requestBody);
         requestContent.Headers.ContentEncoding.Add("gzip");
         requestContent.Headers.ContentLength = requestBody.Length;
         requestContent.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
@@ -81,6 +81,7 @@ public static class BizkaiaRequestHelper
             Modelo = Modelo240Enum.Item240,
             Capitulo = CapituloModelo240Enum.Item1,
             Subcapitulo = SubcapituloModelo240Enum.Item11,
+            SubcapituloSpecified = true,
             Operacion = OperacionEnum.A00,
             Version = IDVersionEnum.Item10,
             Ejercicio = GetInvoiceDate(ticketBaiOriginalInvoice.Factura.CabeceraFactura.FechaExpedicionFactura).Year,
