@@ -13,16 +13,16 @@ namespace Mews.Fiscalizations.Basque;
 
 public static class BizkaiaRequestHelper
 {
-    public async static Task<string> CreateBizkaiaRequest(string requestXml, Encoding encoding)
+    public async static Task<string> CreateBizkaiaRequest(string ticketBaiInvoiceXml, Encoding encoding)
     {
         var lroeRequest = new LROEPJ240FacturasEmitidasConSGAltaPeticion
         {
-            Cabecera = CreateBizkaiaHeaderRequest(requestXml),
+            Cabecera = CreateBizkaiaHeaderRequest(ticketBaiInvoiceXml),
             FacturasEmitidas = new FacturaEmitidaType[]
             {
                 new FacturaEmitidaType
                 {
-                    TicketBai = Convert.ToBase64String(encoding.GetBytes(requestXml))
+                    TicketBai = Convert.ToBase64String(encoding.GetBytes(ticketBaiInvoiceXml))
                 }
             }
         };

@@ -51,11 +51,13 @@ public sealed class TicketBaiClient
 
     private async Task<SendInvoiceResponse> SendBizkaiaInvoiceAsync(TicketBaiInvoiceData invoiceData)
     {
-        var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(invoiceData.SignedRequest.OuterXml, ServiceInfo.Encoding);
+        var ticketBaiInvoice = invoiceData.SignedRequest.OuterXml;
+        var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(ticketBaiInvoice, ServiceInfo.Encoding);
         var requestContent = BizkaiaRequestHelper.CreateBizkaiaRequestContent(requestBody);
-        var requestMessage = BizkaiaRequestHelper.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestContent, invoiceData.SignedRequest.OuterXml);
+        var requestMessage = BizkaiaRequestHelper.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestContent, ticketBaiInvoice);
 
         var response = await HttpClient.SendAsync(requestMessage);
+
         var responseContent = await response.Content.ReadAsStringAsync();
 
         var responseDecompressed = await GzipCompressorHelper.DecompressAsync(Convert.FromBase64String(responseContent), ServiceInfo.Encoding, CancellationToken.None);
