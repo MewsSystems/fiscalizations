@@ -1,8 +1,5 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Mime;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Security.Cryptography.X509Certificates;
 using System.Xml;
-using Mews.Fiscalizations.Basque.Dto;
 using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Mews.Fiscalizations.Basque.Model;
 using Mews.Fiscalizations.Core.Compression;
