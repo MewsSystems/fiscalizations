@@ -5,7 +5,6 @@ using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Newtonsoft.Json;
 using Mews.Fiscalizations.Italy.Uniwix.Communication.Dto;
 using Mews.Fiscalizations.Italy.Uniwix.Errors;
-using Mews.Fiscalizations.Core.Model;
 
 namespace Mews.Fiscalizations.Italy.Uniwix.Communication;
 
