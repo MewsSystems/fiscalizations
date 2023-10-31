@@ -44,7 +44,7 @@ public static class BizkaiaRequestHelper
         return requestMessage;
     }
 
-    public static StringContent CreateBizkaiaRequestContent(Region region, string requestBody)
+    public static StringContent CreateBizkaiaRequestContent(string requestBody)
     {
         var requestContent = new StringContent(requestBody);
         requestContent.Headers.ContentEncoding.Add("gzip");

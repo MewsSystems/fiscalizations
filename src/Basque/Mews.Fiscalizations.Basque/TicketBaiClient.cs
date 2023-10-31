@@ -52,7 +52,7 @@ public sealed class TicketBaiClient
     private async Task<SendInvoiceResponse> SendBizkaiaInvoiceAsync(TicketBaiInvoiceData invoiceData)
     {
         var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(invoiceData.SignedRequest.OuterXml, ServiceInfo.Encoding);
-        var requestContent = BizkaiaRequestHelper.CreateBizkaiaRequestContent(Region, requestBody);
+        var requestContent = BizkaiaRequestHelper.CreateBizkaiaRequestContent(requestBody);
         var requestMessage = BizkaiaRequestHelper.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestContent, invoiceData.SignedRequest.OuterXml);
 
         var response = await HttpClient.SendAsync(requestMessage);
