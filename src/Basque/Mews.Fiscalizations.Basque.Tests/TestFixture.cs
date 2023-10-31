@@ -17,7 +17,8 @@ public sealed class TestFixture
             country: Countries.Spain,
             taxpayerNumber: Region.Match(
                 Region.Gipuzkoa, _ => "A01111111",
-                Region.Araba, _ => System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID"
+                Region.Araba, _ => System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID",
+                Region.Bizkaia, _ => "B00000034"
             )
         ).Success.Get();
     }
@@ -32,7 +33,8 @@ public sealed class TestFixture
         nif: LocalNif,
         license: Region.Match(
             Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
-            Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE")
+            Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE"),
+            Region.Bizkaia, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_bizkaia_license") ?? "INSERT_LICENSE")
         ),
         name: String1To120.CreateUnsafe("Test"),
         version: String1To20.CreateUnsafe("1.0.0")

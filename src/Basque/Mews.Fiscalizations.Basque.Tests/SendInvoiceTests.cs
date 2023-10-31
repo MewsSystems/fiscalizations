@@ -12,6 +12,7 @@ public class SendInvoiceTests
     [TestCase(Region.Gipuzkoa, true, false, TestName = "Gipuzkoa - Send invoice with foreign receiver")]
     [TestCase(Region.Gipuzkoa, false, true, TestName = "Gipuzkoa - Send negative invoice with local receiver")]
     [TestCase(Region.Gipuzkoa, true, true, TestName = "Gipuzkoa - Send negative invoice with foreign receiver")]
+    [TestCase(Region.Bizkaia, false, false, TestName = "Bizkaia - Send invoice with local receiver")]
     [Retry(3)]
     public async Task SendSimpleInvoiceSucceeds(Region region, bool localReceivers, bool negativeInvoice)
     {

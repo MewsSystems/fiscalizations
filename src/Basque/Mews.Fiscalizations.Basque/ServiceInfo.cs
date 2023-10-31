@@ -45,7 +45,7 @@ internal sealed class ServiceInfo
         RelativeSendInvoiceUri = region.Match(
             Region.Gipuzkoa, _ => new Uri("sarrerak/alta/", UriKind.Relative),
             Region.Araba, _ => new Uri("TicketBAI/v1/facturas/", UriKind.Relative),
-            Region.Bizkaia, _ => new Uri("/", UriKind.Relative)
+            Region.Bizkaia, _ => new Uri("", UriKind.Relative)
         );
         RelativeQrCodeUri = region.Match(
             Region.Gipuzkoa, _ => new Uri("qr/", UriKind.Relative),
