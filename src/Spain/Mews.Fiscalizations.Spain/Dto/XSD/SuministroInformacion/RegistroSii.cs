@@ -24,7 +24,7 @@ namespace Mews.Fiscalizations.Spain.Dto.XSD.SuministroInformacion;
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRFacturasRecibidasType))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRBajaExpedidasType))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(LRfacturasEmitidasType))]
-[System.SerializableAttribute]
+[Serializable]
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroInformacion.xsd")]
 public class RegistroSii
 {

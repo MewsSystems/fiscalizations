@@ -18,8 +18,8 @@ using System.Xml.Serialization;
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [XmlType(AnonymousType = true, Namespace = "urn:ticketbai:emision")]
 [XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
@@ -45,8 +45,8 @@ public class TicketBaiResponse
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
 public class Salida
@@ -167,8 +167,8 @@ public class Salida
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [XmlType(Namespace = "urn:ticketbai:emision")]
 public class ResultadosValidacion

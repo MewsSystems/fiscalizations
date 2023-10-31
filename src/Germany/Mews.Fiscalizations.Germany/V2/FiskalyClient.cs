@@ -161,7 +161,7 @@ public sealed class FiskalyClient
             method: HttpMethod.Post,
             endpoint: $"tss/{tssId}/admin/auth",
             request: RequestCreator.AdminLoginRequest(adminPin),
-            successFunc: response => new ResponseResult<Nothing>(),
+            successFunc: _ => new ResponseResult<Nothing>(),
             token: token,
             cancellationToken: cancellationToken
         );
@@ -173,7 +173,7 @@ public sealed class FiskalyClient
             method: HttpMethod.Patch,
             endpoint: $"tss/{tssId}/admin",
             request: RequestCreator.CreateAdminSetPinRequest(adminPuk, newAdminPin),
-            successFunc: response => new ResponseResult<string>(newAdminPin),
+            successFunc: _ => new ResponseResult<string>(newAdminPin),
             token: token,
             cancellationToken: cancellationToken
         );
@@ -185,7 +185,7 @@ public sealed class FiskalyClient
             method: HttpMethod.Post,
             endpoint: $"tss/{tssId}/admin/logout",
             request: new { },
-            successFunc: response => new ResponseResult<Nothing>(),
+            successFunc: _ => new ResponseResult<Nothing>(),
             cancellationToken: cancellationToken
         );
     }

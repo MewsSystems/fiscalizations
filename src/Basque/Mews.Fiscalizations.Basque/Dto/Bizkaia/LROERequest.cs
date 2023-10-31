@@ -2,15 +2,12 @@
 
 namespace Mews.Fiscalizations.Basque.Dto.Bizkaia;
 
-
 // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
 /// <remarks/>
-[Serializable()]
+[Serializable]
 [System.ComponentModel.DesignerCategory("code")]
-[XmlType(AnonymousType = true, Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
-    "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
-[XmlRoot(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
-    "tidas_ConSG_AltaPeticion_V1_0_2.xsd", IsNullable = false)]
+[XmlType(AnonymousType = true, Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" + "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
+[XmlRoot(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" + "tidas_ConSG_AltaPeticion_V1_0_2.xsd", IsNullable = false)]
 public class LROEPJ240FacturasEmitidasConSGAltaPeticion
 {
     private Cabecera2 cabeceraField;
@@ -48,7 +45,7 @@ public class LROEPJ240FacturasEmitidasConSGAltaPeticion
 }
 
 /// <remarks/>
-[Serializable()]
+[Serializable]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "Cabecera", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
     "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
@@ -114,7 +111,7 @@ public class Cabecera2
     }
 
     /// <remarks/>
-    [XmlIgnore()]
+    [XmlIgnore]
     public bool SubcapituloSpecified
     {
         get
@@ -186,96 +183,96 @@ public class Cabecera2
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+[Serializable]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
 public enum Modelo240Enum
 {
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("240")]
+    [XmlEnum("240")]
     Item240,
 }
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+[Serializable]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
 public enum CapituloModelo240Enum
 {
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("1")]
+    [XmlEnum("1")]
     Item1,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("2")]
+    [XmlEnum("2")]
     Item2,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("3")]
+    [XmlEnum("3")]
     Item3,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("4")]
+    [XmlEnum("4")]
     Item4,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("5")]
+    [XmlEnum("5")]
     Item5,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("6")]
+    [XmlEnum("6")]
     Item6,
 }
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+[Serializable]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
 public enum SubcapituloModelo240Enum
 {
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("1.1")]
+    [XmlEnum("1.1")]
     Item11,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("1.2")]
+    [XmlEnum("1.2")]
     Item12,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("4.1")]
+    [XmlEnum("4.1")]
     Item41,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("4.2")]
+    [XmlEnum("4.2")]
     Item42,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("5.1")]
+    [XmlEnum("5.1")]
     Item51,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("5.2")]
+    [XmlEnum("5.2")]
     Item52,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("6.1")]
+    [XmlEnum("6.1")]
     Item61,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("6.2")]
+    [XmlEnum("6.2")]
     Item62,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("6.3")]
+    [XmlEnum("6.3")]
     Item63,
 }
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+[Serializable]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
 public enum OperacionEnum
 {
 
@@ -300,22 +297,22 @@ public enum OperacionEnum
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+[Serializable]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
 public enum IDVersionEnum
 {
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("1.0")]
+    [XmlEnum("1.0")]
     Item10,
 }
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
 public class NIFPersonaType
 {
 
@@ -324,7 +321,7 @@ public class NIFPersonaType
     private string apellidosNombreRazonSocialField;
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NIF
     {
         get
@@ -338,7 +335,7 @@ public class NIFPersonaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string ApellidosNombreRazonSocial
     {
         get
@@ -353,7 +350,7 @@ public class NIFPersonaType
 }
 
 /// <remarks/>
-[Serializable()]
+[Serializable]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "FacturaEmitida", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmi" +
     "tidas_ConSG_AltaPeticion_V1_0_2.xsd")]
@@ -394,7 +391,7 @@ public class FacturaEmitidaType
 }
 
 /// <remarks/>
-[Serializable()]
+[Serializable]
 [System.ComponentModel.DesignerCategory("code")]
 [XmlType(TypeName = "FacturasEmitidas", Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/LROE_PJ_240_1_1_FacturasEmitidas_ConSG_AltaPeticion_V1_0_2.xsd")]
 public class FacturasEmitidasType
@@ -419,11 +416,11 @@ public class FacturasEmitidasType
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
-public partial class EntidadSucedidaType
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+public class EntidadSucedidaType
 {
 
     private string nombreRazonField;
@@ -431,7 +428,7 @@ public partial class EntidadSucedidaType
     private string nIFField;
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NombreRazon
     {
         get
@@ -445,7 +442,7 @@ public partial class EntidadSucedidaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NIF
     {
         get
@@ -461,11 +458,11 @@ public partial class EntidadSucedidaType
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
-public partial class DetalleInmuebleType
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+public class DetalleInmuebleType
 {
 
     private SituacionInmuebleEnum situacionInmuebleField;
@@ -473,7 +470,7 @@ public partial class DetalleInmuebleType
     private string referenciaCatastralField;
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SituacionInmuebleEnum SituacionInmueble
     {
         get
@@ -487,7 +484,7 @@ public partial class DetalleInmuebleType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string ReferenciaCatastral
     {
         get
@@ -503,34 +500,34 @@ public partial class DetalleInmuebleType
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+[Serializable]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
 public enum SituacionInmuebleEnum
 {
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("1")]
+    [XmlEnum("1")]
     Item1,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("2")]
+    [XmlEnum("2")]
     Item2,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("3")]
+    [XmlEnum("3")]
     Item3,
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlEnumAttribute("4")]
+    [XmlEnum("4")]
     Item4,
 }
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
 public class OtraInformacionTrascendenciaTributariaType
 {
     private string nIFRepresentanteDeclaradoField;
@@ -554,7 +551,7 @@ public class OtraInformacionTrascendenciaTributariaType
     private bool facturacionDispAdicionalSegundaYQuintaFieldSpecified;
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NIFRepresentanteDeclarado
     {
         get
@@ -568,8 +565,8 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlArrayAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    [System.Xml.Serialization.XmlArrayItemAttribute("DetalleInmueble", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+    [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlArrayItem("DetalleInmueble", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
     public DetalleInmuebleType[] Inmuebles
     {
         get
@@ -583,7 +580,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string ImporteTransmisionInmueblesSujetoAIVA
     {
         get
@@ -597,7 +594,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string NumRegistroAcuerdoFacturacion
     {
         get
@@ -611,7 +608,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public string ReferenciaExterna
     {
         get
@@ -625,7 +622,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SiNoEnum Cupon
     {
         get
@@ -639,7 +636,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlIgnoreAttribute()]
+    [XmlIgnore]
     public bool CuponSpecified
     {
         get
@@ -653,7 +650,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public EntidadSucedidaType EntidadSucedida
     {
         get
@@ -667,7 +664,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public SiNoEnum FacturacionDispAdicionalSegundaYQuinta
     {
         get
@@ -681,7 +678,7 @@ public class OtraInformacionTrascendenciaTributariaType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlIgnoreAttribute()]
+    [XmlIgnore]
     public bool FacturacionDispAdicionalSegundaYQuintaSpecified
     {
         get
@@ -697,8 +694,8 @@ public class OtraInformacionTrascendenciaTributariaType
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
+[Serializable]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_Enumerados.xsd")]
 public enum SiNoEnum
 {
 
@@ -711,10 +708,10 @@ public enum SiNoEnum
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
+[Serializable]
+[System.Diagnostics.DebuggerStepThroughAttribute]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
+[XmlType(Namespace = "https://www.batuz.eus/fitxategiak/batuz/LROE/esquemas/batuz_TiposComplejos.xsd")]
 public class DetalleEmitidaConSGCodificadoType
 {
 
@@ -723,7 +720,7 @@ public class DetalleEmitidaConSGCodificadoType
     private OtraInformacionTrascendenciaTributariaType otraInformacionTrascendenciaTributariaField;
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "base64Binary")]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "base64Binary")]
     public byte[] TicketBai
     {
         get
@@ -737,7 +734,7 @@ public class DetalleEmitidaConSGCodificadoType
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
     public OtraInformacionTrascendenciaTributariaType OtraInformacionTrascendenciaTributaria
     {
         get
@@ -750,6 +747,3 @@ public class DetalleEmitidaConSGCodificadoType
         }
     }
 }
-
-
-
