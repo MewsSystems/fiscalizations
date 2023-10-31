@@ -1,6 +1,7 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Mews.Fiscalizations.Basque.Model;
 using System.Globalization;
+using System.Net.Http.Headers;
 
 namespace Mews.Fiscalizations.Basque;
 
@@ -52,6 +53,31 @@ public static class DtoToModelConverter
         );
     }
 
+    internal static SendInvoiceResponse Convert(
+        HttpResponseHeaders responseHeaders,
+        string qrCodeUri,
+        string xmlRequestContent,
+        string xmlResponseContent,
+        string tbaiIdentifier,
+        String1To100 signatureValue)
+    {
+        responseHeaders.TryGetValues("eus-bizkaia-n3-tipo-respuesta", out var responseTypes);
+        responseHeaders.TryGetValues("eus-bizkaia-n3-mensaje-respuesta", out var errorDescriptions);
+        responseHeaders.TryGetValues("eus-bizkaia-n3-codigo-respuesta", out var errorCodes);
+        
+        return new SendInvoiceResponse(
+            xmlRequestContent: xmlRequestContent,
+            xmlResponseContent: xmlResponseContent,
+            qrCodeUri: qrCodeUri,
+            tbaiIdentifier: tbaiIdentifier,
+            received: DateTime.UtcNow, // invoice date is not returned in the header
+            state: ConvertBizkaiaState(responseTypes),
+            description: errorDescriptions.Single(),
+            signatureValue: signatureValue,
+            validationResults: Convert(errorCodes, errorDescriptions).ToEnumerable()
+        );
+    }
+
     public static ErrorCode ConvertBizkaiaErrorCodes(string bizkaiaErrorCode)
     {
         return bizkaiaErrorCode switch
@@ -77,6 +103,15 @@ public static class DtoToModelConverter
         };
     }
 
+    public static InvoiceState ConvertBizkaiaState(IEnumerable<string> responseTypes)
+    {
+        var responseType = responseTypes.Single();
+        return responseType.Match(
+            "Correcto", _ => InvoiceState.Received,
+            _ => InvoiceState.Refused
+        );
+    }
+
     public static InvoiceState ConvertBizkaiaState(EstadoRegistroEnum state)
     {
         // TODO: revisit to confirm that we are handling all the statuses correctly.
@@ -94,6 +129,14 @@ public static class DtoToModelConverter
     private static SendInvoiceValidationResult Convert(SituacionRegistroType situacionRegistro)
     {
         return new SendInvoiceValidationResult(ConvertBizkaiaErrorCodes(situacionRegistro.CodigoErrorRegistro), situacionRegistro.DescripcionErrorRegistroES);
+    }
+
+    private static SendInvoiceValidationResult Convert(IEnumerable<string> errorCodes, IEnumerable<string> errorDescriptions)
+    {
+        var errorCode = errorCodes.Single();
+        var errorDescription = errorDescriptions.Single();
+
+        return new SendInvoiceValidationResult(ConvertBizkaiaErrorCodes(errorCode), errorDescription);
     }
 
     private static T ParseEnum<T>(string value)

@@ -60,6 +60,19 @@ public sealed class TicketBaiClient
 
         var responseContent = await response.Content.ReadAsStringAsync();
 
+        if (string.IsNullOrEmpty(responseContent))
+        {
+            var headers = response.Headers;
+            return DtoToModelConverter.Convert(
+                responseHeaders: headers,
+                qrCodeUri: invoiceData.QrCodeUri,
+                xmlRequestContent: invoiceData.SignedRequest.OuterXml,
+                xmlResponseContent: responseContent,
+                tbaiIdentifier: invoiceData.TbaiIdentifier,
+                signatureValue: invoiceData.TrimmedSignature
+            );
+        }
+
         var responseDecompressed = await GzipCompressorHelper.DecompressAsync(Convert.FromBase64String(responseContent), ServiceInfo.Encoding, CancellationToken.None);
         var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseDecompressed);
 
