@@ -69,15 +69,7 @@ public sealed class TicketBaiClient
         // TODO: throw some exception.
         if (string.IsNullOrEmpty(responseContent))
         {
-            var headers = response.Headers;
-            return DtoToModelConverter.Convert(
-                responseHeaders: headers,
-                qrCodeUri: invoiceData.QrCodeUri,
-                xmlRequestContent: invoiceData.SignedRequest.OuterXml,
-                xmlResponseContent: responseContent,
-                tbaiIdentifier: invoiceData.TbaiIdentifier,
-                signatureValue: invoiceData.TrimmedSignature
-            );
+            throw new InvalidOperationException($"Received empty request after sending request {ServiceInfo.Encoding.GetString(requestBody)}");
         }
 
         var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseContent);
