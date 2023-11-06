@@ -66,7 +66,6 @@ public sealed class TicketBaiClient
 
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
-        // TODO: throw some exception.
         if (string.IsNullOrEmpty(responseContent))
         {
             throw new InvalidOperationException($"Received empty request after sending request {ServiceInfo.Encoding.GetString(requestBody)}");

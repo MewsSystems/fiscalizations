@@ -1,7 +1,6 @@
 ﻿using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Mews.Fiscalizations.Basque.Model;
 using System.Globalization;
-using System.Net.Http.Headers;
 
 namespace Mews.Fiscalizations.Basque;
 
