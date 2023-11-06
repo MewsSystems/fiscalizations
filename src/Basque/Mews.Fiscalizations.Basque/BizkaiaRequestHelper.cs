@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Basque;
 
 public static class BizkaiaRequestHelper
 {
-    public async static Task<byte[]> CreateBizkaiaRequest(TicketBai ticketBaiInvoice, string ticketBaiInvoiceXml, Encoding encoding)
+    public static async Task<byte[]> CreateBizkaiaRequest(TicketBai ticketBaiInvoice, string ticketBaiInvoiceXml, Encoding encoding, CancellationToken cancellationToken)
     {
         var lroeRequest = new LROEPJ240FacturasEmitidasConSGAltaPeticion
         {
@@ -27,14 +27,14 @@ public static class BizkaiaRequestHelper
             }
         };
         var lroeRequestAsXml = XmlSerializer.Serialize(lroeRequest).OuterXml;
-        return await lroeRequestAsXml.CompressAsync(encoding, CancellationToken.None);
+        return await lroeRequestAsXml.CompressAsync(encoding, cancellationToken);
     }
 
-    public static HttpRequestMessage CreateBizkaiaRequestMessage(Uri uri, ByteArrayContent content, TicketBai ticketBaiInvoice)
+    public static HttpRequestMessage CreateBizkaiaRequestMessage(Uri uri, byte[] requestBody, TicketBai ticketBaiInvoice)
     {
         var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri)
         {
-            Content = content
+            Content = CreateBizkaiaRequestContent(requestBody)
         };
 
         requestMessage.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
@@ -45,7 +45,7 @@ public static class BizkaiaRequestHelper
         return requestMessage;
     }
 
-    public static ByteArrayContent CreateBizkaiaRequestContent(byte[] requestBody)
+    private static ByteArrayContent CreateBizkaiaRequestContent(byte[] requestBody)
     {
         var requestContent = new ByteArrayContent(requestBody);
         requestContent.Headers.ContentEncoding.Add("gzip");

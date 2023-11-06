@@ -20,7 +20,7 @@ public sealed class TicketBaiClient
         
         var requestHandler = new HttpClientHandler();
         requestHandler.ClientCertificates.Add(certificate);
-        if (region is Region.Bizkaia)
+        if (region == Region.Bizkaia)
         {
             requestHandler.AutomaticDecompression = DecompressionMethods.GZip;
         }
@@ -45,28 +45,28 @@ public sealed class TicketBaiClient
     /// or by using your own implementation. This allows you to either generate the QR data, and the signed request
     /// using your implementation or by using the library helpers.
     /// </param>
-    public async Task<SendInvoiceResponse> SendInvoiceAsync(TicketBaiInvoiceData invoiceData)
+    public async Task<SendInvoiceResponse> SendInvoiceAsync(TicketBaiInvoiceData invoiceData, CancellationToken cancellationToken = default)
     {
-        if (Region is Region.Bizkaia)
+        if (Region == Region.Bizkaia)
         {
-            return await SendBizkaiaInvoiceAsync(invoiceData);
+            return await SendBizkaiaInvoiceAsync(invoiceData, cancellationToken);
         }
 
         return await SendTicketBaiInvoiceAsync(invoiceData);
     }
 
-    private async Task<SendInvoiceResponse> SendBizkaiaInvoiceAsync(TicketBaiInvoiceData invoiceData)
+    private async Task<SendInvoiceResponse> SendBizkaiaInvoiceAsync(TicketBaiInvoiceData invoiceData, CancellationToken cancellationToken)
     {
         var ticketBaiInvoiceXml = invoiceData.SignedRequest.OuterXml;
         var ticketBaiInvoice = XmlSerializer.Deserialize<TicketBai>(ticketBaiInvoiceXml);
-        var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(ticketBaiInvoice, ticketBaiInvoiceXml, ServiceInfo.Encoding);
-        var requestContent = BizkaiaRequestHelper.CreateBizkaiaRequestContent(requestBody);
-        var requestMessage = BizkaiaRequestHelper.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestContent, ticketBaiInvoice);
+        var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(ticketBaiInvoice, ticketBaiInvoiceXml, ServiceInfo.Encoding, cancellationToken);
+        var requestMessage = BizkaiaRequestHelper.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestBody, ticketBaiInvoice);
 
-        var response = await HttpClient.SendAsync(requestMessage);
+        var response = await HttpClient.SendAsync(requestMessage, cancellationToken);
 
-        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
+        // TODO: throw some exception.
         if (string.IsNullOrEmpty(responseContent))
         {
             var headers = response.Headers;
