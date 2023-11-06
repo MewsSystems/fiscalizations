@@ -13,11 +13,11 @@ namespace Mews.Fiscalizations.Basque;
 
 public static class BizkaiaRequestHelper
 {
-    public async static Task<byte[]> CreateBizkaiaRequest(string ticketBaiInvoiceXml, Encoding encoding)
+    public async static Task<byte[]> CreateBizkaiaRequest(TicketBai ticketBaiInvoice, string ticketBaiInvoiceXml, Encoding encoding)
     {
         var lroeRequest = new LROEPJ240FacturasEmitidasConSGAltaPeticion
         {
-            Cabecera = CreateBizkaiaHeaderRequest(ticketBaiInvoiceXml),
+            Cabecera = CreateBizkaiaHeaderRequest(ticketBaiInvoice),
             FacturasEmitidas = new FacturaEmitidaType[]
             {
                 new FacturaEmitidaType
@@ -27,19 +27,20 @@ public static class BizkaiaRequestHelper
             }
         };
         var lroeRequestAsXml = XmlSerializer.Serialize(lroeRequest).OuterXml;
-        var compressedBytes = await lroeRequestAsXml.CompressAsync(encoding, CancellationToken.None);
-        return compressedBytes;
+        return await lroeRequestAsXml.CompressAsync(encoding, CancellationToken.None);
     }
 
-    public static HttpRequestMessage CreateBizkaiaRequestMessage(Uri uri, ByteArrayContent content, string ticketBaiRequest)
+    public static HttpRequestMessage CreateBizkaiaRequestMessage(Uri uri, ByteArrayContent content, TicketBai ticketBaiInvoice)
     {
-        var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
-        
-        requestMessage.Content = content;
+        var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri)
+        {
+            Content = content
+        };
+
         requestMessage.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
         requestMessage.Headers.TryAddWithoutValidation("eus-bizkaia-n3-version", "1.0");
         requestMessage.Headers.TryAddWithoutValidation("eus-bizkaia-n3-content-type", MediaTypeNames.Application.Xml);
-        requestMessage.Headers.TryAddWithoutValidation("eus-bizkaia-n3-data", CreateBizkaiaHeaderData(ticketBaiRequest));
+        requestMessage.Headers.TryAddWithoutValidation("eus-bizkaia-n3-data", CreateBizkaiaHeaderData(ticketBaiInvoice));
 
         return requestMessage;
     }
@@ -54,9 +55,8 @@ public static class BizkaiaRequestHelper
         return requestContent;
     }
 
-    private static string CreateBizkaiaHeaderData(string ticketBaiRequest)
+    private static string CreateBizkaiaHeaderData(TicketBai ticketBaiOriginalInvoice)
     {
-        var ticketBaiOriginalInvoice = XmlSerializer.Deserialize<TicketBai>(ticketBaiRequest);
         var bizkaiaHeaderData = new BizkaiaHeaderData
         {
             Issuer = new IssuerData
@@ -73,9 +73,8 @@ public static class BizkaiaRequestHelper
         return JsonSerializer.Serialize(bizkaiaHeaderData);
     }
 
-    private static Cabecera2 CreateBizkaiaHeaderRequest(string requestXml)
+    private static Cabecera2 CreateBizkaiaHeaderRequest(TicketBai ticketBaiOriginalInvoice)
     {
-        var ticketBaiOriginalInvoice = XmlSerializer.Deserialize<TicketBai>(requestXml);
         return new Cabecera2
         {
             Modelo = Modelo240Enum.Item240,

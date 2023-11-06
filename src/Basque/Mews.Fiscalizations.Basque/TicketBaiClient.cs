@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
+using Mews.Fiscalizations.Basque.Dto;
 using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Mews.Fiscalizations.Basque.Model;
 using Mews.Fiscalizations.Core.Compression;
@@ -56,8 +57,9 @@ public sealed class TicketBaiClient
 
     private async Task<SendInvoiceResponse> SendBizkaiaInvoiceAsync(TicketBaiInvoiceData invoiceData)
     {
-        var ticketBaiInvoice = invoiceData.SignedRequest.OuterXml;
-        var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(ticketBaiInvoice, ServiceInfo.Encoding);
+        var ticketBaiInvoiceXml = invoiceData.SignedRequest.OuterXml;
+        var ticketBaiInvoice = XmlSerializer.Deserialize<TicketBai>(ticketBaiInvoiceXml);
+        var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(ticketBaiInvoice, ticketBaiInvoiceXml, ServiceInfo.Encoding);
         var requestContent = BizkaiaRequestHelper.CreateBizkaiaRequestContent(requestBody);
         var requestMessage = BizkaiaRequestHelper.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestContent, ticketBaiInvoice);
 
