@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net.Mime;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -17,8 +18,10 @@ internal static  class SigningService
     private static readonly string SignaturePrefix = "ds";
     private static readonly string SignatureNamespace = "http://www.w3.org/2000/09/xmldsig#";
     private static readonly string XadesNamespace = "http://uri.etsi.org/01903/v1.3.2#";
-    private static readonly string SignatureId = $"xmldsig-{Guid.NewGuid()}";
+    private static readonly string SignatureId = $"Signature-{Guid.NewGuid()}";
     private static readonly string SignaturePropertiesId = $"{SignatureId}-SignedProperties";
+    private static readonly string QualifyingPropertiesId = $"{SignatureId}-QualifyingProperties";
+    private static readonly string KeyInfoId = $"{SignatureId}-KeyInfo";
 
     public static XmlElement SignXmlWithXadesBes(X509Certificate2 certificate, XmlDocument document, Region region)
     {
@@ -32,14 +35,14 @@ internal static  class SigningService
 
     private static XmlElement ComputeSignature(SignedXml signedXml, X509Certificate2 certificate, XmlDocument document, Region region)
     {
-        signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA512Url;
+        signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA256Url;
         signedXml.Signature.Id = $"{SignatureId}";
 
         var reference = new Reference
         {
             Uri = "",
             Id = "SignatureId-ref0",
-            DigestMethod = SignedXml.XmlDsigSHA512Url
+            DigestMethod = SignedXml.XmlDsigSHA256Url
         };
         reference.AddTransform(new XmlDsigEnvelopedSignatureTransform());
         reference.AddTransform(new XmlDsigC14NTransform());
@@ -66,7 +69,7 @@ internal static  class SigningService
         {
             Uri = $"#{SignaturePropertiesId}",
             Type = "http://uri.etsi.org/01903#SignedProperties",
-            DigestMethod = SignedXml.XmlDsigSHA512Url
+            DigestMethod = SignedXml.XmlDsigSHA256Url
         };
         signedXml.AddReference(parametersSignature);
 
@@ -77,8 +80,17 @@ internal static  class SigningService
         var signedInfoElementSecondComputeSignature = signedXml.Signature.SignedInfo.GetXml();
         var signedInfoReference2DigestValueElement = signedInfoElementSecondComputeSignature.GetElementsByTagName("DigestValue")[0].InnerText;
 
+        //// This is workaround for overcoming a bug in the library
+        //signedXml.SignedInfo.References.Clear();
+
+        // 3rd ComputeSignature for <SignatureValue> element - Signature of XML data with XAdES
+        signedXml.ComputeSignature();
+
+        var signedInfoElementThirdComputeSignature = signedXml.Signature.SignedInfo.GetXml();
+        var signedInfoReference3DigestValueElement = signedInfoElementThirdComputeSignature.GetElementsByTagName("DigestValue")[0].InnerText;
+
         // Build up <SignedInfo> element with 2 <Reference> elements
-        var signedInfoNode = BuildNodeSignedInfo(document, signedInfoReference1DigestValueElement, signedInfoReference2DigestValueElement);
+        var signedInfoNode = BuildNodeSignedInfo(document, signedInfoReference1DigestValueElement, signedInfoReference2DigestValueElement, signedInfoReference3DigestValueElement);
 
         // Build up <Signature> element with all child elements
         var signatureNode = BuildNodeSignature(document);
@@ -91,12 +103,6 @@ internal static  class SigningService
 
         // Load modified <Signature> back to SignedXml's object
         signedXml.LoadXml(signatureNode);
-
-        // This is workaround for overcoming a bug in the library
-        signedXml.SignedInfo.References.Clear();
-
-        // 3rd ComputeSignature for <SignatureValue> element - Signature of XML data with XAdES
-        signedXml.ComputeSignature();
 
         // Get new Signature value and Replacing <SignagureValue>
         var recomputedSignatureValue = Convert.ToBase64String(signedXml.SignatureValue);
@@ -127,8 +133,10 @@ internal static  class SigningService
         var qualifyingPropertiesNode = document.CreateElement(XadesPrefix, "QualifyingProperties", XadesNamespace);
         var qualifyingPropertiesAttrTarget = document.CreateAttribute("Target");
         var qualifyingPropertiesAttrXAdES141 = document.CreateAttribute("xmlns:xades141");
+        var quealifyinPropertiesId = document.CreateAttribute("Id");
         qualifyingPropertiesAttrTarget.Value = $"#{SignatureId}";
         qualifyingPropertiesAttrXAdES141.Value = "http://uri.etsi.org/01903/v1.4.1#";
+        quealifyinPropertiesId.Value = QualifyingPropertiesId;
         qualifyingPropertiesNode.Attributes.Append(qualifyingPropertiesAttrTarget);
         qualifyingPropertiesNode.Attributes.Append(qualifyingPropertiesAttrXAdES141);
         objectNode.AppendChild(qualifyingPropertiesNode);
@@ -172,7 +180,7 @@ internal static  class SigningService
 
         // <Signature><Object><QualifyingProperties><SignedProperties><SignedSignatureProperties><SigningCertificate><Cert><CertDigest><DigestValue>
         var digestValueNode = document.CreateElement(SignaturePrefix, "DigestValue", SignatureNamespace);
-        digestValueNode.InnerText = Convert.ToBase64String(SHA512.Create().ComputeHash(certificate.GetRawCertData()));
+        digestValueNode.InnerText = Convert.ToBase64String(SHA256.Create().ComputeHash(certificate.GetRawCertData()));
         certDigestNode.AppendChild(digestValueNode);
 
         // <Signature><Object><QualifyingProperties><SignedProperties><SignedSignatureProperties><SigningCertificate><Cert><IssuerSerial>
@@ -189,21 +197,21 @@ internal static  class SigningService
         x509SerialNumberNode.InnerText = ToDecimalString(certificate.SerialNumber);
         issuerSerialNode.AppendChild(x509SerialNumberNode);
 
-        var signaturePolicyIdentifierNode = document.CreateElement(SignaturePrefix, "SignaturePolicyIdentifier", SignatureNamespace);
-        var signaturePolicyIdNode = document.CreateElement(SignaturePrefix, "SignaturePolicyId", SignatureNamespace);
-        var sigPolicyIdNode = document.CreateElement(SignaturePrefix, "SigPolicyId", SignatureNamespace);
+        var signaturePolicyIdentifierNode = document.CreateElement(XadesPrefix, "SignaturePolicyIdentifier", XadesNamespace);
+        var signaturePolicyIdNode = document.CreateElement(XadesPrefix, "SignaturePolicyId", SignatureNamespace);
+        var sigPolicyIdNode = document.CreateElement(XadesPrefix, "SigPolicyId", SignatureNamespace);
 
-        var sigPolicyIdentifierNode = document.CreateElement(SignaturePrefix, "Identifier", SignatureNamespace);
+        var sigPolicyIdentifierNode = document.CreateElement(XadesPrefix, "Identifier", SignatureNamespace);
         sigPolicyIdentifierNode.InnerText = region.Match(
             Region.Gipuzkoa, _ => "https://www.gipuzkoa.eus/ticketbai/sinadura",
             Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/",
             Region.Bizkaia, _ => "https://www.batuz.eus/fitxategiak/batuz/ticketbai/sinadura_elektronikoaren_zehaztapenak_especificaciones_de_la_firma_electronica_v1_0.pdf"
         );
 
-        var sigPolicyDescriptionNode = document.CreateElement(SignaturePrefix, "Description", SignatureNamespace);
+        var sigPolicyDescriptionNode = document.CreateElement(XadesPrefix, "Description", SignatureNamespace);
         sigPolicyDescriptionNode.InnerText = "TicketBAI sinadura-politika / Politica de firma TicketBAI";
 
-        var sigPolicyHashNode = document.CreateElement(SignaturePrefix, "SigPolicyHash", SignatureNamespace);
+        var sigPolicyHashNode = document.CreateElement(XadesPrefix, "SigPolicyHash", SignatureNamespace);
 
         var sigPolicyHashDigestMethodNode = document.CreateElement(SignaturePrefix, "DigestMethod", SignatureNamespace);
         sigPolicyHashDigestMethodNode.SetAttribute("Algorithm", SignedXml.XmlDsigSHA256Url);
@@ -215,10 +223,10 @@ internal static  class SigningService
             Region.Bizkaia, _=> "Quzn98x3PMbSHwbUzaj5f5KOpiH0u8bvmwbbbNkO9Es="
         );
 
-        var sigPolicyQualifiersNode = document.CreateElement(SignaturePrefix, "SigPolicyQualifiers", SignatureNamespace);
-        var sigPolicyQualifierNode = document.CreateElement(SignaturePrefix, "SigPolicyQualifier", SignatureNamespace);
+        var sigPolicyQualifiersNode = document.CreateElement(XadesPrefix, "SigPolicyQualifiers", SignatureNamespace);
+        var sigPolicyQualifierNode = document.CreateElement(XadesPrefix, "SigPolicyQualifier", SignatureNamespace);
 
-        var spuriNode = document.CreateElement(SignaturePrefix, "SPURI", SignatureNamespace);
+        var spuriNode = document.CreateElement(XadesPrefix, "SPURI", SignatureNamespace);
         spuriNode.InnerText = region.Match(
             Region.Gipuzkoa, _ => "https://www.gipuzkoa.eus/ticketbai/sinadura",
             Region.Araba, _ => "https://ticketbai.araba.eus/tbai/sinadura/",
@@ -237,10 +245,52 @@ internal static  class SigningService
         sigPolicyHashNode.AppendChild(sigPolicyHashDigestValueNode);
         signedSignaturePropertiesNode.AppendChild(signaturePolicyIdentifierNode);
 
+        // <Signature><Object><QualifyingProperties><SignedProperties><SignedSignatureProperties>
+        var signedDataObjectPropertiesNode = document.CreateElement(XadesPrefix, "SignedDataObjectProperties", XadesNamespace);
+        signedPropertiesNode.AppendChild(signedDataObjectPropertiesNode);
+
+        var dataObjectFormatNode = document.CreateElement(XadesPrefix, "DataObjectFormat", XadesNamespace);
+        var objectReferenceAttribute = document.CreateAttribute("ObjectReference");
+        objectReferenceAttribute.Value = $"#{SignatureId}-ref0"; 
+        dataObjectFormatNode.Attributes.Append(objectReferenceAttribute);
+
+        var descriptionNode = document.CreateElement(XadesPrefix, "Description", XadesNamespace);
+        descriptionNode.InnerText = "";
+
+        var objectIdentifierNode = document.CreateElement(XadesPrefix, "ObjectIdentifier", XadesNamespace);
+
+        var identifierNode = document.CreateElement(XadesPrefix, "Identifier", XadesNamespace);
+        identifierNode.InnerText = "urn:oid:1.2.840.10003.5.109.10";
+
+        var identifierDescriptionNode = document.CreateElement(XadesPrefix, "Description", XadesNamespace);
+        identifierDescriptionNode.InnerText = "";
+
+        objectIdentifierNode.AppendChild(identifierDescriptionNode);
+
+        var qualifierAttribute = document.CreateAttribute("Qualifier");
+        qualifierAttribute.Value = "OIDAsURN";
+
+        identifierNode.Attributes.Append(qualifierAttribute);
+        identifierNode.AppendChild(descriptionNode);
+
+        objectIdentifierNode.AppendChild(descriptionNode);
+
+        var mimeTypeNode = document.CreateElement(XadesPrefix, "MimeType", XadesNamespace);
+        mimeTypeNode.InnerText = MediaTypeNames.Text.Xml;
+
+        var encodingNode = document.CreateElement(XadesPrefix, "Encoding", XadesNamespace);
+
+        dataObjectFormatNode.AppendChild(descriptionNode);
+        dataObjectFormatNode.AppendChild(objectIdentifierNode);
+        dataObjectFormatNode.AppendChild(mimeTypeNode);
+        dataObjectFormatNode.AppendChild(encodingNode);
+
+        signedDataObjectPropertiesNode.AppendChild(dataObjectFormatNode);
+
         return (XmlElement)document.SelectSingleNode("//*[local-name()='Object']");
     }
 
-    private static XmlElement BuildNodeSignedInfo(XmlDocument document, string reference1DigestValue, string reference2DigestValue)
+    private static XmlElement BuildNodeSignedInfo(XmlDocument document, string reference1DigestValue, string reference2DigestValue, string reference3DigestValue)
     {
         // <Signature><SignedInfo>
         var signedInfoNode = document.CreateElement(SignaturePrefix, "SignedInfo", SignatureNamespace);
@@ -256,17 +306,20 @@ internal static  class SigningService
         // <Signature><SignedInfo><SignatureMethod>
         var signatureMethodNode = document.CreateElement(SignaturePrefix, "SignatureMethod", SignatureNamespace);
         var signatureMethodAttr = document.CreateAttribute("Algorithm");
-        signatureMethodAttr.Value = SignedXml.XmlDsigRSASHA512Url;
+        signatureMethodAttr.Value = SignedXml.XmlDsigRSASHA256Url;
         signatureMethodNode.Attributes.Append(signatureMethodAttr);
         signedInfoNode.AppendChild(signatureMethodNode);
 
         // <Signature><SignedInfo><Reference>
         var reference1Node = document.CreateElement(SignaturePrefix, "Reference", SignatureNamespace);
         var reference1AttrId = document.CreateAttribute("Id");
+        var reference1AttrType = document.CreateAttribute("Type");
         var reference1AttrURI = document.CreateAttribute("URI");
         reference1AttrId.Value = $"{SignatureId}-ref0";
         reference1AttrURI.Value = "";
+        reference1AttrType.Value = "http://www.w3.org/2000/09/xmldsig#Object";
         reference1Node.Attributes.Append(reference1AttrId);
+        reference1Node.Attributes.Append(reference1AttrType);
         reference1Node.Attributes.Append(reference1AttrURI);
         signedInfoNode.AppendChild(reference1Node);
 
@@ -334,6 +387,24 @@ internal static  class SigningService
 
         signedInfoNode.AppendChild(reference2Node);
 
+        var reference3Node = document.CreateElement(SignaturePrefix, "Reference", SignatureNamespace);
+
+        var reference3AttrURI = document.CreateAttribute("URI");
+        reference3AttrURI.Value = $"#{SignatureId}-KeyInfo";
+        reference3Node.Attributes.Append(reference3AttrURI);
+
+        var digestMethod3Node = document.CreateElement(SignaturePrefix, "DigestMethod", SignatureNamespace);
+        var digestMethod3Attr = document.CreateAttribute("Algorithm");
+        digestMethod3Attr.Value = SignedXml.XmlDsigSHA512Url;
+        digestMethod3Node.Attributes.Append(digestMethod3Attr);
+        reference3Node.AppendChild(digestMethod3Node);
+
+        var digestValue3Node = document.CreateElement(SignaturePrefix, "DigestValue", SignatureNamespace);
+        digestValue3Node.InnerText = reference3DigestValue;
+        reference3Node.AppendChild(digestValue3Node);
+
+        signedInfoNode.AppendChild(reference3Node);
+
         return (XmlElement)document.SelectSingleNode("//*[local-name()='SignedInfo']");
     }
 
@@ -354,6 +425,8 @@ internal static  class SigningService
     {
         // <Signature><KeyInfo>
         var keyInfoNode = document.CreateElement(SignaturePrefix, "KeyInfo", SignatureNamespace);
+        var keyInfoId = document.CreateAttribute("Id");
+        keyInfoId.Value = KeyInfoId;
         document.DocumentElement.AppendChild(keyInfoNode);
 
         // <Signature><KeyInfo><X509Data>
@@ -371,7 +444,37 @@ internal static  class SigningService
             x509Node.AppendChild(x509CertificateNode);
         }
 
+        GetCertificateParameters(certificate, out var exponent, out var modulus);
+        
+        var keyValueNode = document.CreateElement(SignaturePrefix, "KeyValue", SignatureNamespace);
+        keyInfoNode.AppendChild(keyValueNode);
+
+        var rsaKeyValueNode = document.CreateElement(SignaturePrefix, "RSAKeyValue", SignatureNamespace);
+        keyValueNode.AppendChild(rsaKeyValueNode);
+
+        var modulusValueNode = document.CreateElement(SignaturePrefix, "Modulus", SignatureNamespace);
+        modulusValueNode.InnerText = Convert.ToBase64String(modulus);
+        rsaKeyValueNode.AppendChild(modulusValueNode);
+
+        var exponentNode = document.CreateElement(SignaturePrefix, "Exponent", SignatureNamespace);
+        exponentNode.InnerText = Convert.ToBase64String(exponent);
+        rsaKeyValueNode.AppendChild(exponentNode);
+
         return (XmlElement)document.SelectSingleNode("//*[local-name()='KeyInfo']");
+    }
+
+    private static void GetCertificateParameters(X509Certificate2 certificate, out byte[] exponent, out byte[] modulus)
+    {
+        exponent = new byte[] { };
+        modulus = new byte[] { };
+        
+        var key = certificate.GetRSAPublicKey();
+        if (key is not null)
+        {
+            RSAParameters parameters = key.ExportParameters(false);
+            exponent = parameters.Exponent;
+            modulus = parameters.Modulus;
+        }
     }
 
     private static string ToDecimalString(string serialNumber)
