@@ -68,7 +68,8 @@ public sealed class TicketBaiClient
 
         if (string.IsNullOrEmpty(responseContent))
         {
-            throw new InvalidOperationException($"Received empty request after sending request {ServiceInfo.Encoding.GetString(requestBody)}");
+            var request = await requestBody.DecompressAsync(ServiceInfo.Encoding, cancellationToken);
+            throw new InvalidOperationException($"Received empty response after sending request {request}");
         }
 
         var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseContent);
