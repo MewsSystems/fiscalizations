@@ -1,6 +1,11 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Net;
+using System.Net.Mime;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml;
+using Mews.Fiscalizations.Basque.Dto;
+using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Mews.Fiscalizations.Basque.Model;
+using Mews.Fiscalizations.Core.Compression;
 using Mews.Fiscalizations.Core.Xml;
 
 namespace Mews.Fiscalizations.Basque;
@@ -13,10 +18,15 @@ public sealed class TicketBaiClient
         Environment = environment;
         Region = region;
         ServiceInfo = new ServiceInfo(region);
-
+        
         var requestHandler = new HttpClientHandler();
         requestHandler.ClientCertificates.Add(certificate);
+        if (region == Region.Bizkaia)
+        {
+            requestHandler.AutomaticDecompression = DecompressionMethods.GZip;
+        }
         HttpClient = new HttpClient(requestHandler);
+
     }
 
     private HttpClient HttpClient { get; }
@@ -36,10 +46,47 @@ public sealed class TicketBaiClient
     /// or by using your own implementation. This allows you to either generate the QR data, and the signed request
     /// using your implementation or by using the library helpers.
     /// </param>
-    public async Task<SendInvoiceResponse> SendInvoiceAsync(TicketBaiInvoiceData invoiceData)
+    /// <param name="cancellationToken">CancellationToken</param>
+    public async Task<SendInvoiceResponse> SendInvoiceAsync(TicketBaiInvoiceData invoiceData, CancellationToken cancellationToken = default)
+    {
+        if (Region == Region.Bizkaia)
+        {
+            return await SendBizkaiaInvoiceAsync(invoiceData, cancellationToken);
+        }
+
+        return await SendTicketBaiInvoiceAsync(invoiceData);
+    }
+
+    private async Task<SendInvoiceResponse> SendBizkaiaInvoiceAsync(TicketBaiInvoiceData invoiceData, CancellationToken cancellationToken)
+    {
+        var ticketBaiInvoiceXml = invoiceData.SignedRequest.OuterXml;
+        var ticketBaiInvoice = XmlSerializer.Deserialize<TicketBai>(ticketBaiInvoiceXml);
+        var requestBody = await BizkaiaRequestHelpers.CreateBizkaiaRequest(ticketBaiInvoice, ticketBaiInvoiceXml, ServiceInfo.Encoding, cancellationToken);
+        var requestMessage = BizkaiaRequestHelpers.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestBody, ticketBaiInvoice);
+
+        var response = await HttpClient.SendAsync(requestMessage, cancellationToken);
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        if (string.IsNullOrEmpty(responseContent))
+        {
+            throw new HttpRequestException($"Received an empty response after sending request with response headers: {response.Headers}");
+        }
+
+        var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseContent);
+        return DtoToModelConverter.Convert(
+            response: lroeResponse,
+            qrCodeUri: invoiceData.QrCodeUri,
+            xmlRequestContent: invoiceData.SignedRequest.OuterXml,
+            xmlResponseContent: responseContent,
+            tbaiIdentifier: invoiceData.TbaiIdentifier,
+            signatureValue: invoiceData.TrimmedSignature
+        );
+    }
+    
+    private async Task<SendInvoiceResponse> SendTicketBaiInvoiceAsync(TicketBaiInvoiceData invoiceData)
     {
         var signedRequest = invoiceData.SignedRequest;
-        var requestContent = new StringContent(signedRequest.OuterXml, ServiceInfo.Encoding, "application/xml");
+        var requestContent = new StringContent(signedRequest.OuterXml, ServiceInfo.Encoding, MediaTypeNames.Application.Xml);
         var response = await HttpClient.PostAsync(ServiceInfo.SendInvoiceUri(Environment), requestContent);
 
         var responseContent = await response.Content.ReadAsStringAsync();
