@@ -1,5 +1,4 @@
-﻿using FuncSharp;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Security.Cryptography.X509Certificates;
 
 namespace Mews.Fiscalizations.Basque.Tests;
 
@@ -35,7 +34,7 @@ public sealed class TestFixture
         license: Region.Match(
             Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
             Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE"),
-            Region.Bizkaia, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_bizkaia_license") ?? "TBAIBI00000000PRUEBA")
+            Region.Bizkaia, _ => String1To20.CreateUnsafe("TBAIBI00000000PRUEBA")
         ),
         name: String1To120.CreateUnsafe("IZENPE S.A"),
         version: String1To20.CreateUnsafe("1.0.0")

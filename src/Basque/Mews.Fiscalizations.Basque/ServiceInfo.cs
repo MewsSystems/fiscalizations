@@ -50,7 +50,7 @@ internal sealed class ServiceInfo
         RelativeQrCodeUri = region.Match(
             Region.Gipuzkoa, _ => new Uri("qr/", UriKind.Relative),
             Region.Araba, _ => new Uri("tbai/qrtbai/", UriKind.Relative),
-            Region.Bizkaia, _ => new Uri("/", UriKind.Relative)
+            Region.Bizkaia, _ => new Uri("QRTBAI/", UriKind.Relative)
         );
         Encoding = Encoding.UTF8;
     }

@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 
 namespace Mews.Fiscalizations.Basque;
 
-public static class BizkaiaRequestHelper
+public static class BizkaiaRequestHelpers
 {
     public static async Task<byte[]> CreateBizkaiaRequest(TicketBai ticketBaiInvoice, string ticketBaiInvoiceXml, Encoding encoding, CancellationToken cancellationToken)
     {

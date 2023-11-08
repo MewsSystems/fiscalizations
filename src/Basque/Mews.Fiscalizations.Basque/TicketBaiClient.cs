@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Mime;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using Mews.Fiscalizations.Basque.Dto;
@@ -45,6 +46,7 @@ public sealed class TicketBaiClient
     /// or by using your own implementation. This allows you to either generate the QR data, and the signed request
     /// using your implementation or by using the library helpers.
     /// </param>
+    /// <param name="cancellationToken">CancellationToken</param>
     public async Task<SendInvoiceResponse> SendInvoiceAsync(TicketBaiInvoiceData invoiceData, CancellationToken cancellationToken = default)
     {
         if (Region == Region.Bizkaia)
@@ -59,21 +61,18 @@ public sealed class TicketBaiClient
     {
         var ticketBaiInvoiceXml = invoiceData.SignedRequest.OuterXml;
         var ticketBaiInvoice = XmlSerializer.Deserialize<TicketBai>(ticketBaiInvoiceXml);
-        var requestBody = await BizkaiaRequestHelper.CreateBizkaiaRequest(ticketBaiInvoice, ticketBaiInvoiceXml, ServiceInfo.Encoding, cancellationToken);
-        var requestMessage = BizkaiaRequestHelper.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestBody, ticketBaiInvoice);
+        var requestBody = await BizkaiaRequestHelpers.CreateBizkaiaRequest(ticketBaiInvoice, ticketBaiInvoiceXml, ServiceInfo.Encoding, cancellationToken);
+        var requestMessage = BizkaiaRequestHelpers.CreateBizkaiaRequestMessage(ServiceInfo.SendInvoiceUri(Environment), requestBody, ticketBaiInvoice);
 
         var response = await HttpClient.SendAsync(requestMessage, cancellationToken);
-
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
         if (string.IsNullOrEmpty(responseContent))
         {
-            var request = await requestBody.DecompressAsync(ServiceInfo.Encoding, cancellationToken);
-            throw new InvalidOperationException($"Received empty response after sending request {request}");
+            throw new HttpRequestException($"Received an empty response after sending request with response headers: {response.Headers}");
         }
 
         var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseContent);
-
         return DtoToModelConverter.Convert(
             response: lroeResponse,
             qrCodeUri: invoiceData.QrCodeUri,
@@ -87,7 +86,7 @@ public sealed class TicketBaiClient
     private async Task<SendInvoiceResponse> SendTicketBaiInvoiceAsync(TicketBaiInvoiceData invoiceData)
     {
         var signedRequest = invoiceData.SignedRequest;
-        var requestContent = new StringContent(signedRequest.OuterXml, ServiceInfo.Encoding, "application/xml");
+        var requestContent = new StringContent(signedRequest.OuterXml, ServiceInfo.Encoding, MediaTypeNames.Application.Xml);
         var response = await HttpClient.PostAsync(ServiceInfo.SendInvoiceUri(Environment), requestContent);
 
         var responseContent = await response.Content.ReadAsStringAsync();
