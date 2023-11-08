@@ -80,8 +80,8 @@ internal static  class SigningService
         var signedInfoElementSecondComputeSignature = signedXml.Signature.SignedInfo.GetXml();
         var signedInfoReference2DigestValueElement = signedInfoElementSecondComputeSignature.GetElementsByTagName("DigestValue")[0].InnerText;
 
-        //// This is workaround for overcoming a bug in the library
-        //signedXml.SignedInfo.References.Clear();
+        // This is workaround for overcoming a bug in the library
+        signedXml.SignedInfo.References.Clear();
 
         // 3rd ComputeSignature for <SignatureValue> element - Signature of XML data with XAdES
         signedXml.ComputeSignature();
@@ -103,6 +103,9 @@ internal static  class SigningService
 
         // Load modified <Signature> back to SignedXml's object
         signedXml.LoadXml(signatureNode);
+
+        // This is a workaround to overcome a bug in the library
+        signedXml.SignedInfo.References.Clear();
 
         // Get new Signature value and Replacing <SignagureValue>
         var recomputedSignatureValue = Convert.ToBase64String(signedXml.SignatureValue);
