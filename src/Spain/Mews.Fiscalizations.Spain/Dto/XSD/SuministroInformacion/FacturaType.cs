@@ -2,7 +2,7 @@
 
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(FacturaRecibidaType))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(FacturaExpedidaType))]
-[System.SerializableAttribute]
+[Serializable]
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/SuministroInformacion.xsd")]
 public class FacturaType
 {

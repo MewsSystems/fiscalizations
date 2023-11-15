@@ -17,7 +17,8 @@ public sealed class TestFixture
             country: Countries.Spain,
             taxpayerNumber: Region.Match(
                 Region.Gipuzkoa, _ => "A01111111",
-                Region.Araba, _ => System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID"
+                Region.Araba, _ => System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_TAX_ID",
+                Region.Bizkaia, _ => "A01111111"
             )
         ).Success.Get();
     }
@@ -32,13 +33,14 @@ public sealed class TestFixture
         nif: LocalNif,
         license: Region.Match(
             Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
-            Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE")
+            Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE"),
+            Region.Bizkaia, _ => String1To20.CreateUnsafe("TBAIBI00000000PRUEBA")
         ),
-        name: String1To120.CreateUnsafe("Test"),
+        name: String1To120.CreateUnsafe("IZENPE S.A"),
         version: String1To20.CreateUnsafe("1.0.0")
     );
 
-    internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("Test issuing company"), LocalNif.TaxpayerNumber).Success.Get();
+    internal Issuer Issuer => Issuer.Create(name: Name.CreateUnsafe("IZENPE S.A"), LocalNif.TaxpayerNumber).Success.Get();
 
     internal static void AssertResponse(Region region, SendInvoiceResponse response, TicketBaiInvoiceData tbaiInvoiceData)
     {
@@ -47,8 +49,8 @@ public sealed class TestFixture
         // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
         // Also the NIF must be registered in the Araba region.
         var applicableValidationResults = region.Match(
-            Region.Gipuzkoa, _ => validationResults,
-            Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion))
+            Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion)),
+            _ => validationResults
         );
         Assert.IsEmpty(applicableValidationResults);
         Assert.IsNotEmpty(response.QrCodeUri);

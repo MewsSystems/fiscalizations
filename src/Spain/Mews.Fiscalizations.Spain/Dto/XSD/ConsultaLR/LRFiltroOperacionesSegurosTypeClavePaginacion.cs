@@ -2,7 +2,7 @@
 
 namespace Mews.Fiscalizations.Spain.Dto.XSD.ConsultaLR;
 
-[System.SerializableAttribute]
+[Serializable]
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/ssii/fact/ws/ConsultaLR.xsd")]
 public class LRFiltroOperacionesSegurosTypeClavePaginacion
 {
