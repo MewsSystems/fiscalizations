@@ -33,14 +33,14 @@ Install-Package Mews.Fiscalizations.All
 
 ## 🎯 Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp). Definitely check-out the examples of usage, so you're not surprised. At the very least IOptions and ITries.
+-   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp). Definitely check out the examples of usage, so you're not surprised. At the very least IOptions and ITries.
 -   Early data validation.
 -   Asynchronous I/O.
 -   All endpoints are covered with tests.
 -   Intuitive immutable DTOs.
 -   Pipelines that run on both Windows and Linux operating systems.
 -   Code examples for each project.
--   Cross platform (uses .NET 6).
+-   Cross-platform (uses .NET 8).
 -   6 countries + Basque region supported.
 -   Logging support for some fiscalizations.
 
@@ -80,7 +80,7 @@ Also, please make sure to introduce tests when applicable.
 
 ## ☕ Donate
 
-There is no need to donate the project, but thanks for considering it! Instead, if you like the project, star it here on GitHub :-) Thanks!
+There is no need to donate to the project, but thanks for considering it! Instead, if you like the project, star it here on GitHub :-) Thanks!
 
 If you still insist on donating, we accept gummy bears at Mews Systems s.r.o., Náměstí IP Pavlova 5, Vinohrady 120 00 Prague. This project was, of course, powered by a huge pile of gummy bears ;-)
 
@@ -90,7 +90,7 @@ We’re building transformational technology for millions of hospitality profess
 
 **Hoteliers**
 
-The hoteliers who choose Mews share our passion for innovation and they don’t accept the status quo. They’re using our technology to rethink physical spaces, services and guest experiences.
+The hoteliers who choose Mews share our passion for innovation and they don’t accept the status quo. They’re using our technology to rethink physical spaces, services, and guest experiences.
 
 **Guests**
 
