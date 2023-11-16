@@ -96,7 +96,7 @@ internal class ModelToDtoConverter
     {
         return new SujetaType
         {
-            Exenta = summary.TaxExempt.Map(items => items.Select(i => Convert(i)).ToArray()).GetOrEmpty(),
+            Exenta = summary.TaxExempt.Match(items => items.Select(i => Convert(i)).ToArray(), _ => null),
             NoExenta = summary.Taxed.Map(taxRateSummaries => new SujetaTypeNoExenta
             {
                 TipoNoExenta = TipoOperacionSujetaNoExentaType.S1,
@@ -109,7 +109,7 @@ internal class ModelToDtoConverter
     {
         return new SujetaPrestacionType
         {
-            Exenta = summary.TaxExempt.Map(items => items.Select(i => Convert(i)).ToArray()).GetOrEmpty(),
+            Exenta = summary.TaxExempt.Match(items => items.Select(i => Convert(i)).ToArray(), _ => null),
             NoExenta = summary.Taxed.Map(taxRateSummaries => new SujetaPrestacionTypeNoExenta
             {
                 TipoNoExenta = TipoOperacionSujetaNoExentaType.S1,
