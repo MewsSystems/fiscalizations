@@ -12,14 +12,14 @@
 
 ## 📃 Description
 
-This repository contains multiple projects. Each project supports reporting of e-invoices to the corresponding country's government authority. Each project folder has it's own documentation. Use the link in the table below to get there.
+This repository contains multiple projects. Each project supports reporting of e-invoices to the corresponding country's government authority. Each project folder has its own documentation. Use the link in the table below to get there.
 
-**Please note that we're not responsible for how these libraries are used and if the data provided is correct or not.**
+**Please note that we're not responsible for how these libraries are used and whether the data provided is correct or not.**
 **Also, it is important to note that these libraries were created to meet our usages, so they might be missing some data that can be important in your case (feel free to extend any library and create a PR).**
 
 ## ⚙️ Installation
 
-For the reporting of e-invoices to a specifc authority, install the package that corresponds to that country through NuGet or using the following commands.
+For the reporting of e-invoices to a specific authority, install the package that corresponds to that country through NuGet or by using the following commands.
 
 For example, installing the Spanish fiscalization package in order to report invoices to the Spanish authorities (SII).
 ```bash
@@ -33,7 +33,7 @@ Install-Package Mews.Fiscalizations.All
 
 ## 🎯 Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp). Definitely check out the examples of usage, so you're not surprised. At the very least IOptions and ITries.
+-   Functional approach via [FuncSharp](https://github.com/MewsSystems/FuncSharp). Definitely check out the examples of usage, so you're not surprised. At the very least IOptions and ITries.
 -   Early data validation.
 -   Asynchronous I/O.
 -   All endpoints are covered with tests.
@@ -75,7 +75,7 @@ Please visit the desired fiscalization project to see its code examples.
 
 ## 👍 Contribute
 
-If you want to support the development of `Mews.Fiscalizations`, feel free to create a PR with a clear description on what was fixed or introduced.
+If you want to support the development of `Mews.Fiscalizations`, feel free to create a PR with a clear description of what was fixed or introduced.
 Also, please make sure to introduce tests when applicable.
 
 ## ☕ Donate
