@@ -2,7 +2,7 @@
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
     <Authors>Mews</Authors>
     <Description>Core library for implementing other fiscalization libraries.</Description>
     <PackageTags>fiscalization core</PackageTags>
@@ -28,6 +28,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.0" />
   </ItemGroup>
 
   <PropertyGroup>

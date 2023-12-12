@@ -11,7 +11,7 @@
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageVersion>6.0.0</PackageVersion>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
 
@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="7.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +39,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SigningService.cs" />
   </ItemGroup>
 
   <PropertyGroup>

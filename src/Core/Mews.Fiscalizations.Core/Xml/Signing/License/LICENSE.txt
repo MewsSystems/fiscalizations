@@ -1,0 +1,27 @@
+FirmaXadesNet - Librería para la generación de firmas XADES
+Copyright (C) 2016 Dpto. de Nuevas Tecnologías de la Dirección General de Urbanismo del Ayto. de Cartagena
+
+This program is free software: you can redistribute it and/or modify
+it under the +terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see http://www.gnu.org/licenses/. 
+
+This software may include third party components under the following
+license terms:
+
+
+- CLR Security Project - http://clrsecurity.codeplex.com/
+  License - http://clrsecurity.codeplex.com/license
+  Attachment file <CLR-Security-LICENSE.txt>
+
+- Microsoft Xades Starter Kit - https://www.microsoft.com/france/openness/open-source/interoperabilite_xades.aspx
+  Original license - http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
+  Modified license <Microsoft.Xades-LICENSE.txt>
