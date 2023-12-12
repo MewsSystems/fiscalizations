@@ -48,7 +48,7 @@ public static class DtoToModelConverter
             state: ConvertBizkaiaState(recordStatus.EstadoRegistro),
             description: recordStatus.DescripcionErrorRegistroES,
             signatureValue: signatureValue,
-            validationResults: Convert(recordStatus).ToEnumerable()
+            validationResults: Convert(recordStatus).ToEnumerable().Flatten()
         );
     }
 
@@ -91,9 +91,9 @@ public static class DtoToModelConverter
         return new SendInvoiceValidationResult(ParseEnum<ErrorCode>(validation.Codigo), validation.Descripcion);
     }
 
-    private static SendInvoiceValidationResult Convert(SituacionRegistroType situacionRegistro)
+    private static Option<SendInvoiceValidationResult> Convert(SituacionRegistroType situacionRegistro)
     {
-        return new SendInvoiceValidationResult(ConvertBizkaiaErrorCodes(situacionRegistro.CodigoErrorRegistro), situacionRegistro.DescripcionErrorRegistroES);
+        return situacionRegistro.CodigoErrorRegistro.AsNonEmpty().Map(r => new SendInvoiceValidationResult(ConvertBizkaiaErrorCodes(r), situacionRegistro.DescripcionErrorRegistroES));
     }
 
     private static T ParseEnum<T>(string value)

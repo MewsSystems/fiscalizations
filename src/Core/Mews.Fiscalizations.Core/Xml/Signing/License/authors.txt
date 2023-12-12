@@ -1,0 +1,11 @@
+# FirmaXadesNet - Librería para la generación de firmas XADES
+# Copyright (C) 2016 Dpto. de Nuevas Tecnologías de la Dirección General de Urbanismo del Ayto. de Cartagena
+# See the accompanying LICENSE file for details.
+#
+# A Contributing Author is a person or company who contributed code that
+# is now part of FirmaXadesNet.
+#
+# For the purpose of copyright and licensing, this is the official list
+# of Contributing Authors, in alphabetic order.
+
+J. Arturo Aguado <informatica@gemuc.es> - Dpto. de Nuevas Tecnologías de la Dirección General de Urbanismo del Ayto. de Cartagena
