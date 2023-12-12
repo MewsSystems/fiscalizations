@@ -41,10 +41,6 @@
     <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="SigningService.cs" />
-  </ItemGroup>
-
   <PropertyGroup>
     <PackageId>Mews.Fiscalizations.Basque</PackageId>
     <Company>Mews</Company>
