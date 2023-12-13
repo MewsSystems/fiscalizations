@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using System.Globalization;
+using System.Web;
 
 namespace Mews.Fiscalizations.Basque;
 
@@ -54,9 +55,10 @@ internal static class QrCodeUriGenerator
         string invoiceNumber,
         decimal total)
     {
-        var qrUri = $"{serviceInfo.QrBaseUrls[environment]}{serviceInfo.RelativeQrCodeUri}?id={tbaiIdentifier}";
+        var qrUri = $"{serviceInfo.QrBaseUrls[environment]}{serviceInfo.RelativeQrCodeUri}";
         var query = QueryHelpers.AddQueryString(qrUri, new Dictionary<string, string>
         {
+            { "id", tbaiIdentifier },
             { "s", invoiceSeries.Map(s => s.Value).GetOrElse("") },
             { "nf", invoiceNumber },
             { "i", total.ToString(CultureInfo.InvariantCulture) }
