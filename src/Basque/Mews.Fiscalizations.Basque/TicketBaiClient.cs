@@ -10,6 +10,7 @@ using Mews.Fiscalizations.Basque.Dto;
 using Mews.Fiscalizations.Basque.Dto.Bizkaia;
 using Mews.Fiscalizations.Basque.Model;
 using Mews.Fiscalizations.Core.Xml;
+using Mews.Fiscalizations.Core.Xml.Signing.Microsoft.Xades;
 
 namespace Mews.Fiscalizations.Basque;
 
@@ -164,21 +165,23 @@ public sealed class TicketBaiClient
             Region.Gipuzkoa, _ => "vSe1CH7eAFVkGN0X2Y7Nl9XGUoBnziDA5BGUSsyt8mg="
         );
 
-        var signerRole = new SignerRole();
-        signerRole.CertifiedRoles.Add(Certificate);
-
-        var sigParams = new SignatureParameters(
+        var signatureParameters = new SignatureParameters(
             xmlDocumentToSign: doc,
             signer: new Signer(Certificate),
-            digestMethod: DigestMethod.SHA512,
-            signatureMethod: SignatureMethod.RSAwithSHA512,
+            digestMethod: DigestMethod.SHA256,
+            signatureMethod: SignatureMethod.RSAwithSHA256,
             dataFormat: new DataFormat(MimeType: "text/xml"),
-            signerRole: signerRole,
+            signerRole: new SignerRole(Certificate.ToEnumerable()),
             signingDate: DateTime.Now,
             signaturePolicyInfo: new SignaturePolicyInfo(policyUri, policyHash, DigestMethod.SHA256, policyUri),
             elementIdToSign: Guid.NewGuid().ToString()
         );
-        var xadesService = new XadesService();
-        return xadesService.SignEnveloped(sigParams);
+        var signatureDocument = XadesService.SignEnveloped(signatureParameters);
+        var isValidSignature = signatureDocument.XadesSignature.XadesCheckSignature(XadesCheckSignatureMasks.AllChecks, DigestMethod.SHA256.GetHashAlgorithm());
+        if (!isValidSignature)
+        {
+            throw new Exception("Invalid signature.");
+        }
+        return signatureDocument;
     }
 }

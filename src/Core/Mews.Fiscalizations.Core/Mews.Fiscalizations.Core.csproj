@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>6.0.2</PackageVersion>
+    <PackageVersion>6.0.3</PackageVersion>
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
 
@@ -32,6 +32,13 @@
 
   <ItemGroup>
     <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Xml\Signing\Microsoft.Xades\xmldsig-core-schema.xsd" />
+    <EmbeddedResource Include="Xml\Signing\Microsoft.Xades\xmldsig-core-schema.xsd" />
+    <None Remove="Xml\Signing\Microsoft.Xades\XAdES.xsd" />
+    <EmbeddedResource Include="Xml\Signing\Microsoft.Xades\XAdES.xsd" />
   </ItemGroup>
 
   <PropertyGroup>

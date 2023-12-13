@@ -8,9 +8,9 @@ using System.Xml;
 
 namespace Mews.Fiscalizations.Core.Xml.Signing;
 
-public sealed class XadesService
+public static class XadesService
 {
-    public SignatureDocument SignEnveloped(SignatureParameters parameters)
+    public static SignatureDocument SignEnveloped(SignatureParameters parameters)
     {
         var xmlDocumentToSign = parameters.XmlDocumentToSign;
         xmlDocumentToSign.PreserveWhitespace = true;
@@ -97,7 +97,7 @@ public sealed class XadesService
         reference.AddTransform(transform);
     }
 
-    private Reference SetContentEnveloped(SignatureDocument sigDocument, XmlDocument xmlDocument, DataObjectFormat dataFormat)
+    private static Reference SetContentEnveloped(SignatureDocument sigDocument, XmlDocument xmlDocument, DataObjectFormat dataFormat)
     {
         sigDocument.Document = xmlDocument;
         var reference = new Reference();
@@ -128,7 +128,7 @@ public sealed class XadesService
         return reference;
     }
 
-    private void PrepareSignature(SignatureDocument sigDocument, SignatureParameters parameters, Reference reference, DataObjectFormat dataFormat)
+    private static void PrepareSignature(SignatureDocument sigDocument, SignatureParameters parameters, Reference reference, DataObjectFormat dataFormat)
     {
         sigDocument.XadesSignature.SignedInfo.SignatureMethod = parameters.SignatureMethod.URI;
 
@@ -163,7 +163,7 @@ public sealed class XadesService
         sigDocument.XadesSignature.LoadXml(signatureElement);
     }
 
-    private void AddXadesInfo(SignatureDocument sigDocument, SignatureParameters parameters, Reference reference, DataObjectFormat dataFormat)
+    private static void AddXadesInfo(SignatureDocument sigDocument, SignatureParameters parameters, Reference reference, DataObjectFormat dataFormat)
     {
         var xadesObject = new XadesObject
         {
@@ -215,7 +215,7 @@ public sealed class XadesService
     }
 
 
-    private void AddSignatureProperties(
+    private static void AddSignatureProperties(
         SignatureDocument sigDocument,
         Reference reference,
         DataObjectFormat dataFormat,
