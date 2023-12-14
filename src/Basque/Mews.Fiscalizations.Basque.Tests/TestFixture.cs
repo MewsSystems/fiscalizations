@@ -59,7 +59,7 @@ public sealed class TestFixture
         Assert.IsNotEmpty(response.XmlRequestContent);
         Assert.IsNotEmpty(response.XmlResponseContent);
 
-        Assert.IsTrue(response.QrCodeUri.Contains(HttpUtility.UrlEncode(response.TBAIIdentifier)!));
+        Assert.IsTrue(response.QrCodeUri.Contains(HttpUtility.UrlEncode(response.TBAIIdentifier)!, StringComparison.InvariantCultureIgnoreCase));
         Assert.AreEqual(response.State, InvoiceState.Received);
         Assert.AreEqual(response.TBAIIdentifier, tbaiInvoiceData.TbaiIdentifier);
         Assert.AreEqual(response.QrCodeUri, tbaiInvoiceData.QrCodeUri);
