@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using System.Web;
 
 namespace Mews.Fiscalizations.Basque.Tests;
 
@@ -58,7 +59,7 @@ public sealed class TestFixture
         Assert.IsNotEmpty(response.XmlRequestContent);
         Assert.IsNotEmpty(response.XmlResponseContent);
 
-        Assert.IsTrue(response.QrCodeUri.Contains(response.TBAIIdentifier));
+        Assert.IsTrue(response.QrCodeUri.Contains(HttpUtility.UrlEncode(response.TBAIIdentifier)!));
         Assert.AreEqual(response.State, InvoiceState.Received);
         Assert.AreEqual(response.TBAIIdentifier, tbaiInvoiceData.TbaiIdentifier);
         Assert.AreEqual(response.QrCodeUri, tbaiInvoiceData.QrCodeUri);
