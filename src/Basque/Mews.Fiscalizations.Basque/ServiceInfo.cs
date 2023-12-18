@@ -38,8 +38,8 @@ internal sealed class ServiceInfo
             },
             Region.Bizkaia, _ => new Dictionary<Environment, Uri>
             {
-                [Environment.Test] = new Uri("https://pruesarrerak.bizkaia.eus/N3B4000M/aurkezpena"),
-                [Environment.Production] = new Uri("https://sarrerak.bizkaia.eus/N3B4000M/aurkezpena")
+                [Environment.Test] = new Uri("https://batuz.eus"),
+                [Environment.Production] = new Uri("https://batuz.eus")
             }
         );
         RelativeSendInvoiceUri = region.Match(
