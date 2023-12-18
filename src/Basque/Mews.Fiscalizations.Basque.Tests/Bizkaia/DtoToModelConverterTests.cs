@@ -17,7 +17,7 @@ public class DtoToModelConverterTests
             var response = XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(CorrectResponseFilename);
             var state = DtoToModelConverter.ConvertBizkaiaState(response.Registros.Single().SituacionRegistro.EstadoRegistro);
 
-            Assert.AreEqual(state, InvoiceState.Received);
+            Assert.That(state, Is.EqualTo(InvoiceState.Received));
         });
     }
 
@@ -30,8 +30,8 @@ public class DtoToModelConverterTests
             var errorCode = DtoToModelConverter.ConvertBizkaiaErrorCodes(response.Registros.Single().SituacionRegistro.CodigoErrorRegistro);
             var state = DtoToModelConverter.ConvertBizkaiaState(response.Registros.Single().SituacionRegistro.EstadoRegistro);
 
-            Assert.AreEqual(state, InvoiceState.Refused);
-            Assert.AreEqual(errorCode, ErrorCode.DuplicateInvoice);
+            Assert.That(state, Is.EqualTo(InvoiceState.Refused));
+            Assert.That(errorCode, Is.EqualTo(ErrorCode.DuplicateInvoice));
         });
     }
 }

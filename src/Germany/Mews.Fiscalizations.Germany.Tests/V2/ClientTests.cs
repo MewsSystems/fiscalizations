@@ -43,7 +43,7 @@ public class ClientTests
         var createdClient = (await client.CreateClientAsync(accessToken, tssId)).SuccessResult;
         var result = await client.GetRegisteredTssClientsAsync(accessToken, tssId);
 
-        Assert.IsTrue(result.SuccessResult.Select(r => r.Id).Contains(createdClient.Id));
+        Assert.That(result.SuccessResult.Select(r => r.Id).Contains(createdClient.Id));
 
         // Disabling the Client so we don't exceed the test environment limit.
         await client.UpdateClientAsync(accessToken, tssId, createdClient.Id, ClientState.Deregistered);
@@ -51,7 +51,7 @@ public class ClientTests
 
     private void AssertClient(bool isSuccess, object value)
     {
-        Assert.IsTrue(isSuccess);
-        Assert.IsNotNull(value);
+        Assert.That(isSuccess);
+        Assert.That(value, Is.Not.Null);
     }
 }

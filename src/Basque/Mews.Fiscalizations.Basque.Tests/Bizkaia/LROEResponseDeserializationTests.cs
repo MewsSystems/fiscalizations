@@ -19,8 +19,8 @@ public class LROEResponseDeserializationTests
         {
             var response = XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(CorrectResponseFilename);
 
-            Assert.True(response.Registros.Length == NumberOfRecords);
-            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Correcto)));
+            Assert.That(response.Registros.Length == NumberOfRecords);
+            Assert.That(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Correcto)));
         });
     }
 
@@ -31,15 +31,15 @@ public class LROEResponseDeserializationTests
         {
             var response = XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(PartiallyCorrectResponseFilename);
 
-            Assert.True(response.Registros.Length == NumberOfRecords);
+            Assert.That(response.Registros.Length == NumberOfRecords);
 
             //first registro is correct
             var firstRecord = response.Registros.First();
-            Assert.True(firstRecord.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Correcto));
+            Assert.That(firstRecord.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Correcto));
 
             //second registro is incorrect
             var secondRecord = response.Registros.Last();
-            Assert.True(secondRecord.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto));
+            Assert.That(secondRecord.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto));
         });
     }
 
@@ -50,8 +50,8 @@ public class LROEResponseDeserializationTests
         {
             var response = XmlSerializationHelper.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(IncorrectResponseFilename);
 
-            Assert.True(response.Registros.Length == NumberOfRecords);
-            Assert.True(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto)));
+            Assert.That(response.Registros.Length == NumberOfRecords);
+            Assert.That(response.Registros.All(registro => registro.SituacionRegistro.EstadoRegistro.Equals(EstadoRegistroEnum.Incorrecto)));
         });
     }
 

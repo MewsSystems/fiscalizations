@@ -10,7 +10,7 @@ public sealed class CountryTests
     [TestCase(null)]
     public void EuropeanCountryWithInvalidCountryCodeNotFound(string countryCode)
     {
-        Assert.IsTrue(EuropeanUnionCountry.GetByCode(countryCode).IsEmpty);
+        Assert.That(EuropeanUnionCountry.GetByCode(countryCode).IsEmpty);
     }
 
     [Test]
@@ -19,7 +19,7 @@ public sealed class CountryTests
     [TestCase(null)]
     public void CountryWithInvalidCountryCodeNotFound(string countryCode)
     {
-        Assert.IsTrue(Country.GetByCode(countryCode).IsEmpty);
+        Assert.That(Country.GetByCode(countryCode).IsEmpty);
     }
 
     [Test]
@@ -27,8 +27,8 @@ public sealed class CountryTests
     [TestCase("PL")]
     public void EuropeanCountryWithValidCountryCodeFound(string countryCode)
     {
-        Assert.IsTrue(Country.GetByCode(countryCode).NonEmpty);
-        Assert.IsTrue(EuropeanUnionCountry.GetByCode(countryCode).NonEmpty);
+        Assert.That(Country.GetByCode(countryCode).NonEmpty);
+        Assert.That(EuropeanUnionCountry.GetByCode(countryCode).NonEmpty);
     }
 
     [Test]
@@ -36,6 +36,6 @@ public sealed class CountryTests
     [TestCase("AU")]
     public void CountryWithValidCountryCodeFound(string countryCode)
     {
-        Assert.IsTrue(Country.GetByCode(countryCode).NonEmpty);
+        Assert.That(Country.GetByCode(countryCode).NonEmpty);
     }
 }

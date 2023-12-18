@@ -32,10 +32,10 @@ public static class TestFixture
         where TResult : class
         where TCode : struct
     {
-        Assert.IsNotEmpty(responseResult.ResponseXml);
-        Assert.IsNotEmpty(responseResult.RequestXml);
-        Assert.IsNotNull(responseResult.SuccessResult);
-        Assert.IsNull(responseResult.GeneralErrorResult);
-        Assert.IsNull(responseResult.OperationalErrorResult);
+        Assert.That(responseResult.ResponseXml, Is.Not.Empty);
+        Assert.That(responseResult.RequestXml, Is.Not.Empty);
+        Assert.That(responseResult.SuccessResult, Is.Not.Null);
+        Assert.That(responseResult.GeneralErrorResult, Is.Null);
+        Assert.That(responseResult.OperationalErrorResult, Is.Null);
     }
 }

@@ -37,12 +37,12 @@ public class OfflineTests
                 created: new LocalDateTime( new DateTime(year: 2015, month: 11, day: 25, hour: 19, minute: 20, second: 11), austrianTimeZone)
             )
         ));
-        Assert.IsNotNull(result);
-        Assert.IsNotNull(result.JwsRepresentation);
-        Assert.IsNotNull(result.SignedQrData);
-        Assert.IsNotEmpty(result.JwsRepresentation.Value);
-        Assert.IsNotEmpty(result.JwsRepresentation.Signature.Value);
-        Assert.IsNotEmpty(result.SignedQrData.Value);
-        Assert.IsNotEmpty(result.SignedQrData.Data.Value);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.JwsRepresentation, Is.Not.Null);
+        Assert.That(result.SignedQrData, Is.Not.Null);
+        Assert.That(result.JwsRepresentation.Value, Is.Not.Null);
+        Assert.That(result.JwsRepresentation.Signature.Value, Is.Not.Null);
+        Assert.That(result.SignedQrData.Value, Is.Not.Null);
+        Assert.That(result.SignedQrData.Data.Value, Is.Not.Null);
     }
 }

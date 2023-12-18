@@ -38,15 +38,15 @@ public class TssTests
         var createdTss = (await client.CreateTssAsync(accessToken)).SuccessResult;
         var allTSSs = (await client.GetAllEnabledTSSsAsync(accessToken)).SuccessResult;
 
-        Assert.IsTrue(allTSSs.Select(t => t.Id).Contains(createdTss.Id));
+        Assert.That(allTSSs.Select(t => t.Id).Contains(createdTss.Id));
 
         await DisableTss(client, accessToken, createdTss, adminPuk: createdTss.AdminPuk);
     }
 
     private void AssertTss(bool isSuccess, object value)
     {
-        Assert.IsTrue(isSuccess);
-        Assert.IsNotNull(value);
+        Assert.That(isSuccess);
+        Assert.That(value, Is.Not.Null);
     }
 
     private async Task DisableTss(FiskalyClient client, AccessToken accessToken, CreateTssResult tss, string adminPuk)

@@ -41,23 +41,23 @@ public class ATrustSignerTests
                 created: new LocalDateTime(new DateTime(2015, 11, 25, 19, 20, 11), austrianTimeZone)
             )
         ));
-        Assert.IsNotNull(result);
-        Assert.IsNotNull(result.JwsRepresentation);
-        Assert.IsNotNull(result.SignedQrData);
-        Assert.IsNotEmpty(result.JwsRepresentation.Value);
-        Assert.IsNotEmpty(result.JwsRepresentation.Signature.Value);
-        Assert.IsNotEmpty(result.SignedQrData.Value);
-        Assert.IsNotEmpty(result.SignedQrData.Data.Value);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.JwsRepresentation, Is.Not.Null);
+        Assert.That(result.SignedQrData, Is.Not.Null);
+        Assert.That(result.JwsRepresentation.Value, Is.Not.Null);
+        Assert.That(result.JwsRepresentation.Signature.Value, Is.Not.Null);
+        Assert.That(result.SignedQrData.Value, Is.Not.Null);
+        Assert.That(result.SignedQrData.Data.Value, Is.Not.Null);
     }
 
     [Test]
     public async Task GetCertificateInfoWorks()
     {
         var info = await new ATrustSigner(Credentials, ATrustEnvironment.Test).GetCertificateInfoAsync();
-        Assert.IsNotNull(info);
-        Assert.IsNotEmpty(info.Certificate);
-        Assert.IsNotEmpty(info.CertificateSerialNumber);
-        Assert.IsNotEmpty(info.Algorithm);
-        Assert.IsNotEmpty(info.CertificateSerialNumberHex);
+        Assert.That(info, Is.Not.Null);
+        Assert.That(info.Certificate, Is.Not.Null);
+        Assert.That(info.CertificateSerialNumber, Is.Not.Null);
+        Assert.That(info.Algorithm, Is.Not.Null);
+        Assert.That(info.CertificateSerialNumberHex, Is.Not.Null);
     }
 }
