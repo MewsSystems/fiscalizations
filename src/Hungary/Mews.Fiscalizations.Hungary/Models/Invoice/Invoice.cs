@@ -81,7 +81,7 @@ public class Invoice
     private static void CheckConsistency(Invoice invoice)
     {
         var nonDefaultCurrency = !invoice.CurrencyCode.Equals(TaxationInfo.DefaultCurrencyCode);
-        var hasRequiredTaxRates = nonDefaultCurrency.Implies(() => invoice.Items.Values.All(i => i.Value.ExchangeRate != null));
+        var hasRequiredTaxRates = nonDefaultCurrency.Implies(() => invoice.Items.Values.All(i => i.Value.ExchangeRate.NonEmpty));
         if (!hasRequiredTaxRates)
         {
             throw new InvalidOperationException("Exchange rate needs to be specified for all items.");
