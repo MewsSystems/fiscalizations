@@ -79,14 +79,14 @@ internal class ModelToDtoConverter
             {
                 Item = new TipoConDesgloseType
                 {
-                    Entrega = operationTaxSummary.Delivery.Map(s => new TipoSinDesgloseType
+                    Entrega = operationTaxSummary.Delivery.GetOrNull(s => new TipoSinDesgloseType
                     {
                         Sujeta = Convert(s)
-                    }).GetOrNull(),
-                    PrestacionServicios = operationTaxSummary.ServiceProvision.Map(s => new TipoSinDesglosePrestacionType
+                    }),
+                    PrestacionServicios = operationTaxSummary.ServiceProvision.GetOrNull(s => new TipoSinDesglosePrestacionType
                     {
                         Sujeta = ConvertProvision(s)
-                    }).GetOrNull()
+                    })
                 }
             }
         );
@@ -96,12 +96,12 @@ internal class ModelToDtoConverter
     {
         return new SujetaType
         {
-            Exenta = summary.TaxExempt.Match(items => items.Select(i => Convert(i)).ToArray(), _ => null),
-            NoExenta = summary.Taxed.Map(taxRateSummaries => new SujetaTypeNoExenta
+            Exenta = summary.TaxExempt.GetOrNull(items => items.Select(i => Convert(i)).ToArray()),
+            NoExenta = summary.Taxed.GetOrNull(taxRateSummaries => new SujetaTypeNoExenta
             {
                 TipoNoExenta = TipoOperacionSujetaNoExentaType.S1,
                 DesgloseIVA = taxRateSummaries.Select(s => Convert(s)).ToArray()
-            }).GetOrNull()
+            })
         };
     }
 
@@ -109,12 +109,12 @@ internal class ModelToDtoConverter
     {
         return new SujetaPrestacionType
         {
-            Exenta = summary.TaxExempt.Match(items => items.Select(i => Convert(i)).ToArray(), _ => null),
-            NoExenta = summary.Taxed.Map(taxRateSummaries => new SujetaPrestacionTypeNoExenta
+            Exenta = summary.TaxExempt.GetOrNull(items => items.Select(i => Convert(i)).ToArray()),
+            NoExenta = summary.Taxed.GetOrNull(taxRateSummaries => new SujetaPrestacionTypeNoExenta
             {
                 TipoNoExenta = TipoOperacionSujetaNoExentaType.S1,
                 DesgloseIVA = taxRateSummaries.Select(s => ConvertProvision(s)).ToArray()
-            }).GetOrNull()
+            })
         };
     }
 
