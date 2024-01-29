@@ -30,7 +30,6 @@ public class Basics
     private const int RetryCount = 3;
 
     [Test]
-    [Ignore("Expired test environment certificate, will re-enable when the certificate gets updated.")]
     [Retry(RetryCount)]
     public async Task CheckNif()
     {
@@ -54,7 +53,6 @@ public class Basics
     }
 
     [Test]
-    [Ignore("Expired test environment certificate, will re-enable when the certificate gets updated.")]
     [Retry(RetryCount)]
     public async Task PostInvoice()
     {
