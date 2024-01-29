@@ -13,6 +13,6 @@ public sealed class ValidationTests
     [TestCase(" ", false)]
     public void PostalCodeTests(string postalCode, bool isValid)
     {
-        Assert.AreEqual(PostalCode.Create(postalCode).IsSuccess, isValid);
+        Assert.That(PostalCode.Create(postalCode).IsSuccess, Is.EqualTo(isValid));
     }
 }

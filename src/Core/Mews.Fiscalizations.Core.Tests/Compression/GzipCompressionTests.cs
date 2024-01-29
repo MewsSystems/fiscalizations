@@ -15,7 +15,7 @@ public sealed class GzipCompressionTests
         {
             var compressedBytes = await Message.CompressAsync(Encoding.ASCII, CancellationToken.None);
             var decompressedString = await compressedBytes.DecompressAsync(Encoding.ASCII, CancellationToken.None);
-            Assert.AreEqual(Message, decompressedString);
+            Assert.That(Message, Is.EqualTo(decompressedString));
         });
     }
 }

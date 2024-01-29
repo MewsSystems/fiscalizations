@@ -261,14 +261,10 @@ public sealed class InvoiceTests
         foreach (var status in invoiceStatuses)
         {
             var value = status.Value;
-            Assert.AreEqual(value.Status, InvoiceState.Done);
+            Assert.That(value.Status, Is.EqualTo(InvoiceState.Done));
         }
 
         var errorValidationResults = invoiceStatuses.SelectMany(s => s.Value.ValidationResults).Where(r => r.ResultCode.Equals(ValidationResultCode.Error)).ToList();
-        Assert.IsEmpty(errorValidationResults, "Response contains validation errors.", new
-        {
-            Message = string.Join(", ", errorValidationResults.Select(r => r.Message)),
-            Code = string.Join(", ", errorValidationResults.Select(r => r.ResultCode.ToString()))
-        });
+        Assert.That(errorValidationResults, Is.Empty, "Response contains validation errors.");
     }
 }

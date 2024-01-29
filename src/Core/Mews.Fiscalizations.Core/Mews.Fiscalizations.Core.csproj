@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>12</LangVersion>
     <Authors>Mews</Authors>
     <Description>Core library for implementing other fiscalization libraries.</Description>
@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>6.0.3</PackageVersion>
+    <PackageVersion>7.0.0</PackageVersion>
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
 

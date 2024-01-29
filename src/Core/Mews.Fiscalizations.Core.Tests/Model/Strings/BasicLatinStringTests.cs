@@ -13,6 +13,6 @@ public sealed class BasicLatinStringTests
     [TestCase("€€€", "")]
     public void ToBasicLatinStringSucceeds(string input, string expectedOutput)
     {
-        Assert.AreEqual(expectedOutput, input.ToBasicLatin());
+        Assert.That(expectedOutput, Is.EqualTo(input.ToBasicLatin()));
     }
 }

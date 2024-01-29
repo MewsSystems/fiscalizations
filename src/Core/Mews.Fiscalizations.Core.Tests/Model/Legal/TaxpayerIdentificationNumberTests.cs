@@ -36,8 +36,8 @@ public sealed class TaxpayerIdentificationNumberTests
     {
         var country = Country.GetByCode(countryCode).Get();
         var europeanCountry = EuropeanUnionCountry.GetByCode(countryCode).Get();
-        Assert.IsTrue(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsSuccess);
-        Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsSuccess);
+        Assert.That(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsSuccess);
+        Assert.That(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsSuccess);
     }
 
     [Test]
@@ -46,7 +46,7 @@ public sealed class TaxpayerIdentificationNumberTests
     public void CreatingValidNonEuropeanTaxpayerNumberSucceeds(string countryCode, string taxpayerNumber)
     {
         var country = Country.GetByCode(countryCode).Get();
-        Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsSuccess);
+        Assert.That(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsSuccess);
     }
 
     [Test]
@@ -59,8 +59,8 @@ public sealed class TaxpayerIdentificationNumberTests
     {
         var country = countryCode is not null ? Country.GetByCode(countryCode).Get() : null;
         var europeanCountry = countryCode is not null ? EuropeanUnionCountry.GetByCode(countryCode).Get() : null;
-        Assert.IsTrue(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsError);
-        Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
+        Assert.That(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsError);
+        Assert.That(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
     }
 
     [Test]
@@ -71,7 +71,7 @@ public sealed class TaxpayerIdentificationNumberTests
     public void CreatingInvalidTaxpayerNumberFails(string countryCode, string taxpayerNumber)
     {
         var country = countryCode is not null ? Country.GetByCode(countryCode).Get() : null;
-        Assert.IsTrue(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
+        Assert.That(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsError);
     }
 
     [Test]
@@ -81,7 +81,7 @@ public sealed class TaxpayerIdentificationNumberTests
     public void CreatingValidSpanishTaxpayerNumberSucceeds(string taxId)
     {
         var taxpayerNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, taxId);
-        Assert.IsTrue(taxpayerNumber.IsSuccess);
+        Assert.That(taxpayerNumber.IsSuccess);
     }
 
     [Test]
@@ -92,6 +92,6 @@ public sealed class TaxpayerIdentificationNumberTests
     public void CreatingInvalidSpanishTaxpayerNumberFails(string taxId)
     {
         var taxpayerNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, taxId);
-        Assert.IsTrue(taxpayerNumber.IsError);
+        Assert.That(taxpayerNumber.IsError);
     }
 }

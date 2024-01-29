@@ -36,13 +36,13 @@ public sealed class UniwixClientTests
         result.Match(
             r =>
             {
-                Assert.IsNotEmpty(r.FileId);
-                Assert.IsNotEmpty(r.Message);
+                Assert.That(r.FileId, Is.Not.Empty);
+                Assert.That(r.Message, Is.Not.Empty);
 
                 // In the testing environment, Uniwix keeps the records in Pending state.
                 var invoiceStateResult = client.GetInvoiceStateAsync(r.FileId).Result;
                 invoiceStateResult.Match(
-                    stateResult => Assert.AreEqual(stateResult.SdiState, SdiState.Pending),
+                    stateResult => Assert.That(stateResult.SdiState, Is.EqualTo(SdiState.Pending)),
                     e => AssertFail(e)
                 );
             },
@@ -57,7 +57,7 @@ public sealed class UniwixClientTests
         var client = GetUniwixClient();
         var result = await client.VerifyCredentialsAsync();
         result.Match(
-            r => Assert.IsTrue(r),
+            r => Assert.That(r),
             e => AssertFail(e)
         );
     }
@@ -67,7 +67,7 @@ public sealed class UniwixClientTests
     {
         var client = GetUniwixClient();
         var result = await client.GetInvoiceStateAsync("InvoiceThatDoesntExist");
-        Assert.AreEqual(result.Error.Get().Type, ErrorType.InvoiceNotFound);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.InvoiceNotFound));
     }
 
     private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)
@@ -234,9 +234,6 @@ public sealed class UniwixClientTests
 
     private void AssertFail(ErrorResult errorResult)
     {
-        Assert.Fail(errorResult.Message, new
-        {
-            Type = errorResult.Type.ToString()
-        });
+        Assert.Fail($"{errorResult.Message}: Type: {errorResult.Type}");
     }
 }

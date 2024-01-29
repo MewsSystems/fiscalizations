@@ -13,7 +13,7 @@ public sealed class String1To50Tests
     [TestCase("123456789012345678901234567890123456789012345678901", false)]
     public void String1To50ValidatesCorrectly(string value, bool isSuccess)
     {
-        Assert.AreEqual(isSuccess, String1To50.Create(value).IsSuccess);
+        Assert.That(isSuccess, Is.EqualTo(String1To50.Create(value).IsSuccess));
 
         var exceptionConstraint = isSuccess.Match<IConstraint>(
             t => Throws.Nothing,

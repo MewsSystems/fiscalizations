@@ -11,7 +11,7 @@ public class TransactionTests
         var accessToken = (await client.GetAccessTokenAsync()).SuccessResult;
         var status = await client.GetClientAsync(accessToken, data.Client.Id, data.Tss.Id);
 
-        Assert.IsTrue(status.IsSuccess);
+        Assert.That(status.IsSuccess);
     }
 
     [Test, Order(1)]
@@ -24,11 +24,11 @@ public class TransactionTests
         var accessToken = await client.GetAccessTokenAsync();
         var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, clientId, tssId, Guid.NewGuid());
         var retrievedStartedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, tssId, startedTransaction.SuccessResult.Id);
-        Assert.AreEqual(retrievedStartedTransaction.SuccessResult.State, TransactionState.Active);
+        Assert.That(retrievedStartedTransaction.SuccessResult.State, Is.EqualTo(TransactionState.Active));
 
         var finishedTransaction = await client.FinishTransactionAsync(accessToken.SuccessResult, clientId, tssId, GetBill(), startedTransaction.SuccessResult.Id);
         var retrievedFinishedTransaction = await client.GetTransactionAsync(accessToken.SuccessResult, tssId, finishedTransaction.SuccessResult.Id);
-        Assert.AreEqual(retrievedFinishedTransaction.SuccessResult.State, TransactionState.Finished);
+        Assert.That(retrievedFinishedTransaction.SuccessResult.State, Is.EqualTo(TransactionState.Finished));
     }
 
     [Test, Order(2)]
@@ -40,9 +40,9 @@ public class TransactionTests
         var startedTransaction = await client.StartTransactionAsync(accessToken.SuccessResult, data.Client.Id, data.Tss.Id, Guid.NewGuid());
         var successResult = startedTransaction.SuccessResult;
 
-        Assert.IsTrue(startedTransaction.IsSuccess);
-        Assert.IsTrue(successResult.StartUtc.HasValue);
-        Assert.IsNotNull(successResult.Id);
+        Assert.That(startedTransaction.IsSuccess);
+        Assert.That(successResult.StartUtc.HasValue);
+        Assert.That(successResult.Id, Is.Not.Null);
     }
 
     [Test, Order(3)]
@@ -59,13 +59,13 @@ public class TransactionTests
         var successResult = endedTransaction.SuccessResult;
         var signature = successResult.Signature;
 
-        Assert.IsTrue(endedTransaction.IsSuccess);
-        Assert.IsTrue(successResult.StartUtc.HasValue);
-        Assert.IsTrue(successResult.EndUtc.HasValue);
-        Assert.IsNotNull(signature);
-        Assert.IsNotEmpty(signature.Value);
-        Assert.IsNotEmpty(signature.Algorithm);
-        Assert.IsNotEmpty(signature.PublicKey);
+        Assert.That(endedTransaction.IsSuccess);
+        Assert.That(successResult.StartUtc.HasValue);
+        Assert.That(successResult.EndUtc.HasValue);
+        Assert.That(signature, Is.Not.Null);
+        Assert.That(signature.Value, Is.Not.Empty);
+        Assert.That(signature.Algorithm, Is.Not.Empty);
+        Assert.That(signature.PublicKey, Is.Not.Empty);
     }
 
     private Bill GetBill()

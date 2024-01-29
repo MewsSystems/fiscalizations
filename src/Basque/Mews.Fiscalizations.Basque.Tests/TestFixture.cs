@@ -53,15 +53,15 @@ public sealed class TestFixture
             Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion)),
             _ => validationResults
         );
-        Assert.IsEmpty(applicableValidationResults);
-        Assert.IsNotEmpty(response.QrCodeUri);
-        Assert.IsNotEmpty(response.TBAIIdentifier);
-        Assert.IsNotEmpty(response.XmlRequestContent);
-        Assert.IsNotEmpty(response.XmlResponseContent);
+        Assert.That(applicableValidationResults, Is.Empty);
+        Assert.That(response.QrCodeUri, Is.Not.Empty);
+        Assert.That(response.TBAIIdentifier, Is.Not.Empty);
+        Assert.That(response.XmlRequestContent, Is.Not.Empty);
+        Assert.That(response.XmlResponseContent, Is.Not.Empty);
 
-        Assert.IsTrue(response.QrCodeUri.Contains(HttpUtility.UrlEncode(response.TBAIIdentifier)!, StringComparison.InvariantCultureIgnoreCase));
-        Assert.AreEqual(response.State, InvoiceState.Received);
-        Assert.AreEqual(response.TBAIIdentifier, tbaiInvoiceData.TbaiIdentifier);
-        Assert.AreEqual(response.QrCodeUri, tbaiInvoiceData.QrCodeUri);
+        Assert.That(response.QrCodeUri.Contains(HttpUtility.UrlEncode(response.TBAIIdentifier)!, StringComparison.InvariantCultureIgnoreCase), Is.True);
+        Assert.That(response.State, Is.EqualTo(InvoiceState.Received));
+        Assert.That(response.TBAIIdentifier, Is.EqualTo(tbaiInvoiceData.TbaiIdentifier));
+        Assert.That(response.QrCodeUri, Is.EqualTo(tbaiInvoiceData.QrCodeUri));
     }
 }

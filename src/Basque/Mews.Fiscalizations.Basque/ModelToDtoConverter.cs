@@ -268,7 +268,7 @@ internal static class ModelToDtoConverter
             )).GetOrElse(Dto.SiNoType.N),
             FacturaEmitidaSustitucionSimplificadaSpecified = header.IssuedInSubstitutionOfSimplifiedInvoice.NonEmpty,
             FacturaRectificativa = header.CorrectingInvoice.Map(i => Convert(i)).GetOrNull(),
-            FacturasRectificadasSustituidas = header.CorrectedInvoices.Map(invoices => invoices.Select(i => Convert(i)).ToArray()).GetOrNull()
+            FacturasRectificadasSustituidas = header.CorrectedInvoices.Match(invoices => invoices.Select(i => Convert(i)).ToArray(), _ => null)
         };
     }
 
@@ -347,15 +347,18 @@ internal static class ModelToDtoConverter
     {
         return new Dto.SujetaType
         {
-            Exenta = summary.TaxExempt.Map(items => items.Select(i => Convert(i)).ToArray()).GetOrNull(),
-            NoExenta = summary.Taxed.Map(taxRateSummaries => new Dto.DetalleNoExentaType[]
-            {
-                new Dto.DetalleNoExentaType
+            Exenta = summary.TaxExempt.Match(items => items.Select(i => Convert(i)).ToArray(), _ => null),
+            NoExenta = summary.Taxed.Match(
+                taxRateSummaries => new Dto.DetalleNoExentaType[]
                 {
-                    TipoNoExenta = Dto.TipoOperacionSujetaNoExentaType.S1,
-                    DesgloseIVA = taxRateSummaries.Select(s => Convert(s)).ToArray()
-                }
-            }).GetOrNull()
+                    new Dto.DetalleNoExentaType
+                    {
+                        TipoNoExenta = Dto.TipoOperacionSujetaNoExentaType.S1,
+                        DesgloseIVA = taxRateSummaries.Select(s => Convert(s)).ToArray()
+                    }
+                },
+                _ => null
+            )
         };
     }
 

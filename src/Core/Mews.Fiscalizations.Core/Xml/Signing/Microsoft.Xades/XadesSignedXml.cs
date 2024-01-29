@@ -1511,7 +1511,7 @@ public sealed class XadesSignedXml : SignedXml
             var m_bResolverSet = (bool)SignedXml_m_bResolverSet.GetValue(this);
             var SignedXml_m_xmlResolver = SignedXml_Type.GetField("_xmlResolver", BindingFlags.NonPublic | BindingFlags.Instance);
             var m_xmlResolver = (XmlResolver)SignedXml_m_xmlResolver.GetValue(this);
-            var xmlResolver = m_bResolverSet ? m_xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), securityUrl);
+            var xmlResolver = m_bResolverSet ? m_xmlResolver : XmlResolver.ThrowingResolver;
 
             var System_Security_Assembly = Assembly.Load("System.Security.Cryptography.Xml");
             var Utils_Type = System_Security_Assembly.GetType("System.Security.Cryptography.Xml.Utils");

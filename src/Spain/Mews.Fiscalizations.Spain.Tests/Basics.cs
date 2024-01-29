@@ -73,7 +73,7 @@ public class Basics
 
         var responseErrorMessages = response.Success.Get().Invoices.Select(i => i.ErrorMessage).Flatten();
         var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);
-        Assert.AreEqual(response.Success.Get().Result, RegisterResult.Correct, errorMessage);
+        Assert.That(response.Success.Get().Result, Is.EqualTo(RegisterResult.Correct), errorMessage);
 
         return invoice;
     }
@@ -83,10 +83,10 @@ public class Basics
         var validator = new NifValidator(Certificate, httpTimeout: TimeSpan.FromSeconds(30));
         var response = await validator.CheckNif(new Request(entries));
 
-        Assert.AreEqual(response.Success.Get().Results.Count(), entries.Count());
+        Assert.That(response.Success.Get().Results.Count(), Is.EqualTo(entries.Count));
         foreach (var result in response.Success.Get().Results)
         {
-            Assert.AreEqual(expectedResult, result.Result);
+            Assert.That(expectedResult, Is.EqualTo(result.Result));
         }
     }
 

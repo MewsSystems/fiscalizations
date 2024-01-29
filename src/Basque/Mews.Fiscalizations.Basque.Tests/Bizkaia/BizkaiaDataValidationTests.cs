@@ -29,8 +29,8 @@ public class BizkaiaDataValidationTests
         Assert.DoesNotThrow(() =>
         {
             var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
-            Assert.IsNotEmpty(serializedData);
-            Assert.AreEqual(serializedData, ExpectedSerializationResult);
+            Assert.That(serializedData, Is.Not.Empty);
+            Assert.That(serializedData, Is.EqualTo(ExpectedSerializationResult));
         });
     }
 
@@ -40,10 +40,10 @@ public class BizkaiaDataValidationTests
         Assert.DoesNotThrow(() =>
         {
             var serializedData = JsonSerializer.Serialize(SampleBizkaiData);
-            Assert.IsNotEmpty(serializedData);
+            Assert.That(serializedData, Is.Not.Empty);
 
             var deserializedData = JsonSerializer.Deserialize<BizkaiaHeaderData>(serializedData);
-            Assert.AreEqual(serializedData, JsonSerializer.Serialize(deserializedData));
+            Assert.That(serializedData, Is.EqualTo(JsonSerializer.Serialize(deserializedData)));
         });
     }
 
