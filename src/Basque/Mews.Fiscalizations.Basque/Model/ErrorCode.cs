@@ -32,8 +32,12 @@ public enum ErrorCode
     // Invalid or missing chain.
     InvalidOrMissingInvoiceChain = 09,
 
+    InvalidIssuerNif = 10,
+
     // The rectified (Corrected) invoice is not indicated.
     CorrectedInvoiceNotIndicated = 011,
+
+    InvalidIssuerNameOrNif = 12,
 
     // Issuer NIF must be registered in the Araba region.
     IssuerNifMustBeRegisteredInArabaRegion = 15,

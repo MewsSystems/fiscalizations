@@ -5,7 +5,7 @@ public sealed class InvoiceHeader
     public InvoiceHeader(
         String1To20 number,
         DateTime issued,
-        bool? isSimplified = null,
+        bool isSimplified,
         bool? issuedInSubstitutionOfSimplifiedInvoice = null,
         String1To20 series = null,
         CorrectingInvoice correctingInvoice = null,
@@ -13,7 +13,7 @@ public sealed class InvoiceHeader
     {
         Number = number;
         Issued = issued;
-        IsSimplified = isSimplified.ToOption();
+        IsSimplified = isSimplified;
         IssuedInSubstitutionOfSimplifiedInvoice = issuedInSubstitutionOfSimplifiedInvoice.ToOption();
         Series = series.ToOption();
         CorrectingInvoice = correctingInvoice.ToOption();
@@ -25,7 +25,7 @@ public sealed class InvoiceHeader
 
     public DateTime Issued { get; }
 
-    public Option<bool> IsSimplified { get; }
+    public bool IsSimplified { get; }
 
     public Option<bool> IssuedInSubstitutionOfSimplifiedInvoice { get; }
 
