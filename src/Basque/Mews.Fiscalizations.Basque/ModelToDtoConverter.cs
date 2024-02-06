@@ -27,12 +27,12 @@ internal static class ModelToDtoConverter
         return new Dto.Sujetos
         {
             Emisor = Convert(subject.Issuer),
-            Destinatarios = subject.Receivers.Select(r => Convert(r)).ToArray(),
-            VariosDestinatariosSpecified = true,
-            VariosDestinatarios = subject.MultipleReceivers.Match(
+            Destinatarios = subject.Receivers.GetOrNull(r => r.Select(r => Convert(r)).ToArray()),
+            VariosDestinatariosSpecified = subject.MultipleReceivers.NonEmpty,
+            VariosDestinatarios = subject.MultipleReceivers.Map(r => r.Match(
                 t => Dto.SiNoType.S,
                 f => Dto.SiNoType.N
-            ),
+            )).GetOrElse(Dto.SiNoType.N),
             EmitidaPorTercerosODestinatario = subject.IssuerType.Map(t => Convert(t)).ToNullable(),
             EmitidaPorTercerosODestinatarioSpecified = subject.IssuerType.NonEmpty
         };
@@ -257,11 +257,11 @@ internal static class ModelToDtoConverter
             NumFactura = header.Number.Value,
             FechaExpedicionFactura = Convert(header.Issued.Date),
             HoraExpedicionFactura = header.Issued.ToString("HH:MM:ss"),
-            FacturaSimplificada = header.IsSimplified.Map(i => i.Match(
+            FacturaSimplificada = header.IsSimplified.Match(
                 t => Dto.SiNoType.S,
                 f => Dto.SiNoType.N
-            )).GetOrElse(Dto.SiNoType.N),
-            FacturaSimplificadaSpecified = header.IsSimplified.NonEmpty,
+            ),
+            FacturaSimplificadaSpecified = true,
             FacturaEmitidaSustitucionSimplificada = header.IssuedInSubstitutionOfSimplifiedInvoice.Map(i => i.Match(
                 t => Dto.SiNoType.S,
                 f => Dto.SiNoType.N

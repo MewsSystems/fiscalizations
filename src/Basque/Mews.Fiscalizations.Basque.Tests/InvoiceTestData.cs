@@ -1,43 +1,79 @@
 ﻿namespace Mews.Fiscalizations.Basque.Tests;
 
-internal sealed class InvoiceTestData
+internal static class InvoiceTestData
 {
-    internal static SendInvoiceRequest CreateInvoiceRequest(Issuer issuer, Software software, bool localReceivers, bool negativeInvoice, OriginalInvoiceInfo originalInvoiceInfo = null)
+    internal static SendInvoiceRequest CreateCompleteInvoiceRequest(
+        Issuer issuer,
+        Software software,
+        bool localReceivers,
+        bool negativeInvoice,
+        OriginalInvoiceInfo originalInvoiceInfo = null)
     {
-        return new SendInvoiceRequest(
-            subject: CreateSubject(issuer, localReceivers),
-            invoice: CreateInvoice(localReceivers, negativeInvoice),
-            invoiceFooter: new InvoiceFooter(software, originalInvoiceInfo: originalInvoiceInfo)
+        var taxSummary = CreateTaxSummary(negativeInvoice);
+        var randomString = String1To20.CreateUnsafe(Guid.NewGuid().ToString()[..19]);
+        return localReceivers.Match(
+            t => SendInvoiceRequest.CreateCompleteLocalReceiverInvoiceRequest(
+                issuer: issuer,
+                invoiceFooter: new InvoiceFooter(software, originalInvoiceInfo: originalInvoiceInfo),
+                receivers: CreateReceivers(localReceivers),
+                invoiceData: CreateInvoiceData(negativeInvoice),
+                taxSummary: taxSummary,
+                number: randomString,
+                issued: DateTime.Now,
+                series: randomString,
+                issuerType: IssuerType.IssuedByThirdParty
+            ),
+            f => SendInvoiceRequest.CreateCompleteForeignReceiverInvoiceRequest(
+                issuer: issuer,
+                invoiceFooter: new InvoiceFooter(software, originalInvoiceInfo: originalInvoiceInfo),
+                receivers: CreateReceivers(localReceivers),
+                invoiceData: CreateInvoiceData(negativeInvoice),
+                taxBreakdown: OperationTypeTaxBreakdown.Create(delivery: taxSummary).Success.Get(),
+                number: randomString,
+                issued: DateTime.Now,
+                series: randomString,
+                issuerType: IssuerType.IssuedByThirdParty
+            )
         );
     }
 
-    private static Invoice CreateInvoice(bool localReceivers, bool negativeInvoice)
+    internal static SendInvoiceRequest CreateSimplifiedInvoiceRequest(
+        Issuer issuer,
+        Software software,
+        bool negativeInvoice,
+        OriginalInvoiceInfo originalInvoiceInfo = null)
     {
-        return new Invoice(CreateHeader(), CreateInvoiceData(negativeInvoice), CreateTaxBreakdown(localReceivers, negativeInvoice));
+        var randomString = String1To20.CreateUnsafe(Guid.NewGuid().ToString()[..19]);
+        return SendInvoiceRequest.CreateSimplifiedInvoiceRequest(
+            issuer: issuer,
+            invoiceFooter: new InvoiceFooter(software, originalInvoiceInfo: originalInvoiceInfo),
+            invoiceData: CreateInvoiceData(negativeInvoice),
+            taxSummary: CreateTaxSummary(negativeInvoice),
+            number: randomString,
+            issued: DateTime.Now,
+            series: randomString,
+            issuerType: IssuerType.IssuedByThirdParty
+        );
     }
 
-    private static TaxBreakdown CreateTaxBreakdown(bool localReceivers, bool negativeInvoice)
+    private static TaxSummary CreateTaxSummary(bool negativeInvoice)
     {
         var baseValue = negativeInvoice.Match(
             t => -73.86m,
             f => 73.86m
         );
-        var taxSummary = TaxSummary.Create(taxed: CreateTaxRateSummary(21m, baseValue).ToEnumerable().ToArray()).Success.Get();
-        return localReceivers.Match(
-            t => new TaxBreakdown(taxSummary),
-            f => new TaxBreakdown(OperationTypeTaxBreakdown.Create(delivery: taxSummary).Success.Get())
-        );
+        return TaxSummary.Create(taxed: CreateTaxRateSummary(21m, baseValue).ToEnumerable().ToArray()).Success.Get();
     }
 
     private static InvoiceData CreateInvoiceData(bool negativeInvoice)
     {
-        return InvoiceData.Create(
+        return new InvoiceData(
             description: String1To250.CreateUnsafe("TicketBAI sample invoice test."),
             items: CreateInvoiceItems(negativeInvoice),
             totalAmount: negativeInvoice.Match(t => -89.36m, f => 89.36m),
             taxModes: TaxMode.GeneralTaxRegimeActivity.ToEnumerable(),
             transactionDate: DateTime.Now
-        ).Success.Get();
+        );
     }
 
     private static INonEmptyEnumerable<InvoiceItem> CreateInvoiceItems(bool negativeInvoice)
@@ -86,17 +122,6 @@ internal sealed class InvoiceTestData
                 )
             )
         );
-    }
-
-    private static InvoiceHeader CreateHeader()
-    {
-        var randomString = String1To20.CreateUnsafe(Guid.NewGuid().ToString().Substring(0, 19));
-        return new InvoiceHeader(number: randomString, issued: DateTime.Now, series: randomString);
-    }
-
-    private static Subject CreateSubject(Issuer issuer, bool localReceivers)
-    {
-        return Subject.Create(issuer, CreateReceivers(localReceivers), IssuerType.IssuedByThirdParty).Success.Get();
     }
 
     private static INonEmptyEnumerable<Receiver> CreateReceivers(bool localReceivers)

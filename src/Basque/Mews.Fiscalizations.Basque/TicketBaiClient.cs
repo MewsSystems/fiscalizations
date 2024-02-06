@@ -71,22 +71,51 @@ public sealed class TicketBaiClient
         var response = await HttpClient.SendAsync(requestMessage, cancellationToken);
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
-        if (string.IsNullOrEmpty(responseContent))
+        if (response.IsSuccessStatusCode)
         {
-            throw new HttpRequestException($"Received an empty response after sending request with response headers: {response.Headers}");
-        }
+            if (response.Headers.TryGetValues("eus-bizkaia-n3-tipo-respuesta", out var responseStatus))
+            {
+                if (responseStatus.First() != "Correcto" && string.IsNullOrEmpty(responseContent))
+                {
+                    var errorCode = string.Join(',', response.Headers.GetValues("eus-bizkaia-n3-codigo-respuesta"));
+                    var errorMessage = string.Join(',', response.Headers.GetValues("eus-bizkaia-n3-mensaje-respuesta"));
+                    return new SendInvoiceResponse(
+                        xmlRequestContent: invoiceData.SignedRequest.OuterXml,
+                        xmlResponseContent: "",
+                        qrCodeUri: invoiceData.QrCodeUri,
+                        tbaiIdentifier: invoiceData.TbaiIdentifier,
+                        received: DateTime.Now,
+                        state: InvoiceState.Refused,
+                        description: errorMessage,
+                        signatureValue: invoiceData.TrimmedSignature,
+                        validationResults: [ new SendInvoiceValidationResult(MapErrorCode(errorCode), errorMessage) ]
+                    );
+                }
 
-        var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseContent);
-        return DtoToModelConverter.Convert(
-            response: lroeResponse,
-            qrCodeUri: invoiceData.QrCodeUri,
+                var lroeResponse = XmlSerializer.Deserialize<LROEPJ240FacturasEmitidasConSGAltaRespuesta>(responseContent);
+                return DtoToModelConverter.Convert(
+                    response: lroeResponse,
+                    qrCodeUri: invoiceData.QrCodeUri,
+                    xmlRequestContent: invoiceData.SignedRequest.OuterXml,
+                    xmlResponseContent: responseContent,
+                    tbaiIdentifier: invoiceData.TbaiIdentifier,
+                    signatureValue: invoiceData.TrimmedSignature
+                );
+            }
+        }
+        return new SendInvoiceResponse(
             xmlRequestContent: invoiceData.SignedRequest.OuterXml,
-            xmlResponseContent: responseContent,
+            xmlResponseContent: "",
+            qrCodeUri: invoiceData.QrCodeUri,
             tbaiIdentifier: invoiceData.TbaiIdentifier,
-            signatureValue: invoiceData.TrimmedSignature
+            received: DateTime.Now,
+            state: InvoiceState.Refused,
+            description: $"Response status code: {response.StatusCode}, Content: {responseContent}",
+            signatureValue: invoiceData.TrimmedSignature,
+            validationResults: [ new SendInvoiceValidationResult(ErrorCode.ServerErrorTryAgain, $"Response status code: {response.StatusCode}, Content: {responseContent}") ]
         );
     }
-    
+
     private async Task<SendInvoiceResponse> SendTicketBaiInvoiceAsync(TicketBaiInvoiceData invoiceData)
     {
         var signedRequest = invoiceData.SignedRequest;
@@ -183,5 +212,16 @@ public sealed class TicketBaiClient
             throw new Exception("Invalid signature.");
         }
         return signatureDocument;
+    }
+
+    private static ErrorCode MapErrorCode(string code)
+    {
+        return code switch
+        {
+            "N3_0000001" => ErrorCode.InvalidIssuerCertificate,
+            "N3_0000002" => ErrorCode.InvalidIssuerNameOrNif,
+            "N3_0000010" => ErrorCode.InvalidIssuerNif,
+            _ => throw new NotImplementedException($"{code} is not implemented.")
+        };
     }
 }

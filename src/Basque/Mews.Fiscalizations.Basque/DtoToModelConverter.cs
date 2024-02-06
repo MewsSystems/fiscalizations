@@ -38,7 +38,7 @@ public static class DtoToModelConverter
     {
         var record = response.Registros.Single();
         var recordStatus = record.SituacionRegistro;
-        var invoiceIdentifier = record.Identificador.Item as IDFacturaType; // TODO: check if they would ever return byte[] ticketbai.
+        var invoiceIdentifier = record.Identificador.Item as IDFacturaType;
         return new SendInvoiceResponse(
             xmlRequestContent: xmlRequestContent,
             xmlResponseContent: xmlResponseContent,
