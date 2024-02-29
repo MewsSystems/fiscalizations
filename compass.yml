@@ -1,0 +1,19 @@
+name: fiscalizations
+id: ari:cloud:compass:9cb80e14-6d83-4419-a743-3b8c78b0bf7f:component/4cc129c1-d8a1-41b8-bb4e-b20a5e598709/b4a92374-5a2c-4044-9eb5-a34e24303b9f
+description: Mews.Fiscalizations is a .NET library that was built to help reporting of e-invoices to different government authorities.
+configVersion: 1
+typeId: SERVICE
+ownerId: null
+fields:
+  tier: 4
+links:
+  - name: null
+    type: REPOSITORY
+    url: https://github.com/MewsSystems/fiscalizations
+relationships:
+  DEPENDS_ON: []
+labels:
+  - fiscalization
+  - language:c#
+  - source:github
+customFields: null
