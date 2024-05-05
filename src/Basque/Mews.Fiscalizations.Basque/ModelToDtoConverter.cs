@@ -368,7 +368,13 @@ internal static class ModelToDtoConverter
         {
             BaseImponible = Convert(summary.TaxBaseAmount),
             TipoImpositivo = Convert(summary.TaxRatePercentage),
-            CuotaImpuesto = Convert(summary.TaxAmount)
+            CuotaImpuesto = Convert(summary.TaxAmount),
+            TipoRecargoEquivalencia = Convert(summary.SurchargeRatePercentage),
+            CuotaRecargoEquivalencia = Convert(summary.SurchargeAmount),
+            OperacionEnRecargoDeEquivalenciaORegimenSimplificado = summary.IsSurchargeOperation.Map(r => r.Match(
+                t => Dto.SiNoType.S,
+                f => Dto.SiNoType.N
+            )).GetOrElse(Dto.SiNoType.N),
         };
     }
 
