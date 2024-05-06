@@ -129,6 +129,27 @@ public sealed class UniwixClientTests
                     IssueDate = DateTime.UtcNow,
                     DocumentNumber = invoiceNumber,
                     TotalAmount = 100m
+                },
+                OrderData = new[]
+                {
+                    new OrderData
+                    {
+                        DocumentId = invoiceNumber,
+                        ItemNumber = "2",
+                        // cig
+                        TenderCode = "A1B2C3D4E5",
+                        // cup
+                        ProjectCode = "A1B2C3D4E5F6G7H"
+                    },
+                    new OrderData
+                    {
+                        DocumentId = invoiceNumber,
+                        ItemNumber = "3",
+                        // cig
+                        TenderCode = "A1B2C3D4E5",
+                        // cup
+                        ProjectCode = "A1B2C3D4E5F6G7H"
+                    }
                 }
             },
             ServiceData = new ServiceData
