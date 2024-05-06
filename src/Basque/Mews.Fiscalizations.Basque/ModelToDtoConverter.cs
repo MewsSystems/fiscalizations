@@ -396,12 +396,12 @@ internal static class ModelToDtoConverter
 
     private static string Convert(Amount totalAmount)
     {
-        return totalAmount.Value.ToString(CultureInfo);
+        return totalAmount?.Value.ToString(CultureInfo);
     }
 
     private static string Convert(Percentage percentage)
     {
-        return percentage.Value.ToString(CultureInfo);
+        return percentage?.Value.ToString(CultureInfo);
     }
 
     private static string Convert(DateTime date)
