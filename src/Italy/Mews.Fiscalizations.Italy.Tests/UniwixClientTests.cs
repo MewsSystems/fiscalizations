@@ -135,16 +135,6 @@ public sealed class UniwixClientTests
                     new OrderData
                     {
                         DocumentId = invoiceNumber,
-                        ItemNumber = "2",
-                        // cig
-                        TenderCode = "A1B2C3D4E5",
-                        // cup
-                        ProjectCode = "A1B2C3D4E5F6G7H"
-                    },
-                    new OrderData
-                    {
-                        DocumentId = invoiceNumber,
-                        ItemNumber = "3",
                         // cig
                         TenderCode = "A1B2C3D4E5",
                         // cup
