@@ -53,6 +53,7 @@ public sealed class SendInvoiceRequest
         String1To20 number,
         DateTime issued,
         String1To20 series = null,
+        bool? issuedInSubstitutionOfSimplifiedInvoice = null,
         CorrectingInvoice correctingInvoice = null,
         IEnumerable<CorrectedInvoice> correctedInvoices = null,
         IssuerType? issuerType = null)
@@ -65,6 +66,7 @@ public sealed class SendInvoiceRequest
                 number: number,
                 issued: issued,
                 series: series,
+                issuedInSubstitutionOfSimplifiedInvoice: issuedInSubstitutionOfSimplifiedInvoice,
                 correctingInvoice: correctingInvoice,
                 correctedInvoices: correctedInvoices
             ),

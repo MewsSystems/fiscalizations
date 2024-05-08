@@ -46,6 +46,7 @@ public sealed class Invoice
         String1To20 number,
         DateTime issued,
         String1To20 series = null,
+        bool? issuedInSubstitutionOfSimplifiedInvoice = null,
         CorrectingInvoice correctingInvoice = null,
         IEnumerable<CorrectedInvoice> correctedInvoices = null)
     {
@@ -55,6 +56,7 @@ public sealed class Invoice
                 issued: issued,
                 isSimplified: false,
                 series: series,
+                issuedInSubstitutionOfSimplifiedInvoice: issuedInSubstitutionOfSimplifiedInvoice,
                 correctingInvoice: correctingInvoice,
                 correctedInvoices: correctedInvoices
             ),
