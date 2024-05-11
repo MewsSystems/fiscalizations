@@ -140,9 +140,9 @@ public sealed class TicketBaiClient
     /// To report the invoice to the gov authorities, 'SendInvoiceAsync' must be used.
     /// </summary>
     /// <param name="request">Invoice request which will be mapped to Dto.TicketBai.</param>
-    public TicketBaiInvoiceData GetTicketBaiInvoiceData(SendInvoiceRequest request)
+    public TicketBaiInvoiceData GetTicketBaiInvoiceData(SendInvoiceRequest request,string id)
     {
-        var signedRequest = GetSignedInvoiceDocument(request);
+        var signedRequest = GetSignedInvoiceDocument(request, id);
         var signatureValue = signedRequest.GetElementsByTagName("ds:SignatureValue")[0].InnerText;
         var header = request.Invoice.Header;
         var tbaiIdentifier = GenerateTbaiIdentifier(signatureValue, request.Subject.Issuer.Nif.TaxpayerNumber, header.Issued);
@@ -170,7 +170,7 @@ public sealed class TicketBaiClient
         return $"{identifier}{crc}";
     }
 
-    private XmlDocument GetSignedInvoiceDocument(SendInvoiceRequest request)
+    private XmlDocument GetSignedInvoiceDocument(SendInvoiceRequest request,string id)
     {
         var ticketBaiRequest = ModelToDtoConverter.Convert(request, ServiceInfo);
         var xmlDoc = XmlSerializer.Serialize(ticketBaiRequest, new XmlSerializationParameters(
@@ -178,10 +178,10 @@ public sealed class TicketBaiClient
             namespaces: NonEmptyEnumerable.Create(new XmlNamespace("http://www.w3.org/2000/09/xmldsig#"))
         ));
         xmlDoc.OwnerDocument.PreserveWhitespace = true;
-        return GetSignedInvoiceDocument(xmlDoc.OwnerDocument).Document;
+        return GetSignedInvoiceDocument(xmlDoc.OwnerDocument, request.Invoice.InvoiceData.TransactionDate.Get(), id).Document;
     }
 
-    private SignatureDocument GetSignedInvoiceDocument(XmlDocument doc)
+    private SignatureDocument GetSignedInvoiceDocument(XmlDocument doc, DateTime dateTime, string elementIdToSign)
     {
         var policyUri = Region.Match(
             Region.Bizkaia, _ => "https://www.batuz.eus/fitxategiak/batuz/ticketbai/sinadura_elektronikoaren_zehaztapenak_especificaciones_de_la_firma_electronica_v1_1.pdf",
@@ -201,9 +201,11 @@ public sealed class TicketBaiClient
             signatureMethod: SignatureMethod.RSAwithSHA256,
             dataFormat: new DataFormat(MimeType: "text/xml"),
             signerRole: new SignerRole(Certificate.ToEnumerable()),
-            signingDate: DateTime.Now,
+           // signingDate: DateTime.Now,
+              signingDate: dateTime,
             signaturePolicyInfo: new SignaturePolicyInfo(policyUri, policyHash, DigestMethod.SHA256, policyUri),
-            elementIdToSign: Guid.NewGuid().ToString()
+             elementIdToSign: elementIdToSign
+        // elementIdToSign: Guid.NewGuid().ToString()
         );
         var signatureDocument = XadesService.SignEnveloped(signatureParameters);
         var isValidSignature = signatureDocument.XadesSignature.XadesCheckSignature(XadesCheckSignatureMasks.AllChecks, DigestMethod.SHA256.GetHashAlgorithm());

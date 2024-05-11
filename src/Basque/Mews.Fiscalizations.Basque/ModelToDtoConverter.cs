@@ -256,7 +256,7 @@ internal static class ModelToDtoConverter
             SerieFactura = header.Series.Map(s => s.Value).GetOrNull(),
             NumFactura = header.Number.Value,
             FechaExpedicionFactura = Convert(header.Issued.Date),
-            HoraExpedicionFactura = header.Issued.ToString("HH:MM:ss"),
+            HoraExpedicionFactura = header.Issued.ToString("HH:mm:ss"),
             FacturaSimplificada = header.IsSimplified.Match(
                 t => Dto.SiNoType.S,
                 f => Dto.SiNoType.N

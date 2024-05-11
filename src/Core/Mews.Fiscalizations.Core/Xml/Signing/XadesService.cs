@@ -22,7 +22,7 @@ public static class XadesService
             MimeType = "text/xml",
             Encoding = "UTF-8"
         };
-        var reference = SetContentEnveloped(signatureDocument, xmlDocumentToSign, dataFormat);
+        var reference = SetContentEnveloped(signatureDocument, xmlDocumentToSign, dataFormat, parameters.ElementIdToSign);
 
         if (parameters.DataFormat is not null)
         {
@@ -34,7 +34,7 @@ public static class XadesService
             dataFormat.Description = parameters.DataFormat.Description;
         }
 
-        SetSignatureId(signatureDocument.XadesSignature);
+        SetSignatureId(signatureDocument.XadesSignature, parameters.ElementIdToSign);
         PrepareSignature(signatureDocument, parameters, reference, dataFormat);
 
         signatureDocument.XadesSignature.ComputeSignature();
@@ -43,9 +43,9 @@ public static class XadesService
         return signatureDocument;
     }
 
-    private static void SetSignatureId(XadesSignedXml xadesSignedXml)
+    private static void SetSignatureId(XadesSignedXml xadesSignedXml,string id)
     {
-        var id = Guid.NewGuid().ToString();
+       // var id = Guid.NewGuid().ToString();
         xadesSignedXml.Signature.Id = $"Signature-{id}";
         xadesSignedXml.SignatureValueId = $"SignatureValue-{id}";
     }
@@ -97,14 +97,15 @@ public static class XadesService
         reference.AddTransform(transform);
     }
 
-    private static Reference SetContentEnveloped(SignatureDocument sigDocument, XmlDocument xmlDocument, DataObjectFormat dataFormat)
+    private static Reference SetContentEnveloped(SignatureDocument sigDocument, XmlDocument xmlDocument, DataObjectFormat dataFormat,string id)
     {
         sigDocument.Document = xmlDocument;
         var reference = new Reference();
 
         sigDocument.XadesSignature = new XadesSignedXml(sigDocument.Document);
 
-        reference.Id = $"Reference-{Guid.NewGuid()}";
+        //reference.Id = $"Reference-{Guid.NewGuid()}";
+        reference.Id = $"Reference-{id}";
         reference.Uri = "";
 
         dataFormat = new DataObjectFormat
