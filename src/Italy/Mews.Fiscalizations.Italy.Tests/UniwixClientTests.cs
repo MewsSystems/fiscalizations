@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Italy.Tests;
 public sealed class UniwixClientTests
 {
     private static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
-    private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_USERNAME";
+    private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
 
     public static UniwixClient GetUniwixClient()
     {
