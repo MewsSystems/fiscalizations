@@ -13,7 +13,7 @@ namespace Mews.Fiscalizations.Italy.Tests;
 public sealed class UniwixClientTests
 {
     private static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
-    private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
+    private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_USERNAME";
 
     public static UniwixClient GetUniwixClient()
     {
@@ -130,7 +130,7 @@ public sealed class UniwixClientTests
                     DocumentNumber = invoiceNumber,
                     TotalAmount = 100m
                 },
-                OrderData = new[]
+                ReceptionData = new[]
                 {
                     new OrderData
                     {
