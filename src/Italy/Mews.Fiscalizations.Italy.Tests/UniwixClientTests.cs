@@ -130,7 +130,7 @@ public sealed class UniwixClientTests
                     DocumentNumber = invoiceNumber,
                     TotalAmount = 100m
                 },
-                OrderData = new[]
+                ReceptionData = new[]
                 {
                     new OrderData
                     {
