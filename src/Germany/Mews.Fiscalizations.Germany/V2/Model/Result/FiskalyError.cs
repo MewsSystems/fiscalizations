@@ -10,5 +10,6 @@ public enum FiskalyError
     InvalidTssOperation,
     InvalidTransactionOperation,
     ServerSide,
-    InvalidResponse
+    InvalidResponse,
+    TssAccessDenied
 }

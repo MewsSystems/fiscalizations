@@ -35,7 +35,7 @@ public sealed class ErrorResult
         );
     }
 
-    internal static FiskalyError MapError(Dto.FiskalyErrorResponse error)
+    private static FiskalyError MapError(Dto.FiskalyErrorResponse error)
     {
         // For some reason, when the credentials are invalid, Fiskaly returns null code but with a message.
         if (error.Code == null && error.Message.Equals("Invalid credentials") || error.Error.Equals("Unauthorized"))
@@ -59,6 +59,7 @@ public sealed class ErrorResult
             "E_TSS_NOT_FOUND", _ => FiskalyError.InvalidTssId,
             "E_TSS_CONFLICT", _ => FiskalyError.TssCreationConflict,
             "E_CLIENT_CONFLICT", _ => FiskalyError.ClientCreationConflict,
+            "E_ACCESS_DENIED", _ => FiskalyError.TssAccessDenied,
             _ => throw new NotImplementedException($"Unhandled fiskaly error: {ToDebugString(error)}.")
         );
     }
