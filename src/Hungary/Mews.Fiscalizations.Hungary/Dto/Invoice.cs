@@ -6153,7 +6153,7 @@ public enum RequestStatusType
 public class QueryTaxpayerResponseType : BasicOnlineInvoiceResponseType
 {
 
-    private DateTime infoDateField;
+    private DateTime? infoDateField;
 
     private bool infoDateFieldSpecified;
 
@@ -6163,17 +6163,14 @@ public class QueryTaxpayerResponseType : BasicOnlineInvoiceResponseType
 
     private TaxpayerDataType taxpayerDataField;
 
-    /// <remarks/>
-    public DateTime infoDate
+    [XmlIgnore]
+    public DateTime? infoDate { get; set; }
+
+    [XmlElement("infoDate")]
+    public string InfoDateString
     {
-        get
-        {
-            return infoDateField;
-        }
-        set
-        {
-            infoDateField = value;
-        }
+        get => infoDate?.ToString();
+        set => infoDate = !string.IsNullOrEmpty(value) ? DateTime.Parse(value) : null;
     }
 
     /// <remarks/>
