@@ -8,7 +8,6 @@ public class ForeignCustomer
         IdentificatorType = Check.IsNotNull(identificatiorType, nameof(identificatiorType));
         IdNumber = Check.IsNotNull(idNumber, nameof(idNumber));
         Country = Check.IsNotNull(country, nameof(country));
-        Check.Condition(!Country.Equals(Countries.Spain), "Foreign customer cannot be Spanish.");
     }
 
     public Name Name { get; }
