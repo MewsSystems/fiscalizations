@@ -34,24 +34,22 @@ The library can be installed through NuGet packages or the command line as menti
 Install-Package Mews.Fiscalizations.Spain
 ```
 
-## 🎯 Features
+## 🎯 Key Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
--   No Spanish abbreviations.
--   Early data validation.
--   Asynchronous I/O.
--   All endpoints are covered with tests.
--   Intuitive immutable DTOs.
--   Pipelines that run on both Windows and Linux operating systems.
--   Cross platform (uses .NET 6).
--   Logging support.
+-   Functional programming approach using [FuncSharp](https://github.com/MewsSystems/FuncSharp).
+-   Early validation of data inputs.
+-   Asynchronous I/O operations.
+-   Comprehensive test coverage for all endpoints.
+-   Intuitive and immutable Data Transfer Objects (DTOs).
+-   CI/CD pipelines compatible with both Windows and Linux.
+-   Cross-platform compatibility (.NET 8).
 
 ## ❗ Known issues
 - We didn't implement deleting or modifying already existing records.
 
-## 📦 NuGet
+## 📦 NuGet Package
 
-We have published the library as [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain/).
+Available on NuGet as [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain/).
 
 ## 👀 Code Examples
 

@@ -36,20 +36,19 @@ The library can be installed through NuGet packages or the command line as menti
 Install-Package Mews.Fiscalizations.Hungary
 ```
 
-## 🎯 Features
+## 🎯 Key Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
--   No Hungarian abbreviations.
--   Early data validation.
--   Asynchronous I/O.
--   All endpoints are covered with tests.
--   Intuitive immutable DTOs.
--   Pipelines that run on both Windows and Linux operating systems.
--   Cross platform (uses .NET 6).
+-   Functional programming approach using [FuncSharp](https://github.com/MewsSystems/FuncSharp).
+-   Early validation of data inputs.
+-   Asynchronous I/O operations.
+-   Comprehensive test coverage for all endpoints.
+-   Intuitive and immutable Data Transfer Objects (DTOs).
+-   CI/CD pipelines compatible with both Windows and Linux.
+-   Cross-platform compatibility (.NET 8).
 
-## 📦 NuGet
+## 📦 NuGet Package
 
-We have published the library as [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary/).
+Available on NuGet as [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary/).
 
 ## 👀 Code Examples
 

@@ -3,8 +3,8 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-    <b>Mews.Fiscalizations.Austria</b> is a .NET library that allows you to generate QR codes compliant with Austrian fiscal law (RKSV2017). Currently offers a signer based on A-Trust WS RK.Online API.
-    <b>Current supported version is 2.0.</b>
+    <b>Mews.Fiscalizations.Austria</b> A .NET library for generating QR codes that comply with Austrian fiscal law (RKSV2017), featuring A-Trust WS RK.Online API-based signing.
+    <b>Current supported version: 2.0</b>   
     <br><br>
     <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Austria/">
         <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Austria">
@@ -22,35 +22,36 @@
 
 ## 📃 Description
 
-This library uses the [A-Trust](https://www.a-trust.at/de/Registrierkasse/) to generate the QR codes, please check their [Documentation](https://labs.a-trust.at/developer/pdf/asignRKHSM_basic_advanced_premium.pdf).
+The `Mews.Fiscalizations.Austria` library leverages [A-Trust](https://www.a-trust.at/de/Registrierkasse/) services to create QR codes compliant with Austrian fiscal regulations. For further details, refer to A-Trust’s [Documentation](https://labs.a-trust.at/developer/pdf/asignRKHSM_basic_advanced_premium.pdf).
 
 ## ⚙️ Installation
 
-The library can be installed through NuGet packages or the command line as mentioned below:
+You can install the library via NuGet Package Manager or the command line:
 ```bash
 Install-Package Mews.Fiscalizations.Austria
 ```
 
-## 🎯 Features
+## 🎯 Key Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
--   No Austrian abbreviations.
--   Early data validation.
--   Asynchronous I/O.
--   All endpoints are covered with tests.
--   Intuitive immutable DTOs.
--   Pipelines that run on both Windows and Linux operating systems.
--   Cross platform (uses .NET 6).
+-   Functional programming approach using [FuncSharp](https://github.com/MewsSystems/FuncSharp).
+-   Early validation of data inputs.
+-   Asynchronous I/O operations.
+-   Comprehensive test coverage for all endpoints.
+-   Intuitive and immutable Data Transfer Objects (DTOs).
+-   CI/CD pipelines compatible with both Windows and Linux.
+-   Cross-platform compatibility (.NET 8).
 
-## 📦 NuGet
+## 📦 NuGet Package
 
-We have published the library as [Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalizations.Austria/).
+Available on NuGet as [Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalizations.Austria/).
 
 ## 👀 Code Examples
 
-Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Austria/Mews.Fiscalizations.Austria.Tests).
+Below are some sample use cases. For a full list, see the [test cases](https://github.com/MewsSystems/fiscalizations/tree/master/src/Austria/Mews.Fiscalizations.Austria.Tests).
 
-### Creating QR data from bills
+### Generating QR Data for Receipts
+
+Create QrData from a receipt, including standard rates, register identifier, and previous JWS representation:
 ```csharp
 var qrData = new QrData(new Receipt(
     number: new ReceiptNumber("83469"),
@@ -70,21 +71,21 @@ var qrData = new QrData(new Receipt(
 );
 ```
 
-### Using A-Trust RK.Online signer
+### Using the A-Trust RK.Online Signer
+Sign the generated QR data using A-Trust’s API:
 ```csharp
 var signer = new ATrustSigner(Credentials, ATrustEnvironment.Test);
-var output = signer.Sign(qrData);
+var output = await signer.SignAsync(qrData);
 ```
 
-### SignerOutput Usage
+### Handling Signer Output
+Use `SignerOutput` for setting fiscal record details:
 ```csharp
 fiscalRecord.JwsRepresentation = output.JwsRepresentation.Value;
 fiscalRecord.QrData = output.SignedQrData.Value;
 fiscalRecord.Signature = output.JwsRepresentation.Signature.Value;
 ```
 
-## 🔐 Security protocol
-- TLS 1.1 and TLS 1.2 protocols must be enabled, that can be achieved by adding the following line to your code:
-```csharp
-ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11
-```
+### ⚠️ License
+
+Licensed under the [MIT](https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE)
