@@ -10,22 +10,38 @@ namespace Mews.Fiscalizations.Spain.Tests.IssuedInvoices;
 
 public class Basics
 {
-    public static readonly X509Certificate2 Certificate = new X509Certificate2(
+    private static readonly X509Certificate2 Certificate = new(
         rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("spanish_certificate_data") ?? "INSERT_CERTIFICATE_DATA"),
         password: System.Environment.GetEnvironmentVariable("spanish_certificate_password") ?? "INSERT_CERTIFICATE_PASSWORD",
         keyStorageFlags: X509KeyStorageFlags.DefaultKeySet
     );
-    public static readonly Client Client = new Client(Certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
 
-    public static readonly LocalCounterParty Issuer = LocalCounterParty.Create(
+    private static readonly Client Client = new(Certificate, Environment.Test, httpTimeout: TimeSpan.FromSeconds(30));
+
+    private static readonly LocalCounterParty Issuer = LocalCounterParty.Create(
         name: Name.CreateUnsafe("Issuing company"),
         nifVat: System.Environment.GetEnvironmentVariable("spanish_issuer_tax_number") ?? "INSERT_ISSUER_TAX_NUMBER"
     ).Success.Get();
 
-    public static readonly LocalCounterParty ReceivingCompany = LocalCounterParty.Create(
+    private static readonly LocalCounterParty ReceivingCompany = LocalCounterParty.Create(
         name: Name.CreateUnsafe("Receiving company"),
         nifVat: System.Environment.GetEnvironmentVariable("spanish_receiver_tax_number") ?? "INSERT_RECEIVER_TAX_NUMBER"
     ).Success.Get();
+
+    private static readonly TaxExemptItem[] UntaxedItems =
+    [
+        new( amount: Amount.Create(20m).Success.Get(), cause: CauseOfExemption.OtherGrounds)
+    ];
+
+    private static readonly TaxRateSummary[] TaxedItems =
+    [
+        GetTaxRateSummary(vat: 21m, baseValue: 42.07M)
+    ];
+
+    private static readonly TaxRateSummary[] InvalidTaxedItems =
+    [
+        GetTaxRateSummary(vat: 0, baseValue: 42.07M)
+    ];
 
     private const int RetryCount = 3;
 
@@ -54,26 +70,38 @@ public class Basics
 
     [Test]
     [Retry(RetryCount)]
-    public async Task PostInvoice()
+    public async Task PostInvoice_WithValidData_Succeeds()
     {
-        await SuccessfullyPostInvoice(Client);
+        await PostInvoice(GetInvoice(issuer: Issuer, taxRateSummaries: TaxedItems, taxExemptItems: UntaxedItems), RegisterResult.Correct);
     }
 
-    private async Task<SimplifiedInvoice> SuccessfullyPostInvoice(Client client)
+    [Test]
+    [Retry(RetryCount)]
+    public async Task PostZeroVatInvoice_WithValidData_Succeeds()
     {
-        var invoice = GetInvoice(Issuer);
+        await PostInvoice(GetInvoice(issuer: Issuer, taxExemptItems: UntaxedItems), RegisterResult.Correct);
+    }
+
+    [Test]
+    [Retry(RetryCount)]
+    public async Task PostingZeroVatItemsAsTaxedItems_Fails()
+    {
+        var invoice = GetInvoice(issuer: Issuer, taxRateSummaries: InvalidTaxedItems);
+        await PostInvoice(invoice, RegisterResult.AllIncorrect);
+    }
+
+    private async Task PostInvoice(SimplifiedInvoice invoice, RegisterResult expectedResult)
+    {
         var model = SimplifiedInvoicesToSubmit.Create(
             header: new Header(Issuer, CommunicationType.Registration),
-            invoices: new[] { invoice }
+            invoices: [invoice]
         ).Success.Get();
 
-        var response = await client.SubmitSimplifiedInvoiceAsync(model);
+        var response = await Client.SubmitSimplifiedInvoiceAsync(model);
 
         var responseErrorMessages = response.Success.Get().Invoices.Select(i => i.ErrorMessage).Flatten();
         var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);
-        Assert.That(response.Success.Get().Result, Is.EqualTo(RegisterResult.Correct), errorMessage);
-
-        return invoice;
+        Assert.That(response.Success.Get().Result, Is.EqualTo(expectedResult), errorMessage);
     }
 
     private async Task AssertNifLookup(INonEmptyEnumerable<NifInfoEntry> entries, NifSearchResult expectedResult)
@@ -88,14 +116,11 @@ public class Basics
         }
     }
 
-    private SimplifiedInvoice GetInvoice(LocalCounterParty issuer, int invoiceIndex = 1)
+    private SimplifiedInvoice GetInvoice(LocalCounterParty issuer, TaxRateSummary[] taxRateSummaries = null, TaxExemptItem[] taxExemptItems = null)
     {
-        var taxRateSummaries = new[] { GetTaxRateSummary(21m, 42.07M) };
-        var taxExemptItems = new[] { new TaxExemptItem(Amount.Create(20m).Success.Get(), CauseOfExemption.OtherGrounds) };
-
         var nowUtc = DateTime.UtcNow;
         var issueDateUtc = nowUtc.Date;
-        var invoiceNumber = $"Bill-{nowUtc:yyyy-MM-dd-HH-mm-ss}-{invoiceIndex}";
+        var invoiceNumber = $"Bill-{Guid.NewGuid()}";
 
         return new SimplifiedInvoice(
             taxPeriod: new TaxPeriod(Year.Create(issueDateUtc.Year).Success.Get(), (Month)(issueDateUtc.Month - 1)),
@@ -107,7 +132,7 @@ public class Basics
         );
     }
 
-    private TaxRateSummary GetTaxRateSummary(decimal vat, decimal baseValue)
+    private static TaxRateSummary GetTaxRateSummary(decimal vat, decimal baseValue)
     {
         return new TaxRateSummary(Percentage.Create(vat).Success.Get(), Amount.Create(baseValue).Success.Get(), Amount.Create(Math.Round(baseValue * vat / 100, 2)).Success.Get());
     }
