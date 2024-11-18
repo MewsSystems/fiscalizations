@@ -72,14 +72,14 @@ public class Basics
     [Retry(RetryCount)]
     public async Task PostInvoice_WithValidData_Succeeds()
     {
-        await PostInvoice(Client, GetInvoice(issuer: Issuer, taxRateSummaries: TaxedItems, taxExemptItems: UntaxedItems), RegisterResult.Correct);
+        await PostInvoice(GetInvoice(issuer: Issuer, taxRateSummaries: TaxedItems, taxExemptItems: UntaxedItems), RegisterResult.Correct);
     }
 
     [Test]
     [Retry(RetryCount)]
     public async Task PostZeroVatInvoice_WithValidData_Succeeds()
     {
-        await PostInvoice(Client, GetInvoice(issuer: Issuer, taxExemptItems: UntaxedItems), RegisterResult.Correct);
+        await PostInvoice(GetInvoice(issuer: Issuer, taxExemptItems: UntaxedItems), RegisterResult.Correct);
     }
 
     [Test]
@@ -87,17 +87,17 @@ public class Basics
     public async Task PostingZeroVatItemsAsTaxedItems_Fails()
     {
         var invoice = GetInvoice(issuer: Issuer, taxRateSummaries: InvalidTaxedItems);
-        await PostInvoice(Client, invoice, RegisterResult.AllIncorrect);
+        await PostInvoice(invoice, RegisterResult.AllIncorrect);
     }
 
-    private async Task PostInvoice(Client client, SimplifiedInvoice invoice, RegisterResult expectedResult)
+    private async Task PostInvoice(SimplifiedInvoice invoice, RegisterResult expectedResult)
     {
         var model = SimplifiedInvoicesToSubmit.Create(
             header: new Header(Issuer, CommunicationType.Registration),
             invoices: [invoice]
         ).Success.Get();
 
-        var response = await client.SubmitSimplifiedInvoiceAsync(model);
+        var response = await Client.SubmitSimplifiedInvoiceAsync(model);
 
         var responseErrorMessages = response.Success.Get().Invoices.Select(i => i.ErrorMessage).Flatten();
         var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);
