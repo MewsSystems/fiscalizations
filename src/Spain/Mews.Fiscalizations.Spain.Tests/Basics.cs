@@ -45,8 +45,6 @@ public class Basics
 
     private const int RetryCount = 3;
 
-    private int _invoiceIndex = 1;
-
     [Test]
     [Retry(RetryCount)]
     public async Task CheckNif()
@@ -122,8 +120,7 @@ public class Basics
     {
         var nowUtc = DateTime.UtcNow;
         var issueDateUtc = nowUtc.Date;
-        var invoiceNumber = $"Bill-{nowUtc:yyyy-MM-dd-HH-mm-ss}-{_invoiceIndex}";
-        _invoiceIndex++;
+        var invoiceNumber = $"Bill-{Guid.NewGuid()}";
 
         return new SimplifiedInvoice(
             taxPeriod: new TaxPeriod(Year.Create(issueDateUtc.Year).Success.Get(), (Month)(issueDateUtc.Month - 1)),
