@@ -30,17 +30,17 @@ public class Basics
 
     private static readonly TaxExemptItem[] UntaxedItems =
     [
-        new(Amount.Create(20m).Success.Get(), CauseOfExemption.OtherGrounds)
+        new( amount: Amount.Create(20m).Success.Get(), cause: CauseOfExemption.OtherGrounds)
     ];
 
     private static readonly TaxRateSummary[] TaxedItems =
     [
-        GetTaxRateSummary(21m, 42.07M)
+        GetTaxRateSummary(vat: 21m, baseValue: 42.07M)
     ];
 
     private static readonly TaxRateSummary[] InvalidTaxedItems =
     [
-        GetTaxRateSummary(0, 42.07M)
+        GetTaxRateSummary(vat: 0, baseValue: 42.07M)
     ];
 
     private const int RetryCount = 3;
@@ -72,52 +72,38 @@ public class Basics
 
     [Test]
     [Retry(RetryCount)]
-    public async Task PostInvoice()
+    public async Task PostInvoice_WithValidData_Succeeds()
     {
-        await SuccessfullyPostInvoice(Client, GetInvoice(issuer: Issuer, taxRateSummaries: TaxedItems, taxExemptItems: UntaxedItems));
+        await PostInvoice(Client, GetInvoice(issuer: Issuer, taxRateSummaries: TaxedItems, taxExemptItems: UntaxedItems), RegisterResult.Correct);
     }
 
     [Test]
     [Retry(RetryCount)]
-    public async Task PostZeroVatInvoice()
+    public async Task PostZeroVatInvoice_WithValidData_Succeeds()
     {
-        await SuccessfullyPostInvoice(Client, GetInvoice(issuer: Issuer, taxExemptItems: UntaxedItems));
+        await PostInvoice(Client, GetInvoice(issuer: Issuer, taxExemptItems: UntaxedItems), RegisterResult.Correct);
     }
 
     [Test]
     [Retry(RetryCount)]
-    public async Task PostingZeroVatItemsAsTaxedItemsFails()
+    public async Task PostingZeroVatItemsAsTaxedItems_Fails()
     {
         var invoice = GetInvoice(issuer: Issuer, taxRateSummaries: InvalidTaxedItems);
-        await UnsuccessfullyPostInvoice(Client, invoice);
+        await PostInvoice(Client, invoice, RegisterResult.AllIncorrect);
     }
 
-    private async Task SuccessfullyPostInvoice(Client client, SimplifiedInvoice invoice)
+    private async Task PostInvoice(Client client, SimplifiedInvoice invoice, RegisterResult expectedResult)
     {
         var model = SimplifiedInvoicesToSubmit.Create(
             header: new Header(Issuer, CommunicationType.Registration),
-            invoices: new[] { invoice }
+            invoices: [invoice]
         ).Success.Get();
 
         var response = await client.SubmitSimplifiedInvoiceAsync(model);
 
         var responseErrorMessages = response.Success.Get().Invoices.Select(i => i.ErrorMessage).Flatten();
         var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);
-        Assert.That(response.Success.Get().Result, Is.EqualTo(RegisterResult.Correct), errorMessage);
-    }
-
-    private async Task UnsuccessfullyPostInvoice(Client client, SimplifiedInvoice invoice)
-    {
-        var model = SimplifiedInvoicesToSubmit.Create(
-            header: new Header(Issuer, CommunicationType.Registration),
-            invoices: new[] { invoice }
-        ).Success.Get();
-
-        var response = await client.SubmitSimplifiedInvoiceAsync(model);
-
-        var responseErrorMessages = response.Success.Get().Invoices.Select(i => i.ErrorMessage).Flatten();
-        var errorMessage = String.Join(System.Environment.NewLine, responseErrorMessages);
-        Assert.That(response.Success.Get().Result, Is.EqualTo(RegisterResult.AllIncorrect), errorMessage);
+        Assert.That(response.Success.Get().Result, Is.EqualTo(expectedResult), errorMessage);
     }
 
     private async Task AssertNifLookup(INonEmptyEnumerable<NifInfoEntry> entries, NifSearchResult expectedResult)
