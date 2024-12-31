@@ -32,8 +32,19 @@ public sealed class ATrustSigner : ISigner
 
         var response = await HttpClient.PostAsync($"{EndpointUrl.Value}/Sign/JWS", requestContent);
         var responseContent = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<ATrustSignerResponse>(responseContent);
-        return new SignerOutput(new JwsRepresentation(result.JwsRepresentation), input.QrData);
+        try
+        {
+            var result = JsonConvert.DeserializeObject<ATrustSignerResponse>(responseContent);
+            return new SignerOutput(new JwsRepresentation(result.JwsRepresentation), input.QrData);
+        }
+        catch (JsonException jsonEx)
+        {
+            throw new Exception($"Failed to deserialize response content: {responseContent}", jsonEx);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"An error occurred while processing the response: {responseContent}", ex);
+        }
     }
 
     public async Task<CertificateInfo> GetCertificateInfoAsync()
