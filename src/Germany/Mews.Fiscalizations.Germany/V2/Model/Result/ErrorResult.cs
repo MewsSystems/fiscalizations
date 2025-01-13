@@ -60,6 +60,7 @@ public sealed class ErrorResult
             "E_TSS_CONFLICT", _ => FiskalyError.TssCreationConflict,
             "E_CLIENT_CONFLICT", _ => FiskalyError.ClientCreationConflict,
             "E_ACCESS_DENIED", _ => FiskalyError.TssAccessDenied,
+            "E_EXPORT_IN_PROGRESS", _ => FiskalyError.ExportInProgress,
             _ => throw new NotImplementedException($"Unhandled fiskaly error: {ToDebugString(error)}.")
         );
     }
