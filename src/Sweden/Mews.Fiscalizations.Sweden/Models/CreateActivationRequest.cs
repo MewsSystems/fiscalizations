@@ -10,7 +10,6 @@ public sealed class CreateActivationRequest(
     string cashRegisterName,
     IEnumerable<string> features,
     string controlUnitSerial,
-    string controlUnitLocation,
     string applicationNameAndVersion,
     string applicationPackage,
     Address address,
@@ -30,7 +29,7 @@ public sealed class CreateActivationRequest(
 
     public string ControlUnitSerial { get; } = controlUnitSerial;
 
-    public string ControlUnitLocation { get; } = controlUnitLocation;
+    public string ControlUnitLocation => "REMOTE";
 
     public string ApplicationNameAndVersion { get; } = applicationNameAndVersion;
 

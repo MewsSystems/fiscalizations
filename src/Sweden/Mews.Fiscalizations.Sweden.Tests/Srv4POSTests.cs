@@ -65,7 +65,6 @@ public sealed class Srv4POSTests
             cashRegisterName: CashRegisterName,
             features: ["CONTROL_UNIT"],
             controlUnitSerial: "PTEST900000000001",
-            controlUnitLocation: "REMOTE",
             applicationNameAndVersion: "SE Test app 1.0",
             applicationPackage: ApplicationPackage,
             address: new Address(AddressLines: "Address line 1", City: "Stockholm", PostalCode: "12311", CompanyName: "Test company"),
