@@ -46,7 +46,7 @@ public sealed class Srv4POSTests
         var activationResponse = (await CreateActivation(corporateId)).Success.Get();
         var sendDataRequest = new SendDataRequest(
             grossAmount: 100,
-            vatRateToSum: new Dictionary<string, int> { { "0", 0 }, { "6", 300 }, { "12", 0 }, { "25", 0 } },
+            totalTaxByVatRate: new Dictionary<decimal, decimal> { { 0, 0 }, { 0.06m, 6 }, { 0.12m, 0 }, { 0.25m, 0 } },
             isRefund: false,
             printType: PrintType.Normal,
             saleDate: DateTime.Now,

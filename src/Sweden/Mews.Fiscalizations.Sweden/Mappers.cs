@@ -10,10 +10,10 @@ internal static class Mappers
         return new DTOs.SendDataRequest
         {
             UnixTimestamp = ((DateTimeOffset)request.SaleDate).ToUnixTimeMilliseconds(),
-            GrossAmount = request.GrossAmount,
+            GrossAmount = request.GrossAmount.ConvertToSmallestUnit(),
             PrintType = (DTOs.PrintType)request.PrintType,
             ReceiptNumber = request.ReceiptNumber.ToNullable(),
-            VatRateToSum = request.VatRateToSum,
+            VatRateToSum = request.TotalTaxByVatRate.ToDictionary(kv => kv.Key.ConvertToSmallestUnit().ToString(), kv => kv.Value.ConvertToSmallestUnit()),
             IsRefund = request.IsRefund
         };
     }
