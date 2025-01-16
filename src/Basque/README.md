@@ -3,7 +3,7 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-    <b>Mews.Fiscalizations.Basque</b> is a .NET library that was built to help reporting invoices to the Basque countries tax authorities (TicketBai - TBAI).
+    <b>Mews.Fiscalizations.Basque</b> A .NET library for reporting invoices to the Basque Country tax authorities via TicketBAI (TBAI) compliance.
     <br><br>
     <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Basque/">
         <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Basque">
@@ -22,32 +22,31 @@
 
 ## 📃 Description
 
-The library uses TicketBai (Gipuzkoa) API to report the invoices, for more information, please check the [Documentation](https://www.gipuzkoa.eus/es/web/ogasuna/ticketbai/documentacion-y-normativa).
+The `Mews.Fiscalizations.Basque` library integrates with the TicketBai API, enabling compliant invoice reporting to tax authorities in all three Basque Country regions: Araba, Gipuzkoa, and Bizkaia. For further details, refer to the official documentation of each region: [Araba](https://web.araba.eus/es/hacienda/ticketbai/documentacion-tecnica), [Gipuzkoa](https://www.gipuzkoa.eus/es/web/ogasuna/ticketbai/documentacion-y-normativa), and [Bizkaia](https://www.batuz.eus/es/documentacion-tecnica).  
 
 ## ⚙️ Installation
 
-The library can be installed through NuGet packages or the command line as mentioned below:
+You can install the library via NuGet Package Manager or the command line:
 ```bash
 Install-Package Mews.Fiscalizations.Basque
 ```
 
-## 🎯 Features
+## 🎯 Key Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
--   No Spanish/Basque abbreviations.
--   Early data validation.
--   Asynchronous I/O.
--   All endpoints are covered with tests.
--   Intuitive immutable DTOs.
--   Pipelines that run on both Windows and Linux operating systems.
--   Cross platform (uses .NET 6).
+-   Functional programming approach using [FuncSharp](https://github.com/MewsSystems/FuncSharp).
+-   Early validation of data inputs.
+-   Asynchronous I/O operations.
+-   Comprehensive test coverage for all endpoints.
+-   Intuitive and immutable Data Transfer Objects (DTOs).
+-   CI/CD pipelines compatible with both Windows and Linux.
+-   Cross-platform compatibility (.NET 8).
 
-## 📦 NuGet
+## 📦 NuGet Package
 
-We have published the library as [Mews.Fiscalizations.Basque](https://www.nuget.org/packages/Mews.Fiscalizations.Basque/).
+Available on NuGet as [Mews.Fiscalizations.Basque](https://www.nuget.org/packages/Mews.Fiscalizations.Basque/).
 
 ## 👀 Code Examples
 
-For code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Basque/Mews.Fiscalizations.Basque.Tests).
+Please refer to the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Basque/Mews.Fiscalizations.Basque.Tests) for detailed code examples and usage scenarios.
 
-Please note that you will need a valid certificate in order to use the API, please check the documentation.
+>Note: A valid certificate is required to access the API. Please consult the documentation for guidance on obtaining and configuring certificates.

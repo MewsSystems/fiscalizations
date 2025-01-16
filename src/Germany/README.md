@@ -3,7 +3,7 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-    <b>Mews.Fiscalizations.Germany</b> is a .NET library that was built to help reporting of e-invoices to the German authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) using <a href="https://developer.fiskaly.com/api/kassensichv/v2/">Fiskaly KassenSichV API V2-certified</a>.
+    <b>Mews.Fiscalizations.Germany</b> is a .NET library designed for reporting e-invoices to German tax authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) via the <a href="https://developer.fiskaly.com/api/kassensichv/v2/">Fiskaly KassenSichV API V2</a>.
     <br><br>
     <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Germany/">
         <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Germany">
@@ -22,43 +22,41 @@
 
 ## 📃 Description
 
-The library uses Fiskaly API to report the invoices, for more information, please check their [Documentation](https://developer.fiskaly.com/api/kassensichv/v2/).
+This library enables fiscal reporting through the Fiskaly API. For more information, consult the official [documentation](https://developer.fiskaly.com/api/kassensichv/v2/).
 
 ## ⚙️ Installation
 
-The library can be installed through NuGet packages or the command line as mentioned below:
+Install via NuGet or the command line:
 ```bash
 Install-Package Mews.Fiscalizations.Germany
 ```
 
-## 🎯 Features
+## 🎯 Key Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
--   No German abbreviations.
--   Early data validation.
--   Asynchronous I/O.
--   All endpoints are covered with tests.
--   Intuitive immutable DTOs.
--   Pipelines that run on both Windows and Linux operating systems.
--   Cross platform (uses .NET 6).
+-   Functional programming approach using [FuncSharp](https://github.com/MewsSystems/FuncSharp).
+-   Early validation of data inputs.
+-   Asynchronous I/O operations.
+-   Comprehensive test coverage for all endpoints.
+-   Intuitive and immutable Data Transfer Objects (DTOs).
+-   CI/CD pipelines compatible with both Windows and Linux.
+-   Cross-platform compatibility (.NET 8).
 
-## 📦 NuGet
+## 📦 NuGet Package
 
-We have published the library as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
+Available on NuGet as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
 
 ## 👀 Code Examples
 
-P.S Please note that we keep files of the older API versions, but we run the tests on the latest supported API version and not older ones.
+Below are common usage examples. For additional code samples, see the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
 
-Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
-
-Fiskaly Client can be created using the **ApiKey** and **ApiSecret** which can be created through Fiskaly dashboard.
+### Setup
+Create a Fiskaly client using `ApiKey` and `ApiSecret`:
 
 ```csharp
 var client = new FiskalyClient(ApiKey, ApiSecret);
 ```
 
-All endpoints require providing a valid **accessToken**
+All endpoints require providing a valid `accessToken`
 
 ```csharp
 var accessToken = await client.GetAccessTokenAsync();

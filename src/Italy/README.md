@@ -30,25 +30,19 @@ The library can be installed through NuGet packages or the command line as menti
 Install-Package Mews.Fiscalizations.Italy
 ```
 
-## 🎯 Features
+## 🎯 Key Features
 
--   Functional approach via [FuncSharp](https://github.com/siroky/FuncSharp).
--   No Italian abbreviations.
--   Early data validation.
--   Asynchronous I/O.
--   All endpoints are covered with tests.
--   Intuitive immutable DTOs.
--   Cross platform (uses .NET 6).
+-   Functional programming approach using [FuncSharp](https://github.com/MewsSystems/FuncSharp).
+-   Early validation of data inputs.
+-   Asynchronous I/O operations.
+-   Comprehensive test coverage for all endpoints.
+-   Intuitive and immutable Data Transfer Objects (DTOs).
+-   CI/CD pipelines compatible with both Windows and Linux.
+-   Cross-platform compatibility (.NET 8).
 
-## 📦 NuGet
+## 📦 NuGet Package
 
-We have published the library as [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy/).
-
-## 🔐 Security protocol
-- TLS 1.0 protocol must be enabled, that can be achieved by adding the following line to your code:
-```csharp
-ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls;
-```
+Available on NuGet as [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy/).
 
 ## 👀 Code Examples
 Listed below are some of the common examples. If you want to see more code examples, please check the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Italy/Mews.Fiscalizations.Italy.Tests).
