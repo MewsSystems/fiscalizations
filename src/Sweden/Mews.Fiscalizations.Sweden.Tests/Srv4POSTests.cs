@@ -11,6 +11,8 @@ public sealed class Srv4POSTests
     private static readonly string Username = Environment.GetEnvironmentVariable("swedish_srv4pos_username") ?? "INSERT_USERNAME";
     private static readonly string Password = Environment.GetEnvironmentVariable("swedish_srv4pos_password") ?? "INSERT_PASSWORD";
     private static readonly string ApplicationPackage = Environment.GetEnvironmentVariable("swedish_srv4pos_app_package") ?? "INSERT_APP_PACKAGE";
+    private static readonly string ApiKey = Environment.GetEnvironmentVariable("swedish_srv4pos_api_key") ?? "INSERT_API_KEY";
+    private static readonly string CorporateId = Environment.GetEnvironmentVariable("swedish_srv4pos_corporate_id") ?? "INSERT_CORPORATE_ID";
     private const string CashRegisterName = "CashReg001";
 
     [Test]
@@ -26,42 +28,12 @@ public sealed class Srv4POSTests
     }
 
     [Test]
-    [Retry(3)]
+    [Ignore("Only for local testing - don't run in pipelines.")]
     public async Task CreateActivation_Succeeds_Async()
-    {
-        var activationResponse = await CreateActivation(GenerateLuhnNumber());
-
-        Assert.That(activationResponse.IsSuccess, Is.True);
-        Assert.That(activationResponse.Success.Get().ActivationId, Is.Not.Null);
-        Assert.That(activationResponse.Success.Get().ApiKey, Is.Not.Empty);
-    }
-
-    [Test]
-    [Retry(3)]
-    public async Task SendData_Succeeds_Async()
-    {
-        var client = new Srv4posClient();
-        var corporateId = GenerateLuhnNumber();
-        var activationResponse = (await CreateActivation(corporateId)).Success.Get();
-        var sendDataRequest = new SendDataRequest(
-            grossAmount: 100,
-            totalTaxByVatRate: new Dictionary<decimal, decimal> { { 0, 0 }, { 0.06m, 6 }, { 0.12m, 0 }, { 0.25m, 0 } },
-            isRefund: false,
-            printType: PrintType.Normal,
-            saleDate: DateTime.Now,
-            receiptNumber: 1
-        );
-        var sendDataResponse = await client.SendDataToControlUnitAsync(activationResponse.ApiKey, corporateId, CashRegisterName, sendDataRequest);
-
-        Assert.That(sendDataResponse.IsSuccess, Is.True);
-        Assert.That(sendDataResponse.Success.Get().ResponseCode, Is.Not.Empty);
-    }
-
-    private async Task<Try<CreateActivationResponse, string>> CreateActivation(string corporateId)
     {
         var request = new CreateActivationRequest(
             country: Countries.Sweden,
-            corporateId: corporateId,
+            corporateId: GenerateLuhnNumber(),
             cashRegisterName: CashRegisterName,
             features: ["CONTROL_UNIT"],
             controlUnitSerial: "PTEST900000000001",
@@ -72,7 +44,30 @@ public sealed class Srv4POSTests
         );
 
         var client = new Srv4posClient();
-        return await client.CreateActivation(Username, Password, request);
+        var activationResponse = await client.CreateActivation(Username, Password, request);
+
+        Assert.That(activationResponse.IsSuccess, Is.True);
+        Assert.That(activationResponse.Success.Get().ActivationId, Is.Not.Null);
+        Assert.That(activationResponse.Success.Get().ApiKey, Is.Not.Empty);
+    }
+
+    [Test]
+    [Retry(3)]
+    public async Task SendData_Succeeds_Async()
+    {
+        var sendDataRequest = new SendDataRequest(
+            grossAmount: 100,
+            totalTaxByVatRate: new Dictionary<decimal, decimal> { { 0, 0 }, { 0.06m, 6 }, { 0.12m, 0 }, { 0.25m, 0 } },
+            isRefund: false,
+            printType: PrintType.Normal,
+            saleDate: DateTime.Now,
+            receiptNumber: 1
+        );
+        var client = new Srv4posClient();
+        var sendDataResponse = await client.SendDataToControlUnitAsync(ApiKey, CorporateId, CashRegisterName, sendDataRequest);
+
+        Assert.That(sendDataResponse.IsSuccess, Is.True);
+        Assert.That(sendDataResponse.Success.Get().ResponseCode, Is.Not.Empty);
     }
 
     private static string GenerateLuhnNumber()

@@ -70,6 +70,8 @@ jobs:
         swedish_srv4pos_username: ${{secrets.swedish_srv4pos_username}}
         swedish_srv4pos_password: ${{secrets.swedish_srv4pos_password}}
         swedish_srv4pos_app_package: ${{secrets.swedish_srv4pos_app_package}}
+        swedish_srv4pos_api_key: ${{secrets.swedish_srv4pos_api_key}}
+        swedish_srv4pos_corporate_id: ${{secrets.swedish_srv4pos_corporate_id}}
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results-${{ runner.os }}.trx" || true
 
     - name: Test Report
