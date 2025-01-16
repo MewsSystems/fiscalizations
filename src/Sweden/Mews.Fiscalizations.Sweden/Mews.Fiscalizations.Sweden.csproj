@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../Mews.Fiscalizations.All.props" />
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Authors>Mews</Authors>
+        <Description>Swedish Cash register.</Description>
+        <PackageTags>fiscalization;sweden;cashregister</PackageTags>
+        <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+        <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+        <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
+        <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>1.0.0</PackageVersion>
+        <LangVersion>12</LangVersion>
+        <ImplicitUsings>true</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\..\..\packageIcon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PackageId>Mews.Fiscalizations.Sweden</PackageId>
+        <Company>Mews</Company>
+        <PackageIcon>packageIcon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+</Project>

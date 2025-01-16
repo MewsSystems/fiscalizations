@@ -66,6 +66,10 @@ jobs:
 
         austrian_user_id: ${{secrets.austrian_user_id}}
         austrian_password: ${{secrets.austrian_password}}
+
+        swedish_srv4pos_username: ${{secrets.swedish_srv4pos_username}}
+        swedish_srv4pos_password: ${{secrets.swedish_srv4pos_password}}
+        swedish_srv4pos_app_package: ${{secrets.swedish_srv4pos_app_package}}
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results-${{ runner.os }}.trx" || true
 
     - name: Test Report

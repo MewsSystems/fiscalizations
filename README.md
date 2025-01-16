@@ -53,16 +53,17 @@ Please visit the desired fiscalization project to see its code examples.
 
 ## 🧬 Projects
 
-| **Project** | **Nuget Package** | **Notes** |
-| ----------- | ----------------- | --------- |
-| All | [Mews.Fiscalizations.All](https://www.nuget.org/packages/Mews.Fiscalizations.All) |
-| [Core](https://github.com/MewsSystems/fiscalizations/tree/master/src/Core) | [Mews.Fiscalizations.Core](https://www.nuget.org/packages/Mews.Fiscalizations.Core) |
+| **Project**                                                                      | **Nuget Package**                                                                         | **Notes** |
+|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------| --------- |
+| All                                                                              | [Mews.Fiscalizations.All](https://www.nuget.org/packages/Mews.Fiscalizations.All)         |
+| [Core](https://github.com/MewsSystems/fiscalizations/tree/master/src/Core)       | [Mews.Fiscalizations.Core](https://www.nuget.org/packages/Mews.Fiscalizations.Core)       |
 | [Austria](https://github.com/MewsSystems/fiscalizations/tree/master/src/Austria) | [Mews.Fiscalizations.Austria](https://www.nuget.org/packages/Mews.Fiscalizations.Austria) |
 | [Germany](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany) | [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany) |
 | [Hungary](https://github.com/MewsSystems/fiscalizations/tree/master/src/Hungary) | [Mews.Fiscalizations.Hungary](https://www.nuget.org/packages/Mews.Fiscalizations.Hungary) |
-| [Italy](https://github.com/MewsSystems/fiscalizations/tree/master/src/Italy) | [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy) |
-| [Spain](https://github.com/MewsSystems/fiscalizations/tree/master/src/Spain) | [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain) |
-| [Basque](https://github.com/MewsSystems/fiscalizations/tree/master/src/Basque) | [Mews.Fiscalizations.Basque](https://www.nuget.org/packages/Mews.Fiscalizations.Basque) |
+| [Italy](https://github.com/MewsSystems/fiscalizations/tree/master/src/Italy)     | [Mews.Fiscalizations.Italy](https://www.nuget.org/packages/Mews.Fiscalizations.Italy)     |
+| [Spain](https://github.com/MewsSystems/fiscalizations/tree/master/src/Spain)     | [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain)     |
+| [Basque](https://github.com/MewsSystems/fiscalizations/tree/master/src/Basque)   | [Mews.Fiscalizations.Basque](https://www.nuget.org/packages/Mews.Fiscalizations.Basque)   |
+| [Sweden](https://github.com/MewsSystems/fiscalizations/tree/master/src/Sweden)   | [Mews.Fiscalizations.Sweden](https://www.nuget.org/packages/Mews.Fiscalizations.Sweden)   |
 
 ## 🧑 Authors
 <table>
