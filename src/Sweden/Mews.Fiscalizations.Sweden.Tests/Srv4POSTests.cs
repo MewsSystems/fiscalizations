@@ -34,7 +34,6 @@ public sealed class Srv4POSTests
         Assert.That(activationResponse.IsSuccess, Is.True);
         Assert.That(activationResponse.Success.Get().ActivationId, Is.Not.Null);
         Assert.That(activationResponse.Success.Get().ApiKey, Is.Not.Empty);
-
     }
 
     [Test]
