@@ -1,4 +1,3 @@
-using FuncSharp;
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Sweden.Models;
 using NUnit.Framework;
