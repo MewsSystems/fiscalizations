@@ -23,7 +23,7 @@ public sealed class TestFixture
     }
 
     private Region Region { get; }
-    
+
     private TaxpayerIdentificationNumber LocalNif { get;  }
 
     internal TicketBaiClient Client => new TicketBaiClient(Certificate, Region, Environment.Test);
@@ -48,7 +48,11 @@ public sealed class TestFixture
         // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
         // Also the NIF must be registered in the Araba region.
         var applicableValidationResults = region.Match(
-            Region.Araba, _ => validationResults.Where(r => !r.ErrorCode.Equals(ErrorCode.InvalidOrMissingInvoiceChain) && !r.ErrorCode.Equals(ErrorCode.IssuerNifMustBeRegisteredInArabaRegion)),
+            Region.Araba, _ => validationResults.Where(r =>
+                r.ErrorCode != ErrorCode.InvalidOrMissingInvoiceChain
+                && r.ErrorCode != ErrorCode.IssuerNifMustBeRegisteredInArabaRegion
+                && r.ErrorCode != ErrorCode.ArabaRegionTestCertificate
+            ),
             _ => validationResults
         );
         Assert.That(applicableValidationResults, Is.Empty);
