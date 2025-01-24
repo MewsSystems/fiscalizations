@@ -37,7 +37,14 @@ public sealed class XmlSerializer
             using (var reader = new XmlTextReader(stream))
             {
                 reader.XmlResolver = null;
-                return (T)serializer.Deserialize(reader);
+                try
+                {
+                    return (T)serializer.Deserialize(reader);
+                }
+                catch (InvalidOperationException)
+                {
+                    return default;
+                }
             }
         }
     }

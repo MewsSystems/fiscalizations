@@ -22,7 +22,7 @@ public sealed class TicketBaiClient
         Environment = environment;
         Region = region;
         ServiceInfo = new ServiceInfo(region);
-        
+
         var requestHandler = new HttpClientHandler();
         requestHandler.ClientCertificates.Add(certificate);
         if (region == Region.Bizkaia)

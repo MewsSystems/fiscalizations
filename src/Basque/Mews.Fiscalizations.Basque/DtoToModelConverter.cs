@@ -14,6 +14,22 @@ public static class DtoToModelConverter
         string tbaiIdentifier,
         String1To100 signatureValue)
     {
+        if (response is null)
+        {
+            return new SendInvoiceResponse(
+                xmlRequestContent: xmlRequestContent,
+                xmlResponseContent: xmlResponseContent,
+                qrCodeUri: qrCodeUri,
+                tbaiIdentifier: tbaiIdentifier,
+                received: default,
+                state: InvoiceState.Refused,
+                description: "ServerErrorTryAgain",
+                signatureValue: signatureValue,
+                validationResults: [
+                    new SendInvoiceValidationResult(ErrorCode.ServerErrorTryAgain, "Server error. Please try again.")
+                ]
+            );
+        }
         var result = response.Salida;
         return new SendInvoiceResponse(
             xmlRequestContent: xmlRequestContent,
