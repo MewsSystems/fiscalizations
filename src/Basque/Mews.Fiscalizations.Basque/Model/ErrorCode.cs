@@ -45,6 +45,9 @@ public enum ErrorCode
     // The size of the message must not exceed the allowed size.
     MessageLengthLimitExceeded = 017,
 
+    // Returned when using a test certificate in Araba region.
+    ArabaRegionTestCertificate = 998,
+
     // Invalid ID field value. NIF-VAT must be correct for the indicated country. Brexit control.
     InvalidCountryTaxIdentifier = 1104,
 
