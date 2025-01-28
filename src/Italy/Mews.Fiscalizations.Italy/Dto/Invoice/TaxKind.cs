@@ -7,10 +7,14 @@ public enum TaxKind
 {
     [XmlEnum("N1")]
     ExcludedArticle15,
+    [XmlEnum("N2")]
+    NotSubject,
     [XmlEnum("N2.1")]
     NotSubjectArticle7,
     [XmlEnum("N2.2")]
     NotSubjectOther,
+    [XmlEnum("N3")]
+    NonTaxable,
     [XmlEnum("N3.1")]
     NonTaxableExports,
     [XmlEnum("N3.2")]
