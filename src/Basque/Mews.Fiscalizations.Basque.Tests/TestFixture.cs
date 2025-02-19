@@ -32,7 +32,7 @@ public sealed class TestFixture
         nif: LocalNif,
         license: Region.Match(
             Region.Araba, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_araba_license") ?? "INSERT_LICENSE"),
-            Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "INSERT_LICENSE"),
+            Region.Gipuzkoa, _ => String1To20.CreateUnsafe(System.Environment.GetEnvironmentVariable("basque_gipuzkoa_license") ?? "TBAIGIPRE00000000879"),
             Region.Bizkaia, _ => String1To20.CreateUnsafe("TBAIBI00000000PRUEBA")
         ),
         name: String1To120.CreateUnsafe("IZENPE S.A"),
