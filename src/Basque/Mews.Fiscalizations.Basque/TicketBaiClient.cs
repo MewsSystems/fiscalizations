@@ -136,15 +136,20 @@ public sealed class TicketBaiClient
                 signatureValue: invoiceData.TrimmedSignature
             );
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException ex)
         {
-            return DtoToModelConverter.Convert(
-                response: (TicketBaiResponse)null,
-                qrCodeUri: invoiceData.QrCodeUri,
+            return new SendInvoiceResponse(
                 xmlRequestContent: signedRequest.OuterXml,
-                xmlResponseContent: responseContent,
+                xmlResponseContent: "",
+                qrCodeUri: invoiceData.QrCodeUri,
                 tbaiIdentifier: invoiceData.TbaiIdentifier,
-                signatureValue: invoiceData.TrimmedSignature
+                received: DateTime.UtcNow,
+                state: InvoiceState.Refused,
+                description: "Server error. Please try again.",
+                signatureValue: invoiceData.TrimmedSignature,
+                validationResults: [
+                    new SendInvoiceValidationResult(ErrorCode.ServerErrorTryAgain, $"Unhandled server error: {ex.Message}")
+                ]
             );
         }
     }
