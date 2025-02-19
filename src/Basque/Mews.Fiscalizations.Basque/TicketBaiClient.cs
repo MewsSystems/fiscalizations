@@ -22,7 +22,7 @@ public sealed class TicketBaiClient
         Environment = environment;
         Region = region;
         ServiceInfo = new ServiceInfo(region);
-        
+
         var requestHandler = new HttpClientHandler();
         requestHandler.ClientCertificates.Add(certificate);
         if (region == Region.Bizkaia)
@@ -123,15 +123,35 @@ public sealed class TicketBaiClient
         var response = await HttpClient.PostAsync(ServiceInfo.SendInvoiceUri(Environment), requestContent);
 
         var responseContent = await response.Content.ReadAsStringAsync();
-        var ticketBaiResponse = XmlSerializer.Deserialize<Dto.TicketBaiResponse>(responseContent);
-        return DtoToModelConverter.Convert(
-            response: ticketBaiResponse,
-            qrCodeUri: invoiceData.QrCodeUri,
-            xmlRequestContent: signedRequest.OuterXml,
-            xmlResponseContent: responseContent,
-            tbaiIdentifier: invoiceData.TbaiIdentifier,
-            signatureValue: invoiceData.TrimmedSignature
-        );
+
+        try
+        {
+            var ticketBaiResponse = XmlSerializer.Deserialize<TicketBaiResponse>(responseContent);
+            return DtoToModelConverter.Convert(
+                response: ticketBaiResponse,
+                qrCodeUri: invoiceData.QrCodeUri,
+                xmlRequestContent: signedRequest.OuterXml,
+                xmlResponseContent: responseContent,
+                tbaiIdentifier: invoiceData.TbaiIdentifier,
+                signatureValue: invoiceData.TrimmedSignature
+            );
+        }
+        catch (InvalidOperationException ex)
+        {
+            return new SendInvoiceResponse(
+                xmlRequestContent: signedRequest.OuterXml,
+                xmlResponseContent: "",
+                qrCodeUri: invoiceData.QrCodeUri,
+                tbaiIdentifier: invoiceData.TbaiIdentifier,
+                received: DateTime.UtcNow,
+                state: InvoiceState.Refused,
+                description: "Server error. Please try again.",
+                signatureValue: invoiceData.TrimmedSignature,
+                validationResults: [
+                    new SendInvoiceValidationResult(ErrorCode.ServerErrorTryAgain, $"Unhandled server error: {ex.Message}")
+                ]
+            );
+        }
     }
 
     /// <summary>
