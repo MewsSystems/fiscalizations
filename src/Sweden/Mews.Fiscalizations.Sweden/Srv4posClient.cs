@@ -8,20 +8,20 @@ using Mews.Fiscalizations.Sweden.Models;
 
 namespace Mews.Fiscalizations.Sweden;
 
-public sealed class Srv4posClient()
+public sealed class Srv4posClient
 {
     private const string BaseUrl = "https://s.srv4pos.com/v45";
 
-    static Srv4posClient()
+    private readonly HttpClient _httpClient;
+
+    public Srv4posClient(HttpClient httpClient)
     {
-        HttpClient = new HttpClient();
+        _httpClient = httpClient;
     }
 
-    private static HttpClient HttpClient { get; }
-
-    private static void SetAuthorizationHeader(string token)
+    private void SetAuthorizationHeader(string token)
     {
-        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(token)));
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(token)));
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public sealed class Srv4posClient()
         cancellationToken.ThrowIfCancellationRequested();
         SetAuthorizationHeader($"{username}:{password}");
 
-        var response = await HttpClient.PostAsJsonAsync($"{BaseUrl}/activations-advanced", request.ToDto(), cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/activations-advanced", request.ToDto(), cancellationToken);
         return await HandleResponse<DTOs.CreateActivationResponse, CreateActivationResponse>(response, r => r.FromDto(), cancellationToken);
     }
 
@@ -44,7 +44,7 @@ public sealed class Srv4posClient()
         cancellationToken.ThrowIfCancellationRequested();
         SetAuthorizationHeader(apiKey);
 
-        var response = await HttpClient.PostAsJsonAsync($"{BaseUrl}/{corporateId}/registration/{cashRegisterName}/kd", request.ToDto(), cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/{corporateId}/registration/{cashRegisterName}/kd", request.ToDto(), cancellationToken);
 
         // TODO: returning the request and response content is needed for getting certified, we will remove it later.
         var requestContent = await response.RequestMessage.Content.ReadAsStringAsync(cancellationToken);
@@ -65,7 +65,7 @@ public sealed class Srv4posClient()
             CorporateId = corporateId,
             CashRegisterName = cashRegisterName
         };
-        var response = await HttpClient.PostAsJsonAsync($"{BaseUrl}/noauth/activations/cash-register-name/existance", request, cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/noauth/activations/cash-register-name/existance", request, cancellationToken);
         return await HandleResponse<DTOs.CheckCashRegisterUniquenessResponse, bool>(response, r => r.Exists, cancellationToken);
     }
 

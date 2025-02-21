@@ -17,7 +17,8 @@ public sealed class UniwixClientTests
 
     public static UniwixClient GetUniwixClient()
     {
-        return new UniwixClient(new UniwixClientConfiguration(Username, Password));
+        var httpClient = new HttpClient();
+        return new UniwixClient(httpClient, new UniwixClientConfiguration(Username, Password));
     }
 
     [Test]

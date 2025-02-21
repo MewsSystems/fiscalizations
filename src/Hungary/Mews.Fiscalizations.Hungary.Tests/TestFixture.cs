@@ -25,7 +25,8 @@ public static class TestFixture
             developerName: "Test",
             developerContact: "test@test.com"
         );
-        return new NavClient(technicalUser, softwareIdentification, NavEnvironment.Test);
+        var httpClient = new HttpClient();
+        return new NavClient(httpClient, technicalUser, softwareIdentification, NavEnvironment.Test);
     }
 
     public static void AssertResponse<TResult, TCode>(ResponseResult<TResult, TCode> responseResult)
