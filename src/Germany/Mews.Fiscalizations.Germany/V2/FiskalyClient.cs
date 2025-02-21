@@ -9,11 +9,11 @@ public sealed class FiskalyClient
 
     private Client Client { get; }
 
-    public FiskalyClient(ApiKey apiKey, ApiSecret apiSecret)
+    public FiskalyClient(HttpClient httpClient, ApiKey apiKey, ApiSecret apiSecret)
     {
         ApiKey = apiKey;
         ApiSecret = apiSecret;
-        Client = new Client();
+        Client = new Client(httpClient);
     }
 
     public async Task<ResponseResult<Model.Client>> GetClientAsync(AccessToken token, Guid clientId, Guid tssId, CancellationToken cancellationToken = default)

@@ -7,30 +7,24 @@ namespace Mews.Fiscalizations.Austria.ATrust;
 
 public sealed class ATrustSigner : ISigner
 {
-    public ATrustSigner(ATrustCredentials credentials, ATrustEnvironment environment = ATrustEnvironment.Production)
+    private readonly HttpClient _httpClient;
+    private readonly EndpointUrl _endpointUrl;
+    private readonly ATrustCredentials _credentials;
+
+    public ATrustSigner(HttpClient httpClient, ATrustCredentials credentials, ATrustEnvironment environment = ATrustEnvironment.Production)
     {
         var environmentDomain = environment == ATrustEnvironment.Production ? "www" : "hs-abnahme";
-        Credentials = credentials;
-        EndpointUrl = new EndpointUrl($"https://{environmentDomain}.a-trust.at/asignrkonline/v2/{Credentials.User.Value}");
-    }
-
-    public EndpointUrl EndpointUrl { get; }
-
-    public ATrustCredentials Credentials { get; }
-
-    private static HttpClient HttpClient { get; }
-
-    static ATrustSigner()
-    {
-        HttpClient = new HttpClient();
+        _credentials = credentials;
+        _endpointUrl = new EndpointUrl($"https://{environmentDomain}.a-trust.at/asignrkonline/v2/{_credentials.User.Value}");
+        _httpClient = httpClient;
     }
 
     public async Task<SignerOutput> SignAsync(QrData qrData)
     {
-        var input = new ATrustSignerInput(Credentials.Password, qrData);
+        var input = new ATrustSignerInput(_credentials.Password, qrData);
         var requestContent = new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json");
 
-        var response = await HttpClient.PostAsync($"{EndpointUrl.Value}/Sign/JWS", requestContent);
+        var response = await _httpClient.PostAsync($"{_endpointUrl.Value}/Sign/JWS", requestContent);
         var responseContent = await response.Content.ReadAsStringAsync();
         try
         {
@@ -49,7 +43,7 @@ public sealed class ATrustSigner : ISigner
 
     public async Task<CertificateInfo> GetCertificateInfoAsync()
     {
-        var response = await HttpClient.GetAsync($"{EndpointUrl.Value}/Certificate");
+        var response = await _httpClient.GetAsync($"{_endpointUrl.Value}/Certificate");
         var responseContent = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<CertificateInfo>(responseContent);
     }

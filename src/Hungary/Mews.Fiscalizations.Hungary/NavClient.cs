@@ -2,25 +2,18 @@
 
 public sealed class NavClient
 {
+    public NavClient(HttpClient httpClient, TechnicalUser technicalUser, SoftwareIdentification softwareIdentification, NavEnvironment environment)
+    {
+        TechnicalUser = technicalUser;
+        SoftwareIdentification = softwareIdentification;
+        Client = new Client(httpClient, environment);
+    }
+
     private TechnicalUser TechnicalUser { get; }
 
     private SoftwareIdentification SoftwareIdentification { get; }
 
-    private static HttpClient HttpClient { get; }
-
     private Client Client { get; }
-
-    static NavClient()
-    {
-        HttpClient = new HttpClient();
-    }
-
-    public NavClient(TechnicalUser technicalUser, SoftwareIdentification softwareIdentification, NavEnvironment environment)
-    {
-        TechnicalUser = technicalUser;
-        SoftwareIdentification = softwareIdentification;
-        Client = new Client(HttpClient, environment);
-    }
 
     public async Task<ResponseResult<ExchangeToken, ExchangeTokenErrorCode>> GetExchangeTokenAsync(CancellationToken cancellationToken = default)
     {

@@ -22,7 +22,8 @@ public class ATrustSignerTests
         var europeTimeZone = "Central Europe Standard Time";
         var austrianTimeZone = TimeZoneInfo.FindSystemTimeZoneById(isWindows ? europeTimeZone : TZConvert.WindowsToIana(europeTimeZone));
         var austrianCulture = CultureInfo.GetCultureInfo("de-AT");
-        var signer = new ATrustSigner(Credentials, ATrustEnvironment.Test);
+        var httpClient = new HttpClient();
+        var signer = new ATrustSigner(httpClient, Credentials, ATrustEnvironment.Test);
         var info = await signer.GetCertificateInfoAsync();
         var result = await signer.SignAsync(new QrData(
             culture: austrianCulture,
@@ -53,7 +54,8 @@ public class ATrustSignerTests
     [Test]
     public async Task GetCertificateInfoWorks()
     {
-        var info = await new ATrustSigner(Credentials, ATrustEnvironment.Test).GetCertificateInfoAsync();
+        var httpClient = new HttpClient();
+        var info = await new ATrustSigner(httpClient, Credentials, ATrustEnvironment.Test).GetCertificateInfoAsync();
         Assert.That(info, Is.Not.Null);
         Assert.That(info.Certificate, Is.Not.Null);
         Assert.That(info.CertificateSerialNumber, Is.Not.Null);

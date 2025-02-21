@@ -12,7 +12,8 @@ public class FiskalyTestFixture
     [OneTimeSetUp]
     public async Task SetUpFiskalyTestDataAsync()
     {
-        var fiskalyClient = new FiskalyClient(TestFixture.ApiKey, TestFixture.ApiSecret);
+        var httpClient = new HttpClient();
+        var fiskalyClient = new FiskalyClient(httpClient, TestFixture.ApiKey, TestFixture.ApiSecret);
         var accessToken = (await fiskalyClient.GetAccessTokenAsync()).SuccessResult;
         var allTsses = (await fiskalyClient.GetAllEnabledTSSsAsync(accessToken)).SuccessResult;
 
