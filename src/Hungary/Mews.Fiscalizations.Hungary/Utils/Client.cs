@@ -5,14 +5,15 @@ namespace Mews.Fiscalizations.Hungary.Utils;
 
 internal sealed class Client
 {
-    private HttpClient HttpClient { get; }
-    private NavEnvironment Environment { get; }
+    private readonly HttpClient _httpClient;
 
     internal Client(HttpClient httpClient, NavEnvironment environment)
     {
-        HttpClient = httpClient;
+        _httpClient = httpClient;
         Environment = environment;
     }
+
+    private NavEnvironment Environment { get; }
 
     internal async Task<ResponseResult<TResult, TCode>> ProcessRequestAsync<TRequest, TDto, TResult, TCode>(
         string endpoint,
@@ -35,7 +36,7 @@ internal sealed class Client
     {
         var content = new StringContent(requestXml.OuterXml, ServiceInfo.Encoding, "application/xml");
         var uri = new Uri(ServiceInfo.BaseUrls[Environment], $"{ServiceInfo.RelativeServiceUrl}{endpoint}");
-        return await HttpClient.PostAsync(uri, content, cancellationToken);
+        return await _httpClient.PostAsync(uri, content, cancellationToken);
     }
 
     private async Task<ResponseResult<TResult, TCode>> DeserializeAsync<TDto, TResult, TCode>(

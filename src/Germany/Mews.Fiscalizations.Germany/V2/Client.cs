@@ -7,14 +7,13 @@ namespace Mews.Fiscalizations.Germany.V2;
 
 internal class Client
 {
+    private readonly HttpClient _httpClient;
     private static readonly Uri BaseUri = new Uri("https://kassensichv-middleware.fiskaly.com");
     private static readonly string RelativeApiUrl = "api/v2/";
 
-    private static HttpClient HttpClient { get; }
-
-    static Client()
+    public Client(HttpClient httpClient)
     {
-        HttpClient = new HttpClient();
+        _httpClient = httpClient;
     }
 
     internal async Task<ResponseResult<TResult>> ProcessRequestAsync<TRequest, TDto, TResult>(
@@ -36,9 +35,9 @@ internal class Client
         where TDto : class
         where TResult : class
     {
-        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
         var uri = new Uri(BaseUri, $"{RelativeApiUrl}{endpoint}");
-        var httpResponse = await HttpClient.GetAsync(uri, cancellationToken);
+        var httpResponse = await _httpClient.GetAsync(uri, cancellationToken);
         return await DeserializeAsync(httpResponse, successFunc, cancellationToken);
     }
 
@@ -53,9 +52,9 @@ internal class Client
 
         if (token is not null)
         {
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
         }
-        return await HttpClient.SendAsync(requestMessage, cancellationToken);
+        return await _httpClient.SendAsync(requestMessage, cancellationToken);
     }
 
     private async Task<ResponseResult<TResult>> DeserializeAsync<TDto, TResult>(HttpResponseMessage response, Func<TDto, ResponseResult<TResult>> successFunc, CancellationToken cancellationToken)

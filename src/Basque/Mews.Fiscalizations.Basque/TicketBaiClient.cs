@@ -30,7 +30,6 @@ public sealed class TicketBaiClient
             requestHandler.AutomaticDecompression = DecompressionMethods.GZip;
         }
         HttpClient = new HttpClient(requestHandler);
-
     }
 
     private HttpClient HttpClient { get; }

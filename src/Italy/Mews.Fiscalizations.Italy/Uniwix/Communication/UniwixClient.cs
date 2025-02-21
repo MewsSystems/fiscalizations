@@ -11,19 +11,14 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication;
 public class UniwixClient
 {
     private const string UniwixBaseUrl = "https://www.uniwix.com/api/Uniwix";
+    private readonly HttpClient _httpClient;
 
-    static UniwixClient()
-    {
-        HttpClient = new HttpClient();
-        HttpClient.DefaultRequestHeaders.ExpectContinue = true;
-    }
-
-    public UniwixClient(UniwixClientConfiguration configuration)
+    public UniwixClient(HttpClient httpClient, UniwixClientConfiguration configuration)
     {
         Configuration = configuration;
+        _httpClient = httpClient;
+        _httpClient.DefaultRequestHeaders.ExpectContinue = true;
     }
-
-    private static HttpClient HttpClient { get; }
 
     private UniwixClientConfiguration Configuration { get; }
 
@@ -150,10 +145,8 @@ public class UniwixClient
 
             try
             {
-                using (var httpResponse = await HttpClient.SendAsync(message))
-                {
-                    return await responseProcessor(httpResponse);
-                }
+                using var httpResponse = await _httpClient.SendAsync(message);
+                return await responseProcessor(httpResponse);
             }
             catch (HttpRequestException e)
             {

@@ -18,7 +18,8 @@ public sealed class Srv4POSTests
     [Retry(3)]
     public async Task CheckCashRegisterUniqueness_Succeeds_Async()
     {
-        var client = new Srv4posClient();
+        var httpClient = new HttpClient();
+        var client = new Srv4posClient(httpClient);
         var corporateId = GenerateLuhnNumber();
         var response = await client.CheckCashRegisterUniquenessAsync(Countries.Sweden, corporateId, CashRegisterName);
 
@@ -42,7 +43,8 @@ public sealed class Srv4POSTests
             installationCreationInfo: new InstallationCreationInfo("SERVER", "SE Test app")
         );
 
-        var client = new Srv4posClient();
+        var httpClient = new HttpClient();
+        var client = new Srv4posClient(httpClient);
         var activationResponse = await client.CreateActivation(Username, Password, request);
 
         Assert.That(activationResponse.IsSuccess, Is.True);
@@ -62,7 +64,8 @@ public sealed class Srv4POSTests
             saleDate: DateTime.Now,
             receiptNumber: 1
         );
-        var client = new Srv4posClient();
+        var httpClient = new HttpClient();
+        var client = new Srv4posClient(httpClient);
         var sendDataResponse = await client.SendDataToControlUnitAsync(ApiKey, CorporateId, CashRegisterName, sendDataRequest);
 
         Assert.That(sendDataResponse.IsSuccess, Is.True);
