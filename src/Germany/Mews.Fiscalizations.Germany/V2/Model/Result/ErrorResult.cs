@@ -37,6 +37,11 @@ public sealed class ErrorResult
 
     private static FiskalyError MapError(Dto.FiskalyErrorResponse error)
     {
+        if (error is null)
+        {
+            return FiskalyError.InvalidResponse;
+        }
+
         // For some reason, when the credentials are invalid, Fiskaly returns null code but with a message.
         if (error.Code == null && error.Message.Equals("Invalid credentials") || error.Error.Equals("Unauthorized"))
         {
@@ -61,6 +66,7 @@ public sealed class ErrorResult
             "E_CLIENT_CONFLICT", _ => FiskalyError.ClientCreationConflict,
             "E_ACCESS_DENIED", _ => FiskalyError.TssAccessDenied,
             "E_EXPORT_IN_PROGRESS", _ => FiskalyError.ExportInProgress,
+            "E_UNAUTHORIZED" , _ => FiskalyError.InvalidCredentials,
             _ => throw new NotImplementedException($"Unhandled fiskaly error: {ToDebugString(error)}.")
         );
     }

@@ -71,13 +71,11 @@ internal class Client
                 e => new ResponseResult<TResult>(errorResult: ErrorResult.MapException(e, content))
             );
         }
-        else
-        {
-            var result = Try.Catch<Dto.FiskalyErrorResponse, JsonReaderException>(_ => JsonConvert.DeserializeObject<Dto.FiskalyErrorResponse>(content));
-            return result.Match(
-                r => new ResponseResult<TResult>(errorResult: ErrorResult.Map(r)),
-                e => new ResponseResult<TResult>(errorResult: ErrorResult.MapException(e, content))
-            );
-        }
+
+        var result = Try.Catch<Dto.FiskalyErrorResponse, JsonReaderException>(_ => JsonConvert.DeserializeObject<Dto.FiskalyErrorResponse>(content));
+        return result.Match(
+            r => new ResponseResult<TResult>(errorResult: ErrorResult.Map(r)),
+            e => new ResponseResult<TResult>(errorResult: ErrorResult.MapException(e, content))
+        );
     }
 }
