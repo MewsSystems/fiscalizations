@@ -66,7 +66,7 @@ public sealed class ErrorResult
             "E_CLIENT_CONFLICT", _ => FiskalyError.ClientCreationConflict,
             "E_ACCESS_DENIED", _ => FiskalyError.TssAccessDenied,
             "E_EXPORT_IN_PROGRESS", _ => FiskalyError.ExportInProgress,
-            "E_UNAUTHORIZED" , _ => FiskalyError.InvalidCredentials,
+            "E_UNAUTHORIZED", _ => FiskalyError.InvalidCredentials,
             _ => throw new NotImplementedException($"Unhandled fiskaly error: {ToDebugString(error)}.")
         );
     }
