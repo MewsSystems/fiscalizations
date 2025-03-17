@@ -44,7 +44,7 @@ namespace Mews.Fiscalizations.Sweden.Tests
                 copyDateTime: transactionType == TransactionType.Copy ? DateTime.Now : null,
                 copySequenceNumber: transactionType == TransactionType.Copy ? 123 : null
             );
-            var config = new InfrasecConfiguration(Environment.Test, Certificate, SigningCertificate, NonEmptyString.CreateUnsafe("custombroker"));
+            var config = new InfrasecConfiguration(Environment.Test, Certificate, [SigningCertificate], NonEmptyString.CreateUnsafe("custombroker"));
             var client = new InfrasecClient(config);
 
             var result = await client.SendTransactionAsync(request, NonEmptyString.CreateUnsafe("Test client"));

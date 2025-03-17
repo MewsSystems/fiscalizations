@@ -23,11 +23,10 @@ public sealed class InfrasecClient : IInfrasecClient
             Environment.Production => ProductionApiUrl,
             _ => throw new ArgumentOutOfRangeException(configuration.Environment.ToString())
         };
-        var handler = new HttpClientHandler
-        {
-            ClientCertificates = { configuration.Certificate, configuration.SigningCertificate },
-            ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.SigningCertificate, errors)
-        };
+        var handler = new HttpClientHandler();
+        handler.ClientCertificates.Add(configuration.Certificate);
+        handler.ClientCertificates.AddRange(configuration.SigningCertificates.ToArray());
+        handler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.SigningCertificates, errors);
 
         _httpClient = new HttpClient(handler);
         _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
@@ -55,7 +54,7 @@ public sealed class InfrasecClient : IInfrasecClient
 
     // TODO: Add RegisterStatus and Enrollment APIs.
 
-    private static bool ValidateServerCertificate(X509Certificate certificate, X509Certificate2 signingCertificate, SslPolicyErrors sslPolicyErrors)
+    private static bool ValidateServerCertificate(X509Certificate certificate, IEnumerable<X509Certificate> signingCertificates, SslPolicyErrors sslPolicyErrors)
     {
         if (sslPolicyErrors == SslPolicyErrors.None)
         {
@@ -63,16 +62,19 @@ public sealed class InfrasecClient : IInfrasecClient
         }
         if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors)
         {
-            var chain = new X509Chain
+            foreach (var cert in signingCertificates)
             {
-                ChainPolicy = new X509ChainPolicy
+                var chain = new X509Chain
                 {
-                    RevocationMode = X509RevocationMode.NoCheck,
-                    ExtraStore = { signingCertificate },
-                    VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority
-                }
-            };
-            return chain.Build((X509Certificate2)certificate);
+                    ChainPolicy = new X509ChainPolicy
+                    {
+                        RevocationMode = X509RevocationMode.NoCheck,
+                        ExtraStore = { cert },
+                        VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority
+                    }
+                };
+                return chain.Build((X509Certificate2)certificate);
+            }
         }
         return false;
     }

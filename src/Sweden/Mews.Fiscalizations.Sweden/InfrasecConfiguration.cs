@@ -6,6 +6,6 @@ namespace Mews.Fiscalizations.Sweden;
 public sealed record InfrasecConfiguration(
     Environment Environment,
     X509Certificate2 Certificate,
-    X509Certificate2 SigningCertificate,
+    IEnumerable<X509Certificate> SigningCertificates,
     NonEmptyString UserAgent
 );
