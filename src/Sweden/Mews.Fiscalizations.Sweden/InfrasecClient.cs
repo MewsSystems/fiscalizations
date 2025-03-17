@@ -12,7 +12,7 @@ public sealed class InfrasecClient : IInfrasecClient
     private readonly HttpClient _httpClient;
     private readonly string _infrasecApiUrl;
     private const string TestApiUrl = "https://tcs-verify.infrasec-api.se";
-    private const string ProductionApiUrl = "https://tcs.infrasec-api.se";
+    private const string ProductionApiUrl = "https://tcs.infrasec-api.se"; // TODO: check if this is correct
     private const string TcsServerEndpoint = "/tcsserver";
 
     public InfrasecClient(InfrasecConfiguration configuration)
