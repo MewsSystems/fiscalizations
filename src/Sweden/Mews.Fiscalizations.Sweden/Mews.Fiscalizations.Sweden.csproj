@@ -10,9 +10,10 @@
         <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
         <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>3.0.0</PackageVersion>
+        <PackageVersion>4.0.0</PackageVersion>
         <LangVersion>12</LangVersion>
         <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -32,6 +33,10 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
     </ItemGroup>
 
     <PropertyGroup>

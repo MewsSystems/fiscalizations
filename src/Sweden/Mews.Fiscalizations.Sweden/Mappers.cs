@@ -1,3 +1,4 @@
+﻿using System.Globalization;
 using FuncSharp;
 using Mews.Fiscalizations.Sweden.Models;
 
@@ -5,84 +6,78 @@ namespace Mews.Fiscalizations.Sweden;
 
 internal static class Mappers
 {
-    public static DTOs.SendDataRequest ToDto(this SendDataRequest request)
-    {
-        return new DTOs.SendDataRequest
-        {
-            UnixTimestamp = ((DateTimeOffset)request.SaleDate).ToUnixTimeMilliseconds(),
-            GrossAmount = request.GrossAmount.ConvertToSmallestUnit(),
-            PrintType = (DTOs.PrintType)request.PrintType,
-            ReceiptNumber = request.ReceiptNumber.ToNullable(),
-            VatRateToSum = request.TotalTaxByVatRate.ToDictionary(kv => kv.Key.ConvertToSmallestUnit().ToString(), kv => kv.Value.ConvertToSmallestUnit()),
-            IsRefund = request.IsRefund
-        };
-    }
+    private const string DateTimeFormat = "yyyyMMddHHmmss";
+    private static readonly CultureInfo Culture = new("fr-FR");
 
-    public static SendDataResponse FromDto(this DTOs.SendDataResponse response, string requestContent, string responseContent)
+    internal static TransactionResponse FromDto(this DTOs.TcsResponse response)
     {
-        return new SendDataResponse(response.Response, response.ControlUnitSerial, requestContent, responseContent);
-    }
-
-    public static DTOs.CreateActivationRequest ToDto(this CreateActivationRequest request)
-    {
-        return new DTOs.CreateActivationRequest
-        {
-            ApplicationPackage = request.ApplicationPackage,
-            InstallationCreationInfo = request.InstallationCreationInfo.GetOrNull(i => i.ToDto()),
-            Address = request.Address.ToDto(),
-            Features = request.Features.ToArray(),
-            ContactInfo = request.ContactInfo.GetOrNull(i => i.ToDto()),
-            CorporateId = request.CorporateId,
-            CountryCode = request.Country.Alpha2Code,
-            ProductionNumber = request.ProductionNumber.GetOrNull(),
-            CashRegisterName = request.CashRegisterName,
-            ControlUnitSerial = request.ControlUnitSerial,
-            ControlUnitLocation = request.ControlUnitLocation,
-            ValidFromUnix = request.ValidFrom.ToNullable(f => ((DateTimeOffset)f).ToUnixTimeMilliseconds()),
-            ValidToUnix = request.ValidTo.ToNullable(f => ((DateTimeOffset)f).ToUnixTimeMilliseconds()),
-            ApplicationNameAndVersion = request.ApplicationNameAndVersion
-        };
-    }
-
-    public static CreateActivationResponse FromDto(this DTOs.CreateActivationResponse response)
-    {
-        return new CreateActivationResponse(
-            apiKey: response.ApiKey,
-            productionNumber: response.ProductionNumber.AsNonEmpty().GetOrNull(),
-            activationId: response.ActivationId,
-            address: new Address(response.Address, response.City, response.Zip, response.CompanyName),
-            phone: response.Phone.AsNonEmpty().GetOrNull()
+        return new TransactionResponse(
+            controlServerId: response.ControlCode.ControlServerId,
+            controlCode: response.ControlCode.Code,
+            sequenceNumber: response.SequenceNumber,
+            skvResponseCode: response.SKVResponseCode,
+            skvResponseMessage: response.SKVResponseMessage,
+            applicationId: response.ApplicationId,
+            responseCode: response.ResponseCode,
+            responseMessage: response.ResponseMessage,
+            requestId: response.RequestId,
+            responseReason: response.ResponseReason
         );
     }
 
-    private static DTOs.Address ToDto(this Address address)
+    internal static DTOs.TcsRequest ToDto(this TransactionData data, string applicationId, Guid? requestId = null)
     {
-        return new DTOs.Address
+        return new DTOs.TcsRequest
         {
-            AddressLines = address.AddressLines,
-            City = address.City,
-            PostalCode = address.PostalCode,
-            CompanyName = address.CompanyName
+            ApplicationID = applicationId,
+            RequestID = requestId ?? Guid.NewGuid(),
+            ControlData = new DTOs.ControlData
+            {
+                DateTime = data.DateTime.ToString(DateTimeFormat),
+                OrgNr = data.OrganizationNumber,
+                ManRegisterID = data.OrganizationRegisterID,
+                RegisterAddress = data.RegisterFullAddress,
+                SequenceNumber = data.SequenceNumber,
+                ReceiptType = new DTOs.ReceiptType
+                {
+                    Type = data.TransactionType.ToDto()
+                },
+                Vat25 = data.TwentyFivePercentTax.ToDto(25),
+                Vat12 = data.TwelvePercentTax.ToDto(12),
+                Vat6 = data.SixPercentTax.ToDto(6),
+                Vat0 = data.ZeroPercentTax.ToDto(0),
+                SaleAmount = data.SaleAmount.GetOrNull(a => ToAmountString(a)),
+                RefundAmount = data.RefundAmount.GetOrNull(a => ToAmountString(a)),
+                CopyDateTime = data.CopyDateTime.GetOrNull(t => t.ToString(DateTimeFormat)),
+                CopySequenceNumber = data.CopySequenceNumber.ToNullable()
+            }
         };
     }
 
-    private static DTOs.InstallationCreationInfo ToDto(this InstallationCreationInfo info)
+    private static DTOs.VAT ToDto(this TaxAmount? taxAmount, decimal percent)
     {
-        return new DTOs.InstallationCreationInfo
+        return new DTOs.VAT
         {
-            BuildInfo = info.BuildInfo,
-            DeviceId = info.DeviceId,
-            ProgramVersion = info.ProgramVersion.GetOrNull()
+            Percent = percent.ToString("F2", Culture),
+            Amount = ToAmountString(taxAmount?.Amount),
+            SubtotalAmount = ToAmountString(taxAmount?.SubtotalAmount)
         };
     }
 
-    private static DTOs.ContactInfo ToDto(this ContactInfo info)
+    private static DTOs.ReceiptOperationType ToDto(this TransactionType transactionType)
     {
-        return new DTOs.ContactInfo
+        return transactionType switch
         {
-            Email = info.Email,
-            Name = info.Name,
-            Phone = info.Phone
+            TransactionType.Sale => DTOs.ReceiptOperationType.Normal,
+            TransactionType.Copy => DTOs.ReceiptOperationType.Copy,
+            TransactionType.Proforma => DTOs.ReceiptOperationType.Proforma,
+            TransactionType.Training => DTOs.ReceiptOperationType.Training,
+            _ => throw new NotImplementedException($"Transaction type {transactionType} is not supported.")
         };
+    }
+
+    private static string ToAmountString(decimal? amount)
+    {
+        return amount?.ToString("N2", Culture) ?? "0,00";
     }
 }
