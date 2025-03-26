@@ -2,9 +2,9 @@
 using FuncSharp;
 using Mews.Fiscalizations.Sweden.Models;
 
-namespace Mews.Fiscalizations.Sweden;
+namespace Mews.Fiscalizations.Sweden.Mappers;
 
-internal static class Mappers
+internal static class TransactionMappers
 {
     private const string DateTimeFormat = "yyyyMMddHHmmss";
     private static readonly CultureInfo Culture = new("fr-FR");
@@ -25,7 +25,7 @@ internal static class Mappers
         );
     }
 
-    internal static DTOs.TcsRequest ToDto(this TransactionData data, string applicationId, Guid? requestId = null)
+    internal static DTOs.TcsRequest ToDto(this TransactionData data, string applicationId, Guid? requestId)
     {
         return new DTOs.TcsRequest
         {
