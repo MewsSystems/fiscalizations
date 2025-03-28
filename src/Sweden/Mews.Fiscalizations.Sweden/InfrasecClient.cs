@@ -51,7 +51,7 @@ public sealed class InfrasecClient : IInfrasecClient
         var enrollmentHandler = new HttpClientHandler();
         enrollmentHandler.ClientCertificates.Add(configuration.EnrollmentCertificate);
         enrollmentHandler.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
-        enrollmentHandler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
+        enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors);
 
         _enrollmentHttpClient = new HttpClient(enrollmentHandler);
         _enrollmentHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
