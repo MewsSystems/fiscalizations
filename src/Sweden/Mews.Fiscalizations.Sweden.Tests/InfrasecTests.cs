@@ -63,6 +63,9 @@ namespace Mews.Fiscalizations.Sweden.Tests
                 NonEmptyString.CreateUnsafe("custombroker")
             );
             var client = new InfrasecClient(configuration: config);
+            Console.WriteLine($"Enrollment signing certificate data: {System.Environment.GetEnvironmentVariable("infrasec_enrollment_signing_certificate_data")}");
+            Console.WriteLine($"Enrollment certificate data: {System.Environment.GetEnvironmentVariable("infrasec_enrollment_certificate_data")}");
+            Console.WriteLine($"Enrollment certificate password: {System.Environment.GetEnvironmentVariable("infrasec_enrollment_certificate_password")}");
             var result = await client.EnrollCcuAsync(data: enrollmentData, NonEmptyString.CreateUnsafe(ApplicationId));
 
             Assert.That(result.IsSuccess, Is.True);
