@@ -136,7 +136,7 @@ public sealed class InfrasecClient : IInfrasecClient
         {
             return true;
         }
-        if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors)
+        if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateChainErrors))
         {
             foreach (var cert in signingCertificates)
             {
