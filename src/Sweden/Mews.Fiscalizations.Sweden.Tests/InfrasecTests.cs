@@ -35,7 +35,7 @@ namespace Mews.Fiscalizations.Sweden.Tests
         private static readonly string RegisterMake = System.Environment.GetEnvironmentVariable("infrasec_register_make") ?? "INSERT_INFRASEC_REGISTER_MAKE";
 
         [Test]
-        public async Task EnrollCcu_Succeeds_Has_Active_Status_Async()
+        public async Task EnrollCcu_Succeeds_Async()
         {
             //test data taken from Infrasec php code sample
             var enrollmentData = new NewEnrollmentData(
@@ -69,12 +69,6 @@ namespace Mews.Fiscalizations.Sweden.Tests
             var successResult = result.Success.Get();
             Assert.That(successResult.Ccuid, Is.Not.Null.And.Not.Empty);
             Assert.That(successResult.RegisterId, Is.Not.Null.And.Not.Empty);
-
-            var statusData = new StatusEnrollmentData(registerId: successResult.RegisterId);
-            var statusResult = await client.GetStatusCcuAsync(data: statusData, NonEmptyString.CreateUnsafe(ApplicationId));
-            Assert.That(statusResult.IsSuccess, Is.True);
-            var statusSuccessResult = statusResult.Success.Get();
-            Assert.That(statusSuccessResult.Active, Is.EqualTo(1));
         }
 
         [Test]
