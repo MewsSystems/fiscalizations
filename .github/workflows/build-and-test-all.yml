@@ -50,12 +50,12 @@ jobs:
 
     - name: Verify TLS 1.3
       run: |
-        $tls13Enabled = [Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls13)
-        if (-not $tls13Enabled) {
+        try {
+          Invoke-WebRequest -Uri "https://tls13.akamai.io" -UseBasicParsing
+          Write-Output "TLS 1.3 is enabled."
+        } catch {
           Write-Error "TLS 1.3 is not enabled."
           exit 1
-        } else {
-          Write-Output "TLS 1.3 is enabled."
         }
       shell: pwsh
 
