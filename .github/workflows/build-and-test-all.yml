@@ -32,17 +32,27 @@ jobs:
       with:
         dotnet-version: 8.x
        
-    - name: Verify TLS Protocols
+    - name: Verify TLS 1.2
       run: |
         $tls12Enabled = [Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls12)
-        $tls13Enabled = [Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls13)
-        if (-not $tls12Enabled -or -not $tls13Enabled) {
-          Write-Error "TLS 1.2 or TLS 1.3 is not enabled."
+        if (-not $tls12Enabled) {
+          Write-Error "TLS 1.2 is not enabled."
           exit 1
         } else {
-          Write-Output "TLS 1.2 and TLS 1.3 are enabled."
+          Write-Output "TLS 1.2 is enabled."
         }
-      shell: pwsh 
+      shell: pwsh
+
+    - name: Verify TLS 1.3
+      run: |
+        $tls13Enabled = [Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls13)
+        if (-not $tls13Enabled) {
+          Write-Error "TLS 1.3 is not enabled."
+          exit 1
+        } else {
+          Write-Output "TLS 1.3 is enabled."
+        }
+      shell: pwsh
 
     - name: Clean
       run: dotnet clean ./Mews.Fiscalizations.All.sln --configuration Release && dotnet nuget locals all --clear
