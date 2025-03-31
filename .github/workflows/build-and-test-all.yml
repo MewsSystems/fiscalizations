@@ -10,10 +10,10 @@ on:
 
 jobs:
   build-and-test-all:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest ]
+        os: [windows-latest, ubuntu-latest]
 
     env:
       DOTNET_NOLOGO: true
