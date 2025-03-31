@@ -35,7 +35,7 @@ jobs:
     - name: Enable TLS 1.2 and 1.3
       run: |
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
-      shel: pwsh
+      shell: pwsh
 
     - name: Verify TLS 1.2
       run: |
