@@ -39,12 +39,12 @@ jobs:
        
     - name: Verify TLS 1.2
       run: |
-        $tls12Enabled = [Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls12)
-        if (-not $tls12Enabled) {
+        try {
+          Invoke-WebRequest -Uri "https://www.howsmyssl.com/a/check" -UseBasicParsing
+          Write-Output "TLS 1.2 is enabled."
+        } catch {
           Write-Error "TLS 1.2 is not enabled."
           exit 1
-        } else {
-          Write-Output "TLS 1.2 is enabled."
         }
       shell: pwsh
 
