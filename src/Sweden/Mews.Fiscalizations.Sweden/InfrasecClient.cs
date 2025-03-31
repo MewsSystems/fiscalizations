@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Security;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mews.Fiscalizations.Core.Xml;
@@ -48,7 +49,10 @@ public sealed class InfrasecClient : IInfrasecClient
         _transactionHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
 
         //enrollment http client
-        var enrollmentHandler = new HttpClientHandler();
+        var enrollmentHandler = new HttpClientHandler()
+        {
+            SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+        };
         enrollmentHandler.ClientCertificates.Add(configuration.EnrollmentCertificate);
         enrollmentHandler.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
         enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors);
