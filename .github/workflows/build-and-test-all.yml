@@ -32,33 +32,6 @@ jobs:
       with:
         dotnet-version: 8.x
 
-    - name: Enable TLS 1.2 and 1.3
-      run: |
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
-      shell: pwsh
-
-    - name: Verify TLS 1.2
-      run: |
-        try {
-          Invoke-WebRequest -Uri "https://www.howsmyssl.com/a/check" -UseBasicParsing
-          Write-Output "TLS 1.2 is enabled."
-        } catch {
-          Write-Error "TLS 1.2 is not enabled."
-          exit 1
-        }
-      shell: pwsh
-
-    - name: Verify TLS 1.3
-      run: |
-        try {
-          Invoke-WebRequest -Uri "https://tls13.akamai.io" -UseBasicParsing
-          Write-Output "TLS 1.3 is enabled."
-        } catch {
-          Write-Error "TLS 1.3 is not enabled."
-          exit 1
-        }
-      shell: pwsh
-
     - name: Clean
       run: dotnet clean ./Mews.Fiscalizations.All.sln --configuration Release && dotnet nuget locals all --clear
 
