@@ -132,7 +132,7 @@ public sealed class InfrasecClient : IInfrasecClient
 
     private static bool ValidateServerCertificate(X509Certificate certificate, IEnumerable<X509Certificate> signingCertificates, SslPolicyErrors sslPolicyErrors)
     {
-        if (sslPolicyErrors.HasFlag(SslPolicyErrors.None))
+        if (sslPolicyErrors == SslPolicyErrors.None)
         {
             return true;
         }
