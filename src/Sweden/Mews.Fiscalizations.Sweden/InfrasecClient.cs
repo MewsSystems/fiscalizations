@@ -55,7 +55,7 @@ public sealed class InfrasecClient : IInfrasecClient
         };
         enrollmentHandler.ClientCertificates.Add(configuration.EnrollmentCertificate);
         enrollmentHandler.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
-        enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, chain, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors, chain);
+        enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors);
 
         _enrollmentHttpClient = new HttpClient(enrollmentHandler);
         _enrollmentHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
@@ -134,18 +134,17 @@ public sealed class InfrasecClient : IInfrasecClient
         return tcsResponse.Map(r => r.FromDto());
     }
 
-    private static bool ValidateServerCertificate(X509Certificate certificate, IEnumerable<X509Certificate> signingCertificates, SslPolicyErrors sslPolicyErrors, X509Chain? chain = null)
+    private static bool ValidateServerCertificate(X509Certificate certificate, IEnumerable<X509Certificate> signingCertificates, SslPolicyErrors sslPolicyErrors)
     {
         if (sslPolicyErrors == SslPolicyErrors.None)
         {
             return true;
         }
-        Console.WriteLine($"SSL policy errors: {sslPolicyErrors}");
         if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateChainErrors))
         {
             foreach (var cert in signingCertificates)
             {
-                chain = new X509Chain
+                var chain = new X509Chain
                 {
                     ChainPolicy = new X509ChainPolicy
                     {
