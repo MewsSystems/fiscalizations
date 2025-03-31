@@ -41,7 +41,7 @@ jobs:
           exit 1
         } else {
           Write-Output "TLS 1.2 and TLS 1.3 are enabled."
-        }    
+      shell: pwsh 
 
     - name: Clean
       run: dotnet clean ./Mews.Fiscalizations.All.sln --configuration Release && dotnet nuget locals all --clear
