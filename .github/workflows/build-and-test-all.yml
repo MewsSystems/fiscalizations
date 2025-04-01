@@ -35,7 +35,7 @@ jobs:
     - name: Import server certificate on Windows
       if: runner.os == 'Windows'
       run: |
-        certutil -addstore -f root ../certificates/Infrasec_Enrollment_ServerTrust_Verify.pem
+        certutil -addstore -f root ../certificates/Infrasec_Enrollment_ServerTrust_Verify.crt
 
     - name: Import server certificate on Ubuntu
       if: runner.os == 'Linux'
