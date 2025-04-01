@@ -35,12 +35,12 @@ jobs:
     - name: Import server certificate on Windows
       if: runner.os == 'Windows'
       run: |
-        certutil -addstore -f root ./certificates/Infrasec_Enrollment_ServerTrust_Verify.pem
+        certutil -addstore -f root ../../certificates/Infrasec_Enrollment_ServerTrust_Verify.pem
 
     - name: Import server certificate on Ubuntu
       if: runner.os == 'Linux'
       run: |
-        sudo cp ./certificates/Infrasec_Enrollment_ServerTrust_Verify.pem /usr/local/share/ca-certificates/
+        sudo cp ../../certificates/Infrasec_Enrollment_ServerTrust_Verify.pem /usr/local/share/ca-certificates/
         sudo update-ca-certificates
 
     - name: Clean
