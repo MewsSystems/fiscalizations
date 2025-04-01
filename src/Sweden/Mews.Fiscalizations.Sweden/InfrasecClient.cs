@@ -51,7 +51,8 @@ public sealed class InfrasecClient : IInfrasecClient
         //enrollment http client
         var enrollmentHandler = new HttpClientHandler()
         {
-            SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+            SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13,
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         };
         enrollmentHandler.ClientCertificates.Add(configuration.EnrollmentCertificate);
         enrollmentHandler.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
