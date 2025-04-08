@@ -1,7 +1,7 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Security;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mews.Fiscalizations.Core.Xml;
@@ -25,8 +25,6 @@ public sealed class InfrasecClient : IInfrasecClient
 
     public InfrasecClient(InfrasecConfiguration configuration)
     {
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
-
         _infrasecTransactionApiUrl = configuration.Environment switch
         {
             Environment.Test => TestTransactionApiUrl,
@@ -42,22 +40,28 @@ public sealed class InfrasecClient : IInfrasecClient
         };
 
         //transaction http client
-        var transactionHandler = new HttpClientHandler();
-        transactionHandler.ClientCertificates.Add(configuration.TransactionCertificate);
-        transactionHandler.ClientCertificates.AddRange(configuration.TransactionSigningCertificates.ToArray());
-        transactionHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => true;//ValidateServerCertificate(cert!, configuration.TransactionSigningCertificates, errors);
-        transactionHandler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
-
+        var transactionHandler = new SocketsHttpHandler
+        {
+            SslOptions = new SslClientAuthenticationOptions
+            {
+                EnabledSslProtocols = SslProtocols.Tls12,
+                RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.TransactionSigningCertificates, errors),
+                ClientCertificates = new X509Certificate2Collection(configuration.TransactionCertificate)
+            }
+        };
         _transactionHttpClient = new HttpClient(transactionHandler);
         _transactionHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
 
         //enrollment http client
-        var enrollmentHandler = new HttpClientHandler();
-        enrollmentHandler.ClientCertificates.Add(configuration.EnrollmentCertificate);
-        enrollmentHandler.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
-        enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => true;//ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors);
-        enrollmentHandler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
-
+        var enrollmentHandler = new SocketsHttpHandler
+        {
+            SslOptions = new SslClientAuthenticationOptions
+            {
+                EnabledSslProtocols = SslProtocols.Tls12,
+                RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors),
+                ClientCertificates = new X509Certificate2Collection(configuration.EnrollmentCertificate)
+            }
+        };
         _enrollmentHttpClient = new HttpClient(enrollmentHandler);
         _enrollmentHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
     }
