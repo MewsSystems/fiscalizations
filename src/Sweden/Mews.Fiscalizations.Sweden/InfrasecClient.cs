@@ -58,7 +58,14 @@ public sealed class InfrasecClient : IInfrasecClient
             SslOptions = new SslClientAuthenticationOptions
             {
                 EnabledSslProtocols = SslProtocols.Tls12,
-                RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors),
+                RemoteCertificateValidationCallback = (_, cert, chain, errors) =>
+                {
+                    chain!.ChainPolicy.ExtraStore.Add(new X509Certificate2(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Certificates", "CaServerVerifyCCU.cer"))));
+                    chain.ChainPolicy.ExtraStore.Add(new X509Certificate2(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Certificates", "CaRootVerifyCCU.cer"))));
+                    chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+                    chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+                    return chain.Build((X509Certificate2)cert!);
+                },
                 ClientCertificates = new X509Certificate2Collection(configuration.EnrollmentCertificate)
             }
         };
