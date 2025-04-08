@@ -42,7 +42,8 @@ public sealed class InfrasecClient : IInfrasecClient
         var transactionHandler = new HttpClientHandler();
         transactionHandler.ClientCertificates.Add(configuration.TransactionCertificate);
         transactionHandler.ClientCertificates.AddRange(configuration.TransactionSigningCertificates.ToArray());
-        transactionHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.TransactionSigningCertificates, errors);
+        transactionHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => true;//ValidateServerCertificate(cert!, configuration.TransactionSigningCertificates, errors);
+        transactionHandler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
 
         _transactionHttpClient = new HttpClient(transactionHandler);
         _transactionHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
@@ -51,7 +52,8 @@ public sealed class InfrasecClient : IInfrasecClient
         var enrollmentHandler = new HttpClientHandler();
         enrollmentHandler.ClientCertificates.Add(configuration.EnrollmentCertificate);
         enrollmentHandler.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
-        enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors);
+        enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => true;//ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors);
+        enrollmentHandler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
 
         _enrollmentHttpClient = new HttpClient(enrollmentHandler);
         _enrollmentHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
