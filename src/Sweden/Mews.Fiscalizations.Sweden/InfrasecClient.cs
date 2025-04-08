@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Security;
-using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mews.Fiscalizations.Core.Xml;
@@ -49,10 +48,7 @@ public sealed class InfrasecClient : IInfrasecClient
         _transactionHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
 
         //enrollment http client
-        var enrollmentHandler = new HttpClientHandler()
-        {
-            SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
-        };
+        var enrollmentHandler = new HttpClientHandler();
         enrollmentHandler.ClientCertificates.Add(configuration.EnrollmentCertificate);
         enrollmentHandler.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
         enrollmentHandler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors);
@@ -61,8 +57,11 @@ public sealed class InfrasecClient : IInfrasecClient
         _enrollmentHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
     }
 
-    public async Task<Try<StatusEnrollmentResponse, Exception>> GetStatusCcuAsync(StatusEnrollmentData data,
-        NonEmptyString applicationId, int? requestId = null, CancellationToken cancellationToken = default)
+    public async Task<Try<StatusEnrollmentResponse, Exception>> GetStatusCcuAsync(
+        StatusEnrollmentData data,
+        NonEmptyString applicationId,
+        int? requestId = null,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

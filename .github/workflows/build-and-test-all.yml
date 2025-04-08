@@ -32,17 +32,6 @@ jobs:
       with:
         dotnet-version: 8.x
 
-    - name: Import server certificate on Windows
-      if: runner.os == 'Windows'
-      run: |
-        certutil -addstore -f root ../certificates/Infrasec_Enrollment_ServerTrust_Verify.crt
-
-    - name: Import server certificate on Ubuntu
-      if: runner.os == 'Linux'
-      run: |
-        sudo cp ../certificates/Infrasec_Enrollment_ServerTrust_Verify.crt /usr/local/share/ca-certificates/
-        sudo update-ca-certificates
-
     - name: Clean
       run: dotnet clean ./Mews.Fiscalizations.All.sln --configuration Release && dotnet nuget locals all --clear
 
