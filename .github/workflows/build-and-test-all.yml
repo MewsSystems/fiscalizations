@@ -87,7 +87,7 @@ jobs:
         infrasec_partner_name: ${{secrets.infrasec_partner_name}}
         infrasec_partner_code: ${{secrets.infrasec_partner_code}}
         infrasec_register_make: ${{secrets.infrasec_register_make}}
-      run: dotnet test --no-restore --no-build --parallel --logger "trx;LogFileName=test-results-${{ runner.os }}.trx" || true
+      run: dotnet test --no-restore --logger "trx;LogFileName=test-results-${{ runner.os }}.trx" || true
 
     - name: Test Report
       uses: dorny/test-reporter@v1.8.0
