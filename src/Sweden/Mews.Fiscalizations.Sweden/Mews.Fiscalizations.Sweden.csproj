@@ -17,15 +17,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="Certificates\CaServerVerifyCCU.cer">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Certificates\CaRootVerifyCCU.cer">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="..\..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>

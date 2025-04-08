@@ -1,13 +1,11 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Security;
-using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Sweden.Models;
 using FuncSharp;
-using Mews.Fiscalizations.Sweden.DTOs;
 using Mews.Fiscalizations.Sweden.Mappers;
 
 namespace Mews.Fiscalizations.Sweden;
@@ -44,7 +42,6 @@ public sealed class InfrasecClient : IInfrasecClient
         {
             SslOptions = new SslClientAuthenticationOptions
             {
-                EnabledSslProtocols = SslProtocols.Tls12,
                 RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.TransactionSigningCertificates, errors),
                 ClientCertificates = new X509Certificate2Collection(configuration.TransactionCertificate)
             }
@@ -57,15 +54,7 @@ public sealed class InfrasecClient : IInfrasecClient
         {
             SslOptions = new SslClientAuthenticationOptions
             {
-                EnabledSslProtocols = SslProtocols.Tls12,
-                RemoteCertificateValidationCallback = (_, cert, chain, errors) =>
-                {
-                    chain!.ChainPolicy.ExtraStore.Add(new X509Certificate2(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Certificates", "CaServerVerifyCCU.cer"))));
-                    chain.ChainPolicy.ExtraStore.Add(new X509Certificate2(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Certificates", "CaRootVerifyCCU.cer"))));
-                    chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-                    chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
-                    return chain.Build((X509Certificate2)cert!);
-                },
+                RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors),
                 ClientCertificates = new X509Certificate2Collection(configuration.EnrollmentCertificate)
             }
         };
@@ -97,8 +86,8 @@ public sealed class InfrasecClient : IInfrasecClient
             );
         }
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        var enrollmentResponse = Try.Catch<IdmResponse, Exception>(
-            _ => XmlSerializer.Deserialize<IdmResponse>(responseContent)
+        var enrollmentResponse = Try.Catch<DTOs.IdmResponse, Exception>(
+            _ => XmlSerializer.Deserialize<DTOs.IdmResponse>(responseContent)
         );
         return enrollmentResponse.Map(r => r.FromStatusDto());
     }
@@ -123,8 +112,8 @@ public sealed class InfrasecClient : IInfrasecClient
             );
         }
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        var enrollmentResponse = Try.Catch<IdmResponse, Exception>(
-            _ => XmlSerializer.Deserialize<IdmResponse>(responseContent)
+        var enrollmentResponse = Try.Catch<DTOs.IdmResponse, Exception>(
+            _ => XmlSerializer.Deserialize<DTOs.IdmResponse>(responseContent)
         );
         return enrollmentResponse.Map(r => r.FromNewDto());
     }
