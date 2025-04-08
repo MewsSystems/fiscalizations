@@ -27,6 +27,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Check OpenSSL Version
+      run: openssl version
+
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
