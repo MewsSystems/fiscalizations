@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
@@ -24,6 +25,8 @@ public sealed class InfrasecClient : IInfrasecClient
 
     public InfrasecClient(InfrasecConfiguration configuration)
     {
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
+
         _infrasecTransactionApiUrl = configuration.Environment switch
         {
             Environment.Test => TestTransactionApiUrl,
