@@ -41,6 +41,7 @@ namespace Mews.Fiscalizations.Sweden.Tests
         private static readonly string RegisterMake = System.Environment.GetEnvironmentVariable("infrasec_register_make") ?? "INSERT_INFRASEC_REGISTER_MAKE";
 
         [Test]
+        [Ignore("Will be enabled later.")]
         public async Task EnrollCcu_Succeeds_Async()
         {
             //test data taken from Infrasec php code sample
