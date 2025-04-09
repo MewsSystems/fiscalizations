@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using FuncSharp;
 using Mews.Fiscalizations.Sweden.Models;
@@ -19,13 +20,17 @@ namespace Mews.Fiscalizations.Sweden.Tests
         private static readonly X509Certificate2 TransactionCertificate = new(
             rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_certificate_data") ?? "INSERT_INFRASEC_CERTIFICATE_DATA"),
             password: System.Environment.GetEnvironmentVariable("infrasec_certificate_password") ?? "INSERT_INFRASEC_CERTIFICATE_PASSWORD",
-            X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet
+            RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable
+                : X509KeyStorageFlags.EphemeralKeySet | X509KeyStorageFlags.Exportable
         );
 
         private static readonly X509Certificate2 EnrollmentCertificate = new(
             rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_enrollment_certificate_data") ?? "INSERT_INFRASEC_ENROLLMENT_CERTIFICATE_DATA"),
             password: System.Environment.GetEnvironmentVariable("infrasec_enrollment_certificate_password") ?? "INSERT_INFRASEC_ENROLLMENT_CERTIFICATE_PASSWORD",
-            X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet
+            RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable
+                : X509KeyStorageFlags.EphemeralKeySet | X509KeyStorageFlags.Exportable
         );
 
         private static readonly string OrganizationRegisterId = System.Environment.GetEnvironmentVariable("infrasec_register_id") ?? "INSERT_INFRASEC_REGISTER_ID";

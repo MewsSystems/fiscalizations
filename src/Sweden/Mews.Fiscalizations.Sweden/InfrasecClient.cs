@@ -1,6 +1,8 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Security;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mews.Fiscalizations.Core.Xml;
@@ -23,6 +25,8 @@ public sealed class InfrasecClient : IInfrasecClient
 
     public InfrasecClient(InfrasecConfiguration configuration)
     {
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
         _infrasecTransactionApiUrl = configuration.Environment switch
         {
             Environment.Test => TestTransactionApiUrl,
@@ -42,10 +46,12 @@ public sealed class InfrasecClient : IInfrasecClient
         {
             SslOptions = new SslClientAuthenticationOptions
             {
+                EnabledSslProtocols = SslProtocols.Tls12,
                 RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.TransactionSigningCertificates, errors),
                 ClientCertificates = new X509Certificate2Collection(configuration.TransactionCertificate)
             }
         };
+        transactionHandler.SslOptions.ClientCertificates.AddRange(configuration.TransactionSigningCertificates.ToArray());
         _transactionHttpClient = new HttpClient(transactionHandler);
         _transactionHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
 
@@ -54,10 +60,13 @@ public sealed class InfrasecClient : IInfrasecClient
         {
             SslOptions = new SslClientAuthenticationOptions
             {
+                EnabledSslProtocols = SslProtocols.Tls12,
+                LocalCertificateSelectionCallback = (_, _, _, _, _) => configuration.EnrollmentCertificate,
                 RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.EnrollmentSigningCertificates, errors),
                 ClientCertificates = new X509Certificate2Collection(configuration.EnrollmentCertificate)
             }
         };
+        enrollmentHandler.SslOptions.ClientCertificates.AddRange(configuration.EnrollmentSigningCertificates.ToArray());
         _enrollmentHttpClient = new HttpClient(enrollmentHandler);
         _enrollmentHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(configuration.UserAgent);
     }
