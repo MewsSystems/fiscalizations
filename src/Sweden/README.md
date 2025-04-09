@@ -3,7 +3,7 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-    <b>Mews.Fiscalizations.Sweden</b> is a .NET library that was built to help integrating with Srv4POS APIs to satisfy the cash register requirements in Sweden.
+    <b>Mews.Fiscalizations.Sweden</b> is a .NET library that was built to help integrating with Infrasec APIs to satisfy the cash register requirements in Sweden.
     <br><br>
     <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Sweden/">
         <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Sweden">
@@ -18,7 +18,7 @@
 
 ## 📃 Description
 
-This library uses Srv4POS APIs to comply with the cash register requirements (Skatteverket) in Sweden.
+This library uses Infrasec APIs to comply with the cash register requirements (Skatteverket) in Sweden.
 
 ## ⚙️ Installation
 

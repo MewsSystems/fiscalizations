@@ -18,15 +18,23 @@ jobs:
     env:
       DOTNET_NOLOGO: true
       DOTNET_CLI_TELEMETRY_OPTOUT: true
-      
+
     defaults:
       run:
         working-directory: src
-        
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
@@ -34,13 +42,13 @@ jobs:
 
     - name: Clean
       run: dotnet clean ./Mews.Fiscalizations.All.sln --configuration Release && dotnet nuget locals all --clear
-        
+
     - name: Install dependencies
       run: dotnet restore
-    
+
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    
+
     - name: Test
       env:
         german_api_key: ${{secrets.german_api_key}}
@@ -67,11 +75,18 @@ jobs:
         austrian_user_id: ${{secrets.austrian_user_id}}
         austrian_password: ${{secrets.austrian_password}}
 
-        swedish_srv4pos_username: ${{secrets.swedish_srv4pos_username}}
-        swedish_srv4pos_password: ${{secrets.swedish_srv4pos_password}}
-        swedish_srv4pos_app_package: ${{secrets.swedish_srv4pos_app_package}}
-        swedish_srv4pos_api_key: ${{secrets.swedish_srv4pos_api_key}}
-        swedish_srv4pos_corporate_id: ${{secrets.swedish_srv4pos_corporate_id}}
+        infrasec_certificate_data: ${{secrets.infrasec_certificate_data}}
+        infrasec_certificate_password: ${{secrets.infrasec_certificate_password}}
+        infrasec_signing_certificate_data: ${{secrets.infrasec_signing_certificate_data}}
+        infrasec_enrollment_signing_certificate_data: ${{secrets.infrasec_enrollment_signing_certificate_data}}
+        infrasec_enrollment_certificate_password: ${{secrets.infrasec_enrollment_certificate_password}}
+        infrasec_enrollment_certificate_data: ${{secrets.infrasec_enrollment_certificate_data}}
+        infrasec_register_id: ${{secrets.infrasec_register_id}}
+        infrasec_organization_number: ${{secrets.infrasec_organization_number}}
+        infrasec_application_id: ${{secrets.infrasec_application_id}}
+        infrasec_partner_name: ${{secrets.infrasec_partner_name}}
+        infrasec_partner_code: ${{secrets.infrasec_partner_code}}
+        infrasec_register_make: ${{secrets.infrasec_register_make}}
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results-${{ runner.os }}.trx" || true
 
     - name: Test Report
