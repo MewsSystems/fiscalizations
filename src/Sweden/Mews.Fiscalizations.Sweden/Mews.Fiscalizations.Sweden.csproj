@@ -35,10 +35,6 @@
         <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
-    </ItemGroup>
-
     <PropertyGroup>
         <PackageId>Mews.Fiscalizations.Sweden</PackageId>
         <Company>Mews</Company>
