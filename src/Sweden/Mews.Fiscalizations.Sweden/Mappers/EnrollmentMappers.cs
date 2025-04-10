@@ -18,6 +18,7 @@ internal static class EnrollmentMappers
         return new StatusEnrollmentResponse(
             responseCode: dto.ResponseCode,
             responseMessage: dto.ResponseMessage,
+            responseReason: dto.ResponseReason,
             action: dto.Action,
             ccuId: dto.Ccuid!,
             active: dto.Active!.Value,
@@ -31,6 +32,7 @@ internal static class EnrollmentMappers
         return new NewEnrollmentResponse(
             responseCode: dto.ResponseCode,
             responseMessage: dto.ResponseMessage,
+            responseReason: dto.ResponseReason,
             applicationId: dto.ApplicationId!,
             requestId: dto.RequestId!,
             action: dto.Action,
