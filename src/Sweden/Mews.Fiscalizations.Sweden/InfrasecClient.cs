@@ -113,7 +113,21 @@ public sealed class InfrasecClient : IInfrasecClient
         {
             CharSet = string.Empty
         });
-        var response = await _enrollmentHttpClient.PostAsync(endpoint, stringContent, cancellationToken);
+        HttpResponseMessage response;
+
+        // TODO: just temp for the gh pipelines.
+        try
+        {
+            response = await _enrollmentHttpClient.PostAsync(endpoint, stringContent, cancellationToken);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.InnerException?.Message);
+            throw;
+        }
+
         if (!response.IsSuccessStatusCode)
         {
             return Try.Error<NewEnrollmentResponse, Exception>(
