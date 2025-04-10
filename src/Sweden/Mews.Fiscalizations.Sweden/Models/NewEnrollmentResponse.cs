@@ -1,10 +1,20 @@
 ﻿namespace Mews.Fiscalizations.Sweden.Models;
 
-public sealed class NewEnrollmentResponse(int responseCode, string responseMessage, string applicationId, string requestId, string action, string registerId, string ccuId)
+public sealed class NewEnrollmentResponse(
+    int responseCode,
+    string responseMessage,
+    string responseReason,
+    string applicationId,
+    string requestId,
+    string action,
+    string registerId,
+    string ccuId)
 {
     public int ResponseCode { get; } = responseCode;
 
     public string ResponseMessage { get; } = responseMessage;
+
+    public string ResponseReason => responseReason;
 
     public string ApplicationId{ get; } = applicationId;
 
