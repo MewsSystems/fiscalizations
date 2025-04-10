@@ -15,7 +15,7 @@ namespace Mews.Fiscalizations.Sweden.Tests
 
         private static readonly X509Certificate2 EnrollmentSigningCertificate = new(
             rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_enrollment_signing_certificate_data") ?? "INSERT_INFRASEC_ENROLLMENT_SIGNING_CERTIFICATE_DATA"),
-            password: "NoKeyPassword" // :D
+            password: "NoKeyPassword"
         );
 
         private static readonly X509Certificate2 TransactionCertificate = new(
