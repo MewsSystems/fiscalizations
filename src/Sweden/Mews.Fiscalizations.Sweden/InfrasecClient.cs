@@ -27,6 +27,7 @@ public sealed class InfrasecClient : IInfrasecClient
     {
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
+        Console.WriteLine($"Has PK: {configuration.EnrollmentCertificate.HasPrivateKey}");
         _infrasecTransactionApiUrl = configuration.Environment switch
         {
             Environment.Test => TestTransactionApiUrl,
