@@ -11,6 +11,9 @@ public class IdmResponse
     [XmlElement("ResponseMessage")]
     public required string ResponseMessage { get; init; }
 
+    [XmlElement("ResponseReason")]
+    public required string ResponseReason { get; init; }
+
     [XmlElement("ApplicationID")]
     public string? ApplicationId { get; init; }
 

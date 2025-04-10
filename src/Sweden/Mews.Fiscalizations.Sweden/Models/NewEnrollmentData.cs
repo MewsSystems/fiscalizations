@@ -31,13 +31,25 @@ public sealed class NewEnrollmentData(
 
     public string StoreCity { get; } = storeCity;
 
+    /// <summary>
+    /// The Swedish Tax Authority registered organization number for the company owning the POS.
+    /// </summary>
     public string StoreCompanyOrgNr { get; } = storeCompanyOrgNr;
 
     public string StoreCompanyName { get; } = storeCompanyName;
 
+    /// <summary>
+    /// Partner name identifies the partner in the partner tree, such as “Acme AB”.
+    /// </summary>
     public string PartnerName { get; } = partnerName;
 
+    /// <summary>
+    /// Is created by Infrasec as the unique namespace for the partner, such as “AC”.
+    /// </summary>
     public string PartnerCode { get; } = partnerCode;
 
+    /// <summary>
+    /// The make of the register, as stated in the self assessment with the Tax Authority “Självdeklaration”.
+    /// </summary>
     public string RegisterMake { get; } = registerMake;
 }

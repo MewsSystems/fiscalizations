@@ -41,7 +41,8 @@ internal static class EnrollmentMappers
 
     internal static IdmRequest ToNewDto(this NewEnrollmentData data, string applicationId, int? requestId)
     {
-        return new IdmRequest{
+        return new IdmRequest
+        {
             ApplicationId = applicationId,
             RequestId = requestId ?? new Random().Next(100000, 999999),
             EnrollData = new EnrollData
