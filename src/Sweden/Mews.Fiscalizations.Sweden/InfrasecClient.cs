@@ -47,6 +47,7 @@ public sealed class InfrasecClient : IInfrasecClient
             SslOptions = new SslClientAuthenticationOptions
             {
                 EnabledSslProtocols = SslProtocols.Tls12,
+                LocalCertificateSelectionCallback = (_, _, _, _, _) => configuration.TransactionCertificate,
                 RemoteCertificateValidationCallback = (_, cert, _, errors) => ValidateServerCertificate(cert!, configuration.TransactionSigningCertificates, errors),
                 ClientCertificates = new X509Certificate2Collection(configuration.TransactionCertificate)
             }
