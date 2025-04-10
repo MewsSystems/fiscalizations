@@ -43,6 +43,14 @@ namespace Mews.Fiscalizations.Sweden.Tests
         [Test]
         public async Task EnrollCcu_Succeeds_Async()
         {
+            using (var store = new X509Store(StoreName.CertificateAuthority, StoreLocation.CurrentUser))
+            {
+                store.Open(OpenFlags.ReadWrite);
+                store.Add(EnrollmentSigningCertificate);
+                store.Add(EnrollmentCertificate);
+                store.Close();
+            }
+
             //test data taken from Infrasec php code sample
             var enrollmentData = new NewEnrollmentData(
                 chainName: "Godis Butikerna AB",

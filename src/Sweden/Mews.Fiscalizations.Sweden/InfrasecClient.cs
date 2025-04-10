@@ -27,7 +27,6 @@ public sealed class InfrasecClient : IInfrasecClient
     {
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-        Console.WriteLine($"Has PK: {configuration.EnrollmentCertificate.HasPrivateKey}");
         _infrasecTransactionApiUrl = configuration.Environment switch
         {
             Environment.Test => TestTransactionApiUrl,
@@ -114,21 +113,7 @@ public sealed class InfrasecClient : IInfrasecClient
         {
             CharSet = string.Empty
         });
-        HttpResponseMessage response;
-
-        // TODO: just temp for the gh pipelines.
-        try
-        {
-            response = await _enrollmentHttpClient.PostAsync(endpoint, stringContent, cancellationToken);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            Console.WriteLine(e.Message);
-            Console.WriteLine(e.InnerException?.Message);
-            throw;
-        }
-
+        var response = await _enrollmentHttpClient.PostAsync(endpoint, stringContent, cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             return Try.Error<NewEnrollmentResponse, Exception>(
