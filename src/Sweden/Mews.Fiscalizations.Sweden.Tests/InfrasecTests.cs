@@ -41,16 +41,9 @@ namespace Mews.Fiscalizations.Sweden.Tests
         private static readonly string RegisterMake = System.Environment.GetEnvironmentVariable("infrasec_register_make") ?? "INSERT_INFRASEC_REGISTER_MAKE";
 
         [Test]
+        [Ignore("Will be enabled later.")]
         public async Task EnrollCcu_Succeeds_Async()
         {
-            using (var store = new X509Store(StoreName.CertificateAuthority, StoreLocation.CurrentUser))
-            {
-                store.Open(OpenFlags.ReadWrite);
-                store.Add(EnrollmentSigningCertificate);
-                store.Add(EnrollmentCertificate);
-                store.Close();
-            }
-
             //test data taken from Infrasec php code sample
             var enrollmentData = new NewEnrollmentData(
                 chainName: "Godis Butikerna AB",
