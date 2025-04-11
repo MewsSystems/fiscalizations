@@ -9,9 +9,10 @@ internal static class TransactionMappers
     private const string DateTimeFormat = "yyyyMMddHHmmss";
     private static readonly CultureInfo Culture = new("fr-FR");
 
-    internal static TransactionResponse FromDto(this DTOs.TcsResponse response)
+    internal static TransactionResponse FromDto(this DTOs.TcsResponse response, string requestXml)
     {
         return new TransactionResponse(
+            requestXml: requestXml,
             controlServerId: response.ControlCode.ControlServerId,
             controlCode: response.ControlCode.Code,
             sequenceNumber: response.SequenceNumber,

@@ -1,6 +1,7 @@
 ﻿namespace Mews.Fiscalizations.Sweden.Models;
 
 public sealed class StatusEnrollmentResponse(
+    string requestXml,
     int responseCode,
     string responseMessage,
     string responseReason,
@@ -10,6 +11,8 @@ public sealed class StatusEnrollmentResponse(
     int loginCount,
     string lastLogin)
 {
+    public string RequestXml { get; } = requestXml;
+
     public int ResponseCode { get; } = responseCode;
 
     public string ResponseReason { get; } = responseReason;
