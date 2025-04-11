@@ -13,9 +13,10 @@ internal static class EnrollmentMappers
     private const string SwishEnable = "No";
     private const string DigitalReceipt = "No";
 
-    internal static StatusEnrollmentResponse FromStatusDto(this IdmResponse dto)
+    internal static StatusEnrollmentResponse FromStatusDto(this IdmResponse dto, string requestXml)
     {
         return new StatusEnrollmentResponse(
+            requestXml: requestXml,
             responseCode: dto.ResponseCode,
             responseMessage: dto.ResponseMessage,
             responseReason: dto.ResponseReason,
@@ -27,9 +28,10 @@ internal static class EnrollmentMappers
         );
     }
 
-    internal static NewEnrollmentResponse FromNewDto(this IdmResponse dto)
+    internal static NewEnrollmentResponse FromNewDto(this IdmResponse dto, string requestXml)
     {
         return new NewEnrollmentResponse(
+            requestXml: requestXml,
             responseCode: dto.ResponseCode,
             responseMessage: dto.ResponseMessage,
             responseReason: dto.ResponseReason,
