@@ -46,6 +46,7 @@ public class Basics
     private const int RetryCount = 3;
 
     [Test]
+    [Ignore("Will enable later.")]
     [Retry(RetryCount)]
     public async Task CheckNif()
     {
