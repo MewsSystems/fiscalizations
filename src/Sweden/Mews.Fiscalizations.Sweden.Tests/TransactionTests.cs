@@ -43,8 +43,20 @@ namespace Mews.Fiscalizations.Sweden.Tests
                 copyDateTime: transactionType == TransactionType.Copy ? DateTime.Now : null,
                 copySequenceNumber: transactionType == TransactionType.Copy ? 123 : null
             );
-            var config = new InfrasecClientConfiguration(Environment.Test, TransactionCertificate, [TransactionSigningCertificate], NonEmptyString.CreateUnsafe("custombroker"));
-            var client = new InfrasecTransactionClient(config);
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+            };
+            var certCollection = new X509Certificate2Collection
+            {
+                TransactionCertificate,
+                TransactionSigningCertificate
+            };
+            handler.ClientCertificates.AddRange(certCollection);
+
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mews Test");
+            var client = new InfrasecTransactionClient(httpClient, Environment.Test);
 
             var result = await client.SendTransactionAsync(request, NonEmptyString.CreateUnsafe("Test client"));
 

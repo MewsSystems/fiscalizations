@@ -13,15 +13,15 @@ public sealed class InfrasecEnrollmentClient
     private readonly Uri _enrollmentApiUrl;
     private const string TestEnrollmentApiUrl = "https://idm-verify.infrasec.se/api/EnrollCCU.php";
 
-    public InfrasecEnrollmentClient(InfrasecClientConfiguration configuration)
+    public InfrasecEnrollmentClient(HttpClient httpClient, Environment environment)
     {
-        _enrollmentApiUrl = configuration.Environment switch
+        _enrollmentApiUrl = environment switch
         {
             Environment.Test => new Uri(TestEnrollmentApiUrl),
             Environment.Production => throw new NotSupportedException("Production environment is not supported yet"),
-            _ => throw new ArgumentOutOfRangeException(configuration.Environment.ToString())
+            _ => throw new ArgumentOutOfRangeException(environment.ToString())
         };
-        _httpClient = HttpClientHelpers.CreateHttpClient(configuration.ClientCertificate, configuration.SigningCertificates.ToList(), configuration.UserAgent);
+        _httpClient = httpClient;
     }
 
     public async Task<Try<StatusEnrollmentResponse, Exception>> GetStatusCcuAsync(

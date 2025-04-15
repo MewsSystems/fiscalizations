@@ -24,7 +24,7 @@ public sealed class EnrollmentTests
     private static readonly string PartnerCode = System.Environment.GetEnvironmentVariable("infrasec_partner_code") ?? "PARTNER_CODE";
 
     [Test]
-    [Ignore("Will be enabled later.")]
+    [Ignore("For local testing only.")]
     public async Task EnrollCcu_Succeeds_Async()
     {
         var enrollmentData = new NewEnrollmentData(
@@ -43,8 +43,21 @@ public sealed class EnrollmentTests
             registerMake: RegisterMake
         );
 
-        var config = new InfrasecClientConfiguration(Environment.Test, EnrollmentCertificate, [EnrollmentSigningCertificate], NonEmptyString.CreateUnsafe("custombroker"));
-        var client = new InfrasecEnrollmentClient(configuration: config);
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+        };
+        var certCollection = new X509Certificate2Collection
+        {
+            EnrollmentCertificate,
+            EnrollmentSigningCertificate
+        };
+        handler.ClientCertificates.AddRange(certCollection);
+
+        var httpClient = new HttpClient(handler);
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mews Test");
+
+        var client = new InfrasecEnrollmentClient(httpClient, Environment.Test);
         var result = await client.EnrollCcuAsync(data: enrollmentData, NonEmptyString.CreateUnsafe(ApplicationId));
 
         Assert.That(result.IsSuccess, Is.True);
