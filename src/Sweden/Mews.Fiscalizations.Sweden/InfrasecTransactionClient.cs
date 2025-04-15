@@ -13,15 +13,15 @@ public sealed class InfrasecTransactionClient
     private readonly Uri _transactionApiUrl;
     private const string TestTransactionApiUrl = "https://tcs-verify.infrasec-api.se/tcsserver";
 
-    public InfrasecTransactionClient(InfrasecClientConfiguration configuration)
+    public InfrasecTransactionClient(HttpClient httpClient, Environment environment)
     {
-        _transactionApiUrl = configuration.Environment switch
+        _transactionApiUrl = environment switch
         {
             Environment.Test => new Uri(TestTransactionApiUrl),
             Environment.Production => throw new NotImplementedException("Production URL is not implemented"),
-            _ => throw new ArgumentOutOfRangeException(configuration.Environment.ToString())
+            _ => throw new ArgumentOutOfRangeException(environment.ToString())
         };
-        _httpClient = HttpClientHelpers.CreateHttpClient(configuration.ClientCertificate, configuration.SigningCertificates.ToList(), configuration.UserAgent);
+        _httpClient = httpClient;
     }
 
     public async Task<Try<TransactionResponse, Exception>> SendTransactionAsync(TransactionData data, NonEmptyString applicationId, Guid? requestId = null, CancellationToken cancellationToken = default)
