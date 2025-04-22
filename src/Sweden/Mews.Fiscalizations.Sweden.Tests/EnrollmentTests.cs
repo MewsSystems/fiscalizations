@@ -40,7 +40,8 @@ public sealed class EnrollmentTests
             storeCompanyName: "Butik 37",
             partnerName: "Mews",
             partnerCode: PartnerCode,
-            registerMake: RegisterMake
+            registerMake: RegisterMake,
+            localAlias: "Kassa 1"
         );
 
         var handler = new HttpClientHandler

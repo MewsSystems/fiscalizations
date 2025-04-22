@@ -13,7 +13,8 @@ public sealed class NewEnrollmentData(
     string storeCompanyName,
     string partnerName,
     string partnerCode,
-    string registerMake)
+    string registerMake,
+    string localAlias = "")
 {
     public string ChainName { get; } = chainName;
 
@@ -52,4 +53,6 @@ public sealed class NewEnrollmentData(
     /// The make of the register, as stated in the self assessment with the Tax Authority “Självdeklaration”.
     /// </summary>
     public string RegisterMake { get; } = registerMake;
+
+    public string LocalAlias { get; } = localAlias;
 }
