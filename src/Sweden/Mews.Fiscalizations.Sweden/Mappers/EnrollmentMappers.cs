@@ -89,7 +89,7 @@ internal static class EnrollmentMappers
                     RegisterId = string.Empty,
                     RegisterMake = data.RegisterMake,
                     RegisterModel = data.IntegrationVersion,
-                    LocalAlias = string.Empty,
+                    LocalAlias = data.LocalAlias,
                     CounterNumber = string.Empty,
                     Address = data.StoreAddressLine,
                     Zipcode = data.StoreZipCode,
