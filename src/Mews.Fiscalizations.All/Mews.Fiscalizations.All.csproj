@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>34.0.1</PackageVersion>
+    <PackageVersion>35.0.0</PackageVersion>
     <LangVersion>12</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
@@ -78,6 +78,10 @@
     <ProjectReference Include="..\Sweden\Mews.Fiscalizations.Sweden\Mews.Fiscalizations.Sweden.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Sweden.dll</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\Verifactu\Mews.Fiscalizations.Verifactu\Mews.Fiscalizations.Verifactu.csproj">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Mews.Fiscalizations.Verifactu.dll</IncludeAssets>
     </ProjectReference>
   </ItemGroup>
 
