@@ -61,18 +61,18 @@ internal static class RequestMapper
 
     private static DTOs.Item CreateLineItem(InvoiceItem lineItem)
     {
-        var category = lineItem.TaxData.Match(
-            taxedItem => new DTOs.Category
+        var category = lineItem.TaxExemptionReason == TaxExemptionReason.NotExempt ? 
+            new DTOs.Category
             {
                 Type = DTOs.TaxCategoryType.VAT,
-                Rate = taxedItem.TaxRate.ToString("F2", CultureInfo.InvariantCulture)
-            },
-            untaxedItem => new DTOs.Category
+                Rate = lineItem.TaxRate?.ToString("F2", CultureInfo.InvariantCulture)
+            }:
+            new DTOs.Category
             {
                 Type = DTOs.TaxCategoryType.NO_VAT,
-                Cause = untaxedItem.Reason.ToDto()
-            }
-        );
+                Cause = lineItem.TaxExemptionReason.ToDto()
+            };
+
         return new DTOs.Item
         {
             Text = lineItem.ItemDescription,

@@ -3,16 +3,16 @@
         <img alt="Mews" src="https://user-images.githubusercontent.com/51375082/120493257-16938780-c3bb-11eb-8cb5-0b56fd08240d.png">
     </a>
     <br><br>
-    <b>Mews.Fiscalizations.Germany</b> is a .NET library designed for reporting e-invoices to German tax authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) via the <a href="https://developer.fiskaly.com/api/kassensichv/v2/">Fiskaly KassenSichV API V2</a>.
+    <b>Mews.Fiscalizations.Verifactu</b> is a .NET library designed for reporting e-invoices to Spain tax authorities (BSI - Bundesamt für Sicherheit in der Informationstechnik) via the <a href="https://developer.fiskaly.com/api/kassensichv/v2/">Fiskaly KassenSichV API V2</a>.
     <br><br>
-    <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Germany/">
-        <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Germany">
+    <a href="https://www.nuget.org/packages/Mews.Fiscalizations.Verifactu/">
+        <img src="https://img.shields.io/nuget/v/Mews.Fiscalizations.Verifactu">
     </a>
     <a href="https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/MewsSystems/fiscalizations">
     </a>
-    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/publish-germany.yml">
-        <img src="https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/publish-germany.yml?branch=master&label=publish">
+    <a href="https://github.com/MewsSystems/fiscalizations/actions/workflows/publish-verifactu.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/MewsSystems/fiscalizations/publish-verifactu.yml?branch=master&label=publish">
     </a>
     <a href="https://developer.fiskaly.com/api/kassensichv/v1/">
         <img src="https://img.shields.io/badge/v2-Fiskaly-lightgrey">
@@ -28,7 +28,7 @@ This library enables fiscal reporting through the Fiskaly API. For more informat
 
 Install via NuGet or the command line:
 ```bash
-Install-Package Mews.Fiscalizations.Germany
+Install-Package Mews.Fiscalizations.Verifactu
 ```
 
 ## 🎯 Key Features
@@ -43,11 +43,11 @@ Install-Package Mews.Fiscalizations.Germany
 
 ## 📦 NuGet Package
 
-Available on NuGet as [Mews.Fiscalizations.Germany](https://www.nuget.org/packages/Mews.Fiscalizations.Germany/).
+Available on NuGet as [Mews.Fiscalizations.Verifactu](https://www.nuget.org/packages/Mews.Fiscalizations.Verifactu/).
 
 ## 👀 Code Examples
 
-Below are common usage examples. For additional code samples, see the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Germany/Mews.Fiscalizations.Germany.Tests).
+Below are common usage examples. For additional code samples, see the [Tests](https://github.com/MewsSystems/fiscalizations/tree/master/src/Verifactu/Mews.Fiscalizations.Verifactu.Tests).
 
 ### Setup
 Create a Fiskaly client using `ApiKey` and `ApiSecret`:
@@ -62,7 +62,7 @@ All endpoints require providing a valid `accessToken`
 var accessToken = await client.GetAccessTokenAsync();
 ```
 
-In order to report an invoice to the German authorities, we would have to start a transaction and then finish it (change the state to **FINISHED** and provide the invoice to be reported.).
+In order to report an invoice to the Spanish authorities, we would have to start a transaction and then finish it (change the state to **FINISHED** and provide the invoice to be reported.).
 
 **Creation of a new invoice**
 

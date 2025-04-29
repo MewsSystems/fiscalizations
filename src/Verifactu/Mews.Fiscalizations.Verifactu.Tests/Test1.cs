@@ -11,12 +11,12 @@ public class Test1
     public async Task Test1Async()
     {
         var httpClient = new HttpClient();
-        var fiskalyClient = new FiskalyClient(httpClient, FiskalyEnvironment.Test, "", "");
-        var accessTokenResult = (await fiskalyClient.GetAccessTokenAsync()).Success.Get();
+        var signEsApiClient = new SignESApiClient(httpClient, FiskalyEnvironment.Test, "", "");
+        var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).Success.Get();
 
         try
         {
-            var taxpayerResult = await fiskalyClient.CreateTaxpayerAsync(
+            var taxpayerResult = await signEsApiClient.CreateTaxpayerAsync(
                 accessTokenResult,
                 "Test taxpayer",
                 "A12345678",
@@ -29,28 +29,28 @@ public class Test1
             // Ignore.
         }
 
-        var getTaxpayer = await fiskalyClient.GetTaxpayerAsync(accessTokenResult);
+        var getTaxpayer = await signEsApiClient.GetTaxpayerAsync(accessTokenResult);
         Assert.That(getTaxpayer.IsSuccess);
 
-        var signerResult = await fiskalyClient.CreateSignerAsync(accessTokenResult);
+        var signerResult = await signEsApiClient.CreateSignerAsync(accessTokenResult);
         Assert.That(signerResult.IsSuccess);
 
-        var signerById = await fiskalyClient.GetSignerByIdAsync(accessTokenResult, signerResult.Success.Get().Id);
+        var signerById = await signEsApiClient.GetSignerByIdAsync(accessTokenResult, signerResult.Success.Get().Id);
         Assert.That(signerById.IsSuccess);
 
-        var allSigners = await fiskalyClient.GetAllSignersAsync(accessTokenResult);
+        var allSigners = await signEsApiClient.GetAllSignersAsync(accessTokenResult);
         Assert.That(allSigners.IsSuccess);
 
-        var clientResult = await fiskalyClient.CreateClientAsync(accessTokenResult);
+        var clientResult = await signEsApiClient.CreateClientAsync(accessTokenResult);
         Assert.That(clientResult.IsSuccess);
 
-        var clientById = await fiskalyClient.GetClientByIdAsync(accessTokenResult, clientResult.Success.Get().ClientId);
+        var clientById = await signEsApiClient.GetClientByIdAsync(accessTokenResult, clientResult.Success.Get().ClientId);
         Assert.That(clientById.IsSuccess);
 
-        var allClients = await fiskalyClient.GetAllClientsAsync(accessTokenResult);
+        var allClients = await signEsApiClient.GetAllClientsAsync(accessTokenResult);
         Assert.That(allClients.IsSuccess);
 
-        var software = await fiskalyClient.GetSoftwareAuditDataAsync(accessTokenResult);
+        var software = await signEsApiClient.GetSoftwareAuditDataAsync(accessTokenResult);
         Assert.That(software.IsSuccess);
 
         var simplifiedInvoice = new SimplifiedInvoice(
@@ -93,7 +93,7 @@ public class Test1
             ]
         );
 
-        var invoice2 = await fiskalyClient.SendCompleteInvoiceAsync(accessTokenResult, completeLocalInvoice, clientResult.Success.Get().ClientId, Guid.NewGuid());
+        var invoice2 = await signEsApiClient.SendCompleteInvoiceAsync(accessTokenResult, completeLocalInvoice, clientResult.Success.Get().ClientId, Guid.NewGuid());
         Assert.That(invoice2.IsSuccess);
 
         var completeForeignInvoice = new CompleteInvoice(
@@ -118,7 +118,7 @@ public class Test1
             ]
         );
 
-        var invoice3 = await fiskalyClient.SendCompleteInvoiceAsync(accessTokenResult, completeForeignInvoice, clientResult.Success.Get().ClientId, Guid.NewGuid());
+        var invoice3 = await signEsApiClient.SendCompleteInvoiceAsync(accessTokenResult, completeForeignInvoice, clientResult.Success.Get().ClientId, Guid.NewGuid());
         Assert.That(invoice3.IsSuccess);
     }
 }

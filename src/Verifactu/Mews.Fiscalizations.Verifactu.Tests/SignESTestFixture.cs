@@ -8,10 +8,10 @@ namespace Mews.Fiscalizations.Verifactu.Tests;
 /// So we're trying to delete the data after creating them in tests to make sure we don't hit the limit.
 /// </summary>
 [SetUpFixture]
-public class FiskalyTestFixture
+public class SignESTestFixture
 {
     [OneTimeSetUp]
-    public async Task SetUpFiskalyTestDataAsync()
+    public async Task SetUpSignESTestDataAsync()
     {
         await DisableResources();
     }
@@ -24,20 +24,21 @@ public class FiskalyTestFixture
 
     private async Task DisableResources()
     {
+        
         var httpClient = new HttpClient();
-        var fiskalyClient = new FiskalyClient(httpClient, FiskalyEnvironment.Test, "", "");
-        var accessTokenResult = (await fiskalyClient.GetAccessTokenAsync()).Success.Get();
+        var signEsApiClient = new SignESApiClient(httpClient, FiskalyEnvironment.Test, "", "");
+        var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).Success.Get();
 
-        var allSigners = await fiskalyClient.GetAllSignersAsync(accessTokenResult);
+        var allSigners = await signEsApiClient.GetAllSignersAsync(accessTokenResult);
         foreach (var signer in allSigners.Success.Get())
         {
-            await fiskalyClient.DisableSignerAsync(accessTokenResult, signer.Id);
+            await signEsApiClient.DisableSignerAsync(accessTokenResult, signer.Id);
         }
 
-        var allClients = await fiskalyClient.GetAllClientsAsync(accessTokenResult);
+        var allClients = await signEsApiClient.GetAllClientsAsync(accessTokenResult);
         foreach (var client in allClients.Success.Get())
         {
-            await fiskalyClient.DisableClientAsync(accessTokenResult, client.ClientId);
+            await signEsApiClient.DisableClientAsync(accessTokenResult, client.ClientId);
         }
     }
 }

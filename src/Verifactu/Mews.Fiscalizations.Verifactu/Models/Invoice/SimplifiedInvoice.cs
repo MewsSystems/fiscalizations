@@ -12,28 +12,13 @@ public sealed record InvoiceItem(
     decimal Quantity,
     decimal UnitAmount,
     decimal FullAmount,
-    ItemTaxData TaxData
+    TaxExemptionReason TaxExemptionReason,
+    decimal? TaxRate
 );
-
-public sealed class ItemTaxData : Coproduct2<TaxedItem, UntaxedItem>
-{
-    public ItemTaxData(TaxedItem taxedItem)
-        : base(taxedItem)
-    {
-    }
-
-    public ItemTaxData(UntaxedItem untaxedItem)
-        : base(untaxedItem)
-    {
-    }
-}
-
-public sealed record TaxedItem(decimal TaxRate);
-
-public sealed record UntaxedItem(TaxExemptionReason Reason);
 
 public enum TaxExemptionReason
 {
+    NotExempt,
     Article20,
     Article21,
     Article22,
