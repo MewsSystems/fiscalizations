@@ -5,12 +5,14 @@ using Mews.Fiscalizations.Verifactu.Models;
 
 namespace Mews.Fiscalizations.Verifactu;
 
-public class SignESApiClient
+public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environment, string apiKey, string apiSecret)
 {
-    private readonly string _apiKey;
-    private readonly string _apiSecret;
-    private readonly HttpClient _httpClient;
-    private readonly Uri _baseUri;
+    private readonly Uri _baseUri = environment switch
+    {
+        FiskalyEnvironment.Test => new Uri("https://test.es.sign.fiskaly.com"),
+        FiskalyEnvironment.Production => new Uri("https://live.es.sign.fiskaly.com"),
+        _ => throw new ArgumentOutOfRangeException(nameof(environment), environment, null)
+    };
     
     private const string RelativeApiUrl = "api/v1/";
     private const string AuthEndpoint = "auth";
@@ -21,32 +23,29 @@ public class SignESApiClient
 
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
-    
-    
-    public SignESApiClient(HttpClient httpClient, FiskalyEnvironment environment, string apiKey, string apiSecret)
-    {
-        _apiKey = apiKey;
-        _apiSecret = apiSecret;
-        _httpClient = httpClient;
-        _baseUri = environment.Match(
-            FiskalyEnvironment.Test, _ => new Uri("https://test.es.sign.fiskaly.com"),
-            FiskalyEnvironment.Production, _ => new Uri("https://live.es.sign.fiskaly.com")
-        );
-    }
 
-    public async Task<Try<AccessToken, ErrorResult>> GetAccessTokenAsync(CancellationToken cancellationToken = default)
+
+    public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync(CancellationToken cancellationToken = default)
     {
-        var requestBody = new StringContent(JsonSerializer.Serialize(RequestMapper.CreateAuthorizationToken(_apiKey, _apiSecret)), Encoding.UTF8, JsonContentType);
+        var request = new DTOs.AuthorizationTokenRequest
+        {
+            Content = new DTOs.AuthorizationTokenRequestContent
+            {
+                ApiKey = apiKey,
+                ApiSecret = apiSecret
+            }
+        };
+
         return await ProcessRequestAsync<DTOs.AuthorizationTokenResponse, AccessToken>(
             method: HttpMethod.Post,
             endpoint: AuthEndpoint,
-            request: requestBody,
-            successFunc: r => Try.Success<AccessToken, ErrorResult>(r.FromDto()),
+            request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
+            successFunc: r => r.FromDto(),
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<Taxpayer, ErrorResult>> CreateTaxpayerAsync(
+    public async Task<ResponseResult<Taxpayer>> CreateTaxpayerAsync(
         AccessToken token,
         string legalName,
         string taxIdentifier,
@@ -59,25 +58,25 @@ public class SignESApiClient
             method: HttpMethod.Put,
             endpoint: TaxpayerEndpoint,
             request: requestBody,
-            successFunc: r => Try.Success<Taxpayer, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<Taxpayer, ErrorResult>> GetTaxpayerAsync(AccessToken token, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<Taxpayer>> GetTaxpayerAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
         return await ProcessRequestAsync<DTOs.TaxpayerResponse, Taxpayer>(
             method: HttpMethod.Get,
             endpoint: TaxpayerEndpoint,
             request: null,
-            successFunc: r => Try.Success<Taxpayer, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<Taxpayer, ErrorResult>> DisableTaxpayerAsync(AccessToken token, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<Taxpayer>> DisableTaxpayerAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(new DTOs.UpdateTaxpayerRequest
         {
@@ -90,51 +89,51 @@ public class SignESApiClient
         return await ProcessRequestAsync<DTOs.TaxpayerResponse, Taxpayer>(
             method: HttpMethod.Patch,
             endpoint: TaxpayerEndpoint,
-            successFunc: r => Try.Success<Taxpayer, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<Signer, ErrorResult>> CreateSignerAsync(AccessToken token, Guid? signerId = null, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<Signer>> CreateSignerAsync(AccessToken token, Guid? signerId = null, CancellationToken cancellationToken = default)
     {
         var requestBody = new StringContent(string.Empty);
         return await ProcessRequestAsync<DTOs.SignerResponse, Signer>(
             method: HttpMethod.Put,
             endpoint: $"{SignersEndpoint}/{signerId ?? Guid.NewGuid()}",
-            successFunc: r => Try.Success<Signer, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<Signer, ErrorResult>> GetSignerByIdAsync(AccessToken token, Guid signerId, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<Signer>> GetSignerByIdAsync(AccessToken token, Guid signerId, CancellationToken cancellationToken = default)
     {
         return await ProcessRequestAsync<DTOs.SignerResponse, Signer>(
             method: HttpMethod.Get,
             endpoint: $"{SignersEndpoint}/{signerId}",
             request: null,
-            successFunc: r => Try.Success<Signer, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<IEnumerable<Signer>, ErrorResult>> GetAllSignersAsync(AccessToken token, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<IEnumerable<Signer>>> GetAllSignersAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
         return await ProcessRequestAsync<DTOs.MultipleSignerResponse, IEnumerable<Signer>>(
             method: HttpMethod.Get,
             endpoint: SignersEndpoint,
             request: null,
-            successFunc: r => Try.Success<IEnumerable<Signer>, ErrorResult>(r.Results.Select(v => v.FromDto())),
+            successFunc: r => r.Results.Select(v => v.FromDto()),
             token: token,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<Signer, ErrorResult>> DisableSignerAsync(AccessToken token, Guid signerId, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<Signer>> DisableSignerAsync(AccessToken token, Guid signerId, CancellationToken cancellationToken = default)
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(new DTOs.UpdateSignerRequest
         {
@@ -147,52 +146,52 @@ public class SignESApiClient
         return await ProcessRequestAsync<DTOs.SignerResponse, Signer>(
             method: HttpMethod.Patch,
             endpoint: $"{SignersEndpoint}/{signerId}",
-            successFunc: r => Try.Success<Signer, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<ClientDevice, ErrorResult>> CreateClientAsync(AccessToken token, Guid? clientId = null, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<ClientDevice>> CreateClientAsync(AccessToken token, Guid? clientId = null, CancellationToken cancellationToken = default)
     {
         var requestBody = new StringContent(string.Empty);
 
         return await ProcessRequestAsync<DTOs.ClientResponse, ClientDevice>(
             method: HttpMethod.Put,
             endpoint: $"{ClientsEndpoint}/{clientId ?? Guid.NewGuid()}",
-            successFunc: r => Try.Success<ClientDevice, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<ClientDevice, ErrorResult>> GetClientByIdAsync(AccessToken token, Guid clientId, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<ClientDevice>> GetClientByIdAsync(AccessToken token, Guid clientId, CancellationToken cancellationToken = default)
     {
         return await ProcessRequestAsync<DTOs.ClientResponse, ClientDevice>(
             method: HttpMethod.Get,
             endpoint: $"{ClientsEndpoint}/{clientId}",
             request: null,
-            successFunc: r => Try.Success<ClientDevice, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<IEnumerable<ClientDevice>, ErrorResult>> GetAllClientsAsync(AccessToken token, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<IEnumerable<ClientDevice>>> GetAllClientsAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
         return await ProcessRequestAsync<DTOs.MultipleClientResponse, IEnumerable<ClientDevice>>(
             method: HttpMethod.Get,
             endpoint: ClientsEndpoint,
             request: null,
-            successFunc: r => Try.Success<IEnumerable<ClientDevice>, ErrorResult>(r.Results.Select(v => v.FromDto())),
+            successFunc: r => r.Results.Select(v => v.FromDto()),
             token: token,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<ClientDevice, ErrorResult>> DisableClientAsync(AccessToken token, Guid clientId, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<ClientDevice>> DisableClientAsync(AccessToken token, Guid clientId, CancellationToken cancellationToken = default)
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(new DTOs.UpdateClientRequest
         {
@@ -205,14 +204,14 @@ public class SignESApiClient
         return await ProcessRequestAsync<DTOs.ClientResponse, ClientDevice>(
             method: HttpMethod.Patch,
             endpoint: $"{ClientsEndpoint}/{clientId}",
-            successFunc: r => Try.Success<ClientDevice, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<InvoiceResponse, ErrorResult>> SendSimplifiedInvoiceAsync(
+    public async Task<ResponseResult<InvoiceResponse>> SendSimplifiedInvoiceAsync(
         AccessToken token,
         SimplifiedInvoice simplifiedInvoice,
         Guid clientId,
@@ -224,14 +223,14 @@ public class SignESApiClient
         return await ProcessRequestAsync<DTOs.InvoiceResponse, InvoiceResponse>(
             method: HttpMethod.Put,
             endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
-            successFunc: r => Try.Success<InvoiceResponse, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
         );
     }
 
-    public async Task<Try<InvoiceResponse, ErrorResult>> SendCompleteInvoiceAsync(
+    public async Task<ResponseResult<InvoiceResponse>> SendCompleteInvoiceAsync(
         AccessToken token,
         CompleteInvoice completeInvoice,
         Guid clientId,
@@ -243,30 +242,30 @@ public class SignESApiClient
         return await ProcessRequestAsync<DTOs.InvoiceResponse, InvoiceResponse>(
             method: HttpMethod.Put,
             endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
-            successFunc: r => Try.Success<InvoiceResponse, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
         );
     }
     
-    public async Task<Try<SoftwareAuditData, ErrorResult>> GetSoftwareAuditDataAsync(AccessToken token, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<SoftwareAuditData>> GetSoftwareAuditDataAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
         return await ProcessRequestAsync<DTOs.SoftwareResponse, SoftwareAuditData>(
             method: HttpMethod.Get,
             endpoint: SoftwareEndpoint,
             request: null,
-            successFunc: r => Try.Success<SoftwareAuditData, ErrorResult>(r.FromDto()),
+            successFunc: r => r.FromDto(),
             token: token,
             cancellationToken: cancellationToken
         );
     }
     
-    private async Task<Try<TResult, ErrorResult>> ProcessRequestAsync<TDto, TResult>(
+    private async Task<ResponseResult<TResult>> ProcessRequestAsync<TDto, TResult>(
         HttpMethod method,
         string endpoint,
         StringContent request,
-        Func<TDto, Try<TResult, ErrorResult>> successFunc,
+        Func<TDto, TResult> successFunc,
         CancellationToken cancellationToken,
         AccessToken token = null)
         where TDto : class
@@ -282,21 +281,14 @@ public class SignESApiClient
 
         if (token is not null)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthSchema, token.Value);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthSchema, token.Value);
         }
-        var httpResponse = await _httpClient.SendAsync(requestMessage, cancellationToken);
+        var httpResponse = await httpClient.SendAsync(requestMessage, cancellationToken);
         
-        return await DeserializeAsync(httpResponse, successFunc, cancellationToken);
-    }
-
-    private async Task<Try<TResult, ErrorResult>> DeserializeAsync<TDto, TResult>(HttpResponseMessage response, Func<TDto, Try<TResult, ErrorResult>> successFunc, CancellationToken cancellationToken)
-        where TDto : class
-        where TResult : class
-    {
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var content = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         
-        return response.IsSuccessStatusCode ?
-            successFunc(JsonSerializer.Deserialize<TDto>(content)) :
-            Try.Error<TResult, ErrorResult>(JsonSerializer.Deserialize<DTOs.FiskalyErrorResponse>(content).FromDto());
+        return httpResponse.IsSuccessStatusCode ?
+            new ResponseResult<TResult>(successResult: successFunc(JsonSerializer.Deserialize<TDto>(content))) :
+            new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<DTOs.FiskalyErrorResponse>(content).FromDto());
     }
 }

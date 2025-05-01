@@ -27,16 +27,16 @@ public class SignESTestFixture
         
         var httpClient = new HttpClient();
         var signEsApiClient = new SignESApiClient(httpClient, FiskalyEnvironment.Test, "", "");
-        var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).Success.Get();
+        var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).SuccessResult;
 
         var allSigners = await signEsApiClient.GetAllSignersAsync(accessTokenResult);
-        foreach (var signer in allSigners.Success.Get())
+        foreach (var signer in allSigners.SuccessResult)
         {
             await signEsApiClient.DisableSignerAsync(accessTokenResult, signer.Id);
         }
 
         var allClients = await signEsApiClient.GetAllClientsAsync(accessTokenResult);
-        foreach (var client in allClients.Success.Get())
+        foreach (var client in allClients.SuccessResult)
         {
             await signEsApiClient.DisableClientAsync(accessTokenResult, client.ClientId);
         }

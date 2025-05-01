@@ -120,32 +120,29 @@ internal static class RequestMapper
     {
         return new DTOs.RecipientRequest
         {
-            Id = receiver.Match<object>(
-                localReceiver => localReceiver.ToDto(),
-                foreignReceiver => foreignReceiver.ToDto()
-            ),
+            Id = receiver.Type == ReceiverType.Local ? receiver.ToLocalDto() : receiver.ToForeignDto(),
             AddressLine = receiver.Address,
             PostalCode = receiver.PostalCode
         };
     }
 
-    private static DTOs.NationalIdentification ToDto(this LocalReceiver receiver)
+    private static DTOs.NationalIdentification ToLocalDto(this Receiver receiver)
     {
         return new DTOs.NationalIdentification
         {
-            LegalName = receiver.Name,
+            LegalName = receiver.LegalName,
             TaxNumber = receiver.TaxIdentifier
         };
     }
 
-    private static DTOs.InternationalIdentification ToDto(this ForeignReceiver receiver)
+    private static DTOs.InternationalIdentification ToForeignDto(this Receiver receiver)
     {
         return new DTOs.InternationalIdentification
         {
-            LegalName = receiver.Name,
-            Type = receiver.DocumentType.ToDto(),
-            Number = receiver.DocumentNumber,
-            CountryCode = receiver.DocumentCountry.Alpha2Code
+            LegalName = receiver.LegalName,
+            Type = receiver.ForeignerDocumentType.ToDto(),
+            Number = receiver.TaxIdentifier,
+            CountryCode = receiver.DocumentCountry
         };
     }
 

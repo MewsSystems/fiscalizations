@@ -1,17 +1,11 @@
 namespace Mews.Fiscalizations.Verifactu.Models;
 
-public class ResponseResult<TResult>
+public class ResponseResult<TResult>(TResult successResult = null, ErrorResult errorResult = null)
     where TResult : class
 {
-    internal ResponseResult(TResult successResult = null, ErrorResult errorResult = null)
-    {
-        SuccessResult = successResult;
-        ErrorResult = errorResult;
-    }
+    public TResult SuccessResult { get; } = successResult;
 
-    public TResult SuccessResult { get; }
-
-    public ErrorResult ErrorResult { get; }
+    public ErrorResult ErrorResult { get; } = errorResult;
 
     public bool IsSuccess => ErrorResult is null;
 }

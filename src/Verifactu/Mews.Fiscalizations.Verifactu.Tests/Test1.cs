@@ -12,7 +12,7 @@ public class Test1
     {
         var httpClient = new HttpClient();
         var signEsApiClient = new SignESApiClient(httpClient, FiskalyEnvironment.Test, "", "");
-        var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).Success.Get();
+        var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).SuccessResult;
 
         try
         {
@@ -35,7 +35,7 @@ public class Test1
         var signerResult = await signEsApiClient.CreateSignerAsync(accessTokenResult);
         Assert.That(signerResult.IsSuccess);
 
-        var signerById = await signEsApiClient.GetSignerByIdAsync(accessTokenResult, signerResult.Success.Get().Id);
+        var signerById = await signEsApiClient.GetSignerByIdAsync(accessTokenResult, signerResult.SuccessResult.Id);
         Assert.That(signerById.IsSuccess);
 
         var allSigners = await signEsApiClient.GetAllSignersAsync(accessTokenResult);
@@ -44,7 +44,7 @@ public class Test1
         var clientResult = await signEsApiClient.CreateClientAsync(accessTokenResult);
         Assert.That(clientResult.IsSuccess);
 
-        var clientById = await signEsApiClient.GetClientByIdAsync(accessTokenResult, clientResult.Success.Get().ClientId);
+        var clientById = await signEsApiClient.GetClientByIdAsync(accessTokenResult, clientResult.SuccessResult.ClientId);
         Assert.That(clientById.IsSuccess);
 
         var allClients = await signEsApiClient.GetAllClientsAsync(accessTokenResult);
@@ -64,7 +64,8 @@ public class Test1
                     Quantity: 1,
                     UnitAmount: 100,
                     FullAmount: 100,
-                    TaxData: new ItemTaxData(new UntaxedItem(TaxExemptionReason.OtherGrounds))
+                    TaxExemptionReason: TaxExemptionReason.OtherGrounds,
+                    TaxRate: null
                 )
             ]
         );
@@ -83,7 +84,8 @@ public class Test1
                         Quantity: 1,
                         UnitAmount: 1000,
                         FullAmount: 1000,
-                        TaxData: new ItemTaxData(new UntaxedItem(TaxExemptionReason.OtherGrounds))
+                        TaxExemptionReason: TaxExemptionReason.OtherGrounds,
+                        TaxRate: null
                     )
                 ]
             ),
@@ -93,7 +95,7 @@ public class Test1
             ]
         );
 
-        var invoice2 = await signEsApiClient.SendCompleteInvoiceAsync(accessTokenResult, completeLocalInvoice, clientResult.Success.Get().ClientId, Guid.NewGuid());
+        var invoice2 = await signEsApiClient.SendCompleteInvoiceAsync(accessTokenResult, completeLocalInvoice, clientResult.SuccessResult.ClientId, Guid.NewGuid());
         Assert.That(invoice2.IsSuccess);
 
         var completeForeignInvoice = new CompleteInvoice(
@@ -108,17 +110,18 @@ public class Test1
                         Quantity: 1,
                         UnitAmount: 1000,
                         FullAmount: 1000,
-                        TaxData: new ItemTaxData(new UntaxedItem(TaxExemptionReason.OtherGrounds))
+                        TaxExemptionReason: TaxExemptionReason.OtherGrounds,
+                        TaxRate: null
                     )
                 ]
             ),
             Receivers:
             [
-                Receiver.CreateForeign("local", ForeignerDocumentType.Passport, "A12345678", Countries.Germany, "Berlin, Germany", "12345")
+                Receiver.CreateForeign("local", ForeignerDocumentType.Passport, "A12345678", Countries.Germany.Alpha2Code, "Berlin, Germany", "12345")
             ]
         );
 
-        var invoice3 = await signEsApiClient.SendCompleteInvoiceAsync(accessTokenResult, completeForeignInvoice, clientResult.Success.Get().ClientId, Guid.NewGuid());
+        var invoice3 = await signEsApiClient.SendCompleteInvoiceAsync(accessTokenResult, completeForeignInvoice, clientResult.SuccessResult.ClientId, Guid.NewGuid());
         Assert.That(invoice3.IsSuccess);
     }
 }
