@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalizations.Fiskaly.Models;
+﻿namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
 
 public sealed record InvoiceResponse(
     Guid InvoiceId,

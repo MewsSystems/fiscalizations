@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Fiskaly.Models;
+namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
 
 public sealed record Taxpayer(string LegalName, string TaxIdentifier, TaxpayerTerritory Territory, TaxpayerState State, TaxpayerType Type = TaxpayerType.Company);
 

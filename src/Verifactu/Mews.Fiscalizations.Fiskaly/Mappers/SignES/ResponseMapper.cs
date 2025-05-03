@@ -5,25 +5,20 @@ using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Client;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signer;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer;
 using Mews.Fiscalizations.Fiskaly.Models;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Audit;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Clients;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
 using FiskalyEnvironment = Mews.Fiscalizations.Fiskaly.Models.FiskalyEnvironment;
-using Signer = Mews.Fiscalizations.Fiskaly.Models.Signer;
-using SignerCertificate = Mews.Fiscalizations.Fiskaly.Models.SignerCertificate;
-using TaxpayerState = Mews.Fiscalizations.Fiskaly.Models.TaxpayerState;
-using TaxpayerType = Mews.Fiscalizations.Fiskaly.Models.TaxpayerType;
+using Signer = Mews.Fiscalizations.Fiskaly.Models.SignES.Signer.Signer;
+using SignerCertificate = Mews.Fiscalizations.Fiskaly.Models.SignES.Signer.SignerCertificate;
+using TaxpayerState = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer.TaxpayerState;
+using TaxpayerType = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer.TaxpayerType;
 
 namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES;
 
 internal static class ResponseMapper
 {
-    public static AccessToken FromDto(this AuthorizationTokenResponse response)
-    {
-        return new AccessToken(
-            value: response.DataResponse.AccessTokenResponse.Bearer,
-            environment: response.DataResponse.Claims.Environment.FromDto(),
-            expirationUtc: response.DataResponse.AccessTokenResponse.ExpiresAt.FromUnixTime()
-        );
-    }
-
     public static ErrorResult FromDto(this FiskalyErrorResponse errorResponse)
     {
         return new ErrorResult(
@@ -41,7 +36,7 @@ internal static class ResponseMapper
             TaxIdentifier: response.Content.Issuer.TaxNumber,
             Territory: response.Content.Territory.FromDto(),
             Type: response.Content.Type.FromDto(),
-            State: response.Content.State?.FromDto() ?? TaxpayerState.Enabled
+            State: response.Content.State?.FromDto() ?? Models.SignES.Taxpayer.TaxpayerState.Enabled
         );
     }
 
@@ -214,13 +209,5 @@ internal static class ResponseMapper
         };
     }
 
-    private static FiskalyEnvironment FromDto(this DTOs.FiskalyEnvironment environment)
-    {
-        return environment switch
-        {
-            DTOs.FiskalyEnvironment.LIVE => FiskalyEnvironment.Production,
-            DTOs.FiskalyEnvironment.TEST => FiskalyEnvironment.Test,
-            _ => throw new ArgumentOutOfRangeException(nameof(environment), environment, null)
-        };
-    }
+    
 }

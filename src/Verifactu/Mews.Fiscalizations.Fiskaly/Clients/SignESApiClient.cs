@@ -7,9 +7,14 @@ using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Client;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signer;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer;
 using Mews.Fiscalizations.Fiskaly.Mappers.SignES;
+using Mews.Fiscalizations.Fiskaly.Mappers.SignES.Auth;
 using Mews.Fiscalizations.Fiskaly.Models;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Audit;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Clients;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
 using AccessToken = Mews.Fiscalizations.Fiskaly.Models.AccessToken;
-using Signer = Mews.Fiscalizations.Fiskaly.Models.Signer;
+using Signer = Mews.Fiscalizations.Fiskaly.Models.SignES.Signer.Signer;
 using TaxpayerState = Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer.TaxpayerState;
 
 namespace Mews.Fiscalizations.Fiskaly.Clients;
@@ -49,7 +54,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
             method: HttpMethod.Post,
             endpoint: AuthEndpoint,
             request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
-            successFunc: r => r.FromDto(),
+            successFunc: r => r.MapAuthResponse(),
             cancellationToken: cancellationToken
         );
     }

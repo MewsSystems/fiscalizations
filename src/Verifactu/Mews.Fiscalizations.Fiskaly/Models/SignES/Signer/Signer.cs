@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Fiskaly.Models;
+namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Signer;
 
 public sealed record Signer(Guid Id, SignerCertificate Certificate);
 

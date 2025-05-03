@@ -1,8 +1,9 @@
 using System.Globalization;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoice;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer;
-using Mews.Fiscalizations.Fiskaly.Models;
-using TaxExemptionReason = Mews.Fiscalizations.Fiskaly.Models.TaxExemptionReason;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
+using TaxExemptionReason = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice.TaxExemptionReason;
 
 namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES;
 
@@ -52,7 +53,7 @@ internal static class RequestMapper
 
     private static Item CreateLineItem(InvoiceItem lineItem)
     {
-        var category = lineItem.TaxExemptionReason == TaxExemptionReason.NotExempt ? 
+        var category = lineItem.TaxExemptionReason == Models.SignES.Invoice.TaxExemptionReason.NotExempt ? 
             new Category
             {
                 Type = TaxCategoryType.VAT,
@@ -81,12 +82,12 @@ internal static class RequestMapper
     {
         return reason switch
         {
-            TaxExemptionReason.Article20 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_1,
-            TaxExemptionReason.Article21 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_2,
-            TaxExemptionReason.Article22 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_3,
-            TaxExemptionReason.Article24 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_4,
-            TaxExemptionReason.Article25 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_5,
-            TaxExemptionReason.OtherGrounds => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_6,
+            Models.SignES.Invoice.TaxExemptionReason.Article20 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_1,
+            Models.SignES.Invoice.TaxExemptionReason.Article21 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_2,
+            Models.SignES.Invoice.TaxExemptionReason.Article22 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_3,
+            Models.SignES.Invoice.TaxExemptionReason.Article24 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_4,
+            Models.SignES.Invoice.TaxExemptionReason.Article25 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_5,
+            Models.SignES.Invoice.TaxExemptionReason.OtherGrounds => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_6,
             _ => throw new ArgumentOutOfRangeException(nameof(reason), reason, null)
         };
     }

@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Fiskaly.Models;
+namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
 
 public enum TaxpayerTerritory
 {

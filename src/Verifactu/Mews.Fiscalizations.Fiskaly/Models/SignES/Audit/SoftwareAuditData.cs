@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Fiskaly.Models;
+namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Audit;
 
 public sealed record SoftwareAuditData(
     string CompanyLegalName,
