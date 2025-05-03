@@ -11,7 +11,7 @@ internal static class AuthMapper
         return new AccessToken(
             value: response.DataResponse.AccessTokenResponse.Bearer,
             environment: response.DataResponse.Claims.Environment == FiskalyEnvironment.TEST ? Models.FiskalyEnvironment.Test : Models.FiskalyEnvironment.Production,
-            expirationUtc: response.DataResponse.AccessTokenResponse.ExpiresAt.FromUnixTime()
+            expirationUtc: DateTimeOffset.FromUnixTimeSeconds(response.DataResponse.AccessTokenResponse.ExpiresAt).DateTime
         );
     }
 }

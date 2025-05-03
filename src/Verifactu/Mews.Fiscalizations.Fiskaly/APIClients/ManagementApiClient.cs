@@ -2,11 +2,11 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Mews.Fiscalizations.Fiskaly.DTOs.Management.Auth;
+using Mews.Fiscalizations.Fiskaly.Mappers;
 using Mews.Fiscalizations.Fiskaly.Mappers.Management.Auth;
-using Mews.Fiscalizations.Fiskaly.Mappers.SignES;
 using Mews.Fiscalizations.Fiskaly.Models;
 
-namespace Mews.Fiscalizations.Fiskaly.Clients;
+namespace Mews.Fiscalizations.Fiskaly.APIClients;
 
 public class ManagementApiClient(HttpClient httpClient, FiskalyEnvironment environment, string apiKey, string apiSecret)
 {
@@ -15,7 +15,6 @@ public class ManagementApiClient(HttpClient httpClient, FiskalyEnvironment envir
     private const string AuthEndpoint = "auth";
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
-
 
     public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync(CancellationToken cancellationToken = default)
     {
@@ -62,6 +61,6 @@ public class ManagementApiClient(HttpClient httpClient, FiskalyEnvironment envir
         
         return httpResponse.IsSuccessStatusCode ?
             new ResponseResult<TResult>(successResult: successFunc(JsonSerializer.Deserialize<TDto>(content))) :
-            new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<DTOs.FiskalyErrorResponse>(content).FromDto());
+            new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<DTOs.FiskalyErrorResponse>(content).MapErrorResponse());
     }
 }

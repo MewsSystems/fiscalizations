@@ -1,4 +1,4 @@
-using Mews.Fiscalizations.Fiskaly.Clients;
+using Mews.Fiscalizations.Fiskaly.APIClients;
 using Mews.Fiscalizations.Fiskaly.Models;
 using NUnit.Framework;
 

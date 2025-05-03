@@ -1,75 +1,44 @@
-using Mews.Fiscalizations.Fiskaly.DTOs;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Audit;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Auth;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Client;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signer;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer;
-using Mews.Fiscalizations.Fiskaly.Models;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Audit;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Clients;
+using System.Globalization;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoice;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
-using FiskalyEnvironment = Mews.Fiscalizations.Fiskaly.Models.FiskalyEnvironment;
-using Signer = Mews.Fiscalizations.Fiskaly.Models.SignES.Signer.Signer;
-using SignerCertificate = Mews.Fiscalizations.Fiskaly.Models.SignES.Signer.SignerCertificate;
-using TaxpayerState = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer.TaxpayerState;
-using TaxpayerType = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer.TaxpayerType;
+using InvoiceErrorCode = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice.InvoiceErrorCode;
+using InvoiceResponse = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice.InvoiceResponse;
+using InvoiceState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice.InvoiceState;
+using SignedInvoiceCancellationState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice.SignedInvoiceCancellationState;
+using SignedInvoiceRegistrationState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice.SignedInvoiceRegistrationState;
+using TaxExemptionReason = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice.TaxExemptionReason;
 
-namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES;
+namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.Invoices;
 
-internal static class ResponseMapper
+internal static class InvoiceMapper
 {
-    public static ErrorResult FromDto(this FiskalyErrorResponse errorResponse)
+    public static SimplifiedInvoiceRequest MapSimplifiedInvoiceRequest(SimplifiedInvoice simplifiedInvoice)
     {
-        return new ErrorResult(
-            Status: errorResponse.StatusCode,
-            Code: errorResponse.Code,
-            Error: errorResponse.Error,
-            Message: errorResponse.Message
-        );
+        return new SimplifiedInvoiceRequest
+        {
+            Content = new SimplifiedInvoiceData
+            {
+                Text = simplifiedInvoice.InvoiceDescription,
+                Number = simplifiedInvoice.InvoiceNumber,
+                FullAmount = simplifiedInvoice.FullAmount.ToString("F2", CultureInfo.InvariantCulture),
+                Items = simplifiedInvoice.Items.Select(MapInvoiceItemRequest).ToList()
+            }
+        };
     }
-
-    public static Taxpayer FromDto(this TaxpayerResponse response)
+    
+    public static CompleteInvoiceRequest MapCompleteInvoiceRequest(CompleteInvoice completeInvoice)
     {
-        return new Taxpayer(
-            LegalName: response.Content.Issuer.LegalName,
-            TaxIdentifier: response.Content.Issuer.TaxNumber,
-            Territory: response.Content.Territory.FromDto(),
-            Type: response.Content.Type.FromDto(),
-            State: response.Content.State?.FromDto() ?? Models.SignES.Taxpayer.TaxpayerState.Enabled
-        );
+        return new CompleteInvoiceRequest
+        {
+            Content = new CompleteInvoiceData
+            {
+                Data = MapSimplifiedInvoiceRequest(completeInvoice.simplifiedInvoice).Content,
+                Recipients = completeInvoice.Receivers.Select(r => r.MapReceiverRequest()).ToList()
+            }
+        };
     }
-
-    public static Signer FromDto(this SignerResponse response)
-    {
-        var cert = response.SignerData.Certificate;
-        return new Signer(
-            Id: response.SignerData.Id,
-            Certificate: new SignerCertificate(cert.SerialNumber, cert.X509Pem, cert.ExpiresAt)
-        );
-    }
-
-    public static ClientDevice FromDto(this ClientResponse response)
-    {
-        return new ClientDevice(
-            ClientId: response.ClientData.Id,
-            SignerId: response.ClientData.Signer.Id
-        );
-    }
-
-    public static SoftwareAuditData FromDto(this SoftwareResponse response)
-    {
-        return new SoftwareAuditData(
-            CompanyLegalName: response.Data.Company.LegalName,
-            CompanyTaxIdentifier: response.Data.Company.TaxNumber,
-            SoftwareName: response.Data.Name,
-            License: response.Data.License,
-            Version: response.Data.Version,
-            ResponsibilityDeclaration: response.Data.ResponsibilityDeclaration ?? ""
-        );
-    }
-
-    public static InvoiceResponse FromDto(this DTOs.SignES.Invoice.InvoiceResponse response)
+    
+    public static InvoiceResponse MapInvoiceResponse(this DTOs.SignES.Invoice.InvoiceResponse response)
     {
         return new InvoiceResponse(
             InvoiceId: response.Content.Id,
@@ -82,19 +51,103 @@ internal static class ResponseMapper
                 VerifactuValidationUrl: response.Content.Compliance.Url,
                 VerifactuInvoiceText: response.Content.Compliance.Text
             ),
-            State: response.Content.State.FromDto(),
+            State: response.Content.State.MapInvoiceStateResponse(),
             Transmission: new SignedInvoiceTransmission(
-                RegistrationState: response.Content.Transmission.Registration.FromDto(),
-                CancellationState: response.Content.Transmission.Cancellation.FromDto()
+                RegistrationState: response.Content.Transmission.Registration.MapInvoiceRegistrationStateResponse(),
+                CancellationState: response.Content.Transmission.Cancellation.MapSignedInvoiceCancellationState()
             ),
             Validations: response.Content.Validations.Select(v => new InvoiceValidationData(
-                ErrorCode: v.Code.FromDto(),
+                ErrorCode: v.Code.MapInvoiceErrorCode(),
                 Description: v.Description
             ))
         );
     }
+    
+    private static Item MapInvoiceItemRequest(InvoiceItem lineItem)
+    {
+        var category = lineItem.TaxExemptionReason == TaxExemptionReason.NotExempt ? 
+            new Category
+            {
+                Type = TaxCategoryType.VAT,
+                Rate = lineItem.TaxRate?.ToString("F2", CultureInfo.InvariantCulture)
+            }:
+            new Category
+            {
+                Type = TaxCategoryType.NO_VAT,
+                Cause = lineItem.TaxExemptionReason.MapTaxExemptionReasonRequest()
+            };
 
-    private static InvoiceState FromDto(this DTOs.SignES.Invoice.InvoiceState state)
+        return new Item
+        {
+            Text = lineItem.ItemDescription,
+            Quantity = lineItem.Quantity.ToString("F2", CultureInfo.InvariantCulture),
+            UnitAmount = lineItem.UnitAmount.ToString("F2", CultureInfo.InvariantCulture),
+            FullAmount = lineItem.FullAmount.ToString("F2", CultureInfo.InvariantCulture),
+            System = new DTOs.SignES.Invoice.System
+            {
+                Category = category
+            }
+        };
+    }
+    
+    private static DTOs.SignES.Invoice.TaxExemptionReason MapTaxExemptionReasonRequest(this TaxExemptionReason reason)
+    {
+        return reason switch
+        {
+            TaxExemptionReason.Article20 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_1,
+            TaxExemptionReason.Article21 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_2,
+            TaxExemptionReason.Article22 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_3,
+            TaxExemptionReason.Article24 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_4,
+            TaxExemptionReason.Article25 => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_5,
+            TaxExemptionReason.OtherGrounds => DTOs.SignES.Invoice.TaxExemptionReason.TAXABLE_EXEMPT_6,
+            _ => throw new ArgumentOutOfRangeException(nameof(reason), reason, null)
+        };
+    }
+    
+    private static RecipientRequest MapReceiverRequest(this Receiver receiver)
+    {
+        return new RecipientRequest
+        {
+            Id = receiver.Type == ReceiverType.Local ? receiver.MapLocalReceiverRequest() : receiver.MapForeignReceiverRequest(),
+            AddressLine = receiver.Address,
+            PostalCode = receiver.PostalCode
+        };
+    }
+    
+    private static NationalIdentification MapLocalReceiverRequest(this Receiver receiver)
+    {
+        return new NationalIdentification
+        {
+            LegalName = receiver.LegalName,
+            TaxNumber = receiver.TaxIdentifier
+        };
+    }
+
+    private static InternationalIdentification MapForeignReceiverRequest(this Receiver receiver)
+    {
+        return new InternationalIdentification
+        {
+            LegalName = receiver.LegalName,
+            Type = receiver.ForeignerDocumentType.MapForeignReceiverDocumentTypeRequest(),
+            Number = receiver.TaxIdentifier,
+            CountryCode = receiver.DocumentCountry
+        };
+    }
+    
+    private static IdentificationType MapForeignReceiverDocumentTypeRequest(this ForeignerDocumentType type)
+    {
+        return type switch
+        {
+            ForeignerDocumentType.TaxIdentifier => IdentificationType.TAX_NUMBER,
+            ForeignerDocumentType.Passport => IdentificationType.PASSPORT,
+            ForeignerDocumentType.OfficialId => IdentificationType.DOCUMENT,
+            ForeignerDocumentType.ResidenceId => IdentificationType.CERTIFICATE,
+            ForeignerDocumentType.Other => IdentificationType.OTHER,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+    }
+
+    private static InvoiceState MapInvoiceStateResponse(this DTOs.SignES.Invoice.InvoiceState state)
     {
         return state switch
         {
@@ -105,7 +158,7 @@ internal static class ResponseMapper
         };
     }
 
-    private static SignedInvoiceRegistrationState FromDto(this DTOs.SignES.Invoice.SignedInvoiceRegistrationState state)
+    private static SignedInvoiceRegistrationState MapInvoiceRegistrationStateResponse(this DTOs.SignES.Invoice.SignedInvoiceRegistrationState state)
     {
         return state switch
         {
@@ -119,7 +172,7 @@ internal static class ResponseMapper
         };
     }
 
-    private static SignedInvoiceCancellationState FromDto(this DTOs.SignES.Invoice.SignedInvoiceCancellationState state)
+    private static SignedInvoiceCancellationState MapSignedInvoiceCancellationState(this DTOs.SignES.Invoice.SignedInvoiceCancellationState state)
     {
         return state switch
         {
@@ -133,7 +186,7 @@ internal static class ResponseMapper
         };
     }
 
-    private static InvoiceErrorCode FromDto(this DTOs.SignES.Invoice.InvoiceErrorCode code)
+    private static InvoiceErrorCode MapInvoiceErrorCode(this DTOs.SignES.Invoice.InvoiceErrorCode code)
     {
         return code switch
         {
@@ -172,42 +225,4 @@ internal static class ResponseMapper
             _ => throw new ArgumentOutOfRangeException(nameof(code), code, null)
         };
     }
-
-    private static TaxpayerType FromDto(this DTOs.SignES.Taxpayer.TaxpayerType type)
-    {
-        return type switch
-        {
-            DTOs.SignES.Taxpayer.TaxpayerType.INDIVIDUAL => TaxpayerType.Individual,
-            DTOs.SignES.Taxpayer.TaxpayerType.COMPANY => TaxpayerType.Company,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-        };
-    }
-
-    private static TaxpayerState FromDto(this DTOs.SignES.Taxpayer.TaxpayerState state)
-    {
-        return state switch
-        {
-            DTOs.SignES.Taxpayer.TaxpayerState.ENABLED => TaxpayerState.Enabled,
-            DTOs.SignES.Taxpayer.TaxpayerState.DISABLED => TaxpayerState.Disabled,
-            _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
-        };
-    }
-
-    private static TaxpayerTerritory FromDto(this Territory territory)
-    {
-        return territory switch
-        {
-            Territory.ARABA => TaxpayerTerritory.Araba,
-            Territory.BIZKAIA => TaxpayerTerritory.Bizkaia,
-            Territory.GIPUZKOA => TaxpayerTerritory.Gipuzkoa,
-            Territory.NAVARRE => TaxpayerTerritory.Navarre,
-            Territory.CANARY_ISLANDS => TaxpayerTerritory.CanaryIslands,
-            Territory.CEUTA => TaxpayerTerritory.Ceuta,
-            Territory.MELILLA => TaxpayerTerritory.Melilla,
-            Territory.SPAIN_OTHER => TaxpayerTerritory.SpainOther,
-            _ => throw new ArgumentOutOfRangeException(nameof(territory), territory, null)
-        };
-    }
-
-    
 }

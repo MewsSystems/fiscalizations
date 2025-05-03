@@ -37,7 +37,7 @@ public sealed class Receiver
     }
 }
 
-internal enum ReceiverType
+public enum ReceiverType
 {
     Local,
     Foreign

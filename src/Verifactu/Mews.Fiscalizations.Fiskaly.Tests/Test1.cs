@@ -1,5 +1,5 @@
 using Mews.Fiscalizations.Core.Model;
-using Mews.Fiscalizations.Fiskaly.Clients;
+using Mews.Fiscalizations.Fiskaly.APIClients;
 using Mews.Fiscalizations.Fiskaly.Models;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
