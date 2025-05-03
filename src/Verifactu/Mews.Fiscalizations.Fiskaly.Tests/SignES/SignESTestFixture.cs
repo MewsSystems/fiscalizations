@@ -2,7 +2,7 @@ using Mews.Fiscalizations.Fiskaly.APIClients;
 using Mews.Fiscalizations.Fiskaly.Models;
 using NUnit.Framework;
 
-namespace Mews.Fiscalizations.Fiskaly.Tests;
+namespace Mews.Fiscalizations.Fiskaly.Tests.SignES;
 
 /// <summary>
 /// Fiskaly limits creation of data in the test environment to 5.

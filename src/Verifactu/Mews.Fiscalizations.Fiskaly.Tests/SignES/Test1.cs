@@ -5,7 +5,7 @@ using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
 using NUnit.Framework;
 
-namespace Mews.Fiscalizations.Fiskaly.Tests;
+namespace Mews.Fiscalizations.Fiskaly.Tests.SignES;
 
 [TestFixture]
 public class Test1

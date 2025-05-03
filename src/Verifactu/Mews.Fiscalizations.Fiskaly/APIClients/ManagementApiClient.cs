@@ -8,7 +8,7 @@ using Mews.Fiscalizations.Fiskaly.Models;
 
 namespace Mews.Fiscalizations.Fiskaly.APIClients;
 
-public class ManagementApiClient(HttpClient httpClient, FiskalyEnvironment environment, string apiKey, string apiSecret)
+public class ManagementApiClient(HttpClient httpClient, string apiKey, string apiSecret)
 {
     private const string BaseUrl = "https://dashboard.fiskaly.com/api/v0";
 

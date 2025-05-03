@@ -5,7 +5,7 @@
         <IsPackable>false</IsPackable>
         <ImplicitUsings>true</ImplicitUsings>
         <LangVersion>12</LangVersion>
-        <RootNamespace>Mews.Fiscalizations.Verifactu.Tests</RootNamespace>
+        <RootNamespace>Mews.Fiscalizations.Fiskaly.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

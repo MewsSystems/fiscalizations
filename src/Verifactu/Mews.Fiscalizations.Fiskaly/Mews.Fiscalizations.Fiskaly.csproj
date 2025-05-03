@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Authors>Mews</Authors>
-        <Description>Client for Fiskaly - Verifactu Fiscalization.</Description>
-        <PackageTags>fiscalization;verifactu;spain;fiskaly</PackageTags>
+        <Description>Client for Fiskaly.</Description>
+        <PackageTags>fiscalization;spain;fiskaly</PackageTags>
         <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
         <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
         <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
