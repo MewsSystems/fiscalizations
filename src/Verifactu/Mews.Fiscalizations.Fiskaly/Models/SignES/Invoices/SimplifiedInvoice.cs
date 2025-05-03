@@ -1,4 +1,4 @@
-﻿namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
+﻿namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices;
 
 public sealed record SimplifiedInvoice(
     string InvoiceNumber,

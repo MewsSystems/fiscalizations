@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer;
+namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayers;
 
 internal enum Territory
 {

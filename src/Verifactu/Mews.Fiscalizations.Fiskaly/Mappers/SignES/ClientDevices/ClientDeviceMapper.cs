@@ -1,4 +1,4 @@
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Client;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES.ClientDevices;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.ClientDevices;
 
 namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.ClientDevices;

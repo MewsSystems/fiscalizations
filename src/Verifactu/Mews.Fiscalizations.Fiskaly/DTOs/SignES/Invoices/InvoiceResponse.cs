@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
 
-namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoice;
+namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoices;
 
 internal sealed class InvoiceResponse
 {
@@ -18,7 +18,7 @@ internal sealed class InvoiceResponseData
     public Guid Id { get; init; }
 
     [JsonPropertyName("signer")]
-    public SignES.Client.Signer Signer { get; init; }
+    public SignES.ClientDevices.Signer Signer { get; init; }
 
     [JsonPropertyName("client")]
     public Client Client { get; init; }

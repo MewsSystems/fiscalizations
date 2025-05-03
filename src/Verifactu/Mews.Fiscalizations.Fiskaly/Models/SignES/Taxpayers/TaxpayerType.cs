@@ -1,4 +1,4 @@
-namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
+namespace Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers;
 
 public enum TaxpayerType
 {

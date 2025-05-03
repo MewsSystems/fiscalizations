@@ -1,8 +1,8 @@
 using Mews.Fiscalizations.Core.Model;
 using Mews.Fiscalizations.Fiskaly.APIClients;
 using Mews.Fiscalizations.Fiskaly.Models;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers;
 using NUnit.Framework;
 
 namespace Mews.Fiscalizations.Fiskaly.Tests.SignES;

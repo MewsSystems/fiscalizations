@@ -1,6 +1,6 @@
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signer;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Signer;
-using SignerCertificate = Mews.Fiscalizations.Fiskaly.Models.SignES.Signer.SignerCertificate;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signers;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Signers;
+using SignerCertificate = Mews.Fiscalizations.Fiskaly.Models.SignES.Signers.SignerCertificate;
 
 namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.Signers;
 

@@ -3,9 +3,9 @@ using System.Text;
 using System.Text.Json;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Audit;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Auth;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Client;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signer;
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES.ClientDevices;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signers;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayers;
 using Mews.Fiscalizations.Fiskaly.Mappers;
 using Mews.Fiscalizations.Fiskaly.Mappers.SignES.Audit;
 using Mews.Fiscalizations.Fiskaly.Mappers.SignES.Auth;
@@ -16,11 +16,11 @@ using Mews.Fiscalizations.Fiskaly.Mappers.SignES.Taxpayers;
 using Mews.Fiscalizations.Fiskaly.Models;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Audit;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.ClientDevices;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoice;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers;
 using AccessToken = Mews.Fiscalizations.Fiskaly.Models.AccessToken;
-using Signer = Mews.Fiscalizations.Fiskaly.Models.SignES.Signer.Signer;
-using TaxpayerState = Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer.TaxpayerState;
+using Signer = Mews.Fiscalizations.Fiskaly.Models.SignES.Signers.Signer;
+using TaxpayerState = Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayers.TaxpayerState;
 
 namespace Mews.Fiscalizations.Fiskaly.APIClients;
 
@@ -239,7 +239,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(InvoiceMapper.MapSimplifiedInvoiceRequest(simplifiedInvoice)), Encoding.UTF8, JsonContentType);
         
-        return await ProcessRequestAsync<DTOs.SignES.Invoice.InvoiceResponse, InvoiceResponse>(
+        return await ProcessRequestAsync<DTOs.SignES.Invoices.InvoiceResponse, InvoiceResponse>(
             method: HttpMethod.Put,
             endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
             successFunc: r => r.MapInvoiceResponse(),
@@ -258,7 +258,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(InvoiceMapper.MapCompleteInvoiceRequest(completeInvoice)), Encoding.UTF8, JsonContentType);
 
-        return await ProcessRequestAsync<DTOs.SignES.Invoice.InvoiceResponse, InvoiceResponse>(
+        return await ProcessRequestAsync<DTOs.SignES.Invoices.InvoiceResponse, InvoiceResponse>(
             method: HttpMethod.Put,
             endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
             successFunc: r => r.MapInvoiceResponse(),

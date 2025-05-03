@@ -1,7 +1,7 @@
-using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayer;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer;
-using TaxpayerState = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer.TaxpayerState;
-using TaxpayerType = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayer.TaxpayerType;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayers;
+using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers;
+using TaxpayerState = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers.TaxpayerState;
+using TaxpayerType = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers.TaxpayerType;
 
 namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.Taxpayers;
 
@@ -30,7 +30,7 @@ internal static class TaxpayerMapper
             TaxIdentifier: response.Content.Issuer.TaxNumber,
             Territory: response.Content.Territory.MapTaxpayerTerritoryResponse(),
             Type: response.Content.Type.MapTaxpayerTypeResponse(),
-            State: response.Content.State?.MapTaxpayerStateResponse() ?? Models.SignES.Taxpayer.TaxpayerState.Enabled
+            State: response.Content.State?.MapTaxpayerStateResponse() ?? TaxpayerState.Enabled
         );
     }
 
@@ -50,22 +50,22 @@ internal static class TaxpayerMapper
         };
     }
     
-    private static TaxpayerType MapTaxpayerTypeResponse(this DTOs.SignES.Taxpayer.TaxpayerType type)
+    private static TaxpayerType MapTaxpayerTypeResponse(this DTOs.SignES.Taxpayers.TaxpayerType type)
     {
         return type switch
         {
-            DTOs.SignES.Taxpayer.TaxpayerType.INDIVIDUAL => TaxpayerType.Individual,
-            DTOs.SignES.Taxpayer.TaxpayerType.COMPANY => TaxpayerType.Company,
+            DTOs.SignES.Taxpayers.TaxpayerType.INDIVIDUAL => TaxpayerType.Individual,
+            DTOs.SignES.Taxpayers.TaxpayerType.COMPANY => TaxpayerType.Company,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 
-    private static TaxpayerState MapTaxpayerStateResponse(this DTOs.SignES.Taxpayer.TaxpayerState state)
+    private static TaxpayerState MapTaxpayerStateResponse(this DTOs.SignES.Taxpayers.TaxpayerState state)
     {
         return state switch
         {
-            DTOs.SignES.Taxpayer.TaxpayerState.ENABLED => TaxpayerState.Enabled,
-            DTOs.SignES.Taxpayer.TaxpayerState.DISABLED => TaxpayerState.Disabled,
+            DTOs.SignES.Taxpayers.TaxpayerState.ENABLED => TaxpayerState.Enabled,
+            DTOs.SignES.Taxpayers.TaxpayerState.DISABLED => TaxpayerState.Disabled,
             _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
         };
     }

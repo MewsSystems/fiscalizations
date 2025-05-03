@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoice;
+namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoices;
 
 internal sealed class CompleteInvoiceRequest
 {

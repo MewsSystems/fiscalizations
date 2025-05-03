@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signer;
+namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signers;
 
 internal sealed class UpdateSignerRequest
 {
