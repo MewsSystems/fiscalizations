@@ -79,7 +79,7 @@
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Sweden.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference Include="..\Verifactu\Mews.Fiscalizations.Verifactu\Mews.Fiscalizations.Verifactu.csproj">
+    <ProjectReference Include="..\Verifactu\Mews.Fiscalizations.Fiskaly\Mews.Fiscalizations.Fiskaly.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Verifactu.dll</IncludeAssets>
     </ProjectReference>

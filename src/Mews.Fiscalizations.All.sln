@@ -58,11 +58,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.Sweden"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.Sweden.Tests", "Sweden\Mews.Fiscalizations.Sweden.Tests\Mews.Fiscalizations.Sweden.Tests.csproj", "{8E7DD2A5-6D3E-4257-8122-A4274688A9B7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Verifactu", "Verifactu", "{1D833023-CD6D-49C3-9B2E-8C1A799AEA22}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fiskaly", "Fiskaly", "{1D833023-CD6D-49C3-9B2E-8C1A799AEA22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.Verifactu", "Verifactu\Mews.Fiscalizations.Verifactu\Mews.Fiscalizations.Verifactu.csproj", "{3CE29C7B-04A4-4457-A8DE-035DA7006401}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.Fiskaly", "Verifactu\Mews.Fiscalizations.Fiskaly\Mews.Fiscalizations.Fiskaly.csproj", "{3CE29C7B-04A4-4457-A8DE-035DA7006401}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.Verifactu.Tests", "Verifactu\Mews.Fiscalizations.Verifactu.Tests\Mews.Fiscalizations.Verifactu.Tests.csproj", "{74709679-2AC4-457F-BB2F-D7A981452CB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mews.Fiscalizations.Fiskaly.Tests", "Verifactu\Mews.Fiscalizations.Fiskaly.Tests\Mews.Fiscalizations.Fiskaly.Tests.csproj", "{74709679-2AC4-457F-BB2F-D7A981452CB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
