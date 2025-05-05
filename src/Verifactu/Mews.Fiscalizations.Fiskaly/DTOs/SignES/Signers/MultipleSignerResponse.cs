@@ -5,5 +5,5 @@ namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signers;
 internal sealed class MultipleSignerResponse
 {
     [JsonPropertyName("results")]
-    public List<SignerResponse> Results { get; init; }
+    public List<ContentWrapper<SignerDataResponse>> Results { get; init; }
 }

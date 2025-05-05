@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Audit;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Auth;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.ClientDevices;
@@ -46,16 +47,16 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync(CancellationToken cancellationToken = default)
     {
-        var request = new AuthorizationTokenRequest
+        var request = new ContentWrapper<AuthorizationTokenRequest>
         {
-            Content = new AuthorizationTokenRequestContent
+            Content = new AuthorizationTokenRequest
             {
                 ApiKey = apiKey,
                 ApiSecret = apiSecret
             }
         };
 
-        return await ProcessRequestAsync<AuthorizationTokenResponse, AccessToken>(
+        return await ProcessRequestAsync<ContentWrapper<AuthorizationTokenResponse>, AccessToken>(
             method: HttpMethod.Post,
             endpoint: AuthEndpoint,
             request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
@@ -73,7 +74,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(TaxpayerMapper.MapTaxpayerRequest(legalName, taxIdentifier, territory)), Encoding.UTF8, JsonContentType);
 
-        return await ProcessRequestAsync<TaxpayerResponse, Taxpayer>(
+        return await ProcessRequestAsync<ContentWrapper<TaxpayerResponse>, Taxpayer>(
             method: HttpMethod.Put,
             endpoint: TaxpayerEndpoint,
             request: requestBody,
@@ -85,7 +86,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<Taxpayer>> GetTaxpayerAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
-        return await ProcessRequestAsync<TaxpayerResponse, Taxpayer>(
+        return await ProcessRequestAsync<ContentWrapper<TaxpayerResponse>, Taxpayer>(
             method: HttpMethod.Get,
             endpoint: TaxpayerEndpoint,
             request: null,
@@ -97,15 +98,15 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<Taxpayer>> DisableTaxpayerAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
-        var requestBody = new StringContent(JsonSerializer.Serialize(new UpdateTaxpayerRequest
+        var requestBody = new StringContent(JsonSerializer.Serialize(new ContentWrapper<UpdateTaxpayerRequest>()
         {
-            Data = new UpdateTaxpayerRequestData
+            Content = new UpdateTaxpayerRequest
             {
                 State = TaxpayerState.DISABLED
             }
         }), Encoding.UTF8, JsonContentType);
 
-        return await ProcessRequestAsync<TaxpayerResponse, Taxpayer>(
+        return await ProcessRequestAsync<ContentWrapper<TaxpayerResponse>, Taxpayer>(
             method: HttpMethod.Patch,
             endpoint: TaxpayerEndpoint,
             successFunc: r => r.MapTaxpayerResponse(),
@@ -118,7 +119,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     public async Task<ResponseResult<Signer>> CreateSignerAsync(AccessToken token, Guid? signerId = null, CancellationToken cancellationToken = default)
     {
         var requestBody = new StringContent(string.Empty);
-        return await ProcessRequestAsync<SignerResponse, Signer>(
+        return await ProcessRequestAsync<ContentWrapper<SignerDataResponse>, Signer>(
             method: HttpMethod.Put,
             endpoint: $"{SignersEndpoint}/{signerId ?? Guid.NewGuid()}",
             successFunc: r => r.MapSignerResponse(),
@@ -130,7 +131,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<Signer>> GetSignerByIdAsync(AccessToken token, Guid signerId, CancellationToken cancellationToken = default)
     {
-        return await ProcessRequestAsync<SignerResponse, Signer>(
+        return await ProcessRequestAsync<ContentWrapper<SignerDataResponse>, Signer>(
             method: HttpMethod.Get,
             endpoint: $"{SignersEndpoint}/{signerId}",
             request: null,
@@ -154,15 +155,15 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<Signer>> DisableSignerAsync(AccessToken token, Guid signerId, CancellationToken cancellationToken = default)
     {
-        var requestBody = new StringContent(JsonSerializer.Serialize(new UpdateSignerRequest
+        var requestBody = new StringContent(JsonSerializer.Serialize(new ContentWrapper<UpdateSignerRequest>
         {
-            Data = new UpdateSignerRequestData
+            Content = new UpdateSignerRequest
             {
                 State = SignerState.DISABLED
             }
         }), Encoding.UTF8, JsonContentType);
         
-        return await ProcessRequestAsync<SignerResponse, Signer>(
+        return await ProcessRequestAsync<ContentWrapper<SignerDataResponse>, Signer>(
             method: HttpMethod.Patch,
             endpoint: $"{SignersEndpoint}/{signerId}",
             successFunc: r => r.MapSignerResponse(),
@@ -176,7 +177,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     {
         var requestBody = new StringContent(string.Empty);
 
-        return await ProcessRequestAsync<ClientResponse, ClientDevice>(
+        return await ProcessRequestAsync<ContentWrapper<ClientResponse>, ClientDevice>(
             method: HttpMethod.Put,
             endpoint: $"{ClientsEndpoint}/{clientId ?? Guid.NewGuid()}",
             successFunc: r => r.MapClientDeviceResponse(),
@@ -188,7 +189,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<ClientDevice>> GetClientByIdAsync(AccessToken token, Guid clientId, CancellationToken cancellationToken = default)
     {
-        return await ProcessRequestAsync<ClientResponse, ClientDevice>(
+        return await ProcessRequestAsync<ContentWrapper<ClientResponse>, ClientDevice>(
             method: HttpMethod.Get,
             endpoint: $"{ClientsEndpoint}/{clientId}",
             request: null,
@@ -212,15 +213,15 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<ClientDevice>> DisableClientAsync(AccessToken token, Guid clientId, CancellationToken cancellationToken = default)
     {
-        var requestBody = new StringContent(JsonSerializer.Serialize(new UpdateClientRequest
+        var requestBody = new StringContent(JsonSerializer.Serialize(new ContentWrapper<UpdateClientRequest>
         {
-            Data = new UpdateClientRequestData
+            Content = new UpdateClientRequest
             {
                 State = ClientState.DISABLED
             }
         }), Encoding.UTF8, JsonContentType);
         
-        return await ProcessRequestAsync<ClientResponse, ClientDevice>(
+        return await ProcessRequestAsync<ContentWrapper<ClientResponse>, ClientDevice>(
             method: HttpMethod.Patch,
             endpoint: $"{ClientsEndpoint}/{clientId}",
             successFunc: r => r.MapClientDeviceResponse(),
@@ -270,7 +271,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     
     public async Task<ResponseResult<SoftwareAuditData>> GetSoftwareAuditDataAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
-        return await ProcessRequestAsync<SoftwareResponse, SoftwareAuditData>(
+        return await ProcessRequestAsync<ContentWrapper<SoftwareDataResponse>, SoftwareAuditData>(
             method: HttpMethod.Get,
             endpoint: SoftwareEndpoint,
             request: null,

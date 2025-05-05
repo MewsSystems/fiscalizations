@@ -13,10 +13,11 @@ public class ManagementApiClient(HttpClient httpClient, string apiKey, string ap
     private const string BaseUrl = "https://dashboard.fiskaly.com/api/v0";
 
     private const string AuthEndpoint = "auth";
+    private const string OrganizationsEndpoint = "organizations";
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
 
-    public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync(CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<AccessToken>> AuthenticateAsync(CancellationToken cancellationToken = default)
     {
         var request = new AuthorizationTokenRequest
         {
@@ -30,6 +31,18 @@ public class ManagementApiClient(HttpClient httpClient, string apiKey, string ap
             request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
             successFunc: r => r.MapAuthResponse(),
             cancellationToken: cancellationToken
+        );
+    }
+    
+    public async Task<ResponseResult<AccessToken>> GetOrganizationListAsync(AccessToken token, CancellationToken cancellationToken = default)
+    {
+        return await ProcessRequestAsync<AuthorizationTokenResponse, AccessToken>(
+            method: HttpMethod.Get,
+            endpoint: OrganizationsEndpoint,
+            request: null,
+            successFunc: r => r.MapAuthResponse(),
+            cancellationToken: cancellationToken,
+            token: token
         );
     }
     

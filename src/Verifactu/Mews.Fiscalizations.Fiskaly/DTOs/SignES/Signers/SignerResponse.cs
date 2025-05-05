@@ -3,13 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signers;
 
-internal sealed class SignerResponse
-{
-    [JsonPropertyName("content")]
-    public SignerData SignerData { get; init; }
-}
-
-internal sealed class SignerData
+internal sealed class SignerDataResponse
 {
     [JsonPropertyName("id")]
     public Guid Id { get; init; }

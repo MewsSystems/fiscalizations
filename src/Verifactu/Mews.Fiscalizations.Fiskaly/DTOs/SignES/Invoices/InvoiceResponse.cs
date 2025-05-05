@@ -18,7 +18,7 @@ internal sealed class InvoiceResponseData
     public Guid Id { get; init; }
 
     [JsonPropertyName("signer")]
-    public SignES.ClientDevices.Signer Signer { get; init; }
+    public ClientDevices.Signer Signer { get; init; }
 
     [JsonPropertyName("client")]
     public Client Client { get; init; }

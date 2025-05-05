@@ -4,12 +4,6 @@ namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoices;
 
 internal sealed class SimplifiedInvoiceRequest
 {
-    [JsonPropertyName("content")]
-    public SimplifiedInvoiceData Content { get; init; }
-}
-
-internal sealed class SimplifiedInvoiceData
-{
     [JsonPropertyName("type")]
     public string Type => "SIMPLIFIED";
 

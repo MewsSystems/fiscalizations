@@ -1,3 +1,4 @@
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayers;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers;
 using TaxpayerState = Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers.TaxpayerState;
@@ -7,11 +8,11 @@ namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.Taxpayers;
 
 internal static class TaxpayerMapper
 {
-    public static CreateTaxpayerRequest MapTaxpayerRequest(string legalName, string taxIdentifier, TaxpayerTerritory territory)
+    public static ContentWrapper<CreateTaxpayerRequest> MapTaxpayerRequest(string legalName, string taxIdentifier, TaxpayerTerritory territory)
     {
-        return new CreateTaxpayerRequest
+        return new ContentWrapper<CreateTaxpayerRequest>
         {
-            Data = new TaxpayerDataRequest
+            Content = new CreateTaxpayerRequest
             {
                 Issuer = new TaxpayerIssuer
                 {
@@ -23,7 +24,7 @@ internal static class TaxpayerMapper
         };
     }
     
-    public static Taxpayer MapTaxpayerResponse(this TaxpayerResponse response)
+    public static Taxpayer MapTaxpayerResponse(this ContentWrapper<TaxpayerResponse> response)
     {
         return new Taxpayer(
             LegalName: response.Content.Issuer.LegalName,

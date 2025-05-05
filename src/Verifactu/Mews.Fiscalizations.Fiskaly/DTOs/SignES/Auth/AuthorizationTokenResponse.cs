@@ -4,12 +4,6 @@ namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Auth;
 
 internal sealed class AuthorizationTokenResponse
 {
-    [JsonPropertyName("content")]
-    public AuthorizationTokenDataResponse DataResponse { get; init; }
-}
-
-internal sealed class AuthorizationTokenDataResponse
-{
     [JsonPropertyName("access_token")]
     public AccessTokenResponse AccessTokenResponse { get; init; }
 

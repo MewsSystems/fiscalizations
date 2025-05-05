@@ -1,4 +1,5 @@
 using System.Globalization;
+using Mews.Fiscalizations.Fiskaly.DTOs.SignES;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoices;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices;
 using InvoiceErrorCode = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.InvoiceErrorCode;
@@ -12,11 +13,11 @@ namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.Invoices;
 
 internal static class InvoiceMapper
 {
-    public static SimplifiedInvoiceRequest MapSimplifiedInvoiceRequest(SimplifiedInvoice simplifiedInvoice)
+    public static ContentWrapper<SimplifiedInvoiceRequest> MapSimplifiedInvoiceRequest(SimplifiedInvoice simplifiedInvoice)
     {
-        return new SimplifiedInvoiceRequest
+        return new ContentWrapper<SimplifiedInvoiceRequest>
         {
-            Content = new SimplifiedInvoiceData
+            Content = new SimplifiedInvoiceRequest
             {
                 Text = simplifiedInvoice.InvoiceDescription,
                 Number = simplifiedInvoice.InvoiceNumber,
@@ -26,11 +27,11 @@ internal static class InvoiceMapper
         };
     }
     
-    public static CompleteInvoiceRequest MapCompleteInvoiceRequest(CompleteInvoice completeInvoice)
+    public static ContentWrapper<CompleteInvoiceRequest> MapCompleteInvoiceRequest(CompleteInvoice completeInvoice)
     {
-        return new CompleteInvoiceRequest
+        return new ContentWrapper<CompleteInvoiceRequest>
         {
-            Content = new CompleteInvoiceData
+            Content = new CompleteInvoiceRequest
             {
                 Data = MapSimplifiedInvoiceRequest(completeInvoice.simplifiedInvoice).Content,
                 Recipients = completeInvoice.Receivers.Select(r => r.MapReceiverRequest()).ToList()

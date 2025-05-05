@@ -2,22 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Audit;
 
-internal sealed class SoftwareResponse
-{
-    [JsonPropertyName("content")]
-    public SoftwareData Data { get; init; }
-}
-
-internal sealed class Company
-{
-    [JsonPropertyName("legal_name")]
-    public string LegalName { get; init; }
-
-    [JsonPropertyName("tax_number")]
-    public string TaxNumber { get; init; }
-}
-
-internal sealed class SoftwareData
+internal sealed class SoftwareDataResponse
 {
     [JsonPropertyName("company")]
     public Company Company { get; init; }
@@ -33,4 +18,13 @@ internal sealed class SoftwareData
 
     [JsonPropertyName("responsibility_declaration")]
     public string ResponsibilityDeclaration { get; init; }
+}
+
+internal sealed class Company
+{
+    [JsonPropertyName("legal_name")]
+    public string LegalName { get; init; }
+
+    [JsonPropertyName("tax_number")]
+    public string TaxNumber { get; init; }
 }

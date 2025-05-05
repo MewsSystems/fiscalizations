@@ -4,12 +4,6 @@ namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.ClientDevices;
 
 internal sealed class ClientResponse
 {
-    [JsonPropertyName("content")]
-    public ClientData ClientData { get; init; }
-}
-
-internal sealed class ClientData
-{
     [JsonPropertyName("id")]
     public Guid Id { get; init; }
 

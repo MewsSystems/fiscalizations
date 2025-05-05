@@ -4,17 +4,11 @@ namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoices;
 
 internal sealed class CompleteInvoiceRequest
 {
-    [JsonPropertyName("content")]
-    public CompleteInvoiceData Content { get; init; }
-}
-
-internal sealed class CompleteInvoiceData
-{
     [JsonPropertyName("type")]
     public string Type => "COMPLETE";
 
     [JsonPropertyName("data")]
-    public SimplifiedInvoiceData Data { get; init; }
+    public SimplifiedInvoiceRequest Data { get; init; }
 
     [JsonPropertyName("recipients")]
     public List<RecipientRequest> Recipients { get; init; }

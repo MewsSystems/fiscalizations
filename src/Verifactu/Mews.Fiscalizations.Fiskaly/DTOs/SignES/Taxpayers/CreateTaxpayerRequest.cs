@@ -4,12 +4,6 @@ namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayers;
 
 internal sealed class CreateTaxpayerRequest
 {
-    [JsonPropertyName("content")]
-    public TaxpayerDataRequest Data { get; init; }
-}
-
-internal sealed class TaxpayerDataRequest
-{
     [JsonPropertyName("issuer")]
     public TaxpayerIssuer Issuer { get; init; }
 
