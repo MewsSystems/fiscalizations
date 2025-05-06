@@ -82,7 +82,7 @@ public class ManagementApiClient(HttpClient httpClient, string apiKey, string ap
             ManagedByOrganizationId = managedByOrganizationId.ToString()
         };
 
-        return await ProcessRequestAsync<CreateManagedOrganizationApiKeyResponse, ResponseResult<ManagedOrganizationApiKey>>(
+        return await ProcessRequestAsync<CreateManagedOrganizationApiKeyResponse, ManagedOrganizationApiKey>(
             method: HttpMethod.Post,
             endpoint: $"{OrganizationsEndpoint}/{organizationId}/{ApiKeysEndpoint}",
             request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
