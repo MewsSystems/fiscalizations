@@ -14,7 +14,10 @@ public class SignESTestFixture
     [OneTimeSetUp]
     public async Task SetUpSignESTestDataAsync()
     {
-        await DisableResources();
+        // var httpClient = new HttpClient();
+        // var signEsApiClient = new SignESApiClient(httpClient, FiskalyEnvironment.Test, TestFixture.ApiKey, TestFixture.ApiSecret);
+        // var accessToken = (await signEsApiClient.GetAccessTokenAsync()).SuccessResult;
+        
     }
 
     [OneTimeTearDown]
@@ -26,20 +29,20 @@ public class SignESTestFixture
     private async Task DisableResources()
     {
         
-        var httpClient = new HttpClient();
-        var signEsApiClient = new SignESApiClient(httpClient, FiskalyEnvironment.Test, "", "");
-        var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).SuccessResult;
-
-        var allSigners = await signEsApiClient.GetAllSignersAsync(accessTokenResult);
-        foreach (var signer in allSigners.SuccessResult)
-        {
-            await signEsApiClient.DisableSignerAsync(accessTokenResult, signer.Id);
-        }
-
-        var allClients = await signEsApiClient.GetAllClientsAsync(accessTokenResult);
-        foreach (var client in allClients.SuccessResult)
-        {
-            await signEsApiClient.DisableClientAsync(accessTokenResult, client.ClientId);
-        }
+        // var httpClient = new HttpClient();
+        // var signEsApiClient = new SignESApiClient(httpClient, FiskalyEnvironment.Test, TestFixture.ApiKey, TestFixture.ApiSecret);
+        // var accessTokenResult = (await signEsApiClient.GetAccessTokenAsync()).SuccessResult;
+        //
+        // var allSigners = await signEsApiClient.GetAllSignersAsync(accessTokenResult);
+        // foreach (var signer in allSigners.SuccessResult)
+        // {
+        //     await signEsApiClient.DisableSignerAsync(accessTokenResult, signer.Id);
+        // }
+        //
+        // var allClients = await signEsApiClient.GetAllClientsAsync(accessTokenResult);
+        // foreach (var client in allClients.SuccessResult)
+        // {
+        //     await signEsApiClient.DisableClientAsync(accessTokenResult, client.ClientId);
+        // }
     }
 }
