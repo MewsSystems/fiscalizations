@@ -102,7 +102,7 @@ public class ManagementApiClient(HttpClient httpClient, string apiKey, string ap
         where TDto : class
         where TResult : class
     {
-        var uri = new Uri($"{BaseUrl}{endpoint}");
+        var uri = new Uri($"{BaseUrl}/{endpoint}");
         var requestMessage = new HttpRequestMessage(method, uri);
         
         if (method != HttpMethod.Get)

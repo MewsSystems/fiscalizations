@@ -7,7 +7,7 @@ using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Auth;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.ClientDevices;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Signers;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Taxpayers;
-using Mews.Fiscalizations.Fiskaly.Mappers;
+using Mews.Fiscalizations.Fiskaly.Mappers.SignES;
 using Mews.Fiscalizations.Fiskaly.Mappers.SignES.Audit;
 using Mews.Fiscalizations.Fiskaly.Mappers.SignES.Auth;
 using Mews.Fiscalizations.Fiskaly.Mappers.SignES.ClientDevices;
@@ -95,7 +95,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
             cancellationToken: cancellationToken
         );
     }
-
+    
     public async Task<ResponseResult<Taxpayer>> DisableTaxpayerAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(new ContentWrapper<UpdateTaxpayerRequest>()
@@ -118,7 +118,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<Signer>> CreateSignerAsync(AccessToken token, Guid? signerId = null, CancellationToken cancellationToken = default)
     {
-        var requestBody = new StringContent(string.Empty);
+        var requestBody = new StringContent("{ }", Encoding.UTF8, JsonContentType);
         return await ProcessRequestAsync<ContentWrapper<SignerDataResponse>, Signer>(
             method: HttpMethod.Put,
             endpoint: $"{SignersEndpoint}/{signerId ?? Guid.NewGuid()}",
@@ -269,6 +269,24 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         );
     }
     
+    public async Task<ResponseResult<InvoiceResponse>> CancelInvoiceAsync(
+        AccessToken token,
+        Guid clientId,
+        Guid invoiceId,
+        CancellationToken cancellationToken = default)
+    {
+        var requestBody = new StringContent(JsonSerializer.Serialize("{ }"), Encoding.UTF8, JsonContentType);
+
+        return await ProcessRequestAsync<DTOs.SignES.Invoices.InvoiceResponse, InvoiceResponse>(
+            method: HttpMethod.Patch,
+            endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
+            successFunc: r => r.MapInvoiceResponse(),
+            token: token,
+            request: requestBody,
+            cancellationToken: cancellationToken
+        );
+    }
+    
     public async Task<ResponseResult<SoftwareAuditData>> GetSoftwareAuditDataAsync(AccessToken token, CancellationToken cancellationToken = default)
     {
         return await ProcessRequestAsync<ContentWrapper<SoftwareDataResponse>, SoftwareAuditData>(
@@ -309,6 +327,6 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         
         return httpResponse.IsSuccessStatusCode ?
             new ResponseResult<TResult>(successResult: successFunc(JsonSerializer.Deserialize<TDto>(content))) :
-            new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<DTOs.FiskalyErrorResponse>(content).MapErrorResponse());
+            new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<ContentWrapper<SignESErrorResponse>>(content).Content.MapSignESErrorResponse());
     }
 }
