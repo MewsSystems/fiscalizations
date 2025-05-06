@@ -11,6 +11,7 @@ namespace Mews.Fiscalizations.Fiskaly.Tests.SignES;
 public class Test1
 {
     [Test]
+    [Ignore("Ignore test because it creates data in the test environment.")]
     public async Task Test1Async()
     {
         var httpClient = new HttpClient();
