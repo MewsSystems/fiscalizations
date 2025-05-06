@@ -2,9 +2,12 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Mews.Fiscalizations.Fiskaly.DTOs.Management.Auth;
+using Mews.Fiscalizations.Fiskaly.DTOs.Management.Organizations;
 using Mews.Fiscalizations.Fiskaly.Mappers;
 using Mews.Fiscalizations.Fiskaly.Mappers.Management.Auth;
+using Mews.Fiscalizations.Fiskaly.Mappers.Management.Organizations;
 using Mews.Fiscalizations.Fiskaly.Models;
+using Mews.Fiscalizations.Fiskaly.Models.Management.Organizations;
 
 namespace Mews.Fiscalizations.Fiskaly.APIClients;
 
@@ -14,6 +17,7 @@ public class ManagementApiClient(HttpClient httpClient, string apiKey, string ap
 
     private const string AuthEndpoint = "auth";
     private const string OrganizationsEndpoint = "organizations";
+    private const string ApiKeysEndpoint = "api-keys";
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
 
@@ -34,13 +38,55 @@ public class ManagementApiClient(HttpClient httpClient, string apiKey, string ap
         );
     }
     
-    public async Task<ResponseResult<AccessToken>> GetOrganizationListAsync(AccessToken token, CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<ManagedOrganization>> CreateManagedOrganizationAsync(
+        AccessToken token,
+        string name,
+        string addressLine1,
+        string town,
+        string zip,
+        string countryCode,
+        Guid managedByOrganizationId,
+        CancellationToken cancellationToken = default)
     {
-        return await ProcessRequestAsync<AuthorizationTokenResponse, AccessToken>(
-            method: HttpMethod.Get,
+        var request = new CreateManagedOrganizationRequest
+        {
+            Name = name,
+            AddressLine1 = addressLine1,
+            Town = town,
+            Zip = zip,
+            CountryCode = countryCode,
+            ManagedByOrganizationId = managedByOrganizationId.ToString() 
+        };
+        
+        return await ProcessRequestAsync<CreateManagedOrganizationResponse, ManagedOrganization>(
+            method: HttpMethod.Post,
             endpoint: OrganizationsEndpoint,
-            request: null,
-            successFunc: r => r.MapAuthResponse(),
+            request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
+            successFunc: r => r.MapManagedOrganization(),
+            cancellationToken: cancellationToken,
+            token: token
+        );
+    }
+    
+    public async Task<ResponseResult<ManagedOrganizationApiKey>> CreateManagedOrganizationApiKeyAsync(
+        AccessToken token,
+        string apiKeyName,
+        Guid organizationId,
+        Guid managedByOrganizationId,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new CreateManagedOrganizationApiKeyRequest
+        {
+            Name = apiKeyName,
+            Status = ApiKeyStatusEnum.enabled,
+            ManagedByOrganizationId = managedByOrganizationId.ToString()
+        };
+
+        return await ProcessRequestAsync<CreateManagedOrganizationApiKeyResponse, ResponseResult<ManagedOrganizationApiKey>>(
+            method: HttpMethod.Post,
+            endpoint: $"{OrganizationsEndpoint}/{organizationId}/{ApiKeysEndpoint}",
+            request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
+            successFunc: r => r.MapManagedOrganizationApiKey(),
             cancellationToken: cancellationToken,
             token: token
         );
@@ -68,6 +114,7 @@ public class ManagementApiClient(HttpClient httpClient, string apiKey, string ap
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthSchema, token.Value);
         }
+
         var httpResponse = await httpClient.SendAsync(requestMessage, cancellationToken);
         
         var content = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
