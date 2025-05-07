@@ -145,6 +145,6 @@ public class InvoiceTests
         
         _authToken = (await _signEsApiClient.GetAccessTokenAsync()).SuccessResult;
         
-        _clientId = _signEsApiClient.GetAllClientsAsync(_authToken, CancellationToken.None).Result.SuccessResult.First().ClientId;
+        _clientId = (await _signEsApiClient.GetAllClientsAsync(_authToken, CancellationToken.None)).SuccessResult?.FirstOrDefault()?.ClientId ?? Guid.NewGuid();
     }
 }
