@@ -39,6 +39,13 @@
     <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Invoice\SimplifiedInvoice.cs" />
+    <Compile Remove="Models\Invoice\LocalReceiver.cs" />
+    <Compile Remove="Models\Invoice\InvoiceResponse.cs" />
+    <Compile Remove="Models\Invoice\ForeignReceiver.cs" />
+  </ItemGroup>
+
   <PropertyGroup>
     <PackageId>Mews.Fiscalizations.Hungary</PackageId>
     <Company>Mews</Company>
