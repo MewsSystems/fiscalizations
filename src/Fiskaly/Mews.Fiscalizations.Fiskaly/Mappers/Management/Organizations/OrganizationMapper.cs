@@ -22,9 +22,9 @@ public static class OrganizationMapper
             EconomyId = response.EconomyId,
             TaxNumber = response.TaxNumber,
             VatId = response.VatId,
-            BillingAddressId = Guid.Parse(response.BillingAddressId),
-            ContactPersonId = Guid.Parse(response.ContactPersonId),
-            CreatedByUser = Guid.Parse(response.CreatedByUser)
+            BillingAddressId = string.IsNullOrWhiteSpace(response.BillingAddressId) ? null : Guid.Parse(response.BillingAddressId),
+            ContactPersonId = string.IsNullOrWhiteSpace(response.ContactPersonId) ? null : Guid.Parse(response.ContactPersonId),
+            CreatedByUser = string.IsNullOrWhiteSpace(response.CreatedByUser) ? null : Guid.Parse(response.CreatedByUser)
         };
     }
     

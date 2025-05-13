@@ -10,7 +10,7 @@ public class ManagedOrganization
 
     public string VatId { get; set; }
 
-    public Guid ContactPersonId { get; set; }
+    public Guid? ContactPersonId { get; set; }
 
     public string AddressLine1 { get; set; }
 
@@ -28,9 +28,9 @@ public class ManagedOrganization
 
     public string EconomyId { get; set; }
 
-    public Guid BillingAddressId { get; set; }
+    public Guid? BillingAddressId { get; set; }
 
     public Guid ManagedByOrganizationId { get; set; }
 
-    public Guid CreatedByUser { get; set; }
+    public Guid? CreatedByUser { get; set; }
 }
