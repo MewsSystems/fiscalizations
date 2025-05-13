@@ -175,7 +175,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     public async Task<ResponseResult<ClientDevice>> CreateClientAsync(AccessToken token, Guid? clientId = null, CancellationToken cancellationToken = default)
     {
-        var requestBody = new StringContent(string.Empty);
+        var requestBody = new StringContent("{ }", Encoding.UTF8, JsonContentType);
 
         return await ProcessRequestAsync<ContentWrapper<ClientResponse>, ClientDevice>(
             method: HttpMethod.Put,
