@@ -269,6 +269,22 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         );
     }
     
+    public async Task<ResponseResult<InvoiceResponse>> GetInvoiceAsync(
+        AccessToken token,
+        Guid clientId,
+        Guid invoiceId,
+        CancellationToken cancellationToken = default)
+    {
+        return await ProcessRequestAsync<DTOs.SignES.Invoices.InvoiceResponse, InvoiceResponse>(
+            method: HttpMethod.Get,
+            endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
+            successFunc: r => r.MapInvoiceResponse(),
+            token: token,
+            request: null,
+            cancellationToken: cancellationToken
+        );
+    }
+    
     public async Task<ResponseResult<InvoiceResponse>> CancelInvoiceAsync(
         AccessToken token,
         Guid clientId,
