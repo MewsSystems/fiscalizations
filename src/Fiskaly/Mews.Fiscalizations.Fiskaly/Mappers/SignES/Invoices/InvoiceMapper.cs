@@ -2,7 +2,6 @@ using System.Globalization;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoices;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices;
-using InvoiceErrorCode = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.InvoiceErrorCode;
 using InvoiceResponse = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.InvoiceResponse;
 using InvoiceState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.InvoiceState;
 using SignedInvoiceCancellationState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.SignedInvoiceCancellationState;
@@ -58,7 +57,7 @@ internal static class InvoiceMapper
                 CancellationState: response.Content.Transmission.Cancellation.MapSignedInvoiceCancellationState()
             ),
             Validations: response.Content.Validations.Select(v => new InvoiceValidationData(
-                ErrorCode: v.Code.MapInvoiceErrorCode(),
+                ErrorCode: v.Code,
                 Description: v.Description
             ))
         );
@@ -184,46 +183,6 @@ internal static class InvoiceMapper
             DTOs.SignES.Invoices.SignedInvoiceCancellationState.STORED => SignedInvoiceCancellationState.Stored,
             DTOs.SignES.Invoices.SignedInvoiceCancellationState.INVALID => SignedInvoiceCancellationState.Invalid,
             _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
-        };
-    }
-
-    private static InvoiceErrorCode MapInvoiceErrorCode(this DTOs.SignES.Invoices.InvoiceErrorCode code)
-    {
-        return code switch
-        {
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INCORRECT_SENDER_CERTIFICATE => InvoiceErrorCode.IncorrectSenderCertificate,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_XSD_SCHEMA_NOT_COMPLY => InvoiceErrorCode.XsdSchemaNotComply,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVOICE_WITHOUT_LINES => InvoiceErrorCode.InvoiceWithoutLines,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_REQUIRED_FIELD_MISSING_OR_INCORRECT => InvoiceErrorCode.RequiredFieldIncorrectOrMissing,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVOICE_ALREADY_REGISTERED => InvoiceErrorCode.InvoiceAlreadyRegistered,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVOICE_ALREADY_CANCELLED => InvoiceErrorCode.InvoiceAlreadyCancelled,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_SERVICE_NOT_AVAILABLE => InvoiceErrorCode.ServiceNotAvailable,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVALID_SENDER_CERTIFICATE => InvoiceErrorCode.InvalidSenderCertificate,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_WRONG_SIGNATURE => InvoiceErrorCode.WrongSignature,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INCORRECT_INVOICE_CHAINING => InvoiceErrorCode.IncorrectInvoiceChaining,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_BUSINESS_VALIDATION_DATA_ERROR => InvoiceErrorCode.BusinessValidationError,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_DEVICE_NOT_REGISTERED => InvoiceErrorCode.DeviceNotRegistered,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_EXPIRED_SIGNATURE_CERTIFICATE => InvoiceErrorCode.ExpiredSignatureCertificate,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_EXPIRED_SENDER_CERTIFICATE => InvoiceErrorCode.ExpiredSenderCertificate,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_EXPIRED_SIGNER_CERTIFICATE => InvoiceErrorCode.ExpiredSignerCertificate,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_MISSING_OR_INCORRECT_DATA => InvoiceErrorCode.MissingOrIncorrectData,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_MESSAGE_TOO_LONG => InvoiceErrorCode.MessageTooLong,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVOICE_NOT_REGISTERED => InvoiceErrorCode.InvoiceNotRegistered,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVOICE_ALREADY_CORRECTED => InvoiceErrorCode.InvoiceAlreadyCorrected,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVOICE_ALREADY_CANCELLED_CERT_ERROR => InvoiceErrorCode.InvoiceAlreadyCancelledCertError,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_FULL_AMOUNT_MISMATCH => InvoiceErrorCode.FullAmountMismatch,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_ISSUE_DATE_OUT_OF_RANGE => InvoiceErrorCode.IssueDateOutOfRange,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVALID_VAT_RATE => InvoiceErrorCode.InvalidVatRate,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INTERNATIONAL_RECIPIENT_SPAIN_ID_TYPE_ERROR => InvoiceErrorCode.InternationalRecipientSpainIdTypeError,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INCOMPATIBLE_VAT_SYSTEMS => InvoiceErrorCode.IncompatibleVatSystems,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_TOO_MANY_VAT_SYSTEMS => InvoiceErrorCode.TooManyVatSystems,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INCORRECT_ITEM_VAT_CALCULATION => InvoiceErrorCode.IncorrectItemVatCalculation,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_INVALID_CORRECTION_TYPE_FOR_COUPON => InvoiceErrorCode.InvalidCorrectionTypeForCoupon,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_REGISTRATION_REMEDY_ALREADY_EXISTS => InvoiceErrorCode.RegistrationRemedyAlreadyExists,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_FILE_TO_REMEDY_DOES_NOT_EXIST => InvoiceErrorCode.FileToRemedyDoesNotExist,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_CANCELLATION_REMEDY_ALREADY_EXISTS => InvoiceErrorCode.CancellationRemedyAlreadyExists,
-            DTOs.SignES.Invoices.InvoiceErrorCode.V_CANNOT_REMEDY_BASIC_DATA => InvoiceErrorCode.CannotRemedyBasicData,
-            _ => throw new ArgumentOutOfRangeException(nameof(code), code, null)
         };
     }
 }
