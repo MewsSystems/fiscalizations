@@ -137,6 +137,41 @@ public class InvoiceTests
         Assert.That(canceledInvoiceResponse.IsSuccess);
     }
     
+    [Test]
+    [CancelAfter(1000)]
+    [Ignore("Ignore test because Taxpayer is disabled")]
+    public async Task GetInvoiceSuccessfulAsync(CancellationToken token)
+    {
+        var completeForeignInvoice = new CompleteInvoice(
+            simplifiedInvoice: new SimplifiedInvoice(
+                InvoiceNumber: "6",
+                InvoiceDescription: "Test invoice",
+                FullAmount: 1000,
+                Items:
+                [
+                    new InvoiceItem(
+                        ItemDescription: "Test item",
+                        Quantity: 1,
+                        UnitAmount: 1000,
+                        FullAmount: 1000,
+                        TaxExemptionReason: TaxExemptionReason.OtherGrounds,
+                        TaxRate: null
+                    )
+                ]
+            ),
+            Receivers:
+            [
+                Receiver.CreateForeign("foreign", ForeignerDocumentType.Passport, "A12345678", "DE", "Berlin, Germany", "12345")
+            ]
+        );
+
+        var createdInvoice = await _signEsApiClient.SendCompleteInvoiceAsync(_authToken, completeForeignInvoice, _clientId, Guid.NewGuid(), token);
+        Assert.That(createdInvoice.IsSuccess);
+        
+        var retrievedInvoiceResponse = await _signEsApiClient.GetInvoiceAsync(_authToken, _clientId, createdInvoice.SuccessResult.InvoiceId, token);
+        Assert.That(retrievedInvoiceResponse.IsSuccess);
+    }
+    
     [OneTimeSetUp]
     public async Task SetUpAsync()
     {
