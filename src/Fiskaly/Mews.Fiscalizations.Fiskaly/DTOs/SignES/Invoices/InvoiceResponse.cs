@@ -148,8 +148,7 @@ internal sealed class Transmission
 internal sealed class Validation
 {
     [JsonPropertyName("code")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public InvoiceErrorCode Code { get; init; }
+    public string Code { get; init; }
 
     [JsonPropertyName("description")]
     public string Description { get; init; }
