@@ -38,6 +38,34 @@ internal static class InvoiceMapper
         };
     }
     
+    public static ContentWrapper<CorrectingInvoiceRequest<SimplifiedInvoiceRequest>> MapCorrectingSimplifiedInvoiceRequest(CorrectingSimplifiedInvoice invoice)
+    {
+        return new ContentWrapper<CorrectingInvoiceRequest<SimplifiedInvoiceRequest>>
+        {
+            Content = new CorrectingInvoiceRequest<SimplifiedInvoiceRequest>
+            {
+                InvoiceId = invoice.InvoiceId,
+                Invoice = MapSimplifiedInvoiceRequest(invoice.Invoice).Content,
+                CorrectionMethod = CorrectionMethodEnum.SUBSTITUTION,
+                CorrectingInvoiceCode = CorrectingInvoiceCodeEnum.CORRECTION_4
+            }
+        };
+    }
+    
+    public static ContentWrapper<CorrectingInvoiceRequest<CompleteInvoiceRequest>> MapCorrectingCompleteInvoiceRequest(CorrectingCompleteInvoice invoice)
+    {
+        return new ContentWrapper<CorrectingInvoiceRequest<CompleteInvoiceRequest>>
+        {
+            Content = new CorrectingInvoiceRequest<CompleteInvoiceRequest>
+            {
+                InvoiceId = invoice.InvoiceId,
+                Invoice = MapCompleteInvoiceRequest(invoice.Invoice).Content,
+                CorrectionMethod = CorrectionMethodEnum.SUBSTITUTION,
+                CorrectingInvoiceCode = CorrectingInvoiceCodeEnum.CORRECTION_4
+            }
+        };
+    }
+    
     public static InvoiceResponse MapInvoiceResponse(this DTOs.SignES.Invoices.InvoiceResponse response)
     {
         return new InvoiceResponse(
