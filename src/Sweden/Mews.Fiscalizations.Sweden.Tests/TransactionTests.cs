@@ -14,7 +14,7 @@ namespace Mews.Fiscalizations.Sweden.Tests
 
         private static readonly X509Certificate2 TransactionCertificate = new(
             rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_certificate_data") ?? "CERTIFICATE_DATA"),
-            password: System.Environment.GetEnvironmentVariable("infrasec_certificate_password") ?? "CERTIFICATE_PASSWORD"
+            password: System.Environment.GetEnvironmentVariable("infrasec_certificate_password")
         );
 
         private static readonly string OrganizationRegisterId = System.Environment.GetEnvironmentVariable("infrasec_register_id") ?? "REGISTER_ID";

@@ -13,12 +13,12 @@ public sealed class EnrollmentTests
 
     private static readonly X509Certificate2 EnrollmentCertificate = new(
         rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_enrollment_certificate_data") ?? "ENROLLMENT_CERTIFICATE_DATA"),
-        password: System.Environment.GetEnvironmentVariable("infrasec_enrollment_certificate_password") ?? "ENROLLMENT_CERTIFICATE_PASSWORD"
+        password: System.Environment.GetEnvironmentVariable("infrasec_enrollment_certificate_password")
     );
 
     private static readonly X509Certificate2 EnrollmentSigningCertificate = new(
         rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_enrollment_signing_certificate_data") ?? "ENROLLMENT_SIGNING_CERTIFICATE_DATA"),
-        password: "NoKeyPassword"
+        password: System.Environment.GetEnvironmentVariable("infrasec_enrollment_signing_certificate_password")
     );
 
     private static readonly string PartnerCode = System.Environment.GetEnvironmentVariable("infrasec_partner_code") ?? "PARTNER_CODE";
