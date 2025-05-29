@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Mews.Fiscalizations.Fiskaly.DTOs.SignES.Invoices;
 
-internal sealed class SimplifiedInvoiceRequest
+internal class SimplifiedInvoiceRequest
 {
     [JsonPropertyName("type")]
     public string Type => "SIMPLIFIED";
