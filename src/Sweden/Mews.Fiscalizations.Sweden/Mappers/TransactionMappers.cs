@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using FuncSharp;
 using Mews.Fiscalizations.Sweden.Models;
 
@@ -79,6 +80,7 @@ internal static class TransactionMappers
 
     private static string ToAmountString(decimal? amount)
     {
-        return amount?.ToString("N2", Culture) ?? "0,00";
+        var value = amount?.ToString("N2", Culture) ?? "0,00";
+        return Regex.Replace(value, @"\s+", "");
     }
 }
