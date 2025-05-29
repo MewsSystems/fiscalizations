@@ -269,6 +269,44 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         );
     }
     
+    public async Task<ResponseResult<InvoiceResponse>> SendCorrectingSimplifiedInvoiceAsync(
+        AccessToken token,
+        CorrectingSimplifiedInvoice invoice,
+        Guid clientId,
+        Guid invoiceId,
+        CancellationToken cancellationToken = default)
+    {
+        var requestBody = new StringContent(JsonSerializer.Serialize(InvoiceMapper.MapCorrectingSimplifiedInvoiceRequest(invoice)), Encoding.UTF8, JsonContentType);
+
+        return await ProcessRequestAsync<DTOs.SignES.Invoices.InvoiceResponse, InvoiceResponse>(
+            method: HttpMethod.Put,
+            endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
+            successFunc: r => r.MapInvoiceResponse(),
+            token: token,
+            request: requestBody,
+            cancellationToken: cancellationToken
+        );
+    }
+    
+    public async Task<ResponseResult<InvoiceResponse>> SendCorrectingCompleteInvoiceAsync(
+        AccessToken token,
+        CorrectingCompleteInvoice invoice,
+        Guid clientId,
+        Guid invoiceId,
+        CancellationToken cancellationToken = default)
+    {
+        var requestBody = new StringContent(JsonSerializer.Serialize(InvoiceMapper.MapCorrectingCompleteInvoiceRequest(invoice)), Encoding.UTF8, JsonContentType);
+
+        return await ProcessRequestAsync<DTOs.SignES.Invoices.InvoiceResponse, InvoiceResponse>(
+            method: HttpMethod.Put,
+            endpoint: $"{ClientsEndpoint}/{clientId}/invoices/{invoiceId}",
+            successFunc: r => r.MapInvoiceResponse(),
+            token: token,
+            request: requestBody,
+            cancellationToken: cancellationToken
+        );
+    }
+    
     public async Task<ResponseResult<InvoiceResponse>> GetInvoiceAsync(
         AccessToken token,
         Guid clientId,
