@@ -47,7 +47,8 @@ internal static class InvoiceMapper
                 InvoiceId = invoice.InvoiceId,
                 Invoice = MapSimplifiedInvoiceRequest(invoice.Invoice).Content,
                 CorrectionMethod = CorrectionMethodEnum.SUBSTITUTION,
-                CorrectingInvoiceCode = CorrectingInvoiceCodeEnum.CORRECTION_4
+                CorrectingInvoiceCode = CorrectingInvoiceCodeEnum.CORRECTION_4,
+                Coupon = false
             }
         };
     }
@@ -61,7 +62,8 @@ internal static class InvoiceMapper
                 InvoiceId = invoice.InvoiceId,
                 Invoice = MapCompleteInvoiceRequest(invoice.Invoice).Content,
                 CorrectionMethod = CorrectionMethodEnum.SUBSTITUTION,
-                CorrectingInvoiceCode = CorrectingInvoiceCodeEnum.CORRECTION_4
+                CorrectingInvoiceCode = CorrectingInvoiceCodeEnum.CORRECTION_4,
+                Coupon = false
             }
         };
     }
