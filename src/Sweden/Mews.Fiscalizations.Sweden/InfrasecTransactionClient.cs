@@ -37,9 +37,31 @@ public sealed class InfrasecTransactionClient
                 new Exception($"Request failed with status code: {response.StatusCode}, response: {await response.Content.ReadAsStringAsync(cancellationToken)}, request: {xml.OuterXml}")
             );
         }
-        var tcsResponse = await Try.CatchAsync<DTOs.TcsResponse, Exception>(
-            async _ => XmlSerializer.Deserialize<DTOs.TcsResponse>(await response.Content.ReadAsStringAsync(cancellationToken))
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        var tcsResponse = Try.Catch<DTOs.TcsResponse, Exception>(
+            _ => XmlSerializer.Deserialize<DTOs.TcsResponse>(responseContent)
         );
-        return tcsResponse.Map(r => r.FromDto(xml.OuterXml));
+        return tcsResponse.Map(r => r.FromDto(xml.OuterXml, responseContent));
+    }
+
+    public async Task<Try<RegisterStatusResponse, Exception>> GetRegisterStatusAsync(RegisterStatusData data, NonEmptyString applicationId, Guid? requestId = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var request = data.ToDto(applicationId:applicationId, requestId: requestId);
+        var xml = XmlSerializer.Serialize(request, new XmlSerializationParameters(namespaces: [new XmlNamespace("", "")]));
+        var response = await _httpClient.PostAsync(_transactionApiUrl, new StringContent(xml.OuterXml, Encoding.UTF8, MediaTypeNames.Application.Xml), cancellationToken);
+        if (!response.IsSuccessStatusCode)
+        {
+            return Try.Error<RegisterStatusResponse, Exception>(
+                new Exception($"Request failed with status code: {response.StatusCode}, response: {await response.Content.ReadAsStringAsync(cancellationToken)}, request: {xml.OuterXml}")
+            );
+        }
+
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        var registerStatusResponse = Try.Catch<DTOs.RegisterStatusResponse, Exception>(
+            _ => XmlSerializer.Deserialize<DTOs.RegisterStatusResponse>(responseContent)
+        );
+        return registerStatusResponse.Map(r => r.FromDto(xml.OuterXml, responseContent));
     }
 }

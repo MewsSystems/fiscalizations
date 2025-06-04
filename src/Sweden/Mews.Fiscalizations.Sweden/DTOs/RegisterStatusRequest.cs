@@ -9,7 +9,7 @@ public sealed class RegisterStatusRequest
     public required string ApplicationId { get; init; }
 
     [XmlElement("RequestID")]
-    public required string RequestId { get; init; }
+    public required Guid RequestId { get; init; }
 
     [XmlElement("RegisterStatus")]
     public required RegisterStatusData RegisterStatus { get; init; }

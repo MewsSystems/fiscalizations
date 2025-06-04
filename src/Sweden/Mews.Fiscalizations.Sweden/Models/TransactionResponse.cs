@@ -5,6 +5,7 @@ namespace Mews.Fiscalizations.Sweden.Models;
 public sealed class TransactionResponse(
     int responseCode,
     string requestXml,
+    string responseXml,
     string responseMessage,
     string responseReason,
     string applicationId,
@@ -18,6 +19,8 @@ public sealed class TransactionResponse(
     public int ResponseCode { get; } = responseCode;
 
     public string RequestXml { get; } = requestXml;
+
+    public string ResponseXml { get; } = responseXml;
 
     public string ResponseMessage { get; } = responseMessage;
 
