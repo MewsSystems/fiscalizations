@@ -10,10 +10,11 @@ internal static class TransactionMappers
     private const string DateTimeFormat = "yyyyMMddHHmmss";
     private static readonly CultureInfo Culture = new("fr-FR");
 
-    internal static TransactionResponse FromDto(this DTOs.TcsResponse response, string requestXml)
+    internal static TransactionResponse FromDto(this DTOs.TcsResponse response, string requestXml, string responseXml)
     {
         return new TransactionResponse(
             requestXml: requestXml,
+            responseXml: responseXml,
             controlServerId: response.ControlCode.ControlServerId,
             controlCode: response.ControlCode.Code,
             sequenceNumber: response.SequenceNumber,
@@ -24,6 +25,21 @@ internal static class TransactionMappers
             responseMessage: response.ResponseMessage,
             requestId: response.RequestId,
             responseReason: response.ResponseReason
+        );
+    }
+
+    internal static RegisterStatusResponse FromDto(this DTOs.RegisterStatusResponse response, string requestXml, string responseXml)
+    {
+        return new RegisterStatusResponse(
+            RequestXml: requestXml,
+            ResponseXml: responseXml,
+            SkvResponseCode: response.SKVResponseCode,
+            SkvResponseMessage: response.SKVResponseMessage,
+            ApplicationId: response.ApplicationId,
+            ResponseCode: response.ResponseCode,
+            ResponseMessage: response.ResponseMessage,
+            RequestId: response.RequestId,
+            ResponseReason: response.ResponseReason
         );
     }
 
@@ -52,6 +68,20 @@ internal static class TransactionMappers
                 RefundAmount = data.RefundAmount.GetOrNull(a => ToAmountString(a)),
                 CopyDateTime = data.CopyDateTime.GetOrNull(t => t.ToString(DateTimeFormat)),
                 CopySequenceNumber = data.CopySequenceNumber.ToNullable()
+            }
+        };
+    }
+
+    internal static DTOs.RegisterStatusRequest ToDto(this RegisterStatusData data, string applicationId, Guid? requestId)
+    {
+        return new DTOs.RegisterStatusRequest
+        {
+            ApplicationId = applicationId,
+            RequestId = requestId ?? Guid.NewGuid(),
+            RegisterStatus = new DTOs.RegisterStatusData
+            {
+                OrgNr = data.OrganizationNumber,
+                ManRegisterId = data.OrganizationRegisterId
             }
         };
     }

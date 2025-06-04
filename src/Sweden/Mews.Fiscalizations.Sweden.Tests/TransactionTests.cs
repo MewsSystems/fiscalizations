@@ -20,6 +20,35 @@ namespace Mews.Fiscalizations.Sweden.Tests
         private static readonly string OrganizationRegisterId = System.Environment.GetEnvironmentVariable("infrasec_register_id") ?? "REGISTER_ID";
 
         [Test]
+        public async Task RegisterStatus_Succeeds_Async()
+        {
+            var request = new RegisterStatusData(
+                OrganizationNumber: 4444444444,
+                OrganizationRegisterId: OrganizationRegisterId
+            );
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+            };
+            var certCollection = new X509Certificate2Collection
+            {
+                TransactionCertificate,
+                TransactionSigningCertificate
+            };
+            handler.ClientCertificates.AddRange(certCollection);
+
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mews Test");
+            var client = new InfrasecTransactionClient(httpClient, Environment.Test);
+
+            var result = await client.GetRegisterStatusAsync(request, NonEmptyString.CreateUnsafe("Test client"));
+
+            Assert.That(result.IsSuccess, Is.True);
+            var successResult = result.Success.Get();
+            Assert.That(successResult.ResponseCode, Is.EqualTo(0));
+        }
+
+        [Test]
         [TestCase(TransactionType.Sale, true)]
         [TestCase(TransactionType.Copy, true)]
         [TestCase(TransactionType.Proforma, true)]
