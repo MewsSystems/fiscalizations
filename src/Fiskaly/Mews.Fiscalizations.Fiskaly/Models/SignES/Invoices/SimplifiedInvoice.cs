@@ -4,7 +4,8 @@ public sealed record SimplifiedInvoice(
     string InvoiceNumber,
     string InvoiceDescription,
     decimal FullAmount,
-    IEnumerable<InvoiceItem> Items
+    IEnumerable<InvoiceItem> Items,
+    string Series = null
 );
 
 public sealed record InvoiceItem(
