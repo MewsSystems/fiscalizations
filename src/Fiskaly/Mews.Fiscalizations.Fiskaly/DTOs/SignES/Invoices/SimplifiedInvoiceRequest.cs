@@ -18,6 +18,9 @@ internal class SimplifiedInvoiceRequest
 
     [JsonPropertyName("items")]
     public List<Item> Items { get; init; }
+    
+    [JsonPropertyName("series")]
+    public string Series { get; init; }
 }
 
 internal sealed class Item
