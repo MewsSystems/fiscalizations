@@ -6,7 +6,7 @@ public sealed class StatusEnrollmentResponse(
     string responseMessage,
     string responseReason,
     string action,
-    string ccuId,
+    string tcsId,
     int active,
     int loginCount,
     string lastLogin)
@@ -21,7 +21,7 @@ public sealed class StatusEnrollmentResponse(
 
     public string Action { get; } = action;
 
-    public string CcuId { get; } = ccuId;
+    public string TcsId { get; } = tcsId;
 
     public int Active { get; } = active;
 

@@ -191,8 +191,8 @@ public sealed class CertificateInfo
 
 public sealed class PcxService
 {
-    [XmlElement("CCU")]
-    public required Ccu Ccu { get; init; }
+    [XmlElement("TCS")]
+    public required Tcs Tcs { get; init; }
 
     [XmlElement("Swish")]
     public required Swish Swish { get; init; }
@@ -201,7 +201,7 @@ public sealed class PcxService
     public required Sparakvittot Sparakvittot { get; init; }
 }
 
-public sealed class Ccu
+public sealed class Tcs
 {
     [XmlElement("Enable")]
     public required string Enable { get; init; }

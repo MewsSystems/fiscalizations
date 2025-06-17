@@ -10,17 +10,10 @@ namespace Mews.Fiscalizations.Sweden;
 public sealed class InfrasecTransactionClient
 {
     private readonly HttpClient _httpClient;
-    private readonly Uri _transactionApiUrl;
-    private const string TestTransactionApiUrl = "https://tcs-verify.infrasec-api.se/tcsserver";
+    private const string _transactionApiEndpoint = "/tcsserver";
 
-    public InfrasecTransactionClient(HttpClient httpClient, Environment environment)
+    public InfrasecTransactionClient(HttpClient httpClient)
     {
-        _transactionApiUrl = environment switch
-        {
-            Environment.Test => new Uri(TestTransactionApiUrl),
-            Environment.Production => throw new NotImplementedException("Production URL is not implemented"),
-            _ => throw new ArgumentOutOfRangeException(environment.ToString())
-        };
         _httpClient = httpClient;
     }
 
@@ -30,7 +23,7 @@ public sealed class InfrasecTransactionClient
 
         var request = data.ToDto(applicationId:applicationId, requestId: requestId);
         var xml = XmlSerializer.Serialize(request, new XmlSerializationParameters(namespaces: [new XmlNamespace("", "")]));
-        var response = await _httpClient.PostAsync(_transactionApiUrl, new StringContent(xml.OuterXml, Encoding.UTF8, MediaTypeNames.Application.Xml), cancellationToken);
+        var response = await _httpClient.PostAsync(_transactionApiEndpoint, new StringContent(xml.OuterXml, Encoding.UTF8, MediaTypeNames.Application.Xml), cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             return Try.Error<TransactionResponse, Exception>(
@@ -50,7 +43,7 @@ public sealed class InfrasecTransactionClient
 
         var request = data.ToDto(applicationId:applicationId, requestId: requestId);
         var xml = XmlSerializer.Serialize(request, new XmlSerializationParameters(namespaces: [new XmlNamespace("", "")]));
-        var response = await _httpClient.PostAsync(_transactionApiUrl, new StringContent(xml.OuterXml, Encoding.UTF8, MediaTypeNames.Application.Xml), cancellationToken);
+        var response = await _httpClient.PostAsync(_transactionApiEndpoint, new StringContent(xml.OuterXml, Encoding.UTF8, MediaTypeNames.Application.Xml), cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             return Try.Error<RegisterStatusResponse, Exception>(

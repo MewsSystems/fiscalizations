@@ -8,22 +8,18 @@ namespace Mews.Fiscalizations.Sweden.Tests
     [TestFixture]
     public sealed class TransactionTests
     {
-        private static readonly X509Certificate2 TransactionSigningCertificate = new(
-            rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_signing_certificate_data") ?? "SIGNING_CERTIFICATE_DATA")
-        );
-
         private static readonly X509Certificate2 TransactionCertificate = new(
-            rawData: Convert.FromBase64String(System.Environment.GetEnvironmentVariable("infrasec_certificate_data") ?? "CERTIFICATE_DATA"),
-            password: System.Environment.GetEnvironmentVariable("infrasec_certificate_password")
+            rawData: Convert.FromBase64String(Environment.GetEnvironmentVariable("infrasec_certificate_data") ?? "CERTIFICATE_DATA"),
+            password: Environment.GetEnvironmentVariable("infrasec_certificate_password")
         );
 
-        private static readonly string OrganizationRegisterId = System.Environment.GetEnvironmentVariable("infrasec_register_id") ?? "REGISTER_ID";
+        private static readonly string OrganizationRegisterId = Environment.GetEnvironmentVariable("infrasec_register_id") ?? "REGISTER_ID";
 
         [Test]
         public async Task RegisterStatus_Succeeds_Async()
         {
             var request = new RegisterStatusData(
-                OrganizationNumber: 4444444444,
+                OrganizationNumber: 1003986392,
                 OrganizationRegisterId: OrganizationRegisterId
             );
             var handler = new HttpClientHandler
@@ -32,14 +28,16 @@ namespace Mews.Fiscalizations.Sweden.Tests
             };
             var certCollection = new X509Certificate2Collection
             {
-                TransactionCertificate,
-                TransactionSigningCertificate
+                TransactionCertificate
             };
             handler.ClientCertificates.AddRange(certCollection);
 
-            var httpClient = new HttpClient(handler);
+            var httpClient = new HttpClient(handler)
+            {
+                BaseAddress = new Uri("https://tcs-verify.infrasec-api.se")
+            };
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mews Test");
-            var client = new InfrasecTransactionClient(httpClient, Environment.Test);
+            var client = new InfrasecTransactionClient(httpClient);
 
             var result = await client.GetRegisterStatusAsync(request, NonEmptyString.CreateUnsafe("Test client"));
 
@@ -78,14 +76,16 @@ namespace Mews.Fiscalizations.Sweden.Tests
             };
             var certCollection = new X509Certificate2Collection
             {
-                TransactionCertificate,
-                TransactionSigningCertificate
+                TransactionCertificate
             };
             handler.ClientCertificates.AddRange(certCollection);
 
-            var httpClient = new HttpClient(handler);
+            var httpClient = new HttpClient(handler)
+            {
+                BaseAddress = new Uri("https://tcs-verify.infrasec-api.se")
+            };
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mews Test");
-            var client = new InfrasecTransactionClient(httpClient, Environment.Test);
+            var client = new InfrasecTransactionClient(httpClient);
 
             var result = await client.SendTransactionAsync(request, NonEmptyString.CreateUnsafe("Test client"));
 

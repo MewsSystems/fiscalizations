@@ -9,7 +9,7 @@ public sealed class NewEnrollmentResponse(
     string requestId,
     string action,
     string registerId,
-    string ccuId)
+    string tcsId)
 {
     public string RequestXml { get; } = requestXml;
 
@@ -27,5 +27,5 @@ public sealed class NewEnrollmentResponse(
 
     public string RegisterId { get; } = registerId;
 
-    public string Ccuid { get; } = ccuId;
+    public string TcsId { get; } = tcsId;
 }

@@ -26,8 +26,8 @@ public class IdmResponse
     [XmlElement("RegisterID")]
     public string? RegisterId { get; init; }
 
-    [XmlElement("CCUID")]
-    public string? Ccuid { get; init; }
+    [XmlElement("TCSID")]
+    public string? TcsId { get; init; }
 
     [XmlElement("Active")]
     public int? Active { get; init; }
