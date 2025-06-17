@@ -19,7 +19,7 @@ namespace Mews.Fiscalizations.Sweden.Tests
         public async Task RegisterStatus_Succeeds_Async()
         {
             var request = new RegisterStatusData(
-                OrganizationNumber: 1003986392,
+                OrganizationNumber: 4444444444,
                 OrganizationRegisterId: OrganizationRegisterId
             );
             var handler = new HttpClientHandler
