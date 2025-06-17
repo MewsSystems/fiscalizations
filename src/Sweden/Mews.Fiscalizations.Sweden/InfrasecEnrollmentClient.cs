@@ -10,17 +10,10 @@ namespace Mews.Fiscalizations.Sweden;
 public sealed class InfrasecEnrollmentClient
 {
     private readonly HttpClient _httpClient;
-    private readonly Uri _enrollmentApiUrl;
-    private const string TestEnrollmentApiUrl = "https://idm-verify.infrasec.se/api/EnrollCCU.php";
+    private const string _enrollmentApiEndpoint = "/api/EnrollCCU.php";
 
-    public InfrasecEnrollmentClient(HttpClient httpClient, Environment environment)
+    public InfrasecEnrollmentClient(HttpClient httpClient)
     {
-        _enrollmentApiUrl = environment switch
-        {
-            Environment.Test => new Uri(TestEnrollmentApiUrl),
-            Environment.Production => throw new NotSupportedException("Production environment is not supported yet"),
-            _ => throw new ArgumentOutOfRangeException(environment.ToString())
-        };
         _httpClient = httpClient;
     }
 
@@ -34,7 +27,7 @@ public sealed class InfrasecEnrollmentClient
 
         var request = data.ToStatusDto(applicationId: applicationId, requestId: requestId);
         var requestContent = CreateRequest(request);
-        var response = await _httpClient.PostAsync(_enrollmentApiUrl, requestContent.Value, cancellationToken);
+        var response = await _httpClient.PostAsync(_enrollmentApiEndpoint, requestContent.Value, cancellationToken);
         return await HandleResponse(response, requestContent.XmlString, (idmResponse, s) => idmResponse.FromStatusDto(s), cancellationToken);
     }
 
@@ -44,7 +37,7 @@ public sealed class InfrasecEnrollmentClient
 
         var request = data.ToNewDto(applicationId: applicationId, requestId: requestId);
         var requestContent = CreateRequest(request);
-        var response = await _httpClient.PostAsync(_enrollmentApiUrl, requestContent.Value, cancellationToken);
+        var response = await _httpClient.PostAsync(_enrollmentApiEndpoint, requestContent.Value, cancellationToken);
         return await HandleResponse(response, requestContent.XmlString, (idmResponse, s) => idmResponse.FromNewDto(s), cancellationToken);
     }
 

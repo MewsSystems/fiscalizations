@@ -9,7 +9,7 @@ internal static class EnrollmentMappers
     private const string StatusEnrollmentAction = "STATUS";
     private const string PosAuthorityCode = "S";
     private const string CertificateMethod = "NONE";
-    private const string CcuEnable = "Yes";
+    private const string TcsEnable = "Yes";
     private const string SwishEnable = "No";
     private const string DigitalReceipt = "No";
 
@@ -21,7 +21,7 @@ internal static class EnrollmentMappers
             responseMessage: dto.ResponseMessage,
             responseReason: dto.ResponseReason,
             action: dto.Action,
-            ccuId: dto.Ccuid!,
+            tcsId: dto.TcsId!,
             active: dto.Active!.Value,
             loginCount: dto.LoginCount!.Value,
             lastLogin: dto.LastLogin!
@@ -39,7 +39,7 @@ internal static class EnrollmentMappers
             requestId: dto.RequestId!,
             action: dto.Action,
             registerId: dto.RegisterId!,
-            ccuId: dto.Ccuid!
+            tcsId: dto.TcsId!
         );
     }
 
@@ -117,9 +117,9 @@ internal static class EnrollmentMappers
                 },
                 PcxService = new PcxService
                 {
-                    Ccu = new Ccu
+                    Tcs = new Tcs
                     {
-                        Enable = CcuEnable
+                        Enable = TcsEnable
                     },
                     Swish = new Swish
                     {
