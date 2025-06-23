@@ -52,6 +52,46 @@ public class TaxpayerTests
         Assert.That(taxpayerResult.IsSuccess);
     }
     
+    [Test]
+    [CancelAfter(1000)]
+    [Ignore("Fiskaly API limitation")]
+    public async Task GenerateTaxpayerSuccessAsync(CancellationToken token)
+    {
+        var taxpayerRepresentative = new TaxpayerAgreementRepresentative(
+            FullName: "Test Representative",
+            TaxNumber: "A12345678",
+            Municipality: "Madrid",
+            City: "Madrid",
+            Street: "Calle de Test",
+            PostalCode: "28001",
+            Number: "1",
+            Country: "ES"
+        );
+        var taxpayerResult = await _signEsApiClient.GetTaxpayerAgreementAsync(_authToken, taxpayerRepresentative, token);
+        
+        Assert.That(taxpayerResult.IsSuccess);
+    }
+    
+    [Test]
+    [CancelAfter(1000)]
+    [Ignore("Fiskaly API limitation")]
+    public async Task UploadSignedTaxpayerAgreementSuccessAsync(CancellationToken token)
+    {
+        var taxpayerResult = await _signEsApiClient.UploadSignedTaxpayerAgreementAsync(_authToken, string.Empty, token);
+        
+        Assert.That(taxpayerResult.IsSuccess);
+    }
+    
+    [Test]
+    [CancelAfter(1000)]
+    [Ignore("Fiskaly API limitation")]
+    public async Task GetSignedTaxpayerAgreementSuccessAsync(CancellationToken token)
+    {
+        var taxpayerResult = await _signEsApiClient.GetSignedTaxpayerAgreementAsync(_authToken, token);
+        
+        Assert.That(taxpayerResult.IsSuccess);
+    }
+    
     [OneTimeSetUp]
     public async Task SetUpAsync()
     {
