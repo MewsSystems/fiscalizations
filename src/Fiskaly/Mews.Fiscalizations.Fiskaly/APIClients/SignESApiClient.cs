@@ -115,6 +115,54 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
             cancellationToken: cancellationToken
         );
     }
+    
+    public async Task<ResponseResult<string>> GetTaxpayerAgreementAsync(
+        AccessToken token,
+        TaxpayerAgreementRepresentative representative,
+        CancellationToken cancellationToken = default)
+    {
+        var requestBody = new StringContent(JsonSerializer.Serialize(representative.MapTaxpayerAgreementRequest()), Encoding.UTF8, JsonContentType);
+
+        return await ProcessRequestAsync<string, string>(
+            method: HttpMethod.Post,
+            endpoint: $"{TaxpayerEndpoint}/agreement",
+            successFunc: r => r,
+            token: token,
+            request: requestBody,
+            cancellationToken: cancellationToken
+        );
+    }
+    
+    public async Task<ResponseResult<SignedTaxpayerAgreement>> UploadSignedTaxpayerAgreementAsync(
+        AccessToken token,
+        string signedDocument,
+        CancellationToken cancellationToken = default)
+    {
+        var requestBody = new StringContent(JsonSerializer.Serialize(TaxpayerMapper.MapSignedTaxpayerAgreementRequest(signedDocument)), Encoding.UTF8, JsonContentType);
+
+        return await ProcessRequestAsync<ContentWrapper<SignedTaxpayerAgreementResponse>, SignedTaxpayerAgreement>(
+            method: HttpMethod.Put,
+            endpoint: $"{TaxpayerEndpoint}/agreement",
+            successFunc: r => r.MapSignedTaxpayerAgreementResponse(),
+            token: token,
+            request: requestBody,
+            cancellationToken: cancellationToken
+        );
+    }
+    
+    public async Task<ResponseResult<SignedTaxpayerAgreement>> GetSignedTaxpayerAgreementAsync(
+        AccessToken token,
+        CancellationToken cancellationToken = default)
+    {
+        return await ProcessRequestAsync<ContentWrapper<SignedTaxpayerAgreementResponse>, SignedTaxpayerAgreement>(
+            method: HttpMethod.Get,
+            endpoint: $"{TaxpayerEndpoint}/agreement",
+            successFunc: r => r.MapSignedTaxpayerAgreementResponse(),
+            token: token,
+            request: null,
+            cancellationToken: cancellationToken
+        );
+    }
 
     public async Task<ResponseResult<Signer>> CreateSignerAsync(AccessToken token, Guid? signerId = null, CancellationToken cancellationToken = default)
     {
