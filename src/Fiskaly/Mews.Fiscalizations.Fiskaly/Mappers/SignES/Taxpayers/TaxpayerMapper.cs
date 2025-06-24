@@ -24,6 +24,31 @@ internal static class TaxpayerMapper
         };
     }
     
+    public static ContentWrapper<CreateTaxpayerAgreementRequest> MapTaxpayerAgreementRequest(
+        this TaxpayerAgreementRepresentative representative)
+    {
+        return new ContentWrapper<CreateTaxpayerAgreementRequest>
+        {
+            Content = new CreateTaxpayerAgreementRequest
+            {
+                Representative = new TaxpayerAgreementRepresentativeRequest 
+                {
+                    FullName = representative.FullName,
+                    TaxNumber = representative.TaxNumber,
+                    Address = new TaxpayerAgreementRepresentativeAddress
+                    {
+                        Municipality = representative.Municipality,
+                        City = representative.City,
+                        Street = representative.Street,
+                        PostalCode = representative.PostalCode,
+                        Number = representative.Number,
+                        Country = representative.Country
+                    }
+                }
+            }
+        };
+    }
+    
     public static Taxpayer MapTaxpayerResponse(this ContentWrapper<TaxpayerResponse> response)
     {
         return new Taxpayer(
@@ -32,6 +57,25 @@ internal static class TaxpayerMapper
             Territory: response.Content.Territory.MapTaxpayerTerritoryResponse(),
             Type: response.Content.Type.MapTaxpayerTypeResponse(),
             State: response.Content.State?.MapTaxpayerStateResponse() ?? TaxpayerState.Enabled
+        );
+    }
+    
+    public static ContentWrapper<SignedTaxpayerAgreementRequest> MapSignedTaxpayerAgreementRequest(string base64Document)
+    {
+        return new ContentWrapper<SignedTaxpayerAgreementRequest>
+        {
+            Content = new SignedTaxpayerAgreementRequest
+            {
+                Document = base64Document
+            }
+        };
+    }
+    
+    public static SignedTaxpayerAgreement MapSignedTaxpayerAgreementResponse(this ContentWrapper<SignedTaxpayerAgreementResponse> response)
+    {
+        return new SignedTaxpayerAgreement(
+            DocumentUrl: response.Content.DocumentUrl,
+            CreatedAt: response.Content.CreatedAt
         );
     }
 
