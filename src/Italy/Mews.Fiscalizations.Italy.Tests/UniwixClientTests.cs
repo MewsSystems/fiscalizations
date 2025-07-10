@@ -15,7 +15,7 @@ public sealed class UniwixClientTests
     private static readonly string Username = Environment.GetEnvironmentVariable("italian_username") ?? "INSERT_USERNAME";
     private static readonly string Password = Environment.GetEnvironmentVariable("italian_password") ?? "INSERT_PASSWORD";
 
-    public static UniwixClient GetUniwixClient()
+    private static UniwixClient GetUniwixClient()
     {
         var httpClient = new HttpClient();
         return new UniwixClient(httpClient, new UniwixClientConfiguration(Username, Password));

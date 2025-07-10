@@ -62,6 +62,7 @@ jobs:
 
         basque_araba_license: ${{secrets.basque_araba_license}}
         basque_gipuzkoa_license: ${{secrets.basque_gipuzkoa_license}}
+        basque_test_cert_pass: ${{secrets.basque_test_cert_pass}}
 
         hungarian_login: ${{secrets.hungarian_login}}
         hungarian_password: ${{secrets.hungarian_password}}

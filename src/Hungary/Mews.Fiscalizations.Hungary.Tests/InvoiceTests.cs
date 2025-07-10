@@ -8,7 +8,6 @@ public sealed class InvoiceTests
     private const int RetryCount = 3;
 
     [Test]
-    [Ignore("Test server is not available")]
     [Retry(RetryCount)]
     public async Task SendCustomerInvoiceSucceeds()
     {
@@ -18,7 +17,6 @@ public sealed class InvoiceTests
     }
 
     [Test]
-    [Ignore("Test server is not available")]
     [Retry(RetryCount)]
     public async Task SendLocalCompanyInvoiceSucceeds()
     {
@@ -32,7 +30,6 @@ public sealed class InvoiceTests
     }
 
     [Test]
-    [Ignore("Test server is not available")]
     [Retry(RetryCount)]
     [TestCase("CZ", "CZ12345678")]
     [TestCase("US", "UsTaxId")]
@@ -52,7 +49,6 @@ public sealed class InvoiceTests
     }
 
     [Test, Order(1)]
-    [Ignore("Test server is not available")]
     [Retry(RetryCount)]
     public async Task SendCorrectionCustomerInvoiceSucceeds()
     {
@@ -66,7 +62,6 @@ public sealed class InvoiceTests
     }
 
     [Test, Order(1)]
-    [Ignore("Test server is not available")]
     [Retry(RetryCount)]
     public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
     {
@@ -84,7 +79,6 @@ public sealed class InvoiceTests
     }
 
     [Test, Order(1)]
-    [Ignore("Test server is not available")]
     [Retry(RetryCount)]
     [TestCase("CZ", "CZ12345678")]
     [TestCase("US", "UsTaxId")]

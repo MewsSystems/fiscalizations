@@ -6,13 +6,10 @@ namespace Mews.Fiscalizations.Austria.Tests;
 
 public class ATrustSignerTests
 {
-    public static readonly ATrustUserIdentifier UserId = new ATrustUserIdentifier(Environment.GetEnvironmentVariable("austrian_user_id") ?? "INSERT_USER_ID");
-    public static readonly string Password = Environment.GetEnvironmentVariable("austrian_password") ?? "INSERT_PASSWORD";
+    private static readonly ATrustUserIdentifier UserId = new(Environment.GetEnvironmentVariable("austrian_user_id") ?? "INSERT_USER_ID");
+    private static readonly string Password = Environment.GetEnvironmentVariable("austrian_password") ?? "INSERT_PASSWORD";
 
-    private static ATrustCredentials Credentials
-    {
-        get { return new ATrustCredentials(user: UserId, password: Password); }
-    }
+    private static ATrustCredentials Credentials => new(user: UserId, password: Password);
 
     [Test]
     [Retry(3)]

@@ -3,7 +3,6 @@
 [TestFixture]
 public class SendInvoiceTests
 {
-    [Ignore("Disabling temporarily")]
     [Test]
     [TestCase(Region.Araba, true, false, TestName = "Araba - Send complete invoice with local receiver")]
     [TestCase(Region.Araba, false, false, TestName = "Araba - Send complete invoice with foreign receiver")]
@@ -28,7 +27,6 @@ public class SendInvoiceTests
         TestFixture.AssertResponse(region, response, tbaiData);
     }
 
-    [Ignore("Disabling temporarily")]
     [TestCase(Region.Araba, false, TestName = "Araba - Send simplified invoice")]
     [TestCase(Region.Araba, true, TestName = "Araba - Send simplified negative invoice")]
     [TestCase(Region.Gipuzkoa, false, TestName = "Gipuzkoa - Send simplified invoice")]
@@ -46,7 +44,6 @@ public class SendInvoiceTests
         TestFixture.AssertResponse(region, response, tbaiData);
     }
 
-    [Ignore("Disabling temporarily")]
     [Test]
     [TestCase(Region.Araba, false, TestName = "Araba - Complete Invoice chaining")]
     [TestCase(Region.Araba, true, TestName = "Araba - Simplified Invoice chaining")]

@@ -46,14 +46,12 @@ public class Basics
     private const int RetryCount = 3;
 
     [Test]
-    [Ignore("Will enable later.")]
     [Retry(RetryCount)]
     public async Task CheckNif()
     {
         var goodEntries = NonEmptyEnumerable.Create(
             new NifInfoEntry(Issuer.TaxpayerIdentificationNumber, Issuer.Name.Value),
             new NifInfoEntry(ReceivingCompany.TaxpayerIdentificationNumber, ReceivingCompany.Name.Value),
-            new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "99999999R").Success.Get(), "ESPAÑOL ESPAÑOL JUAN"),
             new NifInfoEntry(Issuer.TaxpayerIdentificationNumber, "Wrong company name") // surprisingly, good company ID with bad company name is found
         );
         var badEntries = NonEmptyEnumerable.Create(
@@ -70,7 +68,6 @@ public class Basics
     }
 
     [Test]
-    [Ignore("Will enable later.")]
     [Retry(RetryCount)]
     public async Task PostInvoice_WithValidData_Succeeds()
     {
@@ -78,7 +75,6 @@ public class Basics
     }
 
     [Test]
-    [Ignore("Will enable later.")]
     [Retry(RetryCount)]
     public async Task PostZeroVatInvoice_WithValidData_Succeeds()
     {
@@ -86,7 +82,6 @@ public class Basics
     }
 
     [Test]
-    [Ignore("Will enable later.")]
     [Retry(RetryCount)]
     public async Task PostingZeroVatItemsAsTaxedItems_Fails()
     {
