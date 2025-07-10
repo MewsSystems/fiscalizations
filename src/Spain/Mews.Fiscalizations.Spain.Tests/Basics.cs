@@ -55,8 +55,8 @@ public class Basics
             new NifInfoEntry(Issuer.TaxpayerIdentificationNumber, "Wrong company name") // surprisingly, good company ID with bad company name is found
         );
         var badEntries = NonEmptyEnumerable.Create(
-            new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "90009999R").Success.Get(), "Not Juan"),
-            new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "12000999R").Success.Get(), "Non existent name for non existent ID.")
+            new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "99999999R").Success.Get(), "Not Juan"),
+            new NifInfoEntry(TaxpayerIdentificationNumber.Create(Countries.Spain, "12999999R").Success.Get(), "Non existent name for non existent ID.")
         );
 
         await AssertNifLookup(goodEntries, NifSearchResult.Found);

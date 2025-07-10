@@ -7,7 +7,7 @@ public sealed class TestFixture
 {
     private static readonly X509Certificate2 Certificate = new(
         Path.Combine(AppContext.BaseDirectory, "EntitateOrdezkaria_RepresentanteDeEntidad.p12"),
-        "IZDesa2025"
+        System.Environment.GetEnvironmentVariable("basque_test_cert_pass") ?? "INSERT_CERT_PASS"
     );
 
     public TestFixture(Region region)
