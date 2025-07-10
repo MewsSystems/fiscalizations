@@ -10,13 +10,13 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>10.0.1</PackageVersion>
+    <PackageVersion>10.0.2</PackageVersion>
     <LangVersion>12</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
   </ItemGroup>
