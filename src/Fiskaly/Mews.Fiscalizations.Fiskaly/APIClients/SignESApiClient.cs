@@ -34,6 +34,13 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         _ => throw new ArgumentOutOfRangeException(nameof(environment), environment, null)
     };
     
+    private readonly Uri _baseAeatUri = environment switch
+    {
+        FiskalyEnvironment.Test => new Uri("https://prewww2.aeat.es"),
+        FiskalyEnvironment.Production => new Uri("https://www2.agenciatributaria.gob.es"),
+        _ => throw new ArgumentOutOfRangeException(nameof(environment), environment, null)
+    };
+    
     private const string RelativeApiUrl = "api/v1/";
     private const string AuthEndpoint = "auth";
     private const string TaxpayerEndpoint = "taxpayer";
@@ -43,6 +50,8 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
 
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
+    
+    private const string AeatQrEndpoint = "wlpl/TIKE-CONT/ValidarQR";
 
 
     public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync(CancellationToken cancellationToken = default)
@@ -401,6 +410,11 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         );
     }
     
+    public string GetOfflineQRCodeContent(string taxId, string billNumber, string billSeries, DateTime billDate, decimal billAmount)
+    {
+        return $"{_baseAeatUri}{AeatQrEndpoint}?nif={taxId}&numserie={billSeries}{billNumber}&fecha={billDate:yyyy-MM-dd}&importe={billAmount :##.00}";
+    }
+    
     private async Task<ResponseResult<TResult>> ProcessRequestAsync<TDto, TResult>(
         HttpMethod method,
         string endpoint,
@@ -431,4 +445,6 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
             new ResponseResult<TResult>(successResult: successFunc(JsonSerializer.Deserialize<TDto>(content))) :
             new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<ContentWrapper<SignESErrorResponse>>(content).Content.MapSignESErrorResponse());
     }
+    
+    
 }
