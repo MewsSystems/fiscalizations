@@ -5,6 +5,7 @@ public sealed record SimplifiedInvoice(
     string InvoiceDescription,
     decimal FullAmount,
     IEnumerable<InvoiceItem> Items,
+    DateTime IssuedAt,
     string Series = null
 );
 
