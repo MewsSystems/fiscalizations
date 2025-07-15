@@ -22,7 +22,8 @@ internal static class InvoiceMapper
                 Number = simplifiedInvoice.InvoiceNumber,
                 FullAmount = simplifiedInvoice.FullAmount.ToString("F2", CultureInfo.InvariantCulture),
                 Items = simplifiedInvoice.Items.Select(MapInvoiceItemRequest).ToList(),
-                Series = simplifiedInvoice.Series
+                Series = simplifiedInvoice.Series,
+                IssuedAt = simplifiedInvoice.IssuedAt.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture)
             }
         };
     }

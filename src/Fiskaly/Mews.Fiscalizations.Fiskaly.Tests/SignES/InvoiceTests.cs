@@ -32,7 +32,8 @@ public class InvoiceTests
                     TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                     TaxRate: null
                 )
-            ]
+            ],
+            DateTime.UtcNow
         );
         var invoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, simplifiedInvoice, _clientId, Guid.NewGuid(), token);
         Assert.That(invoice.IsSuccess);
@@ -58,7 +59,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
             ),
             Receivers:
             [
@@ -90,7 +92,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
             ),
             Receivers:
             [
@@ -122,7 +125,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
             ),
             Receivers:
             [
@@ -157,7 +161,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
             ),
             Receivers:
             [
@@ -192,7 +197,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
             ),
             Receivers:
             [
@@ -221,7 +227,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
             ),
             Receivers:
             [
@@ -264,7 +271,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
         );
 
         var createdInvoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, simplifiedInvoice, _clientId, Guid.NewGuid(), token);
@@ -287,7 +295,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null
                     )
-                ]
+                ],
+                DateTime.UtcNow
         );
         
         var correctingInvoice = new CorrectingSimplifiedInvoice(
