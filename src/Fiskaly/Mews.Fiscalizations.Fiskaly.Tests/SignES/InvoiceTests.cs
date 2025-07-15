@@ -18,7 +18,7 @@ public class InvoiceTests
     [Ignore("Ignore test because Taxpayer is disabled")]
     public async Task CreateSimplifiedInvoiceSuccessfulAsync(CancellationToken token)
     {
-        var simplifiedInvoice = new SimplifiedInvoice(
+        var SimplifiedInvoice = new SimplifiedInvoice(
             InvoiceNumber: "4",
             InvoiceDescription: "Test invoice",
             FullAmount: 100,
@@ -35,7 +35,7 @@ public class InvoiceTests
             ],
             DateTime.UtcNow
         );
-        var invoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, simplifiedInvoice, _clientId, Guid.NewGuid(), token);
+        var invoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, SimplifiedInvoice, _clientId, Guid.NewGuid(), token);
         Assert.That(invoice.IsSuccess);
     }
     
@@ -45,7 +45,7 @@ public class InvoiceTests
     public async Task CreateCompleteInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeLocalInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "5",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -78,7 +78,7 @@ public class InvoiceTests
     public async Task CreateCompleteInvoiceWithForeignDocumentSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -111,7 +111,7 @@ public class InvoiceTests
     public async Task CancelInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -147,7 +147,7 @@ public class InvoiceTests
     public async Task GetInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -183,7 +183,7 @@ public class InvoiceTests
     public async Task CorrectCompleteInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -213,7 +213,7 @@ public class InvoiceTests
         Assert.That(retrievedInvoiceResponse.IsSuccess);
         
         var correctedInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice corrected",
                 FullAmount: 100,
@@ -257,7 +257,7 @@ public class InvoiceTests
     [Ignore("Ignore test because Taxpayer is disabled")]
     public async Task CorrectSimplifiedInvoiceSuccessfulAsync(CancellationToken token)
     {
-        var simplifiedInvoice = new SimplifiedInvoice(
+        var SimplifiedInvoice = new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -275,7 +275,7 @@ public class InvoiceTests
                 DateTime.UtcNow
         );
 
-        var createdInvoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, simplifiedInvoice, _clientId, Guid.NewGuid(), token);
+        var createdInvoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, SimplifiedInvoice, _clientId, Guid.NewGuid(), token);
         Assert.That(createdInvoice.IsSuccess);
         
         var retrievedInvoiceResponse = await _signEsApiClient.GetInvoiceAsync(_authToken, _clientId, createdInvoice.SuccessResult.InvoiceId, token);
