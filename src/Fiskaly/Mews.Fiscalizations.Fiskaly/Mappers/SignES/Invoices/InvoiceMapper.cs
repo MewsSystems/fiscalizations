@@ -34,7 +34,7 @@ internal static class InvoiceMapper
         {
             Content = new CompleteInvoiceRequest
             {
-                Data = MapSimplifiedInvoiceRequest(completeInvoice.simplifiedInvoice).Content,
+                Data = MapSimplifiedInvoiceRequest(completeInvoice.SimplifiedInvoice).Content,
                 Recipients = completeInvoice.Receivers.Select(r => r.MapReceiverRequest()).ToList()
             }
         };

@@ -1,7 +1,6 @@
 using Mews.Fiscalizations.Fiskaly.APIClients;
 using Mews.Fiscalizations.Fiskaly.Models;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers;
 using NUnit.Framework;
 
 namespace Mews.Fiscalizations.Fiskaly.Tests.SignES;
@@ -45,7 +44,7 @@ public class InvoiceTests
     public async Task CreateCompleteInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeLocalInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "5",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -78,7 +77,7 @@ public class InvoiceTests
     public async Task CreateCompleteInvoiceWithForeignDocumentSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -111,7 +110,7 @@ public class InvoiceTests
     public async Task CancelInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -147,7 +146,7 @@ public class InvoiceTests
     public async Task GetInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -183,7 +182,7 @@ public class InvoiceTests
     public async Task CorrectCompleteInvoiceSuccessfulAsync(CancellationToken token)
     {
         var completeForeignInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -213,7 +212,7 @@ public class InvoiceTests
         Assert.That(retrievedInvoiceResponse.IsSuccess);
         
         var correctedInvoice = new CompleteInvoice(
-            simplifiedInvoice: new SimplifiedInvoice(
+            SimplifiedInvoice: new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice corrected",
                 FullAmount: 100,
