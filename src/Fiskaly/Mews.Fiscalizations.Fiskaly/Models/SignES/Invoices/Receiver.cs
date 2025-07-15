@@ -2,13 +2,13 @@
 
 public sealed class Receiver
 {
-    public string LegalName { get; private init; }
-    public string Address { get; private init; }
-    public string PostalCode { get; private init; }
-    public string TaxIdentifier { get; private init; }
-    internal ReceiverType Type { get; private init; }
-    public string DocumentCountry { get; private init; }
-    public ForeignerDocumentType ForeignerDocumentType { get; private init; }
+    public string LegalName { get; init; }
+    public string Address { get; init; }
+    public string PostalCode { get; init; }
+    public string TaxIdentifier { get; init; }
+    internal ReceiverType Type { get; init; }
+    public string DocumentCountry { get; init; }
+    public ForeignerDocumentType ForeignerDocumentType { get; init; }
 
     public static Receiver CreateLocal(string name, string taxIdentifier, string address, string postalCode)
     {
