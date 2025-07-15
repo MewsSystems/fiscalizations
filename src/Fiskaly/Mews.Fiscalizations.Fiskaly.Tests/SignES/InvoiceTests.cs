@@ -1,7 +1,6 @@
 using Mews.Fiscalizations.Fiskaly.APIClients;
 using Mews.Fiscalizations.Fiskaly.Models;
 using Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices;
-using Mews.Fiscalizations.Fiskaly.Models.SignES.Taxpayers;
 using NUnit.Framework;
 
 namespace Mews.Fiscalizations.Fiskaly.Tests.SignES;
@@ -18,7 +17,7 @@ public class InvoiceTests
     [Ignore("Ignore test because Taxpayer is disabled")]
     public async Task CreateSimplifiedInvoiceSuccessfulAsync(CancellationToken token)
     {
-        var SimplifiedInvoice = new SimplifiedInvoice(
+        var simplifiedInvoice = new SimplifiedInvoice(
             InvoiceNumber: "4",
             InvoiceDescription: "Test invoice",
             FullAmount: 100,
@@ -35,7 +34,7 @@ public class InvoiceTests
             ],
             DateTime.UtcNow
         );
-        var invoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, SimplifiedInvoice, _clientId, Guid.NewGuid(), token);
+        var invoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, simplifiedInvoice, _clientId, Guid.NewGuid(), token);
         Assert.That(invoice.IsSuccess);
     }
     
@@ -257,7 +256,7 @@ public class InvoiceTests
     [Ignore("Ignore test because Taxpayer is disabled")]
     public async Task CorrectSimplifiedInvoiceSuccessfulAsync(CancellationToken token)
     {
-        var SimplifiedInvoice = new SimplifiedInvoice(
+        var simplifiedInvoice = new SimplifiedInvoice(
                 InvoiceNumber: "6",
                 InvoiceDescription: "Test invoice",
                 FullAmount: 1000,
@@ -275,7 +274,7 @@ public class InvoiceTests
                 DateTime.UtcNow
         );
 
-        var createdInvoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, SimplifiedInvoice, _clientId, Guid.NewGuid(), token);
+        var createdInvoice = await _signEsApiClient.SendSimplifiedInvoiceAsync(_authToken, simplifiedInvoice, _clientId, Guid.NewGuid(), token);
         Assert.That(createdInvoice.IsSuccess);
         
         var retrievedInvoiceResponse = await _signEsApiClient.GetInvoiceAsync(_authToken, _clientId, createdInvoice.SuccessResult.InvoiceId, token);
