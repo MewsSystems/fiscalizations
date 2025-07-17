@@ -17,26 +17,5 @@ internal sealed class TaxpayerAgreementRepresentativeRequest
     public string TaxNumber { get; init; }
 
     [JsonPropertyName("address")]
-    public TaxpayerAgreementRepresentativeAddress Address { get; init; }
-}
-
-internal sealed class TaxpayerAgreementRepresentativeAddress
-{
-    [JsonPropertyName("municipality")]
-    public string Municipality { get; init; }
-    
-    [JsonPropertyName("city")]
-    public string City { get; init; }
-    
-    [JsonPropertyName("street")]
-    public string Street { get; init; }
-
-    [JsonPropertyName("postal_code")]
-    public string PostalCode { get; init; }
-    
-    [JsonPropertyName("number")]
-    public string Number { get; init; }
-
-    [JsonPropertyName("country")]
-    public string Country { get; init; }
+    public Address Address { get; init; }
 }

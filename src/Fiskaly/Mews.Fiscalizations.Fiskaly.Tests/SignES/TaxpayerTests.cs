@@ -23,6 +23,14 @@ public class TaxpayerTests
                 _authToken,
                 "Test taxpayer",
                 "A12345678",
+                new TaxpayerAddress(
+                    Municipality: "Madrid",
+                    City: "Madrid",
+                    Street: "Calle de Test",
+                    PostalCode: "28001",
+                    Number: "1",
+                    Country: "ES"
+                ),
                 TaxpayerTerritory.SpainOther,
                 token
             );
@@ -60,12 +68,14 @@ public class TaxpayerTests
         var taxpayerRepresentative = new TaxpayerAgreementRepresentative(
             FullName: "Test Representative",
             TaxNumber: "A12345678",
-            Municipality: "Madrid",
-            City: "Madrid",
-            Street: "Calle de Test",
-            PostalCode: "28001",
-            Number: "1",
-            Country: "ES"
+            Address: new TaxpayerAddress(
+                Municipality: "Madrid",
+                City: "Madrid",
+                Street: "Calle de Test",
+                PostalCode: "28001",
+                Number: "1",
+                Country: "ES"
+            )
         );
         var taxpayerResult = await _signEsApiClient.GetTaxpayerAgreementAsync(_authToken, taxpayerRepresentative, token);
         
