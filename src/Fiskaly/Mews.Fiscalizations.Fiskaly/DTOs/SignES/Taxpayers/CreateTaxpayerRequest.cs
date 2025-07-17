@@ -10,4 +10,7 @@ internal sealed class CreateTaxpayerRequest
     [JsonPropertyName("territory")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public Territory Territory { get; init; }
+
+    [JsonPropertyName("address")]
+    public Address Address { get; init; }
 }

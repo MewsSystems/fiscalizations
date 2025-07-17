@@ -59,6 +59,14 @@ public class SignerTests
             _authToken,
             "Test taxpayer",
             "B12345678",
+            new TaxpayerAddress(
+                Municipality: "Madrid",
+                City: "Madrid",
+                Street: "Calle de Test",
+                PostalCode: "28001",
+                Number: "1",
+                Country: "ES"
+            ),
             TaxpayerTerritory.SpainOther
         );
     }

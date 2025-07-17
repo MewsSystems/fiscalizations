@@ -8,7 +8,7 @@ namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.Taxpayers;
 
 internal static class TaxpayerMapper
 {
-    public static ContentWrapper<CreateTaxpayerRequest> MapTaxpayerRequest(string legalName, string taxIdentifier, TaxpayerTerritory territory)
+    public static ContentWrapper<CreateTaxpayerRequest> MapTaxpayerRequest(string legalName, string taxIdentifier, TaxpayerTerritory territory, TaxpayerAddress address)
     {
         return new ContentWrapper<CreateTaxpayerRequest>
         {
@@ -19,7 +19,16 @@ internal static class TaxpayerMapper
                     LegalName = legalName,
                     TaxNumber = taxIdentifier
                 },
-                Territory = territory.MapTerritoryRequest()
+                Territory = territory.MapTerritoryRequest(),
+                Address = new Address
+                {
+                    Municipality = address.Municipality,
+                    City = address.City,
+                    Street = address.Street,
+                    PostalCode = address.PostalCode,
+                    Number = address.Number,
+                    Country = address.Country
+                }
             }
         };
     }
@@ -35,14 +44,14 @@ internal static class TaxpayerMapper
                 {
                     FullName = representative.FullName,
                     TaxNumber = representative.TaxNumber,
-                    Address = new TaxpayerAgreementRepresentativeAddress
+                    Address = new Address
                     {
-                        Municipality = representative.Municipality,
-                        City = representative.City,
-                        Street = representative.Street,
-                        PostalCode = representative.PostalCode,
-                        Number = representative.Number,
-                        Country = representative.Country
+                        Municipality = representative.Address.Municipality,
+                        City = representative.Address.City,
+                        Street = representative.Address.Street,
+                        PostalCode = representative.Address.PostalCode,
+                        Number = representative.Address.Number,
+                        Country = representative.Address.Country
                     }
                 }
             }
