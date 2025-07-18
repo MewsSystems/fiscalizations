@@ -137,10 +137,9 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(representative.MapTaxpayerAgreementRequest()), Encoding.UTF8, JsonContentType);
 
-        return await ProcessRequestAsync<string, string>(
+        return await ProcessFileRequestAsync<string>(
             method: HttpMethod.Post,
             endpoint: $"{TaxpayerEndpoint}/agreement",
-            successFunc: r => r,
             token: token,
             request: requestBody,
             cancellationToken: cancellationToken
@@ -449,6 +448,43 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         return httpResponse.IsSuccessStatusCode ?
             new ResponseResult<TResult>(successResult: successFunc(JsonSerializer.Deserialize<TDto>(content))) :
             new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<ContentWrapper<SignESErrorResponse>>(content).Content.MapSignESErrorResponse());
+    }
+    
+    private async Task<ResponseResult<string>> ProcessFileRequestAsync<TDto>(
+        HttpMethod method,
+        string endpoint,
+        StringContent request,
+        CancellationToken cancellationToken,
+        AccessToken token = null)
+        where TDto : class
+    {
+        var uri = new Uri(_baseUri, $"{RelativeApiUrl}{endpoint}");
+        var requestMessage = new HttpRequestMessage(method, uri);
+        
+        if (method != HttpMethod.Get)
+        {
+            requestMessage.Content = request;
+        }
+
+        if (token is not null)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthSchema, token.Value);
+        }
+        var httpResponse = await httpClient.SendAsync(requestMessage, cancellationToken);
+        
+        var content = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+
+        if (!httpResponse.IsSuccessStatusCode)
+        {
+            return new ResponseResult<string>(errorResult: JsonSerializer.Deserialize<ContentWrapper<SignESErrorResponse>>(content).Content.MapSignESErrorResponse());
+        }
+        
+        var pdfBytes = await httpResponse.Content.ReadAsByteArrayAsync(cancellationToken);
+
+        var base64String = Convert.ToBase64String(pdfBytes);
+
+        return new ResponseResult<string>(base64String);
+
     }
     
     
