@@ -13,8 +13,7 @@
     <PackageVersion>37.2.0</PackageVersion>
     <LangVersion>12</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
-    <TargetsForTfmSpecificBuildOutput>
-      $(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    <TargetsForTfmSpecificBuildOutput> $(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
@@ -52,18 +51,15 @@
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Core.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference
-      Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj">
+    <ProjectReference Include="..\Austria\Mews.Fiscalizations.Austria\Mews.Fiscalizations.Austria.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Austria.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference
-      Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj">
+    <ProjectReference Include="..\Germany\Mews.Fiscalizations.Germany\Mews.Fiscalizations.Germany.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Germany.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference
-      Include="..\Hungary\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj">
+    <ProjectReference Include="..\Hungary\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Hungary.dll</IncludeAssets>
     </ProjectReference>
@@ -75,18 +71,15 @@
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Spain.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference
-      Include="..\Basque\Mews.Fiscalizations.Basque\Mews.Fiscalizations.Basque.csproj">
+    <ProjectReference Include="..\Basque\Mews.Fiscalizations.Basque\Mews.Fiscalizations.Basque.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Basque.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference
-      Include="..\Sweden\Mews.Fiscalizations.Sweden\Mews.Fiscalizations.Sweden.csproj">
+    <ProjectReference Include="..\Sweden\Mews.Fiscalizations.Sweden\Mews.Fiscalizations.Sweden.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Sweden.dll</IncludeAssets>
     </ProjectReference>
-    <ProjectReference
-      Include="..\Fiskaly\Mews.Fiscalizations.Fiskaly\Mews.Fiscalizations.Fiskaly.csproj">
+    <ProjectReference Include="..\Fiskaly\Mews.Fiscalizations.Fiskaly\Mews.Fiscalizations.Fiskaly.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <IncludeAssets>Mews.Fiscalizations.Fiskaly.dll</IncludeAssets>
     </ProjectReference>
@@ -94,8 +87,7 @@
 
   <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
     <ItemGroup>
-      <BuildOutputInPackage
-        Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
 
