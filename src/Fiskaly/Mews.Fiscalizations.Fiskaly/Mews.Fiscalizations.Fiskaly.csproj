@@ -37,11 +37,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
+        <ProjectReference
+            Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\SignES\" />
+        <Folder Include="Models\SignES\" />
     </ItemGroup>
 
     <PropertyGroup>
