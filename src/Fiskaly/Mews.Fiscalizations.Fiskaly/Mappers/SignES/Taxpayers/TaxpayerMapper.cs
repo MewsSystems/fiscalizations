@@ -20,7 +20,7 @@ internal static class TaxpayerMapper
                     TaxNumber = taxIdentifier
                 },
                 Territory = territory.MapTerritoryRequest(),
-                Address = new Address
+                Address = address != null ? new Address
                 {
                     Municipality = address.Municipality,
                     City = address.City,
@@ -28,7 +28,7 @@ internal static class TaxpayerMapper
                     PostalCode = address.PostalCode,
                     Number = address.Number,
                     Country = address.Country
-                }
+                } : null
             }
         };
     }

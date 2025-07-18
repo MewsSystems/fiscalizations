@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Audit;
 using Mews.Fiscalizations.Fiskaly.DTOs.SignES.Auth;
@@ -82,7 +83,10 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
         TaxpayerTerritory territory,
         CancellationToken cancellationToken = default)
     {
-        var requestBody = new StringContent(JsonSerializer.Serialize(TaxpayerMapper.MapTaxpayerRequest(legalName, taxIdentifier, territory, address)), Encoding.UTF8, JsonContentType);
+        var requestBody = new StringContent(JsonSerializer.Serialize(TaxpayerMapper.MapTaxpayerRequest(legalName, taxIdentifier, territory, address), new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        }), Encoding.UTF8, JsonContentType);
 
         return await ProcessRequestAsync<ContentWrapper<TaxpayerResponse>, Taxpayer>(
             method: HttpMethod.Put,
