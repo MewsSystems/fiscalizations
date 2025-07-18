@@ -19,6 +19,6 @@ internal sealed class Address
     [JsonPropertyName("number")]
     public string Number { get; init; }
 
-    [JsonPropertyName("country")]
+    [JsonPropertyName("country_code")]
     public string Country { get; init; }
 }
