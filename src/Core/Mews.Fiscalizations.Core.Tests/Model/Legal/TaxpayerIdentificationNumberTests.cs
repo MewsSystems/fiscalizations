@@ -7,7 +7,6 @@ public sealed class TaxpayerIdentificationNumberTests
     [TestCase("AT", "U99999999")]
     [TestCase("BE", "0999999999")]
     [TestCase("BG", "999999999")]
-    [TestCase("CY", "99999999L")]
     [TestCase("CZ", "99999999")]
     [TestCase("DE", "999999999")]
     [TestCase("DK", "99999999")]
@@ -93,5 +92,16 @@ public sealed class TaxpayerIdentificationNumberTests
     {
         var taxpayerNumber = TaxpayerIdentificationNumber.Create(Countries.Spain, taxId);
         Assert.That(taxpayerNumber.IsError);
+    }
+    
+    [Test]
+    [TestCase("CY", "99999999L")]
+    [TestCase("CY", "12345678N")]
+    public void CreatingValidCyprusTaxpayerNumberSucceeds(string countryCode, string taxpayerNumber)
+    {
+        var country = Country.GetByCode(countryCode).Get();
+        var europeanCountry = EuropeanUnionCountry.GetByCode(countryCode).Get();
+        Assert.That(EuropeanUnionTaxpayerIdentificationNumber.Create(europeanCountry, taxpayerNumber).IsSuccess);
+        Assert.That(TaxpayerIdentificationNumber.Create(country, taxpayerNumber).IsSuccess);
     }
 }
