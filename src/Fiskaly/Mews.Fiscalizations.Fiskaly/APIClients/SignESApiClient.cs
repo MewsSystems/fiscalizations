@@ -137,7 +137,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     {
         var requestBody = new StringContent(JsonSerializer.Serialize(representative.MapTaxpayerAgreementRequest()), Encoding.UTF8, JsonContentType);
 
-        return await ProcessFileRequestAsync<string>(
+        return await ProcessFileRequestAsync(
             method: HttpMethod.Post,
             endpoint: $"{TaxpayerEndpoint}/agreement",
             token: token,
@@ -171,6 +171,19 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
             method: HttpMethod.Get,
             endpoint: $"{TaxpayerEndpoint}/agreement",
             successFunc: r => r.MapSignedTaxpayerAgreementResponse(),
+            token: token,
+            request: null,
+            cancellationToken: cancellationToken
+        );
+    }
+    
+    public async Task<ResponseResult<string>> GetLatestSignedTaxpayerAgreementAsync(
+        AccessToken token,
+        CancellationToken cancellationToken = default)
+    {
+        return await ProcessFileRequestAsync(
+            method: HttpMethod.Get,
+            endpoint: $"{TaxpayerEndpoint}/agreement.pdf",
             token: token,
             request: null,
             cancellationToken: cancellationToken
@@ -450,13 +463,12 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
             new ResponseResult<TResult>(errorResult: JsonSerializer.Deserialize<ContentWrapper<SignESErrorResponse>>(content).Content.MapSignESErrorResponse());
     }
     
-    private async Task<ResponseResult<string>> ProcessFileRequestAsync<TDto>(
+    private async Task<ResponseResult<string>> ProcessFileRequestAsync(
         HttpMethod method,
         string endpoint,
         StringContent request,
         CancellationToken cancellationToken,
         AccessToken token = null)
-        where TDto : class
     {
         var uri = new Uri(_baseUri, $"{RelativeApiUrl}{endpoint}");
         var requestMessage = new HttpRequestMessage(method, uri);
