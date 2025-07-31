@@ -85,6 +85,16 @@ public class TaxpayerTests
     [Test]
     [CancelAfter(1000)]
     [Ignore("Fiskaly API limitation")]
+    public async Task GetLatestAgreementTaxpayerSuccessAsync(CancellationToken token)
+    {
+        var taxpayerResult = await _signEsApiClient.GetLatestSignedTaxpayerAgreementAsync(_authToken, token);
+        
+        Assert.That(taxpayerResult.IsSuccess);
+    }
+    
+    [Test]
+    [CancelAfter(1000)]
+    [Ignore("Fiskaly API limitation")]
     public async Task UploadSignedTaxpayerAgreementSuccessAsync(CancellationToken token)
     {
         var taxpayerResult = await _signEsApiClient.UploadSignedTaxpayerAgreementAsync(_authToken, string.Empty, token);
