@@ -6,7 +6,7 @@ public sealed class Receiver
     public string Address { get; init; }
     public string PostalCode { get; init; }
     public string TaxIdentifier { get; init; }
-    internal ReceiverType Type { get; init; }
+    public ReceiverType Type { get; init; }
     public string DocumentCountry { get; init; }
     public ForeignerDocumentType ForeignerDocumentType { get; init; }
 
