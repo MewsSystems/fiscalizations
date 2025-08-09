@@ -42,6 +42,10 @@ internal sealed class Item
 
     [JsonPropertyName("system")]
     public System System { get; init; }
+    
+    [JsonPropertyName("vat_type")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public VatTypeEnum VatType { get; init; }
 }
 
 internal sealed class System
@@ -83,4 +87,12 @@ internal enum TaxExemptionReason
     TAXABLE_EXEMPT_4,
     TAXABLE_EXEMPT_5,
     TAXABLE_EXEMPT_6
+}
+
+internal enum VatTypeEnum
+{
+    IVA,
+    IPSI,
+    IGIC,
+    OTHER
 }
