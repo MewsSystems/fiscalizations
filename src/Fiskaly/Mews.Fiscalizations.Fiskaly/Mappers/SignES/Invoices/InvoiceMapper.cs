@@ -119,12 +119,31 @@ internal static class InvoiceMapper
             VatType = MapVatType(lineItem.VatType),
             System = new DTOs.SignES.Invoices.System
             {
-                Category = category
+                Category = category,
+                Type = MapBillingSystemTypeRequest(lineItem.BillingSystemType)
             }
         };
     }
     
-    
+    private static BillingSystemType MapBillingSystemTypeRequest(BillingSystemTypeEnum billingSystemType)
+    {
+        return billingSystemType switch
+        {
+            BillingSystemTypeEnum.REGULAR => BillingSystemType.REGULAR,
+            BillingSystemTypeEnum.SIMPLIFIED_REGIME => BillingSystemType.SIMPLIFIED_REGIME,
+            BillingSystemTypeEnum.EQUIVALENCE_SURCHARGE => BillingSystemType.EQUIVALENCE_SURCHARGE,
+            BillingSystemTypeEnum.EXPORT => BillingSystemType.EXPORT,
+            BillingSystemTypeEnum.AGRICULTURE => BillingSystemType.AGRICULTURE,
+            BillingSystemTypeEnum.ANTIQUES => BillingSystemType.ANTIQUES,
+            BillingSystemTypeEnum.TRAVEL_AGENCIES => BillingSystemType.TRAVEL_AGENCIES,
+            BillingSystemTypeEnum.TRAVEL_AGENCY_MEDIATORS => BillingSystemType.TRAVEL_AGENCY_MEDIATORS,
+            BillingSystemTypeEnum.OTHER_TAX_IVA => BillingSystemType.OTHER_TAX_IVA,
+            BillingSystemTypeEnum.OTHER_TAX_IGIC => BillingSystemType.OTHER_TAX_IGIC,
+            BillingSystemTypeEnum.OTHER_TAX_IPSI => BillingSystemType.OTHER_TAX_IPSI,
+            _ => throw new ArgumentOutOfRangeException(nameof(billingSystemType), billingSystemType, null)
+        };
+    }
+
     private static DTOs.SignES.Invoices.VatTypeEnum MapVatType(VatTypeEnum vatType)
     {
         return vatType switch

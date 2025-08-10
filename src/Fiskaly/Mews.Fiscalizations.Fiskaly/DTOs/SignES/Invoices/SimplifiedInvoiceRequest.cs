@@ -51,7 +51,8 @@ internal sealed class Item
 internal sealed class System
 {
     [JsonPropertyName("type")]
-    public string Type => "REGULAR";
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public BillingSystemType Type { get; init; }
 
     [JsonPropertyName("category")]
     public Category Category { get; init; }
@@ -95,4 +96,19 @@ internal enum VatTypeEnum
     IPSI,
     IGIC,
     OTHER
+}
+
+internal enum BillingSystemType
+{
+    REGULAR,
+    SIMPLIFIED_REGIME,
+    EQUIVALENCE_SURCHARGE,
+    EXPORT,
+    AGRICULTURE,
+    ANTIQUES,
+    TRAVEL_AGENCIES,
+    TRAVEL_AGENCY_MEDIATORS,
+    OTHER_TAX_IVA,
+    OTHER_TAX_IGIC,
+    OTHER_TAX_IPSI
 }
