@@ -16,7 +16,8 @@ public sealed record InvoiceItem(
     decimal FullAmount,
     TaxExemptionReason TaxExemptionReason,
     decimal? TaxRate,
-    VatTypeEnum VatType
+    VatTypeEnum VatType,
+    BillingSystemTypeEnum BillingSystemType
 );
 
 public enum TaxExemptionReason
@@ -36,4 +37,19 @@ public enum VatTypeEnum
     IPSI,
     IGIC,
     OTHER
+}
+
+public enum BillingSystemTypeEnum
+{
+    REGULAR,
+    SIMPLIFIED_REGIME,
+    EQUIVALENCE_SURCHARGE,
+    EXPORT,
+    AGRICULTURE,
+    ANTIQUES,
+    TRAVEL_AGENCIES,
+    TRAVEL_AGENCY_MEDIATORS,
+    OTHER_TAX_IVA,
+    OTHER_TAX_IGIC,
+    OTHER_TAX_IPSI
 }
