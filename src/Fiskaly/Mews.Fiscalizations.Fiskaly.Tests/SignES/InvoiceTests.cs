@@ -29,7 +29,8 @@ public class InvoiceTests
                     UnitAmount: 100,
                     FullAmount: 100,
                     TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                    TaxRate: null
+                    TaxRate: null,
+                    VatType: VatTypeEnum.IVA
                 )
             ],
             DateTime.UtcNow
@@ -56,7 +57,8 @@ public class InvoiceTests
                         UnitAmount: 1000,
                         FullAmount: 1000,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow
@@ -89,7 +91,8 @@ public class InvoiceTests
                         UnitAmount: 1000,
                         FullAmount: 1000,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow
@@ -122,7 +125,8 @@ public class InvoiceTests
                         UnitAmount: 1000,
                         FullAmount: 1000,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow
@@ -158,7 +162,8 @@ public class InvoiceTests
                         UnitAmount: 1000,
                         FullAmount: 1000,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow
@@ -194,7 +199,8 @@ public class InvoiceTests
                         UnitAmount: 1000,
                         FullAmount: 1000,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow
@@ -224,7 +230,8 @@ public class InvoiceTests
                         UnitAmount: 100,
                         FullAmount: 100,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow
@@ -268,7 +275,8 @@ public class InvoiceTests
                         UnitAmount: 1000,
                         FullAmount: 1000,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow
@@ -292,7 +300,8 @@ public class InvoiceTests
                         UnitAmount: 100,
                         FullAmount: 100,
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
-                        TaxRate: null
+                        TaxRate: null,
+                        VatType: VatTypeEnum.IVA
                     )
                 ],
                 DateTime.UtcNow

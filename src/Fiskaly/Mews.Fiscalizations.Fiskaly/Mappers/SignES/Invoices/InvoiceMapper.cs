@@ -7,6 +7,7 @@ using InvoiceState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.InvoiceS
 using SignedInvoiceCancellationState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.SignedInvoiceCancellationState;
 using SignedInvoiceRegistrationState = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.SignedInvoiceRegistrationState;
 using TaxExemptionReason = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.TaxExemptionReason;
+using VatTypeEnum = Mews.Fiscalizations.Fiskaly.Models.SignES.Invoices.VatTypeEnum;
 
 namespace Mews.Fiscalizations.Fiskaly.Mappers.SignES.Invoices;
 
@@ -115,6 +116,7 @@ internal static class InvoiceMapper
             Quantity = lineItem.Quantity.ToString("F2", CultureInfo.InvariantCulture),
             UnitAmount = lineItem.UnitAmount.ToString("F2", CultureInfo.InvariantCulture),
             FullAmount = lineItem.FullAmount.ToString("F2", CultureInfo.InvariantCulture),
+            VatType = MapVatType(lineItem.VatType),
             System = new DTOs.SignES.Invoices.System
             {
                 Category = category
@@ -122,6 +124,18 @@ internal static class InvoiceMapper
         };
     }
     
+    
+    private static DTOs.SignES.Invoices.VatTypeEnum MapVatType(VatTypeEnum vatType)
+    {
+        return vatType switch
+        {
+            VatTypeEnum.IVA => DTOs.SignES.Invoices.VatTypeEnum.IVA,
+            VatTypeEnum.IPSI => DTOs.SignES.Invoices.VatTypeEnum.IPSI,
+            VatTypeEnum.IGIC => DTOs.SignES.Invoices.VatTypeEnum.IGIC,
+            VatTypeEnum.OTHER => DTOs.SignES.Invoices.VatTypeEnum.OTHER,
+            _ => throw new ArgumentOutOfRangeException(nameof(vatType), vatType, null)
+        };
+    }
     private static DTOs.SignES.Invoices.TaxExemptionReason MapTaxExemptionReasonRequest(this TaxExemptionReason reason)
     {
         return reason switch
