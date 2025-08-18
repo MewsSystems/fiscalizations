@@ -116,6 +116,7 @@ internal static class InvoiceMapper
             Quantity = lineItem.Quantity.ToString("F2", CultureInfo.InvariantCulture),
             UnitAmount = lineItem.UnitAmount.ToString("F2", CultureInfo.InvariantCulture),
             FullAmount = lineItem.FullAmount.ToString("F2", CultureInfo.InvariantCulture),
+            DiscountAmount = lineItem.DiscountAmount.ToString("F2", CultureInfo.InvariantCulture),
             VatType = MapVatType(lineItem.VatType),
             System = new DTOs.SignES.Invoices.System
             {
