@@ -14,6 +14,7 @@ public sealed record InvoiceItem(
     decimal Quantity,
     decimal UnitAmount,
     decimal FullAmount,
+    decimal DiscountAmount,
     TaxExemptionReason TaxExemptionReason,
     decimal? TaxRate,
     VatTypeEnum VatType,

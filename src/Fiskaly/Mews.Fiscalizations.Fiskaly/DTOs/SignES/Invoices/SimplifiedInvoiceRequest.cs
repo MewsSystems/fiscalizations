@@ -39,6 +39,9 @@ internal sealed class Item
 
     [JsonPropertyName("full_amount")]
     public string FullAmount { get; init; }
+    
+    [JsonPropertyName("discount")]
+    public string DiscountAmount { get; init; }
 
     [JsonPropertyName("system")]
     public System System { get; init; }

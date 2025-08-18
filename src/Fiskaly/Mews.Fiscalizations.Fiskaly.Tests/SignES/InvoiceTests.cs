@@ -31,7 +31,8 @@ public class InvoiceTests
                     TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                     TaxRate: null,
                     VatType: VatTypeEnum.IVA,
-                    BillingSystemType: BillingSystemTypeEnum.REGULAR
+                    BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                    DiscountAmount: 0
                 )
             ],
             DateTime.UtcNow
@@ -60,7 +61,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
@@ -95,7 +97,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
@@ -130,7 +133,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
@@ -168,7 +172,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
@@ -206,7 +211,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
@@ -238,7 +244,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
@@ -284,7 +291,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
@@ -310,7 +318,8 @@ public class InvoiceTests
                         TaxExemptionReason: TaxExemptionReason.OtherGrounds,
                         TaxRate: null,
                         VatType: VatTypeEnum.IVA,
-                        BillingSystemType: BillingSystemTypeEnum.REGULAR
+                        BillingSystemType: BillingSystemTypeEnum.REGULAR,
+                        DiscountAmount: 0
                     )
                 ],
                 DateTime.UtcNow
