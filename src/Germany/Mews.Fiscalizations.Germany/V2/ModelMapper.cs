@@ -112,6 +112,7 @@ internal static class ModelMapper
             Dto.TssState.INITIALIZED, _ => TssState.Initialized,
             Dto.TssState.UNINITIALIZED, _ => TssState.Uninitialized,
             Dto.TssState.DELETED, _ => TssState.Deleted,
+            Dto.TssState.DEFECTIVE, _ => TssState.Defective,
             _ => throw new NotImplementedException($"Tss state: {state} is not implemented.")
         );
     }

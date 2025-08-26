@@ -6,5 +6,6 @@ public enum TssState
     Uninitialized,
     Initialized,
     Disabled,
-    Deleted
+    Deleted,
+    Defective
 }

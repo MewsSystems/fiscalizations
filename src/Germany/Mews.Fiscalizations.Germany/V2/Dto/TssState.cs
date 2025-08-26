@@ -6,5 +6,6 @@ internal enum TssState
     UNINITIALIZED,
     INITIALIZED,
     DISABLED,
-    DELETED
+    DELETED,
+    DEFECTIVE
 }
