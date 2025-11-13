@@ -1,8 +1,18 @@
 <Project>
   <PropertyGroup>
     <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="FuncSharp" Version="10.0.4" />
+    <PackageVersion Include="FuncSharp" Version="10.0.4" />
+    <PackageVersion Include="BouncyCastle.Cryptography" Version="2.6.2" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
+    <PackageVersion Include="System.Security.Cryptography.Xml" Version="8.0.2" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageVersion Include="System.Net.Http" Version="4.3.4" />
+    <PackageVersion Include="System.ServiceModel.Primitives" Version="8.1.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.22" />
   </ItemGroup>
 </Project>
