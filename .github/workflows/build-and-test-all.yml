@@ -25,10 +25,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Cache NuGet packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -36,7 +36,7 @@ jobs:
           ${{ runner.os }}-nuget-
 
     - name: Setup .NET 8
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 8.x
 
@@ -92,7 +92,7 @@ jobs:
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results-${{ runner.os }}.trx" || true
 
     - name: Test Report
-      uses: dorny/test-reporter@v1.8.0
+      uses: dorny/test-reporter@v2
       if: success() || failure()
       with:
         name: Mews.Fiscalizations.All-${{ runner.os }} Tests
