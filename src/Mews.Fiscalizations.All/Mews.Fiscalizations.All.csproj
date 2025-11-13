@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Mews.Fiscalizations.All.props" />
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Authors>Mews</Authors>
@@ -15,12 +14,6 @@
     <ImplicitUsings>true</ImplicitUsings>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE">
