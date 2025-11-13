@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 jobs:
-  publish-sweden:
+  publish-fiskaly:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
