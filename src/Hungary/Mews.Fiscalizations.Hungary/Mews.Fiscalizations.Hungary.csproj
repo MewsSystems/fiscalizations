@@ -16,6 +16,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="FuncSharp" />
     <PackageReference Include="BouncyCastle.Cryptography" />
     <PackageReference Include="System.Net.Http" />
   </ItemGroup>

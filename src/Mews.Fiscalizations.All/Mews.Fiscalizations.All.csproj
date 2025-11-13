@@ -44,6 +44,7 @@
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.Net.Http" />
     <PackageReference Include="System.ServiceModel.Primitives" />
+    <PackageReference Include="FuncSharp" />
   </ItemGroup>
 
   <ItemGroup>

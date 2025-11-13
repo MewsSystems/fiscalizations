@@ -32,6 +32,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="FuncSharp" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
     </ItemGroup>
 

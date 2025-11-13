@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FuncSharp" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.Net.Http" />
   </ItemGroup>

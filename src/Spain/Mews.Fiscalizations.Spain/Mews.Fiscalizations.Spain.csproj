@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FuncSharp" />
     <PackageReference Include="System.Net.Http" />
     <PackageReference Include="System.ServiceModel.Primitives" />
   </ItemGroup>
