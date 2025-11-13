@@ -1,4 +1,6 @@
 name: build-and-test-all
+permissions:
+  contents: read
 
 on:
   push:
