@@ -1,8 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="FuncSharp" Version="10.0.4" />
-  </ItemGroup>
-</Project>

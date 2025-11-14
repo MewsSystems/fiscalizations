@@ -8,8 +8,11 @@ on:
     types:
       - completed
 
+permissions:
+  contents: read
+
 jobs:
-  publish-sweden:
+  publish-fiskaly:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
@@ -23,10 +26,10 @@ jobs:
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup .NET 8
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 8.x
 

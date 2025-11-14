@@ -166,7 +166,7 @@ public sealed class InvoiceTests
             receiver: receiver,
             items: Sequence.FromPreordered(items, startIndex: 1).Get(),
             paymentDate: nowUtc,
-            currencyCode: CurrencyCode.Create("EUR").Success.Get(),
+            currencyCode: CurrencyCode.Create("HUF").Success.Get(),
             paymentMethod: PaymentMethod.Card
         );
     }
@@ -216,7 +216,7 @@ public sealed class InvoiceTests
             supplierInfo: CreateSupplierInfo(),
             receiver: receiver,
             items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-            currencyCode: CurrencyCode.Create("EUR").Success.Get(),
+            currencyCode: CurrencyCode.Create("HUF").Success.Get(),
             issueDate: nowUtc,
             paymentDate: nowUtc,
             itemIndexOffset: 3,

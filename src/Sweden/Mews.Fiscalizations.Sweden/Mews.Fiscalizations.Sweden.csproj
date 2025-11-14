@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../Mews.Fiscalizations.All.props" />
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Authors>Mews</Authors>
@@ -29,6 +28,10 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FuncSharp" />
     </ItemGroup>
 
     <ItemGroup>

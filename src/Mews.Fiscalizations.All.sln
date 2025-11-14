@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Italy", "Italy", "{EC0FB3F2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{29D50602-F367-42CF-9CE8-FEF650F36A02}"
 	ProjectSection(SolutionItems) = preProject
-		Mews.Fiscalizations.All.props = Mews.Fiscalizations.All.props
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spain", "Spain", "{F9B7DD75-2D03-434F-81E9-60547C327BE5}"
