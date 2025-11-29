@@ -8,7 +8,7 @@ public sealed class TransactionData(
     long organizationNumber,
     string organizationRegisterId,
     string registerFullAddress,
-    int sequenceNumber,
+    long sequenceNumber,
     TransactionType transactionType,
     TaxAmount? twentyFivePercentTax = null,
     TaxAmount? twelvePercentTax = null,
@@ -17,7 +17,7 @@ public sealed class TransactionData(
     decimal? saleAmount = null,
     decimal? refundAmount = null,
     DateTime? copyDateTime = null,
-    int? copySequenceNumber = null)
+    long? copySequenceNumber = null)
 {
     public DateTime DateTime { get; } = dateTime;
 
@@ -27,7 +27,7 @@ public sealed class TransactionData(
 
     public string RegisterFullAddress { get; } = registerFullAddress;
 
-    public int SequenceNumber { get; } = sequenceNumber;
+    public long SequenceNumber { get; } = sequenceNumber;
 
     public TransactionType TransactionType { get; } = transactionType;
 
@@ -45,7 +45,7 @@ public sealed class TransactionData(
 
     public Option<DateTime> CopyDateTime { get; } = copyDateTime.ToOption();
 
-    public Option<int> CopySequenceNumber { get; } = copySequenceNumber.ToOption();
+    public Option<long> CopySequenceNumber { get; } = copySequenceNumber.ToOption();
 }
 
 public sealed record TaxAmount(decimal Amount = 0.00m, decimal SubtotalAmount = 0.00m);

@@ -38,10 +38,10 @@ public sealed class ControlData
     public required string RegisterAddress { get; init; }
 
     [XmlElement("SequenceNumber")]
-    public required int SequenceNumber { get; init; }
+    public required long SequenceNumber { get; init; }
 
     [XmlElement("CopySequenceNumber")]
-    public int? CopySequenceNumber { get; init; }
+    public long? CopySequenceNumber { get; init; }
 
     public bool ShouldSerializeCopySequenceNumber()
     {
