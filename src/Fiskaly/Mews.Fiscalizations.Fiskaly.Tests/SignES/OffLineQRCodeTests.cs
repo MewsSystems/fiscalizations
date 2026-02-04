@@ -16,7 +16,7 @@ public class OffLineQRCodeTests
     {
        var billDate = new DateTime(2023, 10, 1, 12, 0, 0);
         var qrContentString =  _signEsApiClient.GetOfflineQRCodeContent("A12345678", "1", "I", billDate, 100.00m);
-        var expectedContentString = $"https://prewww2.aeat.es/wlpl/TIKE-CONT/ValidarQR?nif=A12345678&numserie=I1&fecha={billDate:yyyy-MM-dd}&importe=100.00";
+        var expectedContentString = $"https://prewww2.aeat.es/wlpl/TIKE-CONT/ValidarQR?nif=A12345678&numserie=I1&fecha={billDate:dd-MM-yyyy}&importe=100.00";
         Assert.That(qrContentString, Is.Not.Null);
         Assert.That(qrContentString, Does.Contain("nif=A12345678"));
         Assert.That(qrContentString, Does.Contain("I1"));
