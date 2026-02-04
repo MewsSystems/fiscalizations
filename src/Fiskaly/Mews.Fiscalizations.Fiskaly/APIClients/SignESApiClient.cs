@@ -429,7 +429,7 @@ public class SignESApiClient(HttpClient httpClient, FiskalyEnvironment environme
     
     public string GetOfflineQRCodeContent(string taxId, string billNumber, string billSeries, DateTime billDate, decimal billAmount)
     {
-        return $"{_baseAeatUri}{AeatQrEndpoint}?nif={taxId}&numserie={billSeries}{billNumber}&fecha={billDate:yyyy-MM-dd}&importe={billAmount :##.00}";
+        return $"{_baseAeatUri}{AeatQrEndpoint}?nif={taxId}&numserie={billSeries}{billNumber}&fecha={billDate:dd-MM-yyyy}&importe={billAmount :##.00}";
     }
     
     private async Task<ResponseResult<TResult>> ProcessRequestAsync<TDto, TResult>(
