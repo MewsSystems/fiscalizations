@@ -46,15 +46,10 @@ public sealed class TestFixture
     {
         var validationResults = response.ValidationResults.Flatten();
 
-        // Araba and Gipuzkoa regions validate that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
+        // Araba region validates that each invoice is chained, but that's something we can't do in tests, so we will be ignoring that error.
         // Also the NIF must be registered in the Araba region.
         var applicableValidationResults = region.Match(
             Region.Araba, _ => validationResults.Where(r =>
-                r.ErrorCode != ErrorCode.InvalidOrMissingInvoiceChain
-                && r.ErrorCode != ErrorCode.IssuerNifMustBeRegisteredInArabaRegion
-                && r.ErrorCode != ErrorCode.ArabaRegionTestCertificate
-            ),
-            Region.Gipuzkoa, _ => validationResults.Where(r =>
                 r.ErrorCode != ErrorCode.InvalidOrMissingInvoiceChain
                 && r.ErrorCode != ErrorCode.IssuerNifMustBeRegisteredInArabaRegion
                 && r.ErrorCode != ErrorCode.ArabaRegionTestCertificate
