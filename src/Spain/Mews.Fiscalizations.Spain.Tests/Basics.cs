@@ -47,6 +47,7 @@ public class Basics
 
     [Test]
     [Retry(RetryCount)]
+    [Ignore("Certificate expired on 12.01.2026 - needs to be replaced with a valid one.")]
     public async Task CheckNif()
     {
         var goodEntries = NonEmptyEnumerable.Create(
@@ -69,6 +70,7 @@ public class Basics
 
     [Test]
     [Retry(RetryCount)]
+    [Ignore("Certificate expired on 12.01.2026 - needs to be replaced with a valid one.")]
     public async Task PostInvoice_WithValidData_Succeeds()
     {
         await PostInvoice(GetInvoice(issuer: Issuer, taxRateSummaries: TaxedItems, taxExemptItems: UntaxedItems), RegisterResult.Correct);
@@ -76,6 +78,7 @@ public class Basics
 
     [Test]
     [Retry(RetryCount)]
+    [Ignore("Certificate expired on 12.01.2026 - needs to be replaced with a valid one.")]
     public async Task PostZeroVatInvoice_WithValidData_Succeeds()
     {
         await PostInvoice(GetInvoice(issuer: Issuer, taxExemptItems: UntaxedItems), RegisterResult.Correct);
@@ -83,6 +86,7 @@ public class Basics
 
     [Test]
     [Retry(RetryCount)]
+    [Ignore("Certificate expired on 12.01.2026 - needs to be replaced with a valid one.")]
     public async Task PostingZeroVatItemsAsTaxedItems_Fails()
     {
         var invoice = GetInvoice(issuer: Issuer, taxRateSummaries: InvalidTaxedItems);
