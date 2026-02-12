@@ -28,4 +28,13 @@ public sealed class CounterParty : Coproduct2<LocalCounterParty, ForeignCounterP
     {
         return new CounterParty(new ForeignCounterParty(new ForeignCompany(name, taxpayerNumber)));
     }
+
+    /// <summary>
+    /// Creates a counterparty for a company based outside Spain that has been issued a Spanish NIF by the Tax Agency.
+    /// The SII API identifies such entities by their NIF, same as domestic companies.
+    /// </summary>
+    public static Try<CounterParty, Error> ForeignCompanyWithSpanishNif(Name name, string spanishNif)
+    {
+        return Local(name, spanishNif);
+    }
 }
