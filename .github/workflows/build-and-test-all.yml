@@ -91,6 +91,10 @@ jobs:
         fiskaly_signes_api_secret: ${{secrets.fiskaly_signes_api_secret}}
         fiskaly_management_api_key: ${{secrets.fiskaly_management_api_key}}
         fiskaly_management_api_secret: ${{secrets.fiskaly_management_api_secret}}
+        fiskaly_dsfinvk_api_key: ${{secrets.fiskaly_dsfinvk_api_key}}
+        fiskaly_dsfinvk_api_secret: ${{secrets.fiskaly_dsfinvk_api_secret}}
+        fiskaly_dsfinvk_test_tss_id: ${{secrets.fiskaly_dsfinvk_test_tss_id}}
+        fiskaly_dsfinvk_test_client_id: ${{secrets.fiskaly_dsfinvk_test_client_id}}
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results-${{ runner.os }}.trx" || true
 
     - name: Test Report
