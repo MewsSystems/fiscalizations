@@ -4,10 +4,13 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.Auth;
+using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashRegisters;
 using Mews.Fiscalizations.Fiskaly.Mappers.DSFinVK.Auth;
+using Mews.Fiscalizations.Fiskaly.Mappers.DSFinVK.CashPointClosings;
 using Mews.Fiscalizations.Fiskaly.Mappers.DSFinVK.CashRegisters;
 using Mews.Fiscalizations.Fiskaly.Models;
+using Mews.Fiscalizations.Fiskaly.Models.DSFinVK.CashPointClosings;
 using Mews.Fiscalizations.Fiskaly.Models.DSFinVK.CashRegisters;
 
 namespace Mews.Fiscalizations.Fiskaly.APIClients;
@@ -21,6 +24,7 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
     private const string RelativeApiUrl = "api/v1/";
     private const string AuthEndpoint = "auth";
     private const string CashRegistersEndpoint = "cash_registers";
+    private const string CashPointClosingsEndpoint = "cash_point_closings";
 
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
@@ -76,6 +80,59 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
             endpoint: $"{CashRegistersEndpoint}/{clientId}",
             request: null,
             successFunc: r => r.MapResponse(),
+            token: token,
+            cancellationToken: cancellationToken
+        );
+    }
+
+    public async Task<ResponseResult<CashPointClosingResult>> InsertCashPointClosingAsync(
+        AccessToken token,
+        CashPointClosing closing,
+        CancellationToken cancellationToken = default)
+    {
+        var requestBody = new StringContent(
+            JsonSerializer.Serialize(CashPointClosingMapper.MapInsertRequest(closing), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            }),
+            Encoding.UTF8,
+            JsonContentType);
+
+        return await ProcessRequestAsync<CashPointClosingResponse, CashPointClosingResult>(
+            method: HttpMethod.Put,
+            endpoint: $"{CashPointClosingsEndpoint}/{closing.ClosingId}",
+            request: requestBody,
+            successFunc: r => r.MapResponse(),
+            token: token,
+            cancellationToken: cancellationToken
+        );
+    }
+
+    public async Task<ResponseResult<CashPointClosingResult>> GetCashPointClosingAsync(
+        AccessToken token,
+        Guid closingId,
+        CancellationToken cancellationToken = default)
+    {
+        return await ProcessRequestAsync<CashPointClosingResponse, CashPointClosingResult>(
+            method: HttpMethod.Get,
+            endpoint: $"{CashPointClosingsEndpoint}/{closingId}",
+            request: null,
+            successFunc: r => r.MapResponse(),
+            token: token,
+            cancellationToken: cancellationToken
+        );
+    }
+
+    public async Task<ResponseResult<CashPointClosingResult>> DeleteCashPointClosingAsync(
+        AccessToken token,
+        Guid closingId,
+        CancellationToken cancellationToken = default)
+    {
+        return await ProcessRequestAsync<CashPointClosingResponse, CashPointClosingResult>(
+            method: HttpMethod.Delete,
+            endpoint: $"{CashPointClosingsEndpoint}/{closingId}",
+            request: null,
+            successFunc: _ => null,
             token: token,
             cancellationToken: cancellationToken
         );
