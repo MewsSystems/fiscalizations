@@ -8,11 +8,6 @@ using Mews.Fiscalizations.Fiskaly.Models;
 
 namespace Mews.Fiscalizations.Fiskaly.APIClients;
 
-/// <summary>
-/// Client for the Fiskaly DSFinV-K API (https://developer.fiskaly.com/api/dsfinvk/v1).
-/// This foundation covers authentication and the shared request pipeline; cash register and
-/// cash point closing operations are layered on top in later work.
-/// </summary>
 public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSecret)
 {
     // DSFinV-K exposes a single endpoint; the environment (test vs. production) is encoded in the API key itself
