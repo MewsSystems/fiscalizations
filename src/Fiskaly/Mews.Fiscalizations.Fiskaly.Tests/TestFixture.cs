@@ -8,4 +8,6 @@ public static class TestFixture
     public static readonly string ManagementApiSecret = Environment.GetEnvironmentVariable("fiskaly_management_api_secret") ?? "INSERT_API_SECRET";
     public static readonly string DsfinvkApiKey = Environment.GetEnvironmentVariable("fiskaly_dsfinvk_api_key") ?? "INSERT_API_KEY";
     public static readonly string DsfinvkApiSecret = Environment.GetEnvironmentVariable("fiskaly_dsfinvk_api_secret") ?? "INSERT_API_SECRET";
+    public static readonly Guid DsfinvkTestClientId = Guid.TryParse(Environment.GetEnvironmentVariable("fiskaly_dsfinvk_test_client_id"), out var clientId) ? clientId : Guid.Empty;
+    public static readonly Guid DsfinvkTestTssId = Guid.TryParse(Environment.GetEnvironmentVariable("fiskaly_dsfinvk_test_tss_id"), out var tssId) ? tssId : Guid.Empty;
 }

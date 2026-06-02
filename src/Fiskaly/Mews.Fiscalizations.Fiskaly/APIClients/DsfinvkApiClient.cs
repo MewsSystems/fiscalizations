@@ -1,10 +1,14 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.Auth;
+using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashRegisters;
 using Mews.Fiscalizations.Fiskaly.Mappers.DSFinVK.Auth;
+using Mews.Fiscalizations.Fiskaly.Mappers.DSFinVK.CashRegisters;
 using Mews.Fiscalizations.Fiskaly.Models;
+using Mews.Fiscalizations.Fiskaly.Models.DSFinVK.CashRegisters;
 
 namespace Mews.Fiscalizations.Fiskaly.APIClients;
 
@@ -16,6 +20,7 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
 
     private const string RelativeApiUrl = "api/v1/";
     private const string AuthEndpoint = "auth";
+    private const string CashRegistersEndpoint = "cash_registers";
 
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
@@ -33,6 +38,45 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
             endpoint: AuthEndpoint,
             request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
             successFunc: r => r.MapAuthResponse(),
+            cancellationToken: cancellationToken
+        );
+    }
+
+    public async Task<ResponseResult<CashRegister>> UpsertCashRegisterAsync(
+        AccessToken token,
+        Guid clientId,
+        CashRegister cashRegister,
+        CancellationToken cancellationToken = default)
+    {
+        var requestBody = new StringContent(
+            JsonSerializer.Serialize(CashRegisterMapper.MapUpsertRequest(cashRegister), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            }),
+            Encoding.UTF8,
+            JsonContentType);
+
+        return await ProcessRequestAsync<CashRegisterResponse, CashRegister>(
+            method: HttpMethod.Put,
+            endpoint: $"{CashRegistersEndpoint}/{clientId}",
+            request: requestBody,
+            successFunc: r => r.MapResponse(),
+            token: token,
+            cancellationToken: cancellationToken
+        );
+    }
+
+    public async Task<ResponseResult<CashRegister>> GetCashRegisterAsync(
+        AccessToken token,
+        Guid clientId,
+        CancellationToken cancellationToken = default)
+    {
+        return await ProcessRequestAsync<CashRegisterResponse, CashRegister>(
+            method: HttpMethod.Get,
+            endpoint: $"{CashRegistersEndpoint}/{clientId}",
+            request: null,
+            successFunc: r => r.MapResponse(),
+            token: token,
             cancellationToken: cancellationToken
         );
     }
