@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using FuncSharp;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.Auth;
 using Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings;
@@ -137,13 +138,14 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
         );
     }
 
-    public async Task<ResponseResult<CashPointClosingResult>> DeleteCashPointClosingAsync(
+    // Delete returns no body; the Nothing result type signals "success, no payload".
+    public async Task<ResponseResult<Nothing>> DeleteCashPointClosingAsync(
         AccessToken token,
         Guid closingId,
         CancellationToken cancellationToken = default
     )
     {
-        return await ProcessRequestAsync<CashPointClosingResponse, CashPointClosingResult>(
+        return await ProcessRequestAsync<CashPointClosingResponse, Nothing>(
             method: HttpMethod.Delete,
             endpoint: $"{CashPointClosingsEndpoint}/{closingId}",
             request: null,
