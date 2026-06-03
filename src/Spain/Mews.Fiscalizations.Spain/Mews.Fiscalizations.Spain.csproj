@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Mews.Fiscalizations.Spain.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FuncSharp" />
     <PackageReference Include="System.Net.Http" />
     <PackageReference Include="System.ServiceModel.Primitives" />
