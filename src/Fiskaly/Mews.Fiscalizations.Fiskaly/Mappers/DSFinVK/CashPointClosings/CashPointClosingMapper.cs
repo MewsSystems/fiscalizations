@@ -265,11 +265,26 @@ internal static class CashPointClosingMapper
     {
         return new PaymentTypeAmountDto
         {
-            PaymentType = payment.PaymentType,
+            PaymentType = MapPaymentTypeName(payment.PaymentType),
             Name = payment.Name,
             Amount = payment.Amount,
             ForeignAmount = payment.ForeignAmount,
             CurrencyCode = payment.CurrencyCode,
+        };
+    }
+
+    private static string MapPaymentTypeName(PaymentType type)
+    {
+        return type switch
+        {
+            PaymentType.Cash => "Bar",
+            PaymentType.NonCash => "Unbar",
+            PaymentType.DebitCard => "ECKarte",
+            PaymentType.CreditCard => "Kreditkarte",
+            PaymentType.ElectronicPaymentServiceProvider => "ElZahlungsdienstleister",
+            PaymentType.VoucherCard => "Guthabenkarte",
+            PaymentType.None => "Keine",
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
     }
 

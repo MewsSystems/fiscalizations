@@ -29,18 +29,20 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
     private const string AuthSchema = "Bearer";
     private const string JsonContentType = "application/json";
 
-    public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync(CancellationToken cancellationToken = default)
+    public async Task<ResponseResult<AccessToken>> GetAccessTokenAsync(
+        CancellationToken cancellationToken = default
+    )
     {
-        var request = new AuthorizationTokenRequest
-        {
-            ApiKey = apiKey,
-            ApiSecret = apiSecret
-        };
+        var request = new AuthorizationTokenRequest { ApiKey = apiKey, ApiSecret = apiSecret };
 
         return await ProcessRequestAsync<AuthorizationTokenResponse, AccessToken>(
             method: HttpMethod.Post,
             endpoint: AuthEndpoint,
-            request: new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, JsonContentType),
+            request: new StringContent(
+                JsonSerializer.Serialize(request),
+                Encoding.UTF8,
+                JsonContentType
+            ),
             successFunc: r => r.MapAuthResponse(),
             cancellationToken: cancellationToken
         );
@@ -50,15 +52,20 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
         AccessToken token,
         Guid clientId,
         CashRegister cashRegister,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var requestBody = new StringContent(
-            JsonSerializer.Serialize(CashRegisterMapper.MapUpsertRequest(cashRegister), new JsonSerializerOptions
-            {
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            }),
+            JsonSerializer.Serialize(
+                CashRegisterMapper.MapUpsertRequest(cashRegister),
+                new JsonSerializerOptions
+                {
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                }
+            ),
             Encoding.UTF8,
-            JsonContentType);
+            JsonContentType
+        );
 
         return await ProcessRequestAsync<CashRegisterResponse, CashRegister>(
             method: HttpMethod.Put,
@@ -73,7 +80,8 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
     public async Task<ResponseResult<CashRegister>> GetCashRegisterAsync(
         AccessToken token,
         Guid clientId,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         return await ProcessRequestAsync<CashRegisterResponse, CashRegister>(
             method: HttpMethod.Get,
@@ -88,15 +96,20 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
     public async Task<ResponseResult<CashPointClosingResult>> InsertCashPointClosingAsync(
         AccessToken token,
         CashPointClosing closing,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var requestBody = new StringContent(
-            JsonSerializer.Serialize(CashPointClosingMapper.MapInsertRequest(closing), new JsonSerializerOptions
-            {
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            }),
+            JsonSerializer.Serialize(
+                CashPointClosingMapper.MapInsertRequest(closing),
+                new JsonSerializerOptions
+                {
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                }
+            ),
             Encoding.UTF8,
-            JsonContentType);
+            JsonContentType
+        );
 
         return await ProcessRequestAsync<CashPointClosingResponse, CashPointClosingResult>(
             method: HttpMethod.Put,
@@ -111,7 +124,8 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
     public async Task<ResponseResult<CashPointClosingResult>> GetCashPointClosingAsync(
         AccessToken token,
         Guid closingId,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         return await ProcessRequestAsync<CashPointClosingResponse, CashPointClosingResult>(
             method: HttpMethod.Get,
@@ -126,7 +140,8 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
     public async Task<ResponseResult<CashPointClosingResult>> DeleteCashPointClosingAsync(
         AccessToken token,
         Guid closingId,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         return await ProcessRequestAsync<CashPointClosingResponse, CashPointClosingResult>(
             method: HttpMethod.Delete,
@@ -144,7 +159,8 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
         StringContent request,
         Func<TDto, TResult> successFunc,
         CancellationToken cancellationToken,
-        AccessToken token = null)
+        AccessToken token = null
+    )
         where TDto : class
         where TResult : class
     {
@@ -158,7 +174,10 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
 
         if (token is not null)
         {
-            requestMessage.Headers.Authorization = new AuthenticationHeaderValue(AuthSchema, token.Value);
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue(
+                AuthSchema,
+                token.Value
+            );
         }
 
         using var httpResponse = await httpClient.SendAsync(requestMessage, cancellationToken);
@@ -166,16 +185,22 @@ public class DsfinvkApiClient(HttpClient httpClient, string apiKey, string apiSe
 
         if (httpResponse.IsSuccessStatusCode)
         {
-            var dto = string.IsNullOrWhiteSpace(content) ? null : JsonSerializer.Deserialize<TDto>(content);
+            var dto = string.IsNullOrWhiteSpace(content)
+                ? null
+                : JsonSerializer.Deserialize<TDto>(content);
             return new ResponseResult<TResult>(successResult: successFunc(dto));
         }
 
-        var error = string.IsNullOrWhiteSpace(content) ? null : JsonSerializer.Deserialize<DsfinvkErrorResponse>(content);
-        return new ResponseResult<TResult>(errorResult: new ErrorResult(
-            Status: error?.StatusCode ?? (int)httpResponse.StatusCode,
-            Code: null,
-            Error: error?.Error,
-            Message: error?.Message
-        ));
+        var error = string.IsNullOrWhiteSpace(content)
+            ? null
+            : JsonSerializer.Deserialize<DsfinvkErrorResponse>(content);
+        return new ResponseResult<TResult>(
+            errorResult: new ErrorResult(
+                Status: error?.StatusCode ?? (int)httpResponse.StatusCode,
+                Code: error?.Code,
+                Error: error?.Error,
+                Message: error?.Message
+            )
+        );
     }
 }

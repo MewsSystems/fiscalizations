@@ -10,6 +10,9 @@ internal sealed class DsfinvkErrorResponse
     [JsonPropertyName("error")]
     public string Error { get; init; }
 
+    [JsonPropertyName("code")]
+    public string Code { get; init; }
+
     [JsonPropertyName("message")]
     public string Message { get; init; }
 }

@@ -112,7 +112,7 @@ public class CashPointClosingTests
                 ),
             },
             AmountsPerVat: amountsPerVat,
-            PaymentTypes: new[] { new PaymentTypeAmount("Unbar", 119.00m, "EUR") },
+            PaymentTypes: new[] { new PaymentTypeAmount(PaymentType.NonCash, 119.00m, "EUR") },
             Security: new TransactionSecurity(TssTxId: Guid.NewGuid())
         );
 
@@ -134,7 +134,10 @@ public class CashPointClosingTests
                     FullAmount: 119.00m,
                     CashAmount: 0m,
                     CashAmountsByCurrency: Enumerable.Empty<CurrencyAmount>(),
-                    PaymentTypes: new[] { new PaymentTypeAmount("Unbar", 119.00m, "EUR") }
+                    PaymentTypes: new[]
+                    {
+                        new PaymentTypeAmount(PaymentType.NonCash, 119.00m, "EUR"),
+                    }
                 )
             )
         );
