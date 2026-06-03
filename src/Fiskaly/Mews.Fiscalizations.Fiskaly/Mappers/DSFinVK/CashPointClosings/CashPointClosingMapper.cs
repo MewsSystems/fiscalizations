@@ -127,11 +127,11 @@ internal static class CashPointClosingMapper
                 AmountsPerVatId = line.BusinessCaseAmountsPerVat.Select(MapAmountPerVat).ToList()
             },
             ItemText = line.ItemText,
-            Item = new TransactionLineItemDto
+            Item = line.Item == null ? null : new TransactionLineItemDto
             {
-                Number = line.LineItemExportId,
-                Quantity = line.Quantity,
-                PricePerUnit = line.PricePerUnit
+                Number = line.Item.Number,
+                Quantity = line.Item.Quantity,
+                PricePerUnit = line.Item.PricePerUnit
             }
         };
     }

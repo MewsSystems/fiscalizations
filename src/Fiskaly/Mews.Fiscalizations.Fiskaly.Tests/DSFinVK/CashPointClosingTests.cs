@@ -82,11 +82,7 @@ public class CashPointClosingTests
                     Storno: false,
                     BusinessTransactionType: BusinessTransactionType.Umsatz,
                     BusinessCaseAmountsPerVat: amountsPerVat,
-                    ItemText: "Room",
-                    Quantity: 1m,
-                    PricePerUnit: 100.00m,
-                    GrossAmount: 119.00m,
-                    NetAmount: 100.00m
+                    ItemText: "Room"
                 )
             },
             AmountsPerVat: amountsPerVat,

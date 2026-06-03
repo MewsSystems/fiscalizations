@@ -6,8 +6,12 @@ public sealed record TransactionLine(
     BusinessTransactionType BusinessTransactionType,
     IEnumerable<AmountPerVat> BusinessCaseAmountsPerVat,
     string ItemText,
+    TransactionLineItem Item = null
+);
+
+// DSFinV-K line `item` (optional). number/quantity/price_per_unit are required when item is present.
+public sealed record TransactionLineItem(
+    string Number,
     decimal Quantity,
-    decimal PricePerUnit,
-    decimal GrossAmount,
-    decimal NetAmount
+    decimal PricePerUnit
 );

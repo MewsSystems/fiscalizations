@@ -73,7 +73,8 @@ internal sealed class TransactionHead
     public string Type { get; init; }
 
     [JsonPropertyName("closing_client_id")]
-    public Guid ClosingClientId { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Guid? ClosingClientId { get; init; }
 
     [JsonPropertyName("references")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

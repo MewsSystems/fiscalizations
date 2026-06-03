@@ -8,11 +8,11 @@ public sealed record CashPointClosingTransaction(
     DateTimeOffset TimestampEnd,
     bool Storno,
     ProcessType ProcessType,
-    Guid ClosingClientId,
     decimal FullAmountInclVat,
     IEnumerable<TransactionLine> Lines,
     IEnumerable<AmountPerVat> AmountsPerVat,
     IEnumerable<PaymentTypeAmount> PaymentTypes,
     TransactionSecurity Security,
+    Guid? ClosingClientId = null,
     IEnumerable<TransactionReference> References = null
 );
