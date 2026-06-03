@@ -15,7 +15,11 @@ public class CashPointClosingTests
     [OneTimeSetUp]
     public async Task SetUp()
     {
-        _client = new DsfinvkApiClient(new HttpClient(), TestFixture.DsfinvkApiKey, TestFixture.DsfinvkApiSecret);
+        _client = new DsfinvkApiClient(
+            new HttpClient(),
+            TestFixture.DsfinvkApiKey,
+            TestFixture.DsfinvkApiSecret
+        );
         var tokenResult = await _client.GetAccessTokenAsync();
         _accessToken = tokenResult.SuccessResult;
 
@@ -30,14 +34,28 @@ public class CashPointClosingTests
         var closing = BuildTestClosing(exportId: Math.Abs(Guid.NewGuid().GetHashCode()));
         var result = await _client.InsertCashPointClosingAsync(_accessToken, closing);
 
-        Assert.That(result.IsSuccess, $"[{result.ErrorResult?.Status}] {result.ErrorResult?.Error} :: {result.ErrorResult?.Message}");
-        Assert.That(result.SuccessResult.State, Is.AnyOf(CashPointClosingState.Pending, CashPointClosingState.Working, CashPointClosingState.Completed));
+        Assert.That(
+            result.IsSuccess,
+            $"[{result.ErrorResult?.Status}] {result.ErrorResult?.Error} :: {result.ErrorResult?.Message}"
+        );
+        Assert.That(
+            result.SuccessResult.State,
+            Is.AnyOf(
+                CashPointClosingState.Pending,
+                CashPointClosingState.Working,
+                CashPointClosingState.Completed
+            )
+        );
     }
 
     [Test]
     public async Task GetCashPointClosingSucceeds()
     {
-        Assert.That(_insertedClosingId, Is.Not.EqualTo(Guid.Empty), "Setup failed to insert a closing.");
+        Assert.That(
+            _insertedClosingId,
+            Is.Not.EqualTo(Guid.Empty),
+            "Setup failed to insert a closing."
+        );
 
         var result = await _client.GetCashPointClosingAsync(_accessToken, _insertedClosingId);
 
@@ -51,7 +69,10 @@ public class CashPointClosingTests
     {
         var closing = BuildTestClosing(exportId: Math.Abs(Guid.NewGuid().GetHashCode()));
         var insertResult = await _client.InsertCashPointClosingAsync(_accessToken, closing);
-        Assert.That(insertResult.IsSuccess, "Insert before delete failed: " + insertResult.ErrorResult?.Message);
+        Assert.That(
+            insertResult.IsSuccess,
+            "Insert before delete failed: " + insertResult.ErrorResult?.Message
+        );
 
         var result = await _client.DeleteCashPointClosingAsync(_accessToken, closing.ClosingId);
 
@@ -62,7 +83,12 @@ public class CashPointClosingTests
     {
         var amountsPerVat = new[]
         {
-            new AmountPerVat(VatDefinitionExportId: 1, GrossAmount: 119.00m, NetAmount: 100.00m, TaxAmount: 19.00m)
+            new AmountPerVat(
+                VatDefinitionExportId: 1,
+                GrossAmount: 119.00m,
+                NetAmount: 100.00m,
+                TaxAmount: 19.00m
+            ),
         };
 
         var transaction = new CashPointClosingTransaction(
@@ -83,7 +109,7 @@ public class CashPointClosingTests
                     BusinessTransactionType: BusinessTransactionType.Umsatz,
                     BusinessCaseAmountsPerVat: amountsPerVat,
                     ItemText: "Room"
-                )
+                ),
             },
             AmountsPerVat: amountsPerVat,
             PaymentTypes: new[] { new PaymentTypeAmount("Unbar", 119.00m, "EUR") },
@@ -96,11 +122,13 @@ public class CashPointClosingTests
             CashPointClosingExportId: exportId,
             ExportCreationDate: DateTimeOffset.UtcNow,
             BusinessDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
+            FirstTransactionExportId: transaction.TransactionExportId,
+            LastTransactionExportId: transaction.TransactionExportId,
             Transactions: new[] { transaction },
             CashStatement: new CashStatement(
                 BusinessCases: new[]
                 {
-                    new BusinessCaseSummary(BusinessTransactionType.Umsatz, amountsPerVat)
+                    new BusinessCaseSummary(BusinessTransactionType.Umsatz, amountsPerVat),
                 },
                 Payment: new CashStatementPayment(
                     FullAmount: 119.00m,

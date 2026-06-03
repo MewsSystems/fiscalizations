@@ -9,6 +9,8 @@ public enum ProcessType
     Training,
     BenefitInKind,
     Invoice,
-    Other
-    // ANNULATION is intentionally excluded: Fiskaly forbids it for TSS-connected systems (§7.4)
+    Other,
+    // The spec value "AVBelegabbruch" (document abort) is intentionally omitted: Fiskaly forbids
+    // it for TSS-connected systems (§7.4), so exposing it would let a caller build a payload that
+    // Fiskaly rejects. Add it here only if a non-TSS integration ever needs it.
 }

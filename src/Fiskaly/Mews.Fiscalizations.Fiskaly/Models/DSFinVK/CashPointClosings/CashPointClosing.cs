@@ -6,6 +6,8 @@ public sealed record CashPointClosing(
     long CashPointClosingExportId,
     DateTimeOffset ExportCreationDate,
     DateOnly BusinessDate,
+    string FirstTransactionExportId,
+    string LastTransactionExportId,
     IEnumerable<CashPointClosingTransaction> Transactions,
     CashStatement CashStatement
 );

@@ -2,6 +2,7 @@ namespace Mews.Fiscalizations.Fiskaly.Models.DSFinVK.CashPointClosings;
 
 public enum BusinessTransactionType
 {
+    Anfangsbestand,
     Umsatz,
     Pfand,
     PfandRueckzahlung,
@@ -15,10 +16,15 @@ public enum BusinessTransactionType
     Anzahlungsaufloesung,
     Forderungsentstehung,
     Forderungsaufloesung,
+    Privateinlage,
+    Privatentnahme,
     Geldtransit,
     Einzahlung,
     Auszahlung,
+    Lohnzahlung,
     TrinkgeldAG,
     TrinkgeldAN,
-    DifferenzSollIst
+    ZuschussEcht,
+    ZuschussUnecht,
+    DifferenzSollIst,
 }
