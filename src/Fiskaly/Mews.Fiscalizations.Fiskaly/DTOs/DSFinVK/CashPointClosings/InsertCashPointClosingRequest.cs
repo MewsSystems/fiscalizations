@@ -29,12 +29,11 @@ internal sealed class CashPointClosingHead
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string BusinessDate { get; init; }
 
+    // Required by the spec (sent even on zero-transaction days; the mapper defaults them to "0").
     [JsonPropertyName("first_transaction_export_id")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string FirstTransactionExportId { get; init; }
 
     [JsonPropertyName("last_transaction_export_id")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string LastTransactionExportId { get; init; }
 }
 
@@ -94,9 +93,33 @@ internal sealed class TransactionReference
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Guid? TxId { get; init; }
 
-    [JsonPropertyName("closing_id")]
+    [JsonPropertyName("cash_point_closing_export_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Guid? ClosingId { get; init; }
+    public long? CashPointClosingExportId { get; init; }
+
+    [JsonPropertyName("cash_register_export_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string CashRegisterExportId { get; init; }
+
+    [JsonPropertyName("transaction_export_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string TransactionExportId { get; init; }
+
+    [JsonPropertyName("external_export_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string ExternalExportId { get; init; }
+
+    [JsonPropertyName("external_other_export_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string ExternalOtherExportId { get; init; }
+
+    [JsonPropertyName("name")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string Name { get; init; }
+
+    [JsonPropertyName("date")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public long? Date { get; init; }
 }
 
 internal sealed class AllocationGroup
@@ -137,17 +160,21 @@ internal sealed class TransactionLine
     [JsonPropertyName("text")]
     public string ItemText { get; init; }
 
+    [JsonPropertyName("item")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TransactionLineItem Item { get; init; }
+}
+
+internal sealed class TransactionLineItem
+{
+    [JsonPropertyName("number")]
+    public string Number { get; init; }
+
     [JsonPropertyName("quantity")]
-    public string Quantity { get; init; }
+    public decimal Quantity { get; init; }
 
     [JsonPropertyName("price_per_unit")]
-    public string PricePerUnit { get; init; }
-
-    [JsonPropertyName("gross_amount")]
-    public string GrossAmount { get; init; }
-
-    [JsonPropertyName("net_amount")]
-    public string NetAmount { get; init; }
+    public decimal PricePerUnit { get; init; }
 }
 
 internal sealed class BusinessCase
@@ -182,8 +209,8 @@ internal sealed class PaymentTypeAmount
     [JsonPropertyName("amount")]
     public string Amount { get; init; }
 
+    // Required by the spec.
     [JsonPropertyName("currency_code")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string CurrencyCode { get; init; }
 }
 

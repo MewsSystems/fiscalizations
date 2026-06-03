@@ -15,6 +15,7 @@ using PaymentTypeAmountDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointC
 using TransactionDataDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.TransactionData;
 using TransactionHeadDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.TransactionHead;
 using TransactionLineDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.TransactionLine;
+using TransactionLineItemDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.TransactionLineItem;
 using TransactionReferenceDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.TransactionReference;
 using TransactionSecurityDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.TransactionSecurity;
 using CashPointClosingResponseDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.CashPointClosingResponse;
@@ -35,8 +36,8 @@ internal static class CashPointClosingMapper
             {
                 ExportCreationDate = closing.ExportCreationDate.ToUnixTimeSeconds(),
                 BusinessDate = closing.BusinessDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-                FirstTransactionExportId = transactions.FirstOrDefault()?.TransactionExportId,
-                LastTransactionExportId = transactions.LastOrDefault()?.TransactionExportId
+                FirstTransactionExportId = transactions.FirstOrDefault()?.TransactionExportId ?? "0",
+                LastTransactionExportId = transactions.LastOrDefault()?.TransactionExportId ?? "0"
             },
             Transactions = transactions.Select(MapTransaction).ToList(),
             CashStatement = MapCashStatement(closing.CashStatement)
@@ -89,9 +90,28 @@ internal static class CashPointClosingMapper
     {
         return new TransactionReferenceDto
         {
-            Type = "InterneTransaktion",
+            Type = MapReferenceType(reference.Type),
             TxId = reference.TxId,
-            ClosingId = reference.ClosingId
+            CashPointClosingExportId = reference.CashPointClosingExportId,
+            CashRegisterExportId = reference.CashRegisterExportId,
+            TransactionExportId = reference.TransactionExportId,
+            ExternalExportId = reference.ExternalExportId,
+            ExternalOtherExportId = reference.ExternalOtherExportId,
+            Name = reference.Name,
+            Date = reference.Date?.ToUnixTimeSeconds()
+        };
+    }
+
+    private static string MapReferenceType(ReferenceType type)
+    {
+        return type switch
+        {
+            ReferenceType.InternalTransaction => "InterneTransaktion",
+            ReferenceType.Transaction => "Transaktion",
+            ReferenceType.ExternalBill => "ExterneRechnung",
+            ReferenceType.ExternalDeliveryNote => "ExternerLieferschein",
+            ReferenceType.ExternalOther => "ExterneSonstige",
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 
@@ -107,10 +127,12 @@ internal static class CashPointClosingMapper
                 AmountsPerVatId = line.BusinessCaseAmountsPerVat.Select(MapAmountPerVat).ToList()
             },
             ItemText = line.ItemText,
-            Quantity = line.Quantity.ToString("F2", CultureInfo.InvariantCulture),
-            PricePerUnit = line.PricePerUnit.ToString("F2", CultureInfo.InvariantCulture),
-            GrossAmount = line.GrossAmount.ToString("F2", CultureInfo.InvariantCulture),
-            NetAmount = line.NetAmount.ToString("F2", CultureInfo.InvariantCulture)
+            Item = new TransactionLineItemDto
+            {
+                Number = line.LineItemExportId,
+                Quantity = line.Quantity,
+                PricePerUnit = line.PricePerUnit
+            }
         };
     }
 
