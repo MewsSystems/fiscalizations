@@ -82,7 +82,7 @@ internal sealed class TransactionHead
 
     [JsonPropertyName("allocation_groups")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<AllocationGroup> AllocationGroups { get; init; }
+    public List<string> AllocationGroups { get; init; }
 }
 
 internal sealed class TransactionReference
@@ -123,19 +123,10 @@ internal sealed class TransactionReference
     public long? Date { get; init; }
 }
 
-internal sealed class AllocationGroup
-{
-    [JsonPropertyName("id")]
-    public string Id { get; init; }
-
-    [JsonPropertyName("type")]
-    public string Type { get; init; }
-}
-
 internal sealed class TransactionData
 {
     [JsonPropertyName("full_amount_incl_vat")]
-    public string FullAmountInclVat { get; init; }
+    public decimal FullAmountInclVat { get; init; }
 
     [JsonPropertyName("lines")]
     public List<TransactionLine> Lines { get; init; }
@@ -193,13 +184,13 @@ internal sealed class AmountPerVat
     public int VatDefinitionExportId { get; init; }
 
     [JsonPropertyName("incl_vat")]
-    public string GrossAmount { get; init; }
+    public decimal GrossAmount { get; init; }
 
     [JsonPropertyName("excl_vat")]
-    public string NetAmount { get; init; }
+    public decimal NetAmount { get; init; }
 
     [JsonPropertyName("vat")]
-    public string TaxAmount { get; init; }
+    public decimal TaxAmount { get; init; }
 }
 
 internal sealed class PaymentTypeAmount
@@ -208,7 +199,7 @@ internal sealed class PaymentTypeAmount
     public string PaymentType { get; init; }
 
     [JsonPropertyName("amount")]
-    public string Amount { get; init; }
+    public decimal Amount { get; init; }
 
     // Required by the spec.
     [JsonPropertyName("currency_code")]
@@ -247,10 +238,10 @@ internal sealed class BusinessCaseSummary
 internal sealed class CashStatementPayment
 {
     [JsonPropertyName("full_amount")]
-    public string FullAmount { get; init; }
+    public decimal FullAmount { get; init; }
 
     [JsonPropertyName("cash_amount")]
-    public string CashAmount { get; init; }
+    public decimal CashAmount { get; init; }
 
     [JsonPropertyName("cash_amounts_by_currency")]
     public List<CashAmountByCurrency> CashAmountsByCurrency { get; init; }
@@ -265,5 +256,5 @@ internal sealed class CashAmountByCurrency
     public string CurrencyCode { get; init; }
 
     [JsonPropertyName("amount")]
-    public string Amount { get; init; }
+    public decimal Amount { get; init; }
 }

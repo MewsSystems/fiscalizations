@@ -14,5 +14,6 @@ public sealed record CashPointClosingTransaction(
     IEnumerable<PaymentTypeAmount> PaymentTypes,
     TransactionSecurity Security,
     Guid? ClosingClientId = null,
-    IEnumerable<TransactionReference> References = null
+    IEnumerable<TransactionReference> References = null,
+    IEnumerable<string> AllocationGroups = null
 );

@@ -1,7 +1,6 @@
 using System.Globalization;
 using Mews.Fiscalizations.Fiskaly.Models.DSFinVK.CashPointClosings;
 using AmountPerVatDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.AmountPerVat;
-using AllocationGroupDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.AllocationGroup;
 using BusinessCaseDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.BusinessCase;
 using BusinessCaseSummaryDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.BusinessCaseSummary;
 using CashAmountByCurrencyDto = Mews.Fiscalizations.Fiskaly.DTOs.DSFinVK.CashPointClosings.CashAmountByCurrency;
@@ -69,11 +68,12 @@ internal static class CashPointClosingMapper
                 Storno = tx.Storno,
                 Type = MapProcessType(tx.ProcessType),
                 ClosingClientId = tx.ClosingClientId,
-                References = tx.References?.Select(MapReference).ToList()
+                References = tx.References?.Select(MapReference).ToList(),
+                AllocationGroups = tx.AllocationGroups?.ToList()
             },
             Data = new TransactionDataDto
             {
-                FullAmountInclVat = tx.FullAmountInclVat.ToString("F2", CultureInfo.InvariantCulture),
+                FullAmountInclVat = tx.FullAmountInclVat,
                 Lines = tx.Lines.Select(MapLine).ToList(),
                 AmountsPerVatId = tx.AmountsPerVat.Select(MapAmountPerVat).ToList(),
                 PaymentTypes = tx.PaymentTypes.Select(MapPaymentType).ToList()
@@ -141,9 +141,9 @@ internal static class CashPointClosingMapper
         return new AmountPerVatDto
         {
             VatDefinitionExportId = amount.VatDefinitionExportId,
-            GrossAmount = amount.GrossAmount.ToString("F2", CultureInfo.InvariantCulture),
-            NetAmount = amount.NetAmount.ToString("F2", CultureInfo.InvariantCulture),
-            TaxAmount = amount.TaxAmount.ToString("F2", CultureInfo.InvariantCulture)
+            GrossAmount = amount.GrossAmount,
+            NetAmount = amount.NetAmount,
+            TaxAmount = amount.TaxAmount
         };
     }
 
@@ -152,7 +152,7 @@ internal static class CashPointClosingMapper
         return new PaymentTypeAmountDto
         {
             PaymentType = payment.PaymentType,
-            Amount = payment.Amount.ToString("F2", CultureInfo.InvariantCulture),
+            Amount = payment.Amount,
             CurrencyCode = payment.CurrencyCode
         };
     }
@@ -168,13 +168,13 @@ internal static class CashPointClosingMapper
             }).ToList(),
             Payment = new CashStatementPaymentDto
             {
-                FullAmount = cashStatement.Payment.FullAmount.ToString("F2", CultureInfo.InvariantCulture),
-                CashAmount = cashStatement.Payment.CashAmount.ToString("F2", CultureInfo.InvariantCulture),
+                FullAmount = cashStatement.Payment.FullAmount,
+                CashAmount = cashStatement.Payment.CashAmount,
                 CashAmountsByCurrency = cashStatement.Payment.CashAmountsByCurrency
                     .Select(c => new CashAmountByCurrencyDto
                     {
                         CurrencyCode = c.CurrencyCode,
-                        Amount = c.Amount.ToString("F2", CultureInfo.InvariantCulture)
+                        Amount = c.Amount
                     }).ToList(),
                 PaymentTypes = cashStatement.Payment.PaymentTypes.Select(MapPaymentType).ToList()
             }
