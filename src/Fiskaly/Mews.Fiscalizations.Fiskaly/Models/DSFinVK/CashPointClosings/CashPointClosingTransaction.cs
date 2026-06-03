@@ -8,7 +8,6 @@ public sealed record CashPointClosingTransaction(
     bool Storno,
     ProcessType ProcessType,
     decimal FullAmountInclVat,
-    IEnumerable<TransactionLine> Lines,
     IEnumerable<AmountPerVat> AmountsPerVat,
     IEnumerable<PaymentTypeAmount> PaymentTypes,
     TransactionSecurity Security,
@@ -18,6 +17,8 @@ public sealed record CashPointClosingTransaction(
     TransactionUser User = null,
     TransactionBuyer Buyer = null,
     Guid? ClosingClientId = null,
+    // Optional per spec (data.lines): per-position detail. Omit (null) to report at aggregate level only.
+    IEnumerable<TransactionLine> Lines = null,
     IEnumerable<TransactionReference> References = null,
     IEnumerable<string> AllocationGroups = null,
     // data.notes

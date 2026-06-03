@@ -1,10 +1,9 @@
-using Mews.Fiscalizations.Core.Xml;
+﻿using Mews.Fiscalizations.Core.Xml;
 using Mews.Fiscalizations.Spain.Dto.Responses.SoapFault;
 using Mews.Fiscalizations.Spain.Model.Response;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Mews.Fiscalizations.Spain.Communication;
@@ -72,21 +71,13 @@ internal class SoapClient
         }
     }
 
-    private static readonly Regex BareAmpersandPattern = new(@"&(?!(?:amp|lt|gt|apos|quot|#\d+|#x[\da-fA-F]+);)", RegexOptions.Compiled);
-
     private XmlElement GetSoapBody(string soapXmlString)
     {
-        var sanitized = SanitizeXml(soapXmlString);
         var xmlDocument = new XmlDocument();
-        xmlDocument.LoadXml(sanitized);
+        xmlDocument.LoadXml(soapXmlString);
 
         var soapMessage = SoapMessage.FromSoapXml(xmlDocument);
         return soapMessage.Body.FirstChild as XmlElement;
-    }
-
-    internal static string SanitizeXml(string xml)
-    {
-        return BareAmpersandPattern.Replace(xml, "&amp;");
     }
 
     private INonEmptyEnumerable<XmlNamespace> GetSiiNameSpaces()

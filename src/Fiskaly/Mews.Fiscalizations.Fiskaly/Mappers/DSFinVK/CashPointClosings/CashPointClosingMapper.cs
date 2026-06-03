@@ -85,7 +85,7 @@ internal static class CashPointClosingMapper
             Data = new TransactionDataDto
             {
                 FullAmountInclVat = tx.FullAmountInclVat,
-                Lines = tx.Lines.Select(MapLine).ToList(),
+                Lines = tx.Lines?.Select(MapLine).ToList(),
                 AmountsPerVatId = tx.AmountsPerVat.Select(MapAmountPerVat).ToList(),
                 PaymentTypes = tx.PaymentTypes.Select(MapPaymentType).ToList(),
                 Notes = tx.Notes,
