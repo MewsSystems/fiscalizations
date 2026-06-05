@@ -4,6 +4,7 @@ using Mews.Fiscalizations.Spain.Model.Response;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Mews.Fiscalizations.Spain.Communication;
@@ -71,10 +72,13 @@ internal class SoapClient
         }
     }
 
-    private XmlElement GetSoapBody(string soapXmlString)
+    private static readonly Regex BareAmpersandPattern = new(@"&(?!(?:amp|lt|gt|apos|quot|#\d+|#x[\da-fA-F]+);)", RegexOptions.Compiled);
+
+    internal XmlElement GetSoapBody(string soapXmlString)
     {
+        var sanitized = BareAmpersandPattern.Replace(soapXmlString, "&amp;");
         var xmlDocument = new XmlDocument();
-        xmlDocument.LoadXml(soapXmlString);
+        xmlDocument.LoadXml(sanitized);
 
         var soapMessage = SoapMessage.FromSoapXml(xmlDocument);
         return soapMessage.Body.FirstChild as XmlElement;
