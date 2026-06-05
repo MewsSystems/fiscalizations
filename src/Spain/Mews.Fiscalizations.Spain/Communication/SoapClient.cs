@@ -74,19 +74,14 @@ internal class SoapClient
 
     private static readonly Regex BareAmpersandPattern = new(@"&(?!(?:amp|lt|gt|apos|quot|#\d+|#x[\da-fA-F]+);)", RegexOptions.Compiled);
 
-    private XmlElement GetSoapBody(string soapXmlString)
+    internal XmlElement GetSoapBody(string soapXmlString)
     {
-        var sanitized = SanitizeXml(soapXmlString);
+        var sanitized = BareAmpersandPattern.Replace(soapXmlString, "&amp;");
         var xmlDocument = new XmlDocument();
         xmlDocument.LoadXml(sanitized);
 
         var soapMessage = SoapMessage.FromSoapXml(xmlDocument);
         return soapMessage.Body.FirstChild as XmlElement;
-    }
-
-    internal static string SanitizeXml(string xml)
-    {
-        return BareAmpersandPattern.Replace(xml, "&amp;");
     }
 
     private INonEmptyEnumerable<XmlNamespace> GetSiiNameSpaces()
