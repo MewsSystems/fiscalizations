@@ -1,14 +1,16 @@
-﻿namespace Mews.Fiscalizations.Germany.V2.Model;
+using Mews.Fiscalizations.Core.Model;
+
+namespace Mews.Fiscalizations.Germany.V2.Model;
 
 public sealed class Item
 {
-    public Item(decimal amount, VatRateType vatRateType)
+    public Item(decimal amount, GermanVatRate vatRate)
     {
         Amount = amount;
-        VatRateType = vatRateType;
+        VatRate = vatRate;
     }
 
     public decimal Amount { get; }
 
-    public VatRateType VatRateType { get; }
+    public GermanVatRate VatRate { get; }
 }

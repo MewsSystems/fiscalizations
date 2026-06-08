@@ -90,9 +90,9 @@ public class TransactionTests
     {
         return new List<Item>()
         {
-            new Item(20, VatRateType.Normal),
-            new Item(30, VatRateType.Normal),
-            new Item(5, VatRateType.Reduced)
+            new Item(20, GermanVatRate.Standard),
+            new Item(30, GermanVatRate.Standard),
+            new Item(5, GermanVatRate.Reduced)
         };
     }
 }
