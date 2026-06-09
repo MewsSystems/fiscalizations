@@ -1,4 +1,5 @@
-﻿using Mews.Fiscalizations.Germany.V2.Model;
+﻿using Mews.Fiscalizations.Core.Model;
+using Mews.Fiscalizations.Germany.V2.Model;
 using System.Globalization;
 
 namespace Mews.Fiscalizations.Germany.V2;
@@ -41,7 +42,7 @@ internal static class RequestCreator
     internal static Dto.FinishTransactionRequest FinishTransaction(Guid clientId, Bill bill)
     {
         var groupedPayments = bill.Payments.GroupBy(p => new { p.CurrencyCode, p.Type }).Select(g => new Payment(g.Sum(p => p.Amount), g.Key.Type, g.Key.CurrencyCode));
-        var groupedItems = bill.Items.GroupBy(i => i.VatRateType).Select(g => new Item(g.Sum(i => i.Amount), g.Key));
+        var groupedItems = bill.Items.GroupBy(i => i.VatRate).Select(g => new Item(g.Sum(i => i.Amount), g.Key));
         return new Dto.FinishTransactionRequest
         {
             ClientId = clientId,
@@ -102,7 +103,7 @@ internal static class RequestCreator
         return new Dto.AmountsPerVatRate
         {
             Amount = ToString(item.Amount),
-            VatRate = SerializeVatRateType(item.VatRateType)
+            VatRate = SerializeVatRateType(item.VatRate)
         };
     }
 
@@ -122,14 +123,18 @@ internal static class RequestCreator
         );
     }
 
-    private static Dto.VatRateType SerializeVatRateType(VatRateType type)
+    // SIGN DE's Kassenbeleg schema has a single bucket for the zero end, so the three canonical
+    // zero/exempt classes (NotTaxable, TaxFree, NotDeterminable) all serialize to NULL.
+    private static Dto.VatRateType SerializeVatRateType(GermanVatRate type)
     {
         return type.Match(
-            VatRateType.None, _ => Dto.VatRateType.NULL,
-            VatRateType.Normal, _ => Dto.VatRateType.NORMAL,
-            VatRateType.Reduced, _ => Dto.VatRateType.REDUCED_1,
-            VatRateType.SpecialRate1, _ => Dto.VatRateType.SPECIAL_RATE_1,
-            VatRateType.SpecialRate2, _ => Dto.VatRateType.SPECIAL_RATE_2
+            GermanVatRate.Standard, _ => Dto.VatRateType.NORMAL,
+            GermanVatRate.Reduced, _ => Dto.VatRateType.REDUCED_1,
+            GermanVatRate.AverageHigher, _ => Dto.VatRateType.SPECIAL_RATE_1,
+            GermanVatRate.AverageLower, _ => Dto.VatRateType.SPECIAL_RATE_2,
+            GermanVatRate.NotTaxable, _ => Dto.VatRateType.NULL,
+            GermanVatRate.TaxFree, _ => Dto.VatRateType.NULL,
+            GermanVatRate.NotDeterminable, _ => Dto.VatRateType.NULL
         );
     }
 

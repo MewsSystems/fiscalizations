@@ -12,15 +12,6 @@ public enum BillType
     Invoice
 }
 
-public enum VatRateType
-{
-    Normal,
-    Reduced,
-    SpecialRate1,
-    SpecialRate2,
-    None
-}
-
 public sealed class Bill
 {
     public Bill(BillType type, List<Payment> payments, List<Item> items)
