@@ -1,6 +1,7 @@
 using Mews.Fiscalizations.Fiskaly.APIClients;
 using Mews.Fiscalizations.Fiskaly.Models;
 using Mews.Fiscalizations.Fiskaly.Models.DSFinVK.CashPointClosings;
+using Mews.Fiscalizations.Fiskaly.Models.DSFinVK.CashRegisters;
 using NUnit.Framework;
 
 namespace Mews.Fiscalizations.Fiskaly.Tests.DSFinVK;
@@ -22,6 +23,10 @@ public class CashPointClosingTests
         );
         var tokenResult = await _client.GetAccessTokenAsync();
         _accessToken = tokenResult.SuccessResult;
+
+        // A closing references the cash register's client UUID, so the register must exist first. The
+        // upsert is idempotent; doing it here keeps these tests independent of execution order.
+        await _client.UpsertCashRegisterAsync(_accessToken, TestFixture.DsfinvkTestClientId, CreateCashRegister());
 
         var closing = BuildTestClosing(exportId: Math.Abs(Guid.NewGuid().GetHashCode()));
         var insertResult = await _client.InsertCashPointClosingAsync(_accessToken, closing);
@@ -77,6 +82,21 @@ public class CashPointClosingTests
         var result = await _client.DeleteCashPointClosingAsync(_accessToken, closing.ClosingId);
 
         Assert.That(result.IsSuccess, result.ErrorResult?.Message);
+    }
+
+    private static CashRegister CreateCashRegister()
+    {
+        return new CashRegister(
+            ClientId: TestFixture.DsfinvkTestClientId,
+            Type: CashRegisterType.Master,
+            TssId: TestFixture.DsfinvkTestTssId,
+            SerialNumber: null,
+            Brand: "Mews",
+            Model: "Mews PMS",
+            SoftwareBrand: "Mews",
+            SoftwareVersion: "1.0.0",
+            BaseCurrencyCode: "EUR"
+        );
     }
 
     private static CashPointClosing BuildTestClosing(long exportId)
