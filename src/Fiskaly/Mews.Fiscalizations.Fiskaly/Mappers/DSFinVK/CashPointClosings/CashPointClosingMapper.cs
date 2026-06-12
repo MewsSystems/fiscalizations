@@ -30,7 +30,8 @@ internal static class CashPointClosingMapper
 {
     public static InsertCashPointClosingRequestDto MapInsertRequest(CashPointClosing closing)
     {
-        var transactions = closing.Transactions.ToList();
+        var transactions = closing.Transactions?.ToList() ?? new List<CashPointClosingTransaction>();
+        var hasTransactions = transactions.Count > 0;
 
         return new InsertCashPointClosingRequestDto
         {
@@ -43,11 +44,15 @@ internal static class CashPointClosingMapper
                     "yyyy-MM-dd",
                     CultureInfo.InvariantCulture
                 ),
-                FirstTransactionExportId = closing.FirstTransactionExportId,
-                LastTransactionExportId = closing.LastTransactionExportId,
+                // DSFinV-K: a day without transactions has no first/last transaction, so both ids are
+                // sent explicitly as null (the head DTO forces them past the WhenWritingNull default).
+                FirstTransactionExportId = hasTransactions ? closing.FirstTransactionExportId : null,
+                LastTransactionExportId = hasTransactions ? closing.LastTransactionExportId : null,
             },
-            Transactions = transactions.Select(MapTransaction).ToList(),
-            CashStatement = MapCashStatement(closing.CashStatement),
+            // DSFinV-K: transactions and cash_statement are "not to be used" on a day without
+            // transactions, so they are omitted entirely (null is dropped by WhenWritingNull).
+            Transactions = hasTransactions ? transactions.Select(MapTransaction).ToList() : null,
+            CashStatement = hasTransactions ? MapCashStatement(closing.CashStatement) : null,
         };
     }
 
