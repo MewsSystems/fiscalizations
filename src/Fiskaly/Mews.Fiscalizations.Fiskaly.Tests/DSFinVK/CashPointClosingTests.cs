@@ -54,6 +54,26 @@ public class CashPointClosingTests
     }
 
     [Test]
+    public async Task InsertCashPointClosingWithoutTransactionsSucceeds()
+    {
+        var closing = BuildEmptyTestClosing(exportId: Math.Abs(Guid.NewGuid().GetHashCode()));
+        var result = await _client.InsertCashPointClosingAsync(_accessToken, closing);
+
+        Assert.That(
+            result.IsSuccess,
+            $"[{result.ErrorResult?.Status}] {result.ErrorResult?.Error} :: {result.ErrorResult?.Message}"
+        );
+        Assert.That(
+            result.SuccessResult.State,
+            Is.AnyOf(
+                CashPointClosingState.Pending,
+                CashPointClosingState.Working,
+                CashPointClosingState.Completed
+            )
+        );
+    }
+
+    [Test]
     public async Task GetCashPointClosingSucceeds()
     {
         Assert.That(
@@ -96,6 +116,21 @@ public class CashPointClosingTests
             SoftwareBrand: "Mews",
             SoftwareVersion: "1.0.0",
             BaseCurrencyCode: "EUR"
+        );
+    }
+
+    private static CashPointClosing BuildEmptyTestClosing(long exportId)
+    {
+        return new CashPointClosing(
+            ClosingId: Guid.NewGuid(),
+            ClientId: TestFixture.DsfinvkTestClientId,
+            CashPointClosingExportId: exportId,
+            ExportCreationDate: DateTimeOffset.UtcNow,
+            BusinessDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
+            FirstTransactionExportId: null,
+            LastTransactionExportId: null,
+            Transactions: Array.Empty<CashPointClosingTransaction>(),
+            CashStatement: null
         );
     }
 
