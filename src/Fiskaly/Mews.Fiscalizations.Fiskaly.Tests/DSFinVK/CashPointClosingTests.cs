@@ -56,8 +56,6 @@ public class CashPointClosingTests
     [Test]
     public async Task InsertCashPointClosingWithoutTransactionsSucceeds()
     {
-        // DSFinV-K allows a closing without transactions: cash_statement and transactions are omitted
-        // and the head transaction ids are null. See fiskaly docs (insertCashPointClosing).
         var closing = BuildEmptyTestClosing(exportId: Math.Abs(Guid.NewGuid().GetHashCode()));
         var result = await _client.InsertCashPointClosingAsync(_accessToken, closing);
 

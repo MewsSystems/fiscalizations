@@ -29,9 +29,6 @@ internal sealed class CashPointClosingHead
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string BusinessDate { get; init; }
 
-    // DSFinV-K expects these keys present even on a zero-transaction day, where both are null.
-    // JsonIgnoreCondition.Never overrides the serializer's global WhenWritingNull default so the
-    // null values are written explicitly rather than dropped.
     [JsonPropertyName("first_transaction_export_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FirstTransactionExportId { get; init; }

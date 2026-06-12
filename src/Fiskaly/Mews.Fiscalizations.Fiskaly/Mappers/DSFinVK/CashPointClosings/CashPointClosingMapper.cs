@@ -44,13 +44,9 @@ internal static class CashPointClosingMapper
                     "yyyy-MM-dd",
                     CultureInfo.InvariantCulture
                 ),
-                // DSFinV-K: a day without transactions has no first/last transaction, so both ids are
-                // sent explicitly as null (the head DTO forces them past the WhenWritingNull default).
                 FirstTransactionExportId = hasTransactions ? closing.FirstTransactionExportId : null,
                 LastTransactionExportId = hasTransactions ? closing.LastTransactionExportId : null,
             },
-            // DSFinV-K: transactions and cash_statement are "not to be used" on a day without
-            // transactions, so they are omitted entirely (null is dropped by WhenWritingNull).
             Transactions = hasTransactions ? transactions.Select(MapTransaction).ToList() : null,
             CashStatement = hasTransactions ? MapCashStatement(closing.CashStatement) : null,
         };
