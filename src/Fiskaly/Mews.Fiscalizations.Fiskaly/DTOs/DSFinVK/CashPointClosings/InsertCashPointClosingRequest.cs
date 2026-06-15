@@ -29,11 +29,12 @@ internal sealed class CashPointClosingHead
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string BusinessDate { get; init; }
 
-    // Required by the spec (the caller sends "0" on zero-transaction days).
     [JsonPropertyName("first_transaction_export_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FirstTransactionExportId { get; init; }
 
     [JsonPropertyName("last_transaction_export_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string LastTransactionExportId { get; init; }
 }
 

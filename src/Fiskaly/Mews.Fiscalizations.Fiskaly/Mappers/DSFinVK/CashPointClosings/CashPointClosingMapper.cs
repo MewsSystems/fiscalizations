@@ -30,7 +30,8 @@ internal static class CashPointClosingMapper
 {
     public static InsertCashPointClosingRequestDto MapInsertRequest(CashPointClosing closing)
     {
-        var transactions = closing.Transactions.ToList();
+        var transactions = closing.Transactions?.ToList() ?? new List<CashPointClosingTransaction>();
+        var hasTransactions = transactions.Count > 0;
 
         return new InsertCashPointClosingRequestDto
         {
@@ -43,11 +44,11 @@ internal static class CashPointClosingMapper
                     "yyyy-MM-dd",
                     CultureInfo.InvariantCulture
                 ),
-                FirstTransactionExportId = closing.FirstTransactionExportId,
-                LastTransactionExportId = closing.LastTransactionExportId,
+                FirstTransactionExportId = hasTransactions ? closing.FirstTransactionExportId : null,
+                LastTransactionExportId = hasTransactions ? closing.LastTransactionExportId : null,
             },
-            Transactions = transactions.Select(MapTransaction).ToList(),
-            CashStatement = MapCashStatement(closing.CashStatement),
+            Transactions = hasTransactions ? transactions.Select(MapTransaction).ToList() : null,
+            CashStatement = hasTransactions ? MapCashStatement(closing.CashStatement) : null,
         };
     }
 
