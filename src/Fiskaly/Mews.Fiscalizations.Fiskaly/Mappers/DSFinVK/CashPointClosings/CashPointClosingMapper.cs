@@ -59,7 +59,7 @@ internal static class CashPointClosingMapper
             ClientId: response.ClientId,
             CashPointClosingExportId: response.CashPointClosingExportId,
             State: MapState(response.State),
-            Error: response.Error?.Message ?? response.Error?.Code
+            Error: response.Error == null ? null : $"{response.Error.Code}: {response.Error.Message}"
         );
     }
 
