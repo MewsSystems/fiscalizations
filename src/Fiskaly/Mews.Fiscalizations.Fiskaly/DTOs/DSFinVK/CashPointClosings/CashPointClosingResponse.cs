@@ -24,6 +24,12 @@ internal sealed class CashPointClosingResponse
 
 internal sealed class CashPointClosingError
 {
+    [JsonPropertyName("status_code")]
+    public int? StatusCode { get; init; }
+
+    [JsonPropertyName("error")]
+    public string Error { get; init; }
+
     [JsonPropertyName("code")]
     public string Code { get; init; }
 
