@@ -19,7 +19,16 @@ internal sealed class CashPointClosingResponse
 
     [JsonPropertyName("error")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Error { get; init; }
+    public CashPointClosingError Error { get; init; }
+}
+
+internal sealed class CashPointClosingError
+{
+    [JsonPropertyName("code")]
+    public string Code { get; init; }
+
+    [JsonPropertyName("message")]
+    public string Message { get; init; }
 }
 
 internal enum CashPointClosingState
