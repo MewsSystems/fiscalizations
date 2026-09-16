@@ -39,6 +39,11 @@ public class CashRegisterTests
 
         Assert.That(result.IsSuccess, result.ErrorResult?.Message);
         Assert.That(result.SuccessResult.ClientId, Is.EqualTo(TestFixture.DsfinvkTestClientId));
+
+        // Callers read the cash register to decide whether the upsert is still needed, so the response has to
+        // carry back what was sent, not just the client id.
+        Assert.That(result.SuccessResult.TssId, Is.EqualTo(TestFixture.DsfinvkTestTssId));
+        Assert.That(result.SuccessResult.SoftwareVersion, Is.EqualTo(CreateCashRegister().SoftwareVersion));
     }
 
     private static CashRegister CreateCashRegister()
