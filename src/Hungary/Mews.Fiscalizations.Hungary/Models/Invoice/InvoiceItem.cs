@@ -3,38 +3,58 @@
 public sealed class InvoiceItem
 {
     public InvoiceItem(
-        DateTime consumptionDate,
+        DateTime deliveryDate,
         ItemAmounts totalAmounts,
         ItemAmounts unitAmounts,
-        MeasurementUnit measurementUnit,
+        UnitOfMeasure unitOfMeasure,
         Description description,
-        int quantity,
-        ExchangeRate exchangeRate = null,
-        bool isDeposit = false)
+        decimal quantity,
+        ExchangeRate lineExchangeRate = null,
+        bool isAdvance = false,
+        AdvancePaymentData advancePaymentData = null)
     {
-        ConsumptionDate = consumptionDate;
+        DeliveryDate = deliveryDate;
         TotalAmounts = Check.IsNotNull(totalAmounts, nameof(totalAmounts));
         UnitAmounts = Check.IsNotNull(unitAmounts, nameof(unitAmounts));
-        MeasurementUnit = measurementUnit;
+        UnitOfMeasure = Check.IsNotNull(unitOfMeasure, nameof(unitOfMeasure));
         Description = Check.IsNotNull(description, nameof(description));
         Quantity = quantity;
-        ExchangeRate = exchangeRate.ToOption();
-        IsDeposit = isDeposit;
+        LineExchangeRate = lineExchangeRate.ToOption();
+        IsAdvance = isAdvance;
+        AdvancePaymentData = advancePaymentData.ToOption();
     }
 
-    public DateTime ConsumptionDate { get; }
+    /// <summary>
+    /// When this item was supplied. On an aggregate invoice NAV reports it per line
+    /// (aggregateInvoiceLineData/lineDeliveryDate), and the invoice delivery date is the latest of them.
+    /// </summary>
+    public DateTime DeliveryDate { get; }
 
     public ItemAmounts TotalAmounts { get; }
 
     public ItemAmounts UnitAmounts { get; }
 
-    public MeasurementUnit MeasurementUnit { get; }
+    public UnitOfMeasure UnitOfMeasure { get; }
 
     public Description Description { get; }
 
-    public int Quantity { get; }
+    /// <summary>
+    /// NAV QuantityType allows 10 decimal places, so this is a decimal: a fractional quantity must not be
+    /// silently rounded to a whole unit.
+    /// </summary>
+    public decimal Quantity { get; }
 
-    public Option<ExchangeRate> ExchangeRate { get; }
+    /// <summary>
+    /// The rate for this item, required on an aggregate invoice in a foreign currency because each supply
+    /// has its own rate at its own delivery date.
+    /// </summary>
+    public Option<ExchangeRate> LineExchangeRate { get; }
 
-    public bool IsDeposit { get; }
+    /// <summary>
+    /// NAV advanceData/advanceIndicator. Distinct from depositIndicator, which in NAV means a
+    /// bottle or container deposit.
+    /// </summary>
+    public bool IsAdvance { get; }
+
+    public Option<AdvancePaymentData> AdvancePaymentData { get; }
 }

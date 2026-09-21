@@ -1,5 +1,10 @@
 ﻿namespace Mews.Fiscalizations.Hungary.Tests;
 
+/// <summary>
+/// Exercises the live NAV test environment, so it needs the hungarian_* environment variables from
+/// <see cref="TestFixture"/>. The offline coverage of the same mapping is in
+/// <see cref="RequestMapperTests"/> and <see cref="SchemaValidationTests"/>.
+/// </summary>
 [TestFixture]
 public sealed class InvoiceTests
 {
@@ -20,12 +25,7 @@ public sealed class InvoiceTests
     [Retry(RetryCount)]
     public async Task SendLocalCompanyInvoiceSucceeds()
     {
-        var receiver = Receiver.LocalCompany(
-            taxpayerId: LocalTaxpayerIdentificationNumber.Create("10630433").Success.Get(),
-            name: Models.Name.Create("Hungarian test company ltd.").Success.Get(),
-            address: CreateAddress(Countries.Hungary)
-        );
-        var sendInvoicesResult = await SendInvoices(receiver);
+        var sendInvoicesResult = await SendInvoices(LocalCompanyReceiver());
         await AssertInvoices(sendInvoicesResult);
     }
 
@@ -37,14 +37,17 @@ public sealed class InvoiceTests
     [TestCase("US", null)]
     public async Task SendForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
     {
-        var country = Countries.GetByCode(countryCode).Get();
-        var taxpayerNumber = taxId.AsNonEmpty().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
-        var receiver = Receiver.ForeignCompany(
-            name: Models.Name.Create("Foreign test company ltd.").Success.Get(),
-            address: CreateAddress(country),
-            taxpayerId: taxpayerNumber.GetOrNull()
-        );
-        var sendInvoicesResult = await SendInvoices(receiver.Success.Get());
+        var sendInvoicesResult = await SendInvoices(ForeignCompanyReceiver(countryCode, taxId));
+        await AssertInvoices(sendInvoicesResult);
+    }
+
+    [Test]
+    [Retry(RetryCount)]
+    public async Task SendAggregateInvoiceSucceeds()
+    {
+        // An aggregate invoice is the shape a multi-day folio takes: several supplies, each with its own
+        // delivery date. NAV then runs its aggregate-only reconciliation checks over the lines.
+        var sendInvoicesResult = await SendInvoices(Receiver.Customer(), category: InvoiceCategory.Aggregate);
         await AssertInvoices(sendInvoicesResult);
     }
 
@@ -57,24 +60,34 @@ public sealed class InvoiceTests
         var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
         await AssertInvoices(sendInvoicesResult);
 
-        var sendModificationInvoicesResult = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
+        var sendModificationInvoicesResult = await SendModificationInvoices(receiver, invoiceNumber, ModificationOperation.Modify);
         await AssertInvoices(sendModificationInvoicesResult);
+    }
+
+    [Test, Order(1)]
+    [Retry(RetryCount)]
+    public async Task SendCancellationCustomerInvoiceSucceeds()
+    {
+        // A document that reverses the original invoice in full is a STORNO, not a MODIFY.
+        var receiver = Receiver.Customer();
+        var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
+        var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
+        await AssertInvoices(sendInvoicesResult);
+
+        var sendCancellationResult = await SendModificationInvoices(receiver, invoiceNumber, ModificationOperation.Storno);
+        await AssertInvoices(sendCancellationResult);
     }
 
     [Test, Order(1)]
     [Retry(RetryCount)]
     public async Task SendCorrectionLocalCompanyInvoiceSucceeds()
     {
-        var receiver = Receiver.LocalCompany(
-            taxpayerId: LocalTaxpayerIdentificationNumber.Create("10630433").Success.Get(),
-            name: Models.Name.Create("Hungarian test company ltd.").Success.Get(),
-            address: CreateAddress(Countries.Hungary)
-        );
+        var receiver = LocalCompanyReceiver();
         var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
         var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
         await AssertInvoices(sendInvoicesResult);
 
-        var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
+        var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, invoiceNumber, ModificationOperation.Modify);
         await AssertInvoices(sendModificationInvoiceResponse);
     }
 
@@ -86,144 +99,157 @@ public sealed class InvoiceTests
     [TestCase("US", null)]
     public async Task SendCorrectionForeignCompanyInvoiceSucceeds(string countryCode, string taxId)
     {
-        var country = Countries.GetByCode(countryCode).Get();
-        var taxpayerNumber = taxId.AsNonEmpty().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
-        var receiver = Receiver.ForeignCompany(
-            name: Models.Name.Create("Foreign test company ltd.").Success.Get(),
-            address: CreateAddress(country),
-            taxpayerId: taxpayerNumber.GetOrNull()
-        ).Success.Get();
+        var receiver = ForeignCompanyReceiver(countryCode, taxId);
         var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
         var sendInvoicesResult = await SendInvoices(receiver, invoiceNumber);
         await AssertInvoices(sendInvoicesResult);
 
-        var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, originalInvoiceNumber: invoiceNumber);
+        var sendModificationInvoiceResponse = await SendModificationInvoices(receiver, invoiceNumber, ModificationOperation.Modify);
         await AssertInvoices(sendModificationInvoiceResponse);
     }
 
-    private async Task<ResponseResult<string, ResultErrorCode>> SendInvoices(Receiver receiver, InvoiceNumber invoiceNumber = null)
+    [Test, Order(2)]
+    [Retry(RetryCount)]
+    public async Task QueryInvoiceChainDigestReturnsTheReportedChain()
+    {
+        // The chain digest is what a modification document's modificationIndex and line numbering are read
+        // from, so it has to come back describing the invoice that was just reported.
+        var invoiceNumber = InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get();
+        await AssertInvoices(await SendInvoices(Receiver.Customer(), invoiceNumber));
+
+        var chain = await NavClient.GetInvoiceChainDigestAsync(invoiceNumber.Value);
+        TestFixture.AssertResponse(chain);
+
+        Assert.That(chain.SuccessResult.IsEmpty, Is.False);
+        Assert.That(chain.SuccessResult.NextModificationIndex, Is.EqualTo(1));
+        Assert.That(chain.SuccessResult.MaxLineNumber, Is.EqualTo(3));
+    }
+
+    [Test, Order(2)]
+    [Retry(RetryCount)]
+    public async Task QueryTransactionListReturnsRecentlySubmittedTransactions()
+    {
+        // This is the lost-transaction recovery path from spec 1.9.2: after a timeout the transaction is
+        // found here rather than the invoice being submitted a second time.
+        var sendInvoicesResult = await SendInvoices(Receiver.Customer());
+        await AssertInvoices(sendInvoicesResult);
+
+        var nowUtc = DateTime.UtcNow;
+        var transactions = await NavClient.GetTransactionListAsync(page: 1, insertedFromUtc: nowUtc.AddMinutes(-10), insertedToUtc: nowUtc.AddMinutes(1));
+        TestFixture.AssertResponse(transactions);
+
+        Assert.That(transactions.SuccessResult.Transactions.Select(t => t.TransactionId), Does.Contain(sendInvoicesResult.SuccessResult));
+    }
+
+    private static Receiver LocalCompanyReceiver()
+    {
+        return Receiver.LocalCompany(
+            taxpayerId: LocalTaxpayerIdentificationNumber.Create("10630433").Success.Get(),
+            name: Models.Name.Create("Hungarian test company ltd.").Success.Get(),
+            address: CreateAddress(Countries.Hungary)
+        );
+    }
+
+    private static Receiver ForeignCompanyReceiver(string countryCode, string taxId)
+    {
+        var country = Countries.GetByCode(countryCode).Get();
+        var taxpayerNumber = taxId.AsNonEmpty().Map(i => TaxpayerIdentificationNumber.Create(country, i).Success.Get());
+        return Receiver.ForeignCompany(
+            name: Models.Name.Create("Foreign test company ltd.").Success.Get(),
+            address: CreateAddress(country),
+            taxpayerId: taxpayerNumber.GetOrNull()
+        ).Success.Get();
+    }
+
+    private async Task<ResponseResult<string, ResultErrorCode>> SendInvoices(Receiver receiver, InvoiceNumber invoiceNumber = null, InvoiceCategory category = InvoiceCategory.Normal)
     {
         var exchangeToken = await NavClient.GetExchangeTokenAsync();
         return await NavClient.SendInvoicesAsync(
             token: exchangeToken.SuccessResult,
-            invoices: Sequence.FromPreordered(new[] { CreateInvoice(receiver, invoiceNumber) }, startIndex: 1).Get()
+            invoices: Sequence.FromPreordered(new[] { CreateInvoice(receiver, invoiceNumber, category) }, startIndex: 1).Get()
         );
     }
 
-    private async Task<ResponseResult<string, ResultErrorCode>> SendModificationInvoices(Receiver receiver, InvoiceNumber originalInvoiceNumber)
+    private async Task<ResponseResult<string, ResultErrorCode>> SendModificationInvoices(Receiver receiver, InvoiceNumber originalInvoiceNumber, ModificationOperation operation)
     {
         var exchangeToken = await NavClient.GetExchangeTokenAsync();
-        return await NavClient.SendModificationDocumentsAsync(
-            token: exchangeToken.SuccessResult,
-            invoices: Sequence.FromPreordered(new[] { CreateModificationInvoice(originalInvoiceNumber, receiver) }, startIndex: 1).Get()
-        );
+        var documents = Sequence.FromPreordered(new[] { CreateModificationInvoice(originalInvoiceNumber, receiver, operation) }, startIndex: 1).Get();
+        return operation switch
+        {
+            ModificationOperation.Storno => await NavClient.SendCancellationDocumentsAsync(exchangeToken.SuccessResult, documents),
+            _ => await NavClient.SendModificationDocumentsAsync(exchangeToken.SuccessResult, documents)
+        };
     }
 
-    private Invoice CreateInvoice(Receiver receiver, InvoiceNumber invoiceNumber = null)
+    private Invoice CreateInvoice(Receiver receiver, InvoiceNumber invoiceNumber, InvoiceCategory category)
     {
         var nowUtc = DateTime.UtcNow.Date;
-        var item1Amount = new Models.Amount(net: new AmountValue(1694.92m), gross: new AmountValue(2000), tax: new AmountValue(305.08m));
-        var item2Amount = new Models.Amount(new AmountValue(2362.20m), new AmountValue(3000), new AmountValue(637.8m));
-        var item3Amount = new Models.Amount(new AmountValue(952.38m), new AmountValue(1000), new AmountValue(47.62m));
-        var unitAmount1 = new ItemAmounts(item1Amount, item1Amount, 0.18m);
-        var unitAmount2 = new ItemAmounts(item2Amount, item2Amount, 0.27m);
-        var unitAmount3 = new ItemAmounts(item3Amount, item3Amount, 0.05m);
+        // An aggregate invoice needs more than one delivery date, which is the whole reason to declare one.
+        var isAggregate = category == InvoiceCategory.Aggregate;
         var items = new[]
         {
-            new InvoiceItem(
-                consumptionDate: nowUtc,
-                totalAmounts: new ItemAmounts(item1Amount, item1Amount, 0.18m),
-                description: Description.Create("Item 1 description").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: 1,
-                unitAmounts: unitAmount1,
-                exchangeRate: ExchangeRate.Create(1).Success.Get()
-            ),
-            new InvoiceItem(
-                consumptionDate: nowUtc,
-                totalAmounts: new ItemAmounts(item2Amount, item2Amount, 0.27m),
-                description: Description.Create("Item 2 description").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: 1,
-                unitAmounts: unitAmount2,
-                exchangeRate: ExchangeRate.Create(1).Success.Get()
-            ),
-            new InvoiceItem(
-                consumptionDate: nowUtc,
-                totalAmounts: new ItemAmounts(item3Amount, item3Amount, 0.05m),
-                description: Description.Create("Item 3 description").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: 1,
-                unitAmounts: unitAmount3,
-                exchangeRate: ExchangeRate.Create(1).Success.Get()
-            )
+            CreateItem(nowUtc, 1694.92m, 2000m, 305.08m, VatRate.Percentage(0.18m).Success.Get(), quantity: 1),
+            CreateItem(isAggregate ? nowUtc.AddDays(-1) : nowUtc, 2362.20m, 3000m, 637.8m, VatRate.Percentage(0.27m).Success.Get(), quantity: 1),
+            CreateItem(isAggregate ? nowUtc.AddDays(-2) : nowUtc, 952.38m, 1000m, 47.62m, VatRate.Percentage(0.05m).Success.Get(), quantity: 1)
         };
 
-        return new Invoice(
+        return Invoice.Create(
             number: invoiceNumber ?? InvoiceNumber.Create($"INVOICE-{Guid.NewGuid()}").Success.Get(),
+            category: category,
             issueDate: nowUtc,
+            paymentDate: nowUtc,
             supplierInfo: CreateSupplierInfo(),
             receiver: receiver,
-            items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-            paymentDate: nowUtc,
             currencyCode: CurrencyCode.Create("HUF").Success.Get(),
+            items: Sequence.FromPreordered(items, startIndex: 1).Get(),
             paymentMethod: PaymentMethod.Card
-        );
+        ).Success.Get();
     }
 
-    private ModificationInvoice CreateModificationInvoice(InvoiceNumber originalDocumentNumber, Receiver receiver)
+    private ModificationInvoice CreateModificationInvoice(InvoiceNumber originalDocumentNumber, Receiver receiver, ModificationOperation operation)
     {
         var nowUtc = DateTime.UtcNow.Date;
-        var item1Amount = new Models.Amount(net: new AmountValue(-1694.92m), gross: new AmountValue(-2000), tax: new AmountValue(-305.08m));
-        var item2Amount = new Models.Amount(new AmountValue(-2362.20m), new AmountValue(-3000), new AmountValue(-637.8m));
-        var item3Amount = new Models.Amount(new AmountValue(-952.38m), new AmountValue(-1000), new AmountValue(-47.62m));
-        var unitAmount1 = new ItemAmounts(item1Amount, item1Amount, 0.18m);
-        var unitAmount2 = new ItemAmounts(item2Amount, item2Amount, 0.27m);
-        var unitAmount3 = new ItemAmounts(item3Amount, item3Amount, 0.05m);
         var items = new[]
         {
-            new InvoiceItem(
-                consumptionDate: nowUtc,
-                totalAmounts: new ItemAmounts(item1Amount, item1Amount, 0.18m),
-                description: Description.Create("Item 1 description").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: -1,
-                unitAmounts: unitAmount1,
-                exchangeRate: ExchangeRate.Create(1).Success.Get()
-            ),
-            new InvoiceItem(
-                consumptionDate: nowUtc,
-                totalAmounts: new ItemAmounts(item2Amount, item2Amount, 0.27m),
-                description: Description.Create("Item 2 description").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: -1,
-                unitAmounts: unitAmount2,
-                exchangeRate: ExchangeRate.Create(1).Success.Get()
-            ),
-            new InvoiceItem(
-                consumptionDate: nowUtc,
-                totalAmounts: new ItemAmounts(item3Amount, item3Amount, 0.05m),
-                description: Description.Create("Item 3 description").Success.Get(),
-                measurementUnit: MeasurementUnit.Night,
-                quantity: -1,
-                unitAmounts: unitAmount3,
-                exchangeRate: ExchangeRate.Create(1).Success.Get()
-            )
+            CreateItem(nowUtc, -1694.92m, -2000m, -305.08m, VatRate.Percentage(0.18m).Success.Get(), quantity: -1),
+            CreateItem(nowUtc, -2362.20m, -3000m, -637.8m, VatRate.Percentage(0.27m).Success.Get(), quantity: -1),
+            CreateItem(nowUtc, -952.38m, -1000m, -47.62m, VatRate.Percentage(0.05m).Success.Get(), quantity: -1)
         };
 
-        return new ModificationInvoice(
+        var invoice = Invoice.Create(
             number: InvoiceNumber.Create($"REBATE-{Guid.NewGuid()}").Success.Get(),
-            supplierInfo: CreateSupplierInfo(),
-            receiver: receiver,
-            items: Sequence.FromPreordered(items, startIndex: 1).Get(),
-            currencyCode: CurrencyCode.Create("HUF").Success.Get(),
+            category: InvoiceCategory.Normal,
             issueDate: nowUtc,
             paymentDate: nowUtc,
-            itemIndexOffset: 3,
-            modificationIndex: 1,
-            modifyWithoutMaster: false,
-            originalDocumentNumber: originalDocumentNumber,
+            supplierInfo: CreateSupplierInfo(),
+            receiver: receiver,
+            currencyCode: CurrencyCode.Create("HUF").Success.Get(),
+            items: Sequence.FromPreordered(items, startIndex: 1).Get(),
             paymentMethod: PaymentMethod.Cash
+        ).Success.Get();
+
+        return ModificationInvoice.Create(
+            invoice: invoice,
+            operation: operation,
+            originalDocumentNumber: originalDocumentNumber,
+            modificationIndex: 1,
+            itemIndexOffset: 3,
+            modifyWithoutMaster: false
+        ).Success.Get();
+    }
+
+    private static InvoiceItem CreateItem(DateTime deliveryDate, decimal net, decimal gross, decimal tax, VatRate vatRate, decimal quantity)
+    {
+        var amount = new Models.Amount(net: new AmountValue(net), gross: new AmountValue(gross), tax: new AmountValue(tax));
+        var amounts = new ItemAmounts(amount, amount, vatRate);
+        return new InvoiceItem(
+            deliveryDate: deliveryDate,
+            totalAmounts: amounts,
+            unitAmounts: amounts,
+            unitOfMeasure: UnitOfMeasure.Own("Night").Success.Get(),
+            description: Description.Create($"Item {vatRate.GetHashCode()} description").Success.Get(),
+            quantity: quantity,
+            lineExchangeRate: ExchangeRate.Create(1).Success.Get()
         );
     }
 
@@ -237,7 +263,7 @@ public sealed class InvoiceTests
         );
     }
 
-    private SimpleAddress CreateAddress(Country country)
+    private static SimpleAddress CreateAddress(Country country)
     {
         return new SimpleAddress(
             city: City.Create("Budapest").Success.Get(),
@@ -251,7 +277,7 @@ public sealed class InvoiceTests
     {
         TestFixture.AssertResponse(sendInvoicesResults);
 
-        Thread.Sleep(2000);
+        await Task.Delay(2000);
 
         var transactionId = sendInvoicesResults.SuccessResult;
         var transactionStatus = await NavClient.GetTransactionStatusAsync(transactionId);

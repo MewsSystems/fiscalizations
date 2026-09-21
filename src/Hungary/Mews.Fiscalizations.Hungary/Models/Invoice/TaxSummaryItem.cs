@@ -1,17 +1,20 @@
-﻿namespace Mews.Fiscalizations.Hungary.Models;
+namespace Mews.Fiscalizations.Hungary.Models;
 
+/// <summary>
+/// One NAV summaryByVatRate entry: the totals of every line sharing a VAT rate.
+/// </summary>
 public sealed class TaxSummaryItem
 {
-    public TaxSummaryItem(Amount amount, Amount amountHUF, decimal? taxRatePercentage = null)
+    public TaxSummaryItem(Amount amount, Amount amountHUF, VatRate vatRate)
     {
         Amount = amount;
         AmountHUF = amountHUF;
-        TaxRatePercentage = taxRatePercentage.ToOption();
+        VatRate = vatRate;
     }
 
     public Amount Amount { get; }
 
     public Amount AmountHUF { get; }
 
-    public Option<decimal> TaxRatePercentage { get; }
+    public VatRate VatRate { get; }
 }

@@ -4,7 +4,7 @@ internal static class RequestMapper
 {
     internal static Dto.InvoiceData MapModificationInvoice(ModificationInvoice invoice)
     {
-        var lines = MapItems(invoice.Items, invoice.ItemIndexOffset);
+        var lines = MapItems(invoice.Category, invoice.Items, invoice.ItemIndexOffset);
         var invoiceReference = new Dto.InvoiceReferenceType
         {
             modificationIndex = invoice.ModificationIndex,
@@ -18,7 +18,7 @@ internal static class RequestMapper
 
     internal static Dto.InvoiceData MapInvoice(Invoice invoice)
     {
-        var lines = MapItems(invoice.Items);
+        var lines = MapItems(invoice.Category, invoice.Items);
         var invoiceDto = GetCommonInvoice(invoice, lines);
         return GetCommonInvoiceData(invoice, invoiceDto);
     }
@@ -29,10 +29,7 @@ internal static class RequestMapper
         {
             invoiceIssueDate = invoice.IssueDate,
             invoiceNumber = invoice.Number.Value,
-            completenessIndicator = invoice.Receiver.Match(
-                customer => false,
-                company => true
-            ),
+            completenessIndicator = invoice.IsCompleteDataReport,
             invoiceMain = new Dto.InvoiceMainType
             {
                 Items = new object[] { invoiceDto }
@@ -46,11 +43,13 @@ internal static class RequestMapper
         var invoiceAmountHUF = Models.Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.AmountHUF));
         var supplierInfo = invoice.SupplierInfo;
         var receiver = invoice.Receiver;
+        var isAggregate = invoice.Category == InvoiceCategory.Aggregate;
         return new Dto.InvoiceType
         {
             invoiceReference = invoiceReference,
             invoiceLines = new Dto.LinesType
             {
+                mergedItemIndicator = false,
                 line = lines.ToArray()
             },
             invoiceHead = new Dto.InvoiceHeadType
@@ -60,8 +59,14 @@ internal static class RequestMapper
                     exchangeRate = invoice.ExchangeRate.Value,
                     currencyCode = invoice.CurrencyCode.Value,
                     invoiceAppearance = Dto.InvoiceAppearanceType.ELECTRONIC,
-                    invoiceCategory = Dto.InvoiceCategoryType.AGGREGATE,
+                    invoiceCategory = MapCategory(invoice.Category),
                     invoiceDeliveryDate = invoice.DeliveryDate,
+                    // The period is what an aggregate invoice is for - several supplies across a span of
+                    // days - so it is stated only when the invoice actually is one.
+                    invoiceDeliveryPeriodStart = invoice.DeliveryPeriodStart,
+                    invoiceDeliveryPeriodStartSpecified = isAggregate,
+                    invoiceDeliveryPeriodEnd = invoice.DeliveryDate,
+                    invoiceDeliveryPeriodEndSpecified = isAggregate,
                     paymentDate = invoice.PaymentDate,
                     paymentDateSpecified = true,
                     selfBillingIndicator = invoice.IsSelfBilling,
@@ -81,6 +86,8 @@ internal static class RequestMapper
                 },
                 customerInfo = new Dto.CustomerInfoType
                 {
+                    // NAV rejects a data report that carries a name or an address for a private person, so
+                    // those are emitted only for a company.
                     customerName = receiver.Match(
                         customer => null,
                         company => company.Name.Value
@@ -96,6 +103,7 @@ internal static class RequestMapper
                             foreign => Dto.CustomerVatStatusType.OTHER
                         )
                     ),
+                    // Spec 2.1.4.1 case 7: a company with no tax number reports no customerVatData at all.
                     customerVatData = receiver.Match(
                         customer => Option.Empty<Dto.CustomerVatDataType>(),
                         company => company.Match(
@@ -118,7 +126,14 @@ internal static class RequestMapper
                 }
             }
         };
+    }
 
+    private static Dto.InvoiceCategoryType MapCategory(InvoiceCategory category)
+    {
+        return category.Match(
+            InvoiceCategory.Normal, _ => Dto.InvoiceCategoryType.NORMAL,
+            InvoiceCategory.Aggregate, _ => Dto.InvoiceCategoryType.AGGREGATE
+        );
     }
 
     private static Dto.PaymentMethodType MapPaymentMethod(PaymentMethod paymentMethod)
@@ -174,7 +189,7 @@ internal static class RequestMapper
     {
         return new Dto.SummaryByVatRateType
         {
-            vatRate = GetVatRate(taxSummary.TaxRatePercentage),
+            vatRate = GetVatRate(taxSummary.VatRate),
             vatRateNetData = new Dto.VatRateNetDataType
             {
                 vatRateNetAmount = taxSummary.Amount.Net.Value,
@@ -208,7 +223,6 @@ internal static class RequestMapper
         };
     }
 
-
     private static Dto.LineAmountsNormalType MapLineAmounts(InvoiceItem item)
     {
         return new Dto.LineAmountsNormalType
@@ -223,7 +237,7 @@ internal static class RequestMapper
                 lineNetAmount = item.TotalAmounts.Amount.Net.Value,
                 lineNetAmountHUF = item.TotalAmounts.AmountHUF.Net.Value
             },
-            lineVatRate = GetVatRate(item.TotalAmounts.TaxRatePercentage),
+            lineVatRate = GetVatRate(item.TotalAmounts.VatRate),
             lineVatData = new Dto.LineVatDataType
             {
                 lineVatAmount = item.TotalAmounts.Amount.Tax.Value,
@@ -232,30 +246,70 @@ internal static class RequestMapper
         };
     }
 
-    private static IEnumerable<Dto.LineType> MapItems(ISequence<InvoiceItem> items, int? modificationIndexOffset = null)
+    private static IEnumerable<Dto.LineType> MapItems(InvoiceCategory category, ISequence<InvoiceItem> items, int? modificationIndexOffset = null)
     {
-        return items.Values.Select(i => new Dto.LineType
+        return items.Values.Select(i =>
         {
-            lineNumber = i.Index.ToString(),
-            lineDescription = i.Value.Description.Value,
-            quantity = i.Value.Quantity,
-            unitOfMeasureOwn = i.Value.MeasurementUnit.ToString(),
-            unitPrice = i.Value.UnitAmounts.Amount.Net.Value,
-            unitPriceHUF = i.Value.UnitAmounts.AmountHUF.Net.Value,
-            quantitySpecified = true,
-            unitOfMeasureSpecified = true,
-            unitPriceSpecified = true,
-            unitPriceHUFSpecified = true,
-            depositIndicator = i.Value.IsDeposit,
-            Item = MapLineAmounts(i.Value),
-            aggregateInvoiceLineData = new Dto.AggregateInvoiceLineDataType
+            var item = i.Value;
+            var line = new Dto.LineType
             {
-                lineExchangeRateSpecified = true,
-                lineExchangeRate = i.Value.ExchangeRate.Map(r => r.Value).GetOrElse(0m),
-                lineDeliveryDate = i.Value.ConsumptionDate
-            },
-            lineModificationReference = modificationIndexOffset.HasValue ? GetLineModificationReference(i, modificationIndexOffset.Value) : null
+                lineNumber = i.Index.ToString(),
+                // Mandatory since request version 1.1, and it declares which line fields NAV should expect.
+                // Every line reported here carries a description, quantity, unit and unit price.
+                lineExpressionIndicator = true,
+                lineDescription = item.Description.Value,
+                quantity = item.Quantity,
+                quantitySpecified = true,
+                unitOfMeasure = MapUnitOfMeasure(item.UnitOfMeasure.Kind),
+                unitOfMeasureSpecified = true,
+                unitOfMeasureOwn = item.UnitOfMeasure.OwnValue.GetOrNull(),
+                unitPrice = item.UnitAmounts.Amount.Net.Value,
+                unitPriceSpecified = true,
+                unitPriceHUF = item.UnitAmounts.AmountHUF.Net.Value,
+                unitPriceHUFSpecified = true,
+                Item = MapLineAmounts(item),
+                lineModificationReference = modificationIndexOffset.HasValue ? GetLineModificationReference(i, modificationIndexOffset.Value) : null
+            };
+
+            // Only an aggregate invoice reports per-item delivery dates and rates, and NAV runs its
+            // aggregate-only reconciliation checks whenever this node is present.
+            if (category == InvoiceCategory.Aggregate)
+            {
+                line.aggregateInvoiceLineData = new Dto.AggregateInvoiceLineDataType
+                {
+                    lineDeliveryDate = item.DeliveryDate,
+                    lineExchangeRate = item.LineExchangeRate.Map(r => r.Value).GetOrElse(1m),
+                    lineExchangeRateSpecified = item.LineExchangeRate.NonEmpty
+                };
+            }
+
+            // NAV depositIndicator means a bottle or container deposit. An advance charge belongs in
+            // advanceData (spec 2.9), which is what this is.
+            if (item.IsAdvance)
+            {
+                line.advanceData = new Dto.AdvanceDataType
+                {
+                    advanceIndicator = true,
+                    advancePaymentData = item.AdvancePaymentData.Map(d => new Dto.AdvancePaymentDataType
+                    {
+                        advanceOriginalInvoice = d.OriginalInvoiceNumber.Value,
+                        advancePaymentDate = d.PaymentDate,
+                        advanceExchangeRate = d.ExchangeRate.Value
+                    }).GetOrNull()
+                };
+            }
+
+            return line;
         });
+    }
+
+    private static Dto.UnitOfMeasureType MapUnitOfMeasure(UnitOfMeasureKind kind)
+    {
+        return kind.Match(
+            UnitOfMeasureKind.Piece, _ => Dto.UnitOfMeasureType.PIECE,
+            UnitOfMeasureKind.Day, _ => Dto.UnitOfMeasureType.DAY,
+            UnitOfMeasureKind.Own, _ => Dto.UnitOfMeasureType.OWN
+        );
     }
 
     private static Dto.LineModificationReferenceType GetLineModificationReference(Indexed<InvoiceItem> item, int modificationIndexOffset)
@@ -263,17 +317,34 @@ internal static class RequestMapper
         return new Dto.LineModificationReferenceType
         {
             lineNumberReference = (item.Index + modificationIndexOffset).ToString(),
+            // Spec 2.5.3: after the INVALID_LINE_OPERATION validation only CREATE is accepted. A modification
+            // adds new lines continuing the original invoice's numbering rather than editing existing ones.
             lineOperation = Dto.LineOperationType.CREATE
         };
     }
 
-    private static Dto.VatRateType GetVatRate(Option<decimal> taxRatePercentage)
+    private static Dto.VatRateType GetVatRate(VatRate vatRate)
     {
-        return taxRatePercentage.Match(
-            p => new Dto.VatRateType
+        return vatRate.Match(
+            percentage => new Dto.VatRateType
             {
-                Item = p,
+                Item = percentage,
                 ItemElementName = Dto.ItemChoiceType2.vatPercentage
+            },
+            exemption => new Dto.VatRateType
+            {
+                Item = new Dto.DetailedReasonType { @case = exemption.Case, reason = exemption.Reason },
+                ItemElementName = Dto.ItemChoiceType2.vatExemption
+            },
+            outOfScope => new Dto.VatRateType
+            {
+                Item = new Dto.DetailedReasonType { @case = outOfScope.Case, reason = outOfScope.Reason },
+                ItemElementName = Dto.ItemChoiceType2.vatOutOfScope
+            },
+            _ => new Dto.VatRateType
+            {
+                Item = true,
+                ItemElementName = Dto.ItemChoiceType2.vatDomesticReverseCharge
             },
             _ => new Dto.VatRateType
             {

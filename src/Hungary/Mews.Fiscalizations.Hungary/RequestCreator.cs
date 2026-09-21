@@ -21,10 +21,40 @@ internal static class RequestCreator
         return request;
     }
 
-    internal static Dto.QueryTransactionStatusRequest CreateQueryTransactionStatusRequest(TechnicalUser user, SoftwareIdentification software, string invoiceId)
+    internal static Dto.QueryTransactionStatusRequest CreateQueryTransactionStatusRequest(TechnicalUser user, SoftwareIdentification software, string invoiceId, bool returnOriginalRequest = false)
     {
         var request = CreateRequest<Dto.QueryTransactionStatusRequest>(user, software);
         request.transactionId = invoiceId;
+        // Asking for the original request back is what lets a recovered transaction be matched to the
+        // invoice it carried, when the transaction id itself was lost to a timeout (spec 1.9.2).
+        request.returnOriginalRequest = returnOriginalRequest;
+        request.returnOriginalRequestSpecified = returnOriginalRequest;
+        return request;
+    }
+
+    internal static Dto.QueryTransactionListRequest CreateQueryTransactionListRequest(TechnicalUser user, SoftwareIdentification software, int page, DateTime insertedFromUtc, DateTime insertedToUtc)
+    {
+        var request = CreateRequest<Dto.QueryTransactionListRequest>(user, software);
+        request.page = page;
+        request.insDate = new Dto.DateTimeIntervalParamType
+        {
+            dateTimeFrom = insertedFromUtc,
+            dateTimeTo = insertedToUtc
+        };
+        return request;
+    }
+
+    internal static Dto.QueryInvoiceChainDigestRequest CreateQueryInvoiceChainDigestRequest(TechnicalUser user, SoftwareIdentification software, int page, string invoiceNumber)
+    {
+        var request = CreateRequest<Dto.QueryInvoiceChainDigestRequest>(user, software);
+        request.page = page;
+        request.invoiceChainQuery = new Dto.InvoiceChainQueryType
+        {
+            invoiceNumber = invoiceNumber,
+            // The chain is always queried as the supplier: this library reports invoices, it does not
+            // receive them.
+            invoiceDirection = Dto.InvoiceDirectionType.OUTBOUND
+        };
         return request;
     }
 
@@ -33,9 +63,17 @@ internal static class RequestCreator
         return CreateManageInvoicesRequest(user, software, token, Dto.ManageInvoiceOperationType.CREATE, invoices, i => RequestMapper.MapInvoice(i));
     }
 
+    /// <summary>
+    /// NAV takes one invoiceOperation per request, so the operation comes from the documents themselves and
+    /// the caller is responsible for not mixing MODIFY and STORNO in one sequence.
+    /// </summary>
     internal static Dto.ManageInvoiceRequest CreateManageInvoicesRequest(TechnicalUser user, SoftwareIdentification software, ExchangeToken token, ISequence<ModificationInvoice> invoices)
     {
-        return CreateManageInvoicesRequest(user, software, token, Dto.ManageInvoiceOperationType.MODIFY, invoices, d => RequestMapper.MapModificationInvoice(d));
+        var operation = invoices.Values.Head.Value.Operation.Match(
+            ModificationOperation.Modify, _ => Dto.ManageInvoiceOperationType.MODIFY,
+            ModificationOperation.Storno, _ => Dto.ManageInvoiceOperationType.STORNO
+        );
+        return CreateManageInvoicesRequest(user, software, token, operation, invoices, d => RequestMapper.MapModificationInvoice(d));
     }
 
     private static Dto.ManageInvoiceRequest CreateManageInvoicesRequest<T>(

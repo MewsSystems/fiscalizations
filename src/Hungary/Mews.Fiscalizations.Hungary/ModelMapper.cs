@@ -86,6 +86,55 @@ internal static class ModelMapper
         );
     }
 
+    internal static ResponseResult<InvoiceChain, TransactionErrorCode> MapInvoiceChain(
+        string requestXml,
+        string responseXml,
+        Dto.QueryInvoiceChainDigestResponse response)
+    {
+        var result = response.invoiceChainDigestResult;
+        var elements = result?.invoiceChainElement ?? [];
+        return new ResponseResult<InvoiceChain, TransactionErrorCode>(
+            requestXml: requestXml,
+            responseXml: responseXml,
+            // An empty chain is a valid answer, not an error: it is how NAV says this invoice number has
+            // never been reported, which is exactly what modifyWithoutMaster is for.
+            successResult: new InvoiceChain(
+                currentPage: result?.currentPage ?? 1,
+                availablePage: result?.availablePage ?? 1,
+                elements: elements.Select(e => new InvoiceChainDigest(
+                    invoiceNumber: e.invoiceChainDigest.invoiceNumber,
+                    invoiceOperation: e.invoiceChainDigest.invoiceOperation.ToString(),
+                    insertedUtc: e.invoiceChainDigest.insDate,
+                    maxLineNumber: int.TryParse(e.invoiceLines?.maxLineNumber, out var maxLineNumber) ? maxLineNumber : 0,
+                    modificationIndex: e.invoiceReferenceData?.Item as int?
+                ))
+            )
+        );
+    }
+
+    internal static ResponseResult<TransactionList, TransactionErrorCode> MapTransactionList(
+        string requestXml,
+        string responseXml,
+        Dto.QueryTransactionListResponse response)
+    {
+        var result = response.transactionListResult;
+        var transactions = result?.transaction ?? [];
+        return new ResponseResult<TransactionList, TransactionErrorCode>(
+            requestXml: requestXml,
+            responseXml: responseXml,
+            successResult: new TransactionList(
+                currentPage: result?.currentPage ?? 1,
+                availablePage: result?.availablePage ?? 1,
+                transactions: transactions.Select(t => new TransactionListItem(
+                    transactionId: t.transactionId,
+                    insertedUtc: t.insDate,
+                    requestStatus: t.requestStatus.ToString(),
+                    isTechnicalAnnulment: t.technicalAnnulment
+                ))
+            )
+        );
+    }
+
     internal static ResponseResult<string, ResultErrorCode> MapManageInvoice(
         string requestXml,
         string responseXml,
