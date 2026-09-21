@@ -62,9 +62,13 @@ internal static class InvoiceModelTestData
         return Create();
     }
 
-    public static Try<Invoice, Error> CreateForEuCompany(string communityVatNumber)
+    /// <param name="countryCode">
+    /// Given explicitly when the number itself carries no country prefix, which is the shape that failed NAV
+    /// schema validation in production.
+    /// </param>
+    public static Try<Invoice, Error> CreateForEuCompany(string communityVatNumber, string countryCode = null)
     {
-        var country = Countries.GetByCode(communityVatNumber[..2]).Get();
+        var country = Countries.GetByCode(countryCode ?? communityVatNumber[..2]).Get();
         var taxId = TaxpayerIdentificationNumber.Create(country, communityVatNumber).Success.Get();
         var receiver = Receiver.ForeignCompany(Models.Name.Create("Muster GmbH").Success.Get(), Address(country), taxId).Success.Get();
         return Build(InvoiceCategory.Normal, "HUF", [Item(DefaultDate, 1000m, 1000m, "HUF")], receiver);

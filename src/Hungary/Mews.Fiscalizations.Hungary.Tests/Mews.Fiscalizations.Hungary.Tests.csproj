@@ -15,4 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Mews.Fiscalizations.Hungary\Mews.Fiscalizations.Hungary.csproj" />
   </ItemGroup>
+
+  <!-- The official NAV Online Számla 3.0 schemas, used to validate the XML this library generates. -->
+  <ItemGroup>
+    <None Include="Schemas\*.xsd" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
