@@ -20,7 +20,12 @@ public sealed class ExchangeRate
         });
     }
 
-    internal static Try<ExchangeRate, Error> Rounded(decimal value)
+    /// <summary>
+    /// Rounds to the six decimal places NAV's ExchangeRateType allows. Public because a caller deriving a
+    /// rate from the two amounts it is about to report needs to round it exactly as this library does -
+    /// rounding differently is how the reported rate stops reconciling with the reported amounts.
+    /// </summary>
+    public static Try<ExchangeRate, Error> Rounded(decimal value)
     {
         var roundedValue = Decimal.Round(value, MaxDecimalPlaces);
         return Create(roundedValue);

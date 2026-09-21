@@ -6,7 +6,7 @@ namespace Mews.Fiscalizations.Hungary.Models;
 /// </summary>
 public sealed class TransactionListItem
 {
-    internal TransactionListItem(string transactionId, DateTime insertedUtc, string requestStatus, bool isTechnicalAnnulment)
+    public TransactionListItem(string transactionId, DateTime insertedUtc, string requestStatus, bool isTechnicalAnnulment)
     {
         TransactionId = transactionId;
         InsertedUtc = insertedUtc;
@@ -25,7 +25,7 @@ public sealed class TransactionListItem
 
 public sealed class TransactionList
 {
-    internal TransactionList(int currentPage, int availablePage, IEnumerable<TransactionListItem> transactions)
+    public TransactionList(int currentPage, int availablePage, IEnumerable<TransactionListItem> transactions)
     {
         CurrentPage = currentPage;
         AvailablePage = availablePage;

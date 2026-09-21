@@ -6,7 +6,7 @@ namespace Mews.Fiscalizations.Hungary.Models;
 /// </summary>
 public sealed class InvoiceChainDigest
 {
-    internal InvoiceChainDigest(string invoiceNumber, string invoiceOperation, DateTime insertedUtc, int maxLineNumber, int? modificationIndex)
+    public InvoiceChainDigest(string invoiceNumber, string invoiceOperation, DateTime insertedUtc, int maxLineNumber, int? modificationIndex)
     {
         InvoiceNumber = invoiceNumber;
         InvoiceOperation = invoiceOperation;
@@ -35,7 +35,7 @@ public sealed class InvoiceChainDigest
 /// </summary>
 public sealed class InvoiceChain
 {
-    internal InvoiceChain(int currentPage, int availablePage, IEnumerable<InvoiceChainDigest> elements)
+    public InvoiceChain(int currentPage, int availablePage, IEnumerable<InvoiceChainDigest> elements)
     {
         CurrentPage = currentPage;
         AvailablePage = availablePage;
