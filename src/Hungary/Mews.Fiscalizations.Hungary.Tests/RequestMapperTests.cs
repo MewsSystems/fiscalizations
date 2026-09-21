@@ -22,6 +22,18 @@ public sealed class RequestMapperTests
     }
 
     [Test]
+    public void MapInvoice_NeverDeclaresAPeriodicSettlement()
+    {
+        // periodicalSettlement means a supply settled per period under Afa tv. 58., which no invoice this
+        // library reports is. Leaving it unset while filling the period dates is NAV warning 561; setting it
+        // to make the warning go away would misdeclare the tax point.
+        var detail = GetInvoice(RequestMapper.MapInvoice(InvoiceModelTestData.Create(InvoiceCategory.Normal).Success.Get())).invoiceHead.invoiceDetail;
+
+        Assert.That(detail.periodicalSettlementSpecified, Is.False);
+        Assert.That(detail.periodicalSettlement, Is.False);
+    }
+
+    [Test]
     public void MapInvoice_AggregateInvoice_SetsLineDeliveryDateFromTheItem()
     {
         var deliveryDate = new DateTime(2026, 3, 2);
@@ -31,17 +43,20 @@ public sealed class RequestMapperTests
     }
 
     [Test]
-    public void MapInvoice_AggregateInvoice_ReportsTheDeliveryPeriod()
+    public void MapInvoice_AggregateInvoice_OmitsTheDeliveryPeriodAndDatesTheInvoiceByTheLatestItem()
     {
+        // A gyujtoszamla under Afa tv. 164. carries its dates per item; the header period belongs to a
+        // periodic settlement under 58., which this is not. The header date is the latest item date.
         var data = RequestMapper.MapInvoice(InvoiceModelTestData.CreateAggregate(
             new DateTime(2026, 3, 1),
             new DateTime(2026, 3, 4)
         ).Success.Get());
         var detail = GetInvoice(data).invoiceHead.invoiceDetail;
 
-        Assert.That(detail.invoiceDeliveryPeriodStartSpecified, Is.True);
-        Assert.That(detail.invoiceDeliveryPeriodStart, Is.EqualTo(new DateTime(2026, 3, 1)));
-        Assert.That(detail.invoiceDeliveryPeriodEnd, Is.EqualTo(new DateTime(2026, 3, 4)));
+        Assert.That(detail.invoiceDeliveryPeriodStartSpecified, Is.False);
+        Assert.That(detail.invoiceDeliveryPeriodEndSpecified, Is.False);
+        Assert.That(detail.periodicalSettlementSpecified, Is.False);
+        Assert.That(detail.invoiceDeliveryDate, Is.EqualTo(new DateTime(2026, 3, 4)));
     }
 
     [Test]

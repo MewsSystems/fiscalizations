@@ -27,7 +27,6 @@ public class Invoice
         ExchangeRate = exchangeRate;
         Items = items;
         DeliveryDate = items.Values.Max(i => i.Value.DeliveryDate);
-        DeliveryPeriodStart = items.Values.Min(i => i.Value.DeliveryDate);
         TaxSummary = GetTaxSummary(items);
         IsSelfBilling = isSelfBilling;
         IsCashAccounting = isCashAccounting;
@@ -41,9 +40,6 @@ public class Invoice
 
     /// <summary>The latest delivery date among the items, which is what NAV expects for an aggregate invoice.</summary>
     public DateTime DeliveryDate { get; }
-
-    /// <summary>The earliest delivery date among the items, reported as the period start for an aggregate invoice.</summary>
-    public DateTime DeliveryPeriodStart { get; }
 
     public DateTime IssueDate { get; }
 

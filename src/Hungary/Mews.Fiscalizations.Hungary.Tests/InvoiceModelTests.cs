@@ -35,17 +35,6 @@ public sealed class InvoiceModelTests
     }
 
     [Test]
-    public void DeliveryPeriodStart_IsTheEarliestItemDeliveryDate()
-    {
-        var invoice = InvoiceModelTestData.CreateAggregate(
-            new DateTime(2026, 3, 4),
-            new DateTime(2026, 3, 1)
-        ).Success.Get();
-
-        Assert.That(invoice.DeliveryPeriodStart, Is.EqualTo(new DateTime(2026, 3, 1)));
-    }
-
-    [Test]
     public void TaxSummary_GroupsByVatRateNotByPercentage()
     {
         // Two 27% lines collapse into one summary entry; an out of scope line stays separate even though it

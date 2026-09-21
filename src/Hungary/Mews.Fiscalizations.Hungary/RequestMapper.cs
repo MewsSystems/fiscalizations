@@ -43,7 +43,6 @@ internal static class RequestMapper
         var invoiceAmountHUF = Models.Amount.Sum(invoice.Items.Values.Select(i => i.Value.TotalAmounts.AmountHUF));
         var supplierInfo = invoice.SupplierInfo;
         var receiver = invoice.Receiver;
-        var isAggregate = invoice.Category == InvoiceCategory.Aggregate;
         return new Dto.InvoiceType
         {
             invoiceReference = invoiceReference,
@@ -60,13 +59,15 @@ internal static class RequestMapper
                     currencyCode = invoice.CurrencyCode.Value,
                     invoiceAppearance = Dto.InvoiceAppearanceType.ELECTRONIC,
                     invoiceCategory = MapCategory(invoice.Category),
+                    // For an aggregate invoice this is the latest of the per-item delivery dates, which is
+                    // what the spec asks for; the individual dates are reported on the items themselves.
                     invoiceDeliveryDate = invoice.DeliveryDate,
-                    // The period is what an aggregate invoice is for - several supplies across a span of
-                    // days - so it is stated only when the invoice actually is one.
-                    invoiceDeliveryPeriodStart = invoice.DeliveryPeriodStart,
-                    invoiceDeliveryPeriodStartSpecified = isAggregate,
-                    invoiceDeliveryPeriodEnd = invoice.DeliveryDate,
-                    invoiceDeliveryPeriodEndSpecified = isAggregate,
+                    // invoiceDeliveryPeriodStart/End are deliberately not emitted. They declare a periodic
+                    // settlement supply under Afa tv. 58. paragraph, where the tax point follows the
+                    // settlement period - a different thing from a gyujtoszamla under 164. paragraph, which
+                    // is several distinct supplies invoiced together and carries its dates per item. Filling
+                    // them raises NAV warning 561 unless periodicalSettlement is also true, and setting that
+                    // would misdeclare when the tax became chargeable.
                     paymentDate = invoice.PaymentDate,
                     paymentDateSpecified = true,
                     selfBillingIndicator = invoice.IsSelfBilling,
