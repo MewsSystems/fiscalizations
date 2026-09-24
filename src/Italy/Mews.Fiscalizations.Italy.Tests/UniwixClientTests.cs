@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Net;
+using NUnit.Framework;
 using FuncSharp;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Core.Model;
@@ -69,6 +70,82 @@ public sealed class UniwixClientTests
         var client = GetUniwixClient();
         var result = await client.GetInvoiceStateAsync("InvoiceThatDoesntExist");
         Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.InvoiceNotFound));
+    }
+
+    [TestCase(HttpStatusCode.OK, "You are temporarily unavailable")]
+    [TestCase(HttpStatusCode.OK, "{invalid")]
+    public async Task SendInvoiceWithMalformedSuccessResponseReturnsUnknownError(HttpStatusCode statusCode, string body)
+    {
+        var result = await CreateClient(_ => CreateResponse(statusCode, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unknown));
+        Assert.That(result.Error.Get().Message, Does.Contain("non-JSON success response"));
+    }
+
+    [Test]
+    public async Task SendInvoiceWithHtmlBadGatewayResponseReturnsErrorContainingStatusCode()
+    {
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, "<html>Bad Gateway</html>")).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain("502"));
+    }
+
+    [Test]
+    public async Task SendInvoiceWhenRequestTimesOutReturnsConnectionError()
+    {
+        var result = await CreateClient(_ => throw new TaskCanceledException("The request timed out.")).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+    }
+
+    [Test]
+    public async Task ConcurrentInvoiceUploadsIsolateMalformedResponseErrors()
+    {
+        var responseCount = 0;
+        var client = CreateClient(_ => Interlocked.Increment(ref responseCount) == 1
+            ? CreateResponse(HttpStatusCode.OK, "You are temporarily unavailable")
+            : CreateResponse(HttpStatusCode.OK, "{\"code\":0,\"result\":{\"fid\":\"success\",\"msg\":\"Uploaded\"}}"));
+
+        var results = await Task.WhenAll(
+            client.SendInvoiceAsync(CreateInvoice("malformed")),
+            client.SendInvoiceAsync(CreateInvoice("successful")));
+
+        Assert.That(results[0].IsError, Is.True);
+        Assert.That(results[1].IsSuccess, Is.True);
+        Assert.That(results[1].Success.Get().FileId, Is.EqualTo("success"));
+    }
+
+    private static UniwixClient CreateClient(Func<HttpRequestMessage, HttpResponseMessage> responseFactory)
+    {
+        return new UniwixClient(
+            new HttpClient(new StubHttpMessageHandler(responseFactory)),
+            new UniwixClientConfiguration(Username, Password));
+    }
+
+    private static HttpResponseMessage CreateResponse(HttpStatusCode statusCode, string body)
+    {
+        return new HttpResponseMessage(statusCode) { Content = new StringContent(body) };
+    }
+
+    private ElectronicInvoice CreateInvoice(string invoiceNumber = "1")
+    {
+        return new ElectronicInvoice
+        {
+            Version = VersioneSchemaType.FPR12,
+            Header = GetInvoiceHeader(invoiceNumber),
+            Body = new[] { GetInvoiceBody(invoiceNumber) }
+        };
+    }
+
+    private sealed class StubHttpMessageHandler(Func<HttpRequestMessage, HttpResponseMessage> responseFactory) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(responseFactory(request));
+        }
     }
 
     private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)

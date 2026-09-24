@@ -82,29 +82,66 @@ public class UniwixClient
     {
         return ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
         {
-            var json = await httpResponse.Content.ReadAsStringAsync();
+            var body = await httpResponse.Content.ReadAsStringAsync();
 
             if (httpResponse.IsSuccessStatusCode)
             {
-                var result = JsonConvert.DeserializeObject<Response<TResult>>(json).Result;
-                return Try.Success<TResult, ErrorResult>(result);
+                try
+                {
+                    var response = JsonConvert.DeserializeObject<Response<TResult>>(body);
+                    if (response is null || response.Result is null)
+                    {
+                        return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned an empty success response.");
+                    }
+
+                    return Try.Success<TResult, ErrorResult>(response.Result);
+                }
+                catch (JsonException)
+                {
+                    return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned a non-JSON success response.");
+                }
             }
 
-            if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+            try
             {
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Uniwix authorization failed.", ErrorType.Unauthorized));
-            }
+                if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Uniwix authorization failed.", ErrorType.Unauthorized));
+                }
 
-            if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var validationErrorResponse = JsonConvert.DeserializeObject<Response<ValidationError>>(body);
+                    if (validationErrorResponse?.Result is null)
+                    {
+                        return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned an empty error response.");
+                    }
+
+                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{validationErrorResponse.Code}: {validationErrorResponse.Result.Message}", ErrorType.Validation, validationErrorResponse.Result.Errors));
+                }
+
+                var errorResponse = JsonConvert.DeserializeObject<Response<string>>(body);
+                if (errorResponse is null)
+                {
+                    return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned an empty error response.");
+                }
+
+                return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", MapErrorType(errorResponse.Code)));
+            }
+            catch (JsonException)
             {
-                var validationErrorResponse = JsonConvert.DeserializeObject<Response<ValidationError>>(json);
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{validationErrorResponse.Code}: {validationErrorResponse.Result.Message}", ErrorType.Validation, validationErrorResponse.Result.Errors));
+                return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned a non-JSON error response.");
             }
-
-            var errorResponse = JsonConvert.DeserializeObject<Response<string>>(json);
-            return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", MapErrorType(errorResponse.Code)));
         });
     }
+
+    private static Try<TResult, ErrorResult> CreateMalformedResponseError<TResult>(HttpStatusCode statusCode, string body, string message)
+    {
+        return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{message} Status: {(int)statusCode}. Body: {Truncate(body)}", ErrorType.Unknown));
+    }
+
+    private static string Truncate(string value, int maxLength = 500)
+        => value.Length <= maxLength ? value : $"{value[..maxLength]}...";
 
     private ErrorType MapErrorType(int errorCode)
     {
@@ -153,6 +190,14 @@ public class UniwixClient
                 return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
             }
             catch (WebException e)
+            {
+                return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
+            }
+            catch (OperationCanceledException e)
+            {
+                return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
+            }
+            catch (Exception e)
             {
                 return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
             }
