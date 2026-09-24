@@ -29,7 +29,23 @@ internal sealed class Client
         var xmlRequest = XmlSerializer.Serialize(request, parameters);
 
         var httpResponse = await SendRequestAsync(endpoint, xmlRequest, cancellationToken);
-        return await DeserializeAsync(httpResponse, xmlRequest, successFunc, cancellationToken);
+        return await DeserializeAsync(httpResponse, GetRedactedRequestXml(xmlRequest), successFunc, cancellationToken);
+    }
+
+    /// <summary>
+    /// The request as it may be kept and shown to people. Callers store it as the record of what was reported, so
+    /// it must not carry the technical user's credentials - the login, password hash and request signature in
+    /// the user element - nor the exchange token, none of which say anything about the invoice.
+    /// </summary>
+    internal static string GetRedactedRequestXml(XmlElement request)
+    {
+        var redacted = (XmlElement)request.CloneNode(deep: true);
+        var secrets = redacted.SelectNodes("//*[local-name()='user' or local-name()='exchangeToken']")!.Cast<XmlNode>().ToList();
+        foreach (var node in secrets)
+        {
+            node.ParentNode!.RemoveChild(node);
+        }
+        return redacted.OuterXml;
     }
 
     private async Task<HttpResponseMessage> SendRequestAsync(string endpoint, XmlElement requestXml, CancellationToken cancellationToken)
@@ -41,7 +57,7 @@ internal sealed class Client
 
     private async Task<ResponseResult<TResult, TCode>> DeserializeAsync<TDto, TResult, TCode>(
         HttpResponseMessage response,
-        XmlElement xmlRequest,
+        string requestXml,
         Func<TDto, string, string, ResponseResult<TResult, TCode>> successFunc,
         CancellationToken cancellationToken)
         where TDto : class
@@ -51,10 +67,10 @@ internal sealed class Client
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
         if (response.IsSuccessStatusCode)
         {
-            return successFunc(XmlSerializer.Deserialize<TDto>(content), xmlRequest.OuterXml, content);
+            return successFunc(XmlSerializer.Deserialize<TDto>(content), requestXml, content);
         }
 
-        return new ResponseResult<TResult, TCode>(requestXml: xmlRequest.OuterXml, responseXml: content, generalErrorMessage: MapGeneralError(response, content));
+        return new ResponseResult<TResult, TCode>(requestXml: requestXml, responseXml: content, generalErrorMessage: MapGeneralError(response, content));
     }
 
     /// <summary>

@@ -150,6 +150,17 @@ internal static class RequestMapper
 
     private static Dto.CustomerVatDataType GetCustomerVatDataType(TaxpayerIdentificationNumber taxpayerNumber)
     {
+        // Core still lists the United Kingdom as an EU member. Since Brexit a UK number is a third country tax
+        // number, and NAV warns when it is reported as a community VAT number.
+        var isThirdCountry = taxpayerNumber.Match(european => european.Country.Alpha2Code == Countries.UnitedKingdom.Alpha2Code, nonEuropean => true);
+        if (isThirdCountry)
+        {
+            return new Dto.CustomerVatDataType
+            {
+                Item = taxpayerNumber.TaxpayerNumber,
+                ItemElementName = Dto.ItemChoiceType.thirdStateTaxId
+            };
+        }
         return taxpayerNumber.Match(
             european => european.Country.Alpha2Code.Match(
                 Countries.Hungary.Alpha2Code, _ => new Dto.CustomerVatDataType

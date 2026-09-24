@@ -196,6 +196,17 @@ public sealed class RequestMapperTests
     }
 
     [Test]
+    public void MapInvoice_UnitedKingdomCompany_EmitsAThirdStateTaxId()
+    {
+        // Core still classifies GB as an EU member; since Brexit its number is a third country tax number.
+        var customerInfo = GetInvoice(RequestMapper.MapInvoice(InvoiceModelTestData.CreateForEuCompany("GB999999973").Success.Get())).invoiceHead.customerInfo;
+
+        Assert.That(customerInfo.customerVatStatus, Is.EqualTo(Dto.CustomerVatStatusType.OTHER));
+        Assert.That(customerInfo.customerVatData.ItemElementName, Is.EqualTo(Dto.ItemChoiceType.thirdStateTaxId));
+        Assert.That(customerInfo.customerVatData.Item, Is.EqualTo("GB999999973"));
+    }
+
+    [Test]
     public void MapModificationInvoice_Storno_ReferencesTheOriginalAndContinuesItsLineNumbering()
     {
         var data = RequestMapper.MapModificationInvoice(InvoiceModelTestData.CreateStorno().Success.Get());
