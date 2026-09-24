@@ -32,7 +32,10 @@ public sealed class UnitOfMeasure
     /// </summary>
     public static Try<UnitOfMeasure, Error> Own(string ownValue)
     {
-        return StringValidations.LengthInRange(ownValue, 1, 50).Map(v => new UnitOfMeasure(UnitOfMeasureKind.Own, v));
+        // The schema's SimpleText50NotBlankType.
+        return StringValidations.NonEmptyNorWhitespace(ownValue)
+            .FlatMap(v => StringValidations.LengthInRange(v, 1, 50))
+            .Map(v => new UnitOfMeasure(UnitOfMeasureKind.Own, v));
     }
 }
 

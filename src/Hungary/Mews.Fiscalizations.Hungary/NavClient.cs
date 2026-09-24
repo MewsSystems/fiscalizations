@@ -2,6 +2,8 @@
 
 public sealed class NavClient
 {
+    private static readonly TimeSpan MaxTransactionListRange = TimeSpan.FromDays(35);
+
     public NavClient(HttpClient httpClient, TechnicalUser technicalUser, SoftwareIdentification softwareIdentification, NavEnvironment environment)
     {
         TechnicalUser = technicalUser;
@@ -56,6 +58,16 @@ public sealed class NavClient
     /// </summary>
     public async Task<ResponseResult<TransactionList, TransactionErrorCode>> GetTransactionListAsync(int page, DateTime insertedFromUtc, DateTime insertedToUtc, CancellationToken cancellationToken = default)
     {
+        if (page < 1)
+        {
+            throw new ArgumentException($"{nameof(page)} must be at least 1.");
+        }
+        if (insertedFromUtc > insertedToUtc || insertedToUtc - insertedFromUtc > MaxTransactionListRange)
+        {
+            // Spec 1.8.7.1 (1): NAV refuses an insDate interval longer than 35 days.
+            throw new ArgumentException($"The interval from {nameof(insertedFromUtc)} to {nameof(insertedToUtc)} must be ordered and span at most 35 days.");
+        }
+
         var request = RequestCreator.CreateQueryTransactionListRequest(TechnicalUser, SoftwareIdentification, page, insertedFromUtc, insertedToUtc);
         return await Client.ProcessRequestAsync<Dto.QueryTransactionListRequest, Dto.QueryTransactionListResponse, TransactionList, TransactionErrorCode>(
             endpoint: "queryTransactionList",

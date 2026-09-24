@@ -20,12 +20,12 @@ public sealed class ErrorResult<TCode>
     /// </summary>
     public string RawErrorCode { get; }
 
-    internal static ErrorResult<ResultErrorCode> Map(Dto.GeneralErrorResponse response)
+    internal static ErrorResult<ResultErrorCode> Map(Dto.BasicResultType result)
     {
-        var errorCode = response.result.errorCode;
+        var errorCode = result.errorCode;
         return new ErrorResult<ResultErrorCode>(
             errorCode: MapErrorCode(errorCode),
-            message: response.result.message,
+            message: result.message,
             rawErrorCode: errorCode
         );
     }

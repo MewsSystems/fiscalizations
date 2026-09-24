@@ -2,6 +2,8 @@ namespace Mews.Fiscalizations.Hungary.Models;
 
 public class Invoice
 {
+    private static readonly DateTime ZeroRateAcceptedFrom = new(2024, 1, 1);
+
     protected Invoice(
         InvoiceNumber number,
         InvoiceCategory category,
@@ -89,7 +91,11 @@ public class Invoice
         bool isCompleteDataReport = false,
         PaymentMethod? paymentMethod = null)
     {
-        return CheckLineExchangeRates(category, currencyCode, items).FlatMap(_ =>
+        var checks = CheckLineExchangeRates(category, currencyCode, items)
+            .FlatMap(_ => CheckZeroRateDeliveryDate(items))
+            .FlatMap(_ => CheckReverseChargeCustomer(receiver, items))
+            .FlatMap(_ => CheckCompleteness(isCompleteDataReport));
+        return checks.FlatMap(_ =>
             GetExchangeRate(currencyCode, items).Map(rate => new Invoice(
                 number,
                 category,
@@ -145,6 +151,47 @@ public class Invoice
             return Try.Success<Unit, Error>(Unit.Value);
         }
         return Try.Error<Unit, Error>(new Error("An aggregate invoice in a foreign currency needs a line exchange rate on every item."));
+    }
+
+    /// <summary>
+    /// Spec 3.3.2 item 14: a vatPercentage of 0 is accepted only for an invoice delivered on or after 2024-01-01.
+    /// </summary>
+    private static Try<Unit, Error> CheckZeroRateDeliveryDate(ISequence<InvoiceItem> items)
+    {
+        var hasZeroRate = items.Values.Any(i => i.Value.TotalAmounts.VatRate.Match(p => p == 0m, _ => false, _ => false, _ => false, _ => false));
+        var deliveryDate = items.Values.Max(i => i.Value.DeliveryDate);
+        if (!hasZeroRate || deliveryDate >= ZeroRateAcceptedFrom)
+        {
+            return Try.Success<Unit, Error>(Unit.Value);
+        }
+        return Try.Error<Unit, Error>(new Error("A 0% VAT rate is only accepted by NAV for an invoice delivered on or after 2024-01-01."));
+    }
+
+    /// <summary>
+    /// Spec 3.3.2 item 50: a domestic reverse charge item needs the customer's Hungarian tax number.
+    /// </summary>
+    private static Try<Unit, Error> CheckReverseChargeCustomer(Receiver receiver, ISequence<InvoiceItem> items)
+    {
+        var hasReverseCharge = items.Values.Any(i => i.Value.TotalAmounts.VatRate.Match(_ => false, _ => false, _ => false, _ => true, _ => false));
+        var isDomesticCompany = receiver.Match(customer => false, company => company.Match(local => true, foreign => false));
+        if (!hasReverseCharge || isDomesticCompany)
+        {
+            return Try.Success<Unit, Error>(Unit.Value);
+        }
+        return Try.Error<Unit, Error>(new Error("A domestic reverse charge item needs a customer with a Hungarian tax number."));
+    }
+
+    /// <summary>
+    /// Spec 3.3.2 item 40: NAV does not yet accept a data report as the electronic invoice itself, and rejects
+    /// every completenessIndicator of true with INVOICE_COMPLETENESS_NOT_ALLOWED.
+    /// </summary>
+    private static Try<Unit, Error> CheckCompleteness(bool isCompleteDataReport)
+    {
+        if (!isCompleteDataReport)
+        {
+            return Try.Success<Unit, Error>(Unit.Value);
+        }
+        return Try.Error<Unit, Error>(new Error("NAV does not accept a data report as the electronic invoice yet."));
     }
 
     private static List<TaxSummaryItem> GetTaxSummary(ISequence<InvoiceItem> indexedItems)

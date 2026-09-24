@@ -38,8 +38,8 @@ internal static class RequestCreator
         request.page = page;
         request.insDate = new Dto.DateTimeIntervalParamType
         {
-            dateTimeFrom = insertedFromUtc,
-            dateTimeTo = insertedToUtc
+            dateTimeFrom = ToNavTimestamp(insertedFromUtc),
+            dateTimeTo = ToNavTimestamp(insertedToUtc)
         };
         return request;
     }
@@ -119,12 +119,22 @@ internal static class RequestCreator
         return request;
     }
 
+    /// <summary>
+    /// NAV's InvoiceTimestampType only takes a UTC time with a 'Z' and at most three fractional digits, while the
+    /// serializer writes a DateTime with seven digits, and with an offset or no zone at all unless its Kind is
+    /// Utc. Whole seconds in UTC satisfy it and match the precision of the request signature.
+    /// </summary>
+    internal static DateTime ToNavTimestamp(DateTime value)
+    {
+        var utc = value.Kind == DateTimeKind.Local ? value.ToUniversalTime() : DateTime.SpecifyKind(value, DateTimeKind.Utc);
+        return new DateTime(utc.Year, utc.Month, utc.Day, utc.Hour, utc.Minute, utc.Second, DateTimeKind.Utc);
+    }
+
     private static T CreateRequest<T>(TechnicalUser user, SoftwareIdentification software, string additionalSignatureData = null)
         where T : Dto.BasicOnlineInvoiceRequestType, new()
     {
         var requestId = RequestId.CreateRandom();
-        var nowUtc = DateTime.UtcNow;
-        var timestamp = new DateTime(nowUtc.Year, nowUtc.Month, nowUtc.Day, nowUtc.Hour, nowUtc.Minute, nowUtc.Second, DateTimeKind.Utc);
+        var timestamp = ToNavTimestamp(DateTime.UtcNow);
         return new T
         {
             header = new Dto.BasicHeaderType

@@ -24,10 +24,35 @@ public sealed class VatRateTests
         Assert.That(VatRate.Percentage(0.19m).IsSuccess, Is.False);
     }
 
+    [TestCase(0.2)]
+    [TestCase(0.25)]
+    public void Percentage_RateOnlyValidBefore2013_Fails(decimal rate)
+    {
+        // Spec 3.3.2 item 14: only for MODIFY/STORNO of, or a CREATE delivered before, 01/01/2013.
+        Assert.That(VatRate.Percentage(rate).IsSuccess, Is.False);
+    }
+
+    [TestCase(null)]
+    [TestCase("")]
+    [TestCase("   ")]
+    public void Exemption_BlankReason_Fails(string reason)
+    {
+        // The schema's SimpleText200NotBlankType; a blank reason fails the whole data report.
+        Assert.That(VatRate.Exemption(TaxExemptionCase.Tam, reason).IsSuccess, Is.False);
+        Assert.That(VatRate.OutOfScope(TaxOutOfScopeCase.Atk, reason).IsSuccess, Is.False);
+    }
+
+    [Test]
+    public void Exemption_ReasonLongerThan200Characters_Fails()
+    {
+        Assert.That(VatRate.Exemption(TaxExemptionCase.Tam, new string('x', 201)).IsSuccess, Is.False);
+        Assert.That(VatRate.Exemption(TaxExemptionCase.Tam, new string('x', 200)).IsSuccess, Is.True);
+    }
+
     [Test]
     public void Exemption_CarriesCaseAndReason()
     {
-        var rate = VatRate.Exemption(TaxExemptionCase.Tam, "Tax exempt activity");
+        var rate = VatRate.Exemption(TaxExemptionCase.Tam, "Tax exempt activity").Success.Get();
 
         Assert.That(rate.Match(p => (string)null, e => e.Case, o => null, drc => null, nvc => null), Is.EqualTo("TAM"));
         Assert.That(rate.Match(p => (string)null, e => e.Reason, o => null, drc => null, nvc => null), Is.EqualTo("Tax exempt activity"));
@@ -36,7 +61,7 @@ public sealed class VatRateTests
     [Test]
     public void OutOfScope_CarriesCaseAndReason()
     {
-        var rate = VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Outside the scope of VAT");
+        var rate = VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Outside the scope of VAT").Success.Get();
 
         Assert.That(rate.Match(p => (string)null, e => null, o => o.Case, drc => null, nvc => null), Is.EqualTo("ATK"));
     }
@@ -52,12 +77,12 @@ public sealed class VatRateTests
     [Test]
     public void Equality_DifferentExemptionCase_IsNotEqual()
     {
-        Assert.That(VatRate.Exemption(TaxExemptionCase.Tam, "x"), Is.Not.EqualTo(VatRate.Exemption(TaxExemptionCase.Aam, "x")));
+        Assert.That(VatRate.Exemption(TaxExemptionCase.Tam, "x").Success.Get(), Is.Not.EqualTo(VatRate.Exemption(TaxExemptionCase.Aam, "x").Success.Get()));
     }
 
     [Test]
     public void Equality_PercentageAndExemption_AreNotEqual()
     {
-        Assert.That(VatRate.Percentage(0.27m).Success.Get(), Is.Not.EqualTo(VatRate.Exemption(TaxExemptionCase.Tam, "x")));
+        Assert.That(VatRate.Percentage(0.27m).Success.Get(), Is.Not.EqualTo(VatRate.Exemption(TaxExemptionCase.Tam, "x").Success.Get()));
     }
 }

@@ -22,6 +22,47 @@ public sealed class InvoiceModelTests
     }
 
     [Test]
+    public void Create_ZeroRateDeliveredFrom2024_Succeeds()
+    {
+        var rate = VatRate.Percentage(0m).Success.Get();
+
+        Assert.That(InvoiceModelTestData.CreateWithRate(rate, new DateTime(2024, 1, 1)).IsSuccess, Is.True);
+    }
+
+    [Test]
+    public void Create_ZeroRateDeliveredBefore2024_Fails()
+    {
+        // Spec 3.3.2 item 14: zero percent is accepted only for a delivery on or after 01/01/2024.
+        var rate = VatRate.Percentage(0m).Success.Get();
+
+        Assert.That(InvoiceModelTestData.CreateWithRate(rate, new DateTime(2023, 12, 31)).IsSuccess, Is.False);
+    }
+
+    [Test]
+    public void Create_DomesticReverseChargeForAPrivatePerson_Fails()
+    {
+        // Spec 3.3.2 item 50: a domestic reverse charge needs the customer's Hungarian tax number.
+        var result = InvoiceModelTestData.CreateWithRate(VatRate.DomesticReverseCharge(), InvoiceModelTestData.DefaultDate, Receiver.Customer());
+
+        Assert.That(result.IsSuccess, Is.False);
+    }
+
+    [Test]
+    public void Create_DomesticReverseChargeForADomesticCompany_Succeeds()
+    {
+        var result = InvoiceModelTestData.CreateWithRate(VatRate.DomesticReverseCharge(), InvoiceModelTestData.DefaultDate, InvoiceModelTestData.LocalCompany());
+
+        Assert.That(result.IsSuccess, Is.True);
+    }
+
+    [Test]
+    public void Create_CompleteDataReport_Fails()
+    {
+        // Spec 3.3.2 item 40: NAV rejects every completenessIndicator of true until e-invoicing is in force.
+        Assert.That(InvoiceModelTestData.CreateCompleteDataReport().IsSuccess, Is.False);
+    }
+
+    [Test]
     public void DeliveryDate_IsTheLatestItemDeliveryDate()
     {
         // Spec 2.2.2.4: for an aggregate invoice the invoice delivery date is the latest line delivery date.
@@ -43,7 +84,7 @@ public sealed class InvoiceModelTests
         var invoice = InvoiceModelTestData.CreateWithRates(
             VatRate.Percentage(0.27m).Success.Get(),
             VatRate.Percentage(0.27m).Success.Get(),
-            VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Tourist tax")
+            VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Tourist tax").Success.Get()
         ).Success.Get();
 
         Assert.That(invoice.TaxSummary.Count, Is.EqualTo(2));

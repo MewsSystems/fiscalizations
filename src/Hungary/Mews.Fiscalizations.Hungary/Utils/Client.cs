@@ -54,7 +54,38 @@ internal sealed class Client
             return successFunc(XmlSerializer.Deserialize<TDto>(content), xmlRequest.OuterXml, content);
         }
 
-        var errorResult = XmlSerializer.Deserialize<Dto.GeneralErrorResponse>(content);
-        return new ResponseResult<TResult, TCode>(requestXml: xmlRequest.OuterXml, responseXml: content, generalErrorMessage: ErrorResult<TCode>.Map(errorResult));
+        return new ResponseResult<TResult, TCode>(requestXml: xmlRequest.OuterXml, responseXml: content, generalErrorMessage: MapGeneralError(response, content));
+    }
+
+    /// <summary>
+    /// NAV answers most failures with GeneralErrorResponse, but a request that fails schema validation with
+    /// GeneralExceptionResponse (spec 3.2), and an infrastructure failure may not answer with XML at all. None
+    /// of those is allowed to throw: the caller has to be able to read what went wrong.
+    /// </summary>
+    private static ErrorResult<ResultErrorCode> MapGeneralError(HttpResponseMessage response, string content)
+    {
+        var rootElementName = GetRootElementName(content);
+        if (rootElementName == nameof(Dto.GeneralErrorResponse))
+        {
+            return ErrorResult<ResultErrorCode>.Map(XmlSerializer.Deserialize<Dto.GeneralErrorResponse>(content).result);
+        }
+        if (rootElementName == nameof(Dto.GeneralExceptionResponse))
+        {
+            return ErrorResult<ResultErrorCode>.Map(XmlSerializer.Deserialize<Dto.GeneralExceptionResponse>(content));
+        }
+        return new ErrorResult<ResultErrorCode>(ResultErrorCode.Unknown, message: $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}");
+    }
+
+    private static string GetRootElementName(string content)
+    {
+        try
+        {
+            using var reader = XmlReader.Create(new StringReader(content), new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit });
+            return reader.MoveToContent() == XmlNodeType.Element ? reader.LocalName : null;
+        }
+        catch (XmlException)
+        {
+            return null;
+        }
     }
 }

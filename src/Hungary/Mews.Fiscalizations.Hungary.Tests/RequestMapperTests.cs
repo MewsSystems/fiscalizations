@@ -95,7 +95,7 @@ public sealed class RequestMapperTests
     [Test]
     public void MapInvoice_OutOfScopeRate_EmitsVatOutOfScopeWithCaseAndReason()
     {
-        var rate = VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Tourist tax");
+        var rate = VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Tourist tax").Success.Get();
         var data = RequestMapper.MapInvoice(InvoiceModelTestData.CreateWithRate(rate).Success.Get());
         var vatRate = ((Dto.LineAmountsNormalType)GetFirstLine(data).Item).lineVatRate;
 
@@ -107,7 +107,7 @@ public sealed class RequestMapperTests
     [Test]
     public void MapInvoice_ExemptRate_EmitsVatExemptionWithCaseAndReason()
     {
-        var rate = VatRate.Exemption(TaxExemptionCase.Tam, "Tax exempt activity");
+        var rate = VatRate.Exemption(TaxExemptionCase.Tam, "Tax exempt activity").Success.Get();
         var data = RequestMapper.MapInvoice(InvoiceModelTestData.CreateWithRate(rate).Success.Get());
         var vatRate = ((Dto.LineAmountsNormalType)GetFirstLine(data).Item).lineVatRate;
 

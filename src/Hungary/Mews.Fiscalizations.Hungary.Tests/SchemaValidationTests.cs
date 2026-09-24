@@ -13,6 +13,10 @@ public sealed class SchemaValidationTests
 {
     private static readonly XmlSchemaSet Schemas = LoadSchemas();
 
+    private static readonly TechnicalUser OfflineUser = OfflineFixture.User;
+
+    private static readonly SoftwareIdentification OfflineSoftware = OfflineFixture.Software;
+
     [Test]
     public void MapInvoice_NormalHufInvoice_IsSchemaValid()
     {
@@ -44,8 +48,8 @@ public sealed class SchemaValidationTests
     {
         AssertSchemaValid(RequestMapper.MapInvoice(InvoiceModelTestData.CreateWithRates(
             VatRate.Percentage(0.27m).Success.Get(),
-            VatRate.Exemption(TaxExemptionCase.Tam, "Tax exempt activity"),
-            VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Tourist tax")
+            VatRate.Exemption(TaxExemptionCase.Tam, "Tax exempt activity").Success.Get(),
+            VatRate.OutOfScope(TaxOutOfScopeCase.Atk, "Tourist tax").Success.Get()
         ).Success.Get()));
     }
 
@@ -67,6 +71,35 @@ public sealed class SchemaValidationTests
         AssertSchemaValid(RequestMapper.MapModificationInvoice(InvoiceModelTestData.CreateStorno().Success.Get()));
     }
 
+    [TestCase(DateTimeKind.Utc)]
+    [TestCase(DateTimeKind.Local)]
+    [TestCase(DateTimeKind.Unspecified)]
+    public void CreateQueryTransactionListRequest_AnyDateTime_IsSchemaValid(DateTimeKind kind)
+    {
+        // A DateTime serializes with seven fractional digits, and with an offset or no zone unless it is UTC,
+        // none of which InvoiceTimestampType accepts.
+        var to = new DateTime(2026, 9, 24, 10, 15, 30, kind).AddTicks(1234567);
+        var request = RequestCreator.CreateQueryTransactionListRequest(OfflineUser, OfflineSoftware, page: 1, insertedFromUtc: to.AddMinutes(-10), insertedToUtc: to);
+
+        AssertSchemaValid(request);
+    }
+
+    [Test]
+    public void QueryTransactionListRequest_UnnormalizedTimestamp_IsRejectedBySchema()
+    {
+        // Guards the guard: the request as it was built before timestamps were normalized.
+        var request = RequestCreator.CreateQueryTransactionListRequest(OfflineUser, OfflineSoftware, page: 1, insertedFromUtc: DateTime.UtcNow.AddMinutes(-10), insertedToUtc: DateTime.UtcNow);
+        request.insDate.dateTimeTo = new DateTime(2026, 9, 24, 10, 15, 30, DateTimeKind.Utc).AddTicks(1234567);
+
+        Assert.That(Validate(request).Errors, Is.Not.Empty);
+    }
+
+    [Test]
+    public void CreateQueryInvoiceChainDigestRequest_IsSchemaValid()
+    {
+        AssertSchemaValid(RequestCreator.CreateQueryInvoiceChainDigestRequest(OfflineUser, OfflineSoftware, page: 1, invoiceNumber: "INV-1"));
+    }
+
     [Test]
     public void MapInvoice_CommunityVatNumberWithoutItsCountryPrefix_IsRejectedBySchema()
     {
@@ -78,9 +111,10 @@ public sealed class SchemaValidationTests
         Assert.That(GetSchemaErrors(invoiceData), Is.Not.Empty);
     }
 
-    private static void AssertSchemaValid(Dto.InvoiceData invoiceData)
+    private static void AssertSchemaValid<T>(T document)
+        where T : class
     {
-        var (errors, xml) = Validate(invoiceData);
+        var (errors, xml) = Validate(document);
         Assert.That(errors, Is.Empty, () => $"{string.Join(Environment.NewLine, errors)}{Environment.NewLine}{xml}");
     }
 
@@ -89,10 +123,11 @@ public sealed class SchemaValidationTests
         return Validate(invoiceData).Errors;
     }
 
-    private static (IReadOnlyList<string> Errors, string Xml) Validate(Dto.InvoiceData invoiceData)
+    private static (IReadOnlyList<string> Errors, string Xml) Validate<T>(T document)
+        where T : class
     {
         var parameters = new XmlSerializationParameters(namespaces: ServiceInfo.XmlNamespace.ToEnumerable());
-        var xml = XmlSerializer.Serialize(invoiceData, parameters).OuterXml;
+        var xml = XmlSerializer.Serialize(document, parameters).OuterXml;
 
         var errors = new List<string>();
         var settings = new XmlReaderSettings

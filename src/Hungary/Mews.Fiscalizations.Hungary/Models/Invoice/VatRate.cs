@@ -39,14 +39,14 @@ public sealed class VatRate
         ).Map(p => new VatRate(p, null, null, false, false));
     }
 
-    public static VatRate Exemption(TaxExemptionCase exemptionCase, string reason)
+    public static Try<VatRate, Error> Exemption(TaxExemptionCase exemptionCase, string reason)
     {
-        return new VatRate(null, new DetailedReason(exemptionCase.ToString().ToUpperInvariant(), reason), null, false, false);
+        return ValidateReason(reason).Map(r => new VatRate(null, new DetailedReason(exemptionCase.ToString().ToUpperInvariant(), r), null, false, false));
     }
 
-    public static VatRate OutOfScope(TaxOutOfScopeCase outOfScopeCase, string reason)
+    public static Try<VatRate, Error> OutOfScope(TaxOutOfScopeCase outOfScopeCase, string reason)
     {
-        return new VatRate(null, null, new DetailedReason(outOfScopeCase.ToString().ToUpperInvariant(), reason), false, false);
+        return ValidateReason(reason).Map(r => new VatRate(null, null, new DetailedReason(outOfScopeCase.ToString().ToUpperInvariant(), r), false, false));
     }
 
     public static VatRate DomesticReverseCharge()
@@ -61,6 +61,12 @@ public sealed class VatRate
     public static VatRate NoVatCharge()
     {
         return new VatRate(null, null, null, false, true);
+    }
+
+    /// <summary>The schema's SimpleText200NotBlankType; a blank or longer reason fails the whole data report.</summary>
+    private static Try<string, Error> ValidateReason(string reason)
+    {
+        return StringValidations.NonEmptyNorWhitespace(reason).FlatMap(r => StringValidations.LengthInRange(r, 1, 200));
     }
 
     public T Match<T>(

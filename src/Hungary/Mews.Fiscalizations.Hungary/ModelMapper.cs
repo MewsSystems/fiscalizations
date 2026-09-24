@@ -105,11 +105,28 @@ internal static class ModelMapper
                     invoiceNumber: e.invoiceChainDigest.invoiceNumber,
                     invoiceOperation: e.invoiceChainDigest.invoiceOperation.ToString(),
                     insertedUtc: e.invoiceChainDigest.insDate,
-                    maxLineNumber: int.TryParse(e.invoiceLines?.maxLineNumber, out var maxLineNumber) ? maxLineNumber : 0,
+                    lastChainLineNumber: GetLastChainLineNumber(e),
                     modificationIndex: e.invoiceReferenceData?.Item as int?
                 ))
             )
         );
+    }
+
+    private static int GetLastChainLineNumber(Dto.InvoiceChainElementType element)
+    {
+        var lines = element.invoiceLines;
+        if (element.invoiceChainDigest.invoiceOperation == Dto.ManageInvoiceOperationType.CREATE)
+        {
+            return ParseLineNumber(lines?.maxLineNumber);
+        }
+        // A modification's maxLineNumber counts its own lines from 1; its place in the original invoice's
+        // numbering is the lineNumberReference range it added, reported as newCreatedLines.
+        return (lines?.newCreatedLines ?? []).Select(l => ParseLineNumber(l.lineNumberIntervalEnd)).DefaultIfEmpty(0).Max();
+    }
+
+    private static int ParseLineNumber(string value)
+    {
+        return int.TryParse(value, out var number) ? number : 0;
     }
 
     internal static ResponseResult<TransactionList, TransactionErrorCode> MapTransactionList(

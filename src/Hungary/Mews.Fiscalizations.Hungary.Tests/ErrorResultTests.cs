@@ -68,7 +68,7 @@ public sealed class ErrorResultTests
             }
         };
 
-        var error = ErrorResult<ResultErrorCode>.Map(response);
+        var error = ErrorResult<ResultErrorCode>.Map(response.result);
 
         Assert.That(error.ErrorCode, Is.EqualTo(ResultErrorCode.Unknown));
         Assert.That(error.RawErrorCode, Is.EqualTo("SOME_FUTURE_NAV_CODE"));

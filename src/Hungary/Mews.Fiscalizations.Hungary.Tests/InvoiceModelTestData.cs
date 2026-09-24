@@ -47,6 +47,25 @@ internal static class InvoiceModelTestData
         return CreateWithRates(rate);
     }
 
+    public static Try<Invoice, Error> CreateWithRate(VatRate rate, DateTime deliveryDate, Receiver receiver = null)
+    {
+        return Build(InvoiceCategory.Normal, "HUF", [Item(deliveryDate, 1000m, 1000m, "HUF", vatRate: rate)], receiver);
+    }
+
+    public static Try<Invoice, Error> CreateCompleteDataReport()
+    {
+        return Build(InvoiceCategory.Normal, "HUF", [Item(DefaultDate, 1000m, 1000m, "HUF")], isCompleteDataReport: true);
+    }
+
+    public static Receiver LocalCompany()
+    {
+        return Receiver.LocalCompany(
+            LocalTaxpayerIdentificationNumber.Create("87654321").Success.Get(),
+            Models.Name.Create("Vevo Kft").Success.Get(),
+            Address(Countries.Hungary)
+        );
+    }
+
     public static Try<Invoice, Error> CreateWithUnit(UnitOfMeasure unit)
     {
         return Build(InvoiceCategory.Normal, "HUF", [Item(DefaultDate, 1000m, 1000m, "HUF", unit: unit)]);
@@ -134,7 +153,8 @@ internal static class InvoiceModelTestData
         string currency,
         IReadOnlyList<InvoiceItem> items,
         Receiver receiver = null,
-        string number = "TEST-1")
+        string number = "TEST-1",
+        bool isCompleteDataReport = false)
     {
         return Invoice.Create(
             number: InvoiceNumber.Create(number).Success.Get(),
@@ -149,7 +169,8 @@ internal static class InvoiceModelTestData
             ),
             receiver: receiver ?? Receiver.Customer(),
             currencyCode: CurrencyCode.Create(currency).Success.Get(),
-            items: Sequence.FromPreordered(items, startIndex: 1).Get()
+            items: Sequence.FromPreordered(items, startIndex: 1).Get(),
+            isCompleteDataReport: isCompleteDataReport
         );
     }
 }

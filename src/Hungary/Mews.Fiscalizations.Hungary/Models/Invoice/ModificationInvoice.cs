@@ -68,6 +68,10 @@ public sealed class ModificationInvoice : Invoice
             // The schema's InvoiceUnboundedIndexType starts at 1.
             return Try.Error<ModificationInvoice, Error>(new Error("Modification index must be at least 1."));
         }
+        if (itemIndexOffset < 0)
+        {
+            return Try.Error<ModificationInvoice, Error>(new Error("Item index offset cannot be negative."));
+        }
         if (originalDocumentNumber.Value == invoice.Number.Value)
         {
             // NAV rejects a modification document whose own number equals the number it references.
