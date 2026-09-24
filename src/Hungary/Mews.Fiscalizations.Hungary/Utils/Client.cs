@@ -89,7 +89,10 @@ internal sealed class Client
         {
             return ErrorResult<ResultErrorCode>.Map(XmlSerializer.Deserialize<Dto.GeneralExceptionResponse>(content));
         }
-        return new ErrorResult<ResultErrorCode>(ResultErrorCode.Unknown, message: $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}");
+        // NAV documents non-XML answers from its own infrastructure - an HTTP 500 from the application server, a
+        // 503 rewritten by a network device (spec 3.2) - which are its failures, not the request's.
+        var errorCode = ((int)response.StatusCode >= 500).Match(t => ResultErrorCode.OperationFailed, f => ResultErrorCode.Unknown);
+        return new ErrorResult<ResultErrorCode>(errorCode, message: $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}");
     }
 
     private static string GetRootElementName(string content)

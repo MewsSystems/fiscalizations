@@ -35,11 +35,12 @@ public sealed class ClientErrorResponseTests
     }
 
     [Test]
-    public async Task NonXmlResponse_IsAnUnknownErrorRatherThanThrown()
+    public async Task NonXmlServerError_IsAnOperationFailureRatherThanThrown()
     {
         var result = await GetTransactionListAsync(HttpStatusCode.InternalServerError, "Internal Server Error");
 
-        Assert.That(result.GeneralErrorResult.ErrorCode, Is.EqualTo(ResultErrorCode.Unknown));
+        // NAV's own infrastructure failing, which is worth another attempt.
+        Assert.That(result.GeneralErrorResult.ErrorCode, Is.EqualTo(ResultErrorCode.OperationFailed));
         Assert.That(result.ResponseXml, Is.EqualTo("Internal Server Error"));
     }
 
