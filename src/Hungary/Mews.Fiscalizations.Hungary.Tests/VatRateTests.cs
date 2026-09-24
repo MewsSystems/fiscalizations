@@ -11,11 +11,11 @@ public sealed class VatRateTests
     }
 
     [Test]
-    public void Percentage_ZeroRate_Fails()
+    public void Percentage_ZeroRate_Succeeds()
     {
-        // NAV rejects vatPercentage = 0 on a normal or aggregate invoice (INVALID_VAT_DATA); a zero rated
-        // supply has to be declared as an exemption or as out of scope, naming the legal ground.
-        Assert.That(VatRate.Percentage(0m).IsSuccess, Is.False);
+        // NAV has accepted vatPercentage = 0 since interface version 3.24, for deliveries from 2024-01-01. A zero
+        // rated supply is taxed at 0%, which is a different statement from an exemption.
+        Assert.That(VatRate.Percentage(0m).IsSuccess, Is.True);
     }
 
     [Test]

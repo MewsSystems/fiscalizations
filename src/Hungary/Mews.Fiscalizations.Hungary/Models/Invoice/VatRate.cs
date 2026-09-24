@@ -3,10 +3,11 @@ namespace Mews.Fiscalizations.Hungary.Models;
 /// <summary>
 /// NAV vatRate - exactly one of the ways an invoice line or summary entry can state its VAT treatment.
 /// <para>
-/// Modelled as a closed set of factories rather than a nullable percentage because NAV does not accept
-/// vatPercentage = 0 on a normal or aggregate invoice: a line that carries no VAT has to name the legal
-/// ground it carries none on. The three branches Mews cannot substantiate - vatContent (simplified invoices
-/// only), marginSchemeIndicator and vatAmountMismatch - are deliberately not offered.
+/// Modelled as a closed set of factories rather than a nullable percentage because a line taxed at 0% and a
+/// line that carries no VAT at all are different statements: the first is a vatPercentage of 0, the second
+/// has to name the legal ground it carries no VAT on. The three branches Mews cannot substantiate -
+/// vatContent (simplified invoices only), marginSchemeIndicator and vatAmountMismatch - are deliberately not
+/// offered.
 /// </para>
 /// </summary>
 public sealed class VatRate

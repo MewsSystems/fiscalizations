@@ -126,6 +126,17 @@ public sealed class RequestMapperTests
     }
 
     [Test]
+    public void MapInvoice_ZeroPercentageRate_EmitsVatPercentageZero()
+    {
+        var rate = VatRate.Percentage(0m).Success.Get();
+        var data = RequestMapper.MapInvoice(InvoiceModelTestData.CreateWithRate(rate).Success.Get());
+        var vatRate = ((Dto.LineAmountsNormalType)GetFirstLine(data).Item).lineVatRate;
+
+        Assert.That(vatRate.ItemElementName, Is.EqualTo(Dto.ItemChoiceType2.vatPercentage));
+        Assert.That(vatRate.Item, Is.EqualTo(0m));
+    }
+
+    [Test]
     public void MapInvoice_AdvanceItem_SetsAdvanceIndicatorNotDepositIndicator()
     {
         // NAV depositIndicator means a bottle or container deposit, which Mews never reports; an advance

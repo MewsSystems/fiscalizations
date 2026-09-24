@@ -10,6 +10,8 @@ public static class TaxationInfo
     {
         PercentageTaxRates = new HashSet<decimal>
         {
+            // Accepted by NAV since interface version 3.24, for deliveries from 2024-01-01.
+            0m,
             0.05m,
             0.07m,
             0.12m,
