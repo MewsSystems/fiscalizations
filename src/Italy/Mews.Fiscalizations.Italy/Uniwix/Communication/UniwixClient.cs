@@ -69,79 +69,104 @@ public class UniwixClient
     }
 
     private Task<Try<TResult, ErrorResult>> GetAsync<TResult>(string url)
-    {
-        return ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null);
-    }
+        => ExecuteRequestAsync<TResult>(url, HttpMethod.Get, content: null, CancellationToken.None);
 
     private Task<Try<TResult, ErrorResult>> PostAsync<TResult>(string url, HttpContent content)
+        => ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content, CancellationToken.None);
+
+    private async Task<Try<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content, CancellationToken cancellationToken)
     {
-        return ExecuteRequestAsync<TResult>(url, HttpMethod.Post, content);
+        var response = await SendRequestAsync(url, httpMethod, content, cancellationToken);
+        return response.FlatMap(ProcessResponse<TResult>);
     }
 
-    private Task<Try<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(string url, HttpMethod httpMethod, HttpContent content)
+    private async Task<Try<UniwixResponse, ErrorResult>> SendRequestAsync(string url, HttpMethod httpMethod, HttpContent content, CancellationToken cancellationToken)
     {
-        return ExecuteRequestAsync(url, httpMethod, content, async httpResponse =>
+        using var request = CreateRequest(url, httpMethod, content);
+
+        try
         {
-            var body = await httpResponse.Content.ReadAsStringAsync();
-
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                try
-                {
-                    var response = JsonConvert.DeserializeObject<Response<TResult>>(body);
-                    if (response is null || response.Result is null)
-                    {
-                        return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned an empty success response.");
-                    }
-
-                    return Try.Success<TResult, ErrorResult>(response.Result);
-                }
-                catch (JsonException)
-                {
-                    return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned a non-JSON success response.");
-                }
-            }
-
-            try
-            {
-                if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Uniwix authorization failed.", ErrorType.Unauthorized));
-                }
-
-                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    var validationErrorResponse = JsonConvert.DeserializeObject<Response<ValidationError>>(body);
-                    if (validationErrorResponse?.Result is null)
-                    {
-                        return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned an empty error response.");
-                    }
-
-                    return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{validationErrorResponse.Code}: {validationErrorResponse.Result.Message}", ErrorType.Validation, validationErrorResponse.Result.Errors));
-                }
-
-                var errorResponse = JsonConvert.DeserializeObject<Response<string>>(body);
-                if (errorResponse is null)
-                {
-                    return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned an empty error response.");
-                }
-
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{errorResponse.Code}: {errorResponse.Result}", MapErrorType(errorResponse.Code)));
-            }
-            catch (JsonException)
-            {
-                return CreateMalformedResponseError<TResult>(httpResponse.StatusCode, body, "Uniwix returned a non-JSON error response.");
-            }
-        });
+            using var response = await _httpClient.SendAsync(request, cancellationToken);
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+            return Try.Success<UniwixResponse, ErrorResult>(new UniwixResponse(response.StatusCode, response.Content.Headers.ContentType?.MediaType, body));
+        }
+        catch (HttpRequestException)
+        {
+            return Try.Error<UniwixResponse, ErrorResult>(ErrorResult.Create("Request to Uniwix failed.", ErrorType.Connection));
+        }
+        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+        {
+            return Try.Error<UniwixResponse, ErrorResult>(ErrorResult.Create("Request to Uniwix timed out.", ErrorType.Connection));
+        }
     }
 
-    private static Try<TResult, ErrorResult> CreateMalformedResponseError<TResult>(HttpStatusCode statusCode, string body, string message)
+    private HttpRequestMessage CreateRequest(string url, HttpMethod httpMethod, HttpContent content)
     {
-        return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{message} Status: {(int)statusCode}. Body: {Truncate(body)}", ErrorType.Unknown));
+        var credentials = $"{Configuration.Key}:{Configuration.Password}";
+        var authenticationHeaderValue = Convert.ToBase64String(Encoding.ASCII.GetBytes(credentials));
+        var request = new HttpRequestMessage(httpMethod, url)
+        {
+            Content = content
+        };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authenticationHeaderValue);
+        return request;
     }
 
-    private static string Truncate(string value, int maxLength = 500)
-        => value.Length <= maxLength ? value : $"{value[..maxLength]}...";
+    private Try<TResult, ErrorResult> ProcessResponse<TResult>(UniwixResponse response)
+        => response.IsSuccessStatusCode
+            ? ProcessSuccessResponse<TResult>(response)
+            : ProcessErrorResponse<TResult>(response);
+
+    private static Try<TResult, ErrorResult> ProcessSuccessResponse<TResult>(UniwixResponse response)
+    {
+        var deserializedResponse = DeserializeResponse<TResult>(response, "Uniwix returned a non-JSON success response.", "Uniwix returned an empty success response.");
+        return deserializedResponse.FlatMap(successResponse =>
+            successResponse.Result is null
+                ? CreateMalformedResponseError<TResult>(response, "Uniwix returned an empty success response.")
+                : Try.Success<TResult, ErrorResult>(successResponse.Result));
+    }
+
+    private Try<TResult, ErrorResult> ProcessErrorResponse<TResult>(UniwixResponse response)
+    {
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Uniwix authorization failed.", ErrorType.Unauthorized));
+        }
+
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var deserializedResponse = DeserializeResponse<ValidationError>(response, "Uniwix returned a non-JSON error response.");
+            return deserializedResponse.FlatMap(validationErrorResponse =>
+                validationErrorResponse.Result is null
+                    ? CreateMalformedResponseError<TResult>(response, "Uniwix returned an empty error response.")
+                    : Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{validationErrorResponse.Code}: {validationErrorResponse.Result.Message}", ErrorType.Validation, validationErrorResponse.Result.Errors)));
+        }
+
+        var errorResponse = DeserializeResponse<string>(response, "Uniwix returned a non-JSON error response.");
+        return errorResponse.FlatMap(deserializedErrorResponse =>
+            Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{deserializedErrorResponse.Code}: {deserializedErrorResponse.Result}", MapErrorType(deserializedErrorResponse.Code))));
+    }
+
+    private static Try<Response<TResult>, ErrorResult> DeserializeResponse<TResult>(UniwixResponse response, string malformedResponseMessage, string emptyResponseMessage = "Uniwix returned an empty error response.")
+    {
+        try
+        {
+            var deserializedResponse = JsonConvert.DeserializeObject<Response<TResult>>(response.Body);
+            return deserializedResponse is null
+                ? CreateMalformedResponseError<Response<TResult>>(response, emptyResponseMessage)
+                : Try.Success<Response<TResult>, ErrorResult>(deserializedResponse);
+        }
+        catch (JsonException)
+        {
+            return CreateMalformedResponseError<Response<TResult>>(response, malformedResponseMessage);
+        }
+    }
+
+    private static Try<TResult, ErrorResult> CreateMalformedResponseError<TResult>(UniwixResponse response, string message)
+    {
+        var contentType = response.ContentType ?? "unknown";
+        return Try.Error<TResult, ErrorResult>(ErrorResult.Create($"{message} Status: {(int)response.StatusCode}. Content-Type: {contentType}. Body length: {response.Body.Length}.", ErrorType.Unknown));
+    }
 
     private ErrorType MapErrorType(int errorCode)
     {
@@ -162,46 +187,6 @@ public class UniwixClient
             -15, _ => ErrorType.FileExistsInQueue,
             _ => ErrorType.Unknown
         );
-    }
-
-    private async Task<Try<TResult, ErrorResult>> ExecuteRequestAsync<TResult>(
-        string url,
-        HttpMethod httpMethod,
-        HttpContent content,
-        Func<HttpResponseMessage, Task<Try<TResult, ErrorResult>>> responseProcessor)
-    {
-        var credentials = $"{Configuration.Key}:{Configuration.Password}";
-        var authenticationHeaderValue = Convert.ToBase64String(Encoding.ASCII.GetBytes(credentials));
-
-        using (var message = new HttpRequestMessage())
-        {
-            message.RequestUri = new Uri(url);
-            message.Content = content;
-            message.Method = httpMethod;
-            message.Headers.Authorization = new AuthenticationHeaderValue("Basic", authenticationHeaderValue);
-
-            try
-            {
-                using var httpResponse = await _httpClient.SendAsync(message);
-                return await responseProcessor(httpResponse);
-            }
-            catch (HttpRequestException e)
-            {
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
-            }
-            catch (WebException e)
-            {
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
-            }
-            catch (OperationCanceledException e)
-            {
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
-            }
-            catch (Exception e)
-            {
-                return Try.Error<TResult, ErrorResult>(ErrorResult.Create(e.Message, ErrorType.Connection));
-            }
-        }
     }
 
     private SdiState GetSdiState(InvoiceStateResult invoiceState)
@@ -234,5 +219,10 @@ public class UniwixClient
         }
 
         throw new InvalidOperationException("Unknown invoice status.");
+    }
+
+    private sealed record UniwixResponse(HttpStatusCode StatusCode, string ContentType, string Body)
+    {
+        public bool IsSuccessStatusCode => (int)StatusCode is >= 200 and <= 299;
     }
 }

@@ -93,12 +93,44 @@ public sealed class UniwixClientTests
     }
 
     [Test]
+    public async Task SendInvoiceWithMalformedResponseDoesNotIncludeResponseBodyInErrorMessage()
+    {
+        const string body = "<html>Customer Jane Doe tax ID IT12345678901</html>";
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Not.Contain(body));
+        Assert.That(result.Error.Get().Message, Does.Not.Contain("Jane Doe"));
+        Assert.That(result.Error.Get().Message, Does.Not.Contain("IT12345678901"));
+        Assert.That(result.Error.Get().Message, Does.Contain("Body length"));
+    }
+
+    [Test]
+    public async Task SendInvoiceWhenHttpRequestFailsReturnsConnectionError()
+    {
+        var result = await CreateClient(_ => throw new HttpRequestException("Sensitive upstream details")).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Is.EqualTo("Request to Uniwix failed."));
+    }
+
+    [Test]
     public async Task SendInvoiceWhenRequestTimesOutReturnsConnectionError()
     {
         var result = await CreateClient(_ => throw new TaskCanceledException("The request timed out.")).SendInvoiceAsync(CreateInvoice());
 
         Assert.That(result.IsError, Is.True);
         Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Is.EqualTo("Request to Uniwix timed out."));
+    }
+
+    [Test]
+    public void GetInvoiceStateWhenMapperThrowsPropagatesException()
+    {
+        var client = CreateClient(_ => CreateResponse(HttpStatusCode.OK, "{\"code\":0,\"result\":[{\"stato\":99,\"data\":\"2025-01-01T00:00:00Z\"}]}"));
+
+        Assert.ThrowsAsync<ArgumentNullException>(() => client.GetInvoiceStateAsync("file-id"));
     }
 
     [Test]
