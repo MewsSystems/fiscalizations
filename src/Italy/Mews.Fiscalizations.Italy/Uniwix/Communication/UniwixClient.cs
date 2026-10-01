@@ -109,10 +109,13 @@ public class UniwixClient
                 contentType,
                 stopwatch.ElapsedMilliseconds);
 
-            if (_logger.IsEnabled(LogLevel.Debug))
-            {
-                _logger.LogDebug("Uniwix response body. Method: {Method}. Path: {Path}. Body: {Body}", httpMethod.Method, path, body);
-            }
+            _logger.LogDebug(
+                "Uniwix response received. Method: {Method}. Path: {Path}. StatusCode: {StatusCode}. ContentType: {ContentType}. BodyLength: {BodyLength}",
+                httpMethod.Method,
+                path,
+                (int)response.StatusCode,
+                contentType,
+                body.Length);
 
             return Try.Success<UniwixResponse, ErrorResult>(new UniwixResponse(response.StatusCode, contentType, body));
         }

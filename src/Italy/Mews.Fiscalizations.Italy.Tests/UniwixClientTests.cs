@@ -174,10 +174,14 @@ public sealed class UniwixClientTests
         Assert.That(handler.CancellationToken.CanBeCanceled, Is.True);
     }
 
+    private const string PiiName = "Mario Rossi";
+    private const string PiiTaxId = "RSSMRA80A01H501U";
+    private const string BodyMarker = "DISTINCTIVE-BODY-MARKER-7f3a";
+
     [Test]
-    public async Task RequestLoggingKeepsResponseBodyAtDebugAndExcludesCredentialsFromAllEntries()
+    public async Task RequestLoggingIsMetadataOnlyAtEveryLevel()
     {
-        const string body = "{\"code\":0,\"result\":true}";
+        var body = $"{{\"code\":0,\"result\":true,\"note\":\"{PiiName} {PiiTaxId} {BodyMarker}\"}}";
         var logger = new CapturingLogger();
         var client = CreateClient(_ => CreateResponse(HttpStatusCode.OK, body), logger: logger);
 
@@ -188,11 +192,51 @@ public sealed class UniwixClientTests
         Assert.That(informationEntry.Message, Does.Contain("/api/Uniwix/Info"));
         Assert.That(informationEntry.Message, Does.Contain("200"));
         Assert.That(informationEntry.Message, Does.Contain("ElapsedMilliseconds"));
-        Assert.That(logger.Entries.Single(entry => entry.Level == LogLevel.Debug).Message, Does.Contain(body));
-        Assert.That(logger.Entries.Where(entry => entry.Level is LogLevel.Information or LogLevel.Warning).Select(entry => entry.Message), Has.None.Contains(body));
-        Assert.That(logger.Entries.Select(entry => entry.Message), Has.None.Contains(Username));
-        Assert.That(logger.Entries.Select(entry => entry.Message), Has.None.Contains(Password));
-        Assert.That(logger.Entries.Select(entry => entry.Message), Has.None.Contains("Basic "));
+        AssertNoSensitiveContent(logger, body);
+    }
+
+    [Test]
+    public async Task MalformedResponseLoggingDoesNotContainBodyOrPii()
+    {
+        var body = $"<html>{PiiName} {PiiTaxId} {BodyMarker}</html>";
+        var logger = new CapturingLogger();
+        var client = CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, body), logger: logger);
+
+        await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(logger.Entries.Any(entry => entry.Level == LogLevel.Warning), Is.True);
+        AssertNoSensitiveContent(logger, body);
+    }
+
+    [Test]
+    public async Task TimeoutLoggingDoesNotContainSensitiveContent()
+    {
+        var logger = new CapturingLogger();
+        var client = CreateClient(new DelayingHttpMessageHandler(), requestTimeout: TimeSpan.FromMilliseconds(50), logger: logger);
+
+        await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(logger.Entries.Any(entry => entry.Level == LogLevel.Warning), Is.True);
+        AssertNoSensitiveContent(logger, null);
+    }
+
+    private static void AssertNoSensitiveContent(CapturingLogger logger, string body)
+    {
+        var forbidden = new List<string> { PiiName, PiiTaxId, BodyMarker, Username, Password, "Basic ", Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{Username}:{Password}")) };
+        if (body is not null)
+        {
+            forbidden.Add(body);
+        }
+
+        Assert.That(logger.Entries, Is.Not.Empty);
+        foreach (var entry in logger.Entries)
+        {
+            foreach (var value in forbidden)
+            {
+                Assert.That(entry.Message, Does.Not.Contain(value), $"{entry.Level} message");
+                Assert.That(entry.State, Does.Not.Contain(value), $"{entry.Level} state");
+            }
+        }
     }
 
     [Test]
@@ -282,13 +326,16 @@ public sealed class UniwixClientTests
 
         public IDisposable BeginScope<TState>(TState state) where TState : notnull => NullScope.Instance;
 
-        public bool IsEnabled(LogLevel logLevel) => true;
+        public bool IsEnabled(LogLevel logLevel) => logLevel >= LogLevel.Trace;
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-            => Entries.Add(new LogEntry(logLevel, formatter(state, exception)));
+            => Entries.Add(new LogEntry(
+                logLevel,
+                formatter(state, exception),
+                state is IEnumerable<KeyValuePair<string, object>> pairs ? string.Join("|", pairs.Select(pair => $"{pair.Key}={pair.Value}")) : state?.ToString() ?? string.Empty));
     }
 
-    private sealed record LogEntry(LogLevel Level, string Message);
+    private sealed record LogEntry(LogLevel Level, string Message, string State);
 
     private sealed class NullScope : IDisposable
     {
