@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Concurrent;
+using System.Net;
+using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using FuncSharp;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
@@ -122,7 +124,75 @@ public sealed class UniwixClientTests
 
         Assert.That(result.IsError, Is.True);
         Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
-        Assert.That(result.Error.Get().Message, Is.EqualTo("Request to Uniwix timed out."));
+        Assert.That(result.Error.Get().Message, Does.Contain("timed out after"));
+    }
+
+    [Test]
+    public void SendInvoiceWhenCallerCancelsThrowsOperationCanceledException()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var client = CreateClient(new DelayingHttpMessageHandler());
+
+        Assert.That(async () => await client.SendInvoiceAsync(CreateInvoice(), cancellationSource.Token), Throws.InstanceOf<OperationCanceledException>());
+    }
+
+    [Test]
+    public async Task SendInvoiceWhenInternalTimeoutExpiresReturnsConnectionError()
+    {
+        var client = CreateClient(new DelayingHttpMessageHandler(), requestTimeout: TimeSpan.FromMilliseconds(50));
+
+        var result = await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Does.Contain("timed out after"));
+    }
+
+    [TestCase("SendInvoice")]
+    [TestCase("GetInvoiceState")]
+    [TestCase("VerifyCredentials")]
+    public async Task PublicMethodsPassCancellationTokenToHttpMessageHandler(string method)
+    {
+        var handler = new CapturingHttpMessageHandler();
+        var client = CreateClient(handler);
+        using var cancellationSource = new CancellationTokenSource();
+
+        switch (method)
+        {
+            case "SendInvoice":
+                await client.SendInvoiceAsync(CreateInvoice(), cancellationSource.Token);
+                break;
+            case "GetInvoiceState":
+                await client.GetInvoiceStateAsync("file-id", cancellationSource.Token);
+                break;
+            case "VerifyCredentials":
+                await client.VerifyCredentialsAsync(cancellationSource.Token);
+                break;
+        }
+
+        Assert.That(handler.CancellationToken.CanBeCanceled, Is.True);
+    }
+
+    [Test]
+    public async Task RequestLoggingKeepsResponseBodyAtDebugAndExcludesCredentialsFromAllEntries()
+    {
+        const string body = "{\"code\":0,\"result\":true}";
+        var logger = new CapturingLogger();
+        var client = CreateClient(_ => CreateResponse(HttpStatusCode.OK, body), logger: logger);
+
+        await client.VerifyCredentialsAsync();
+
+        var informationEntry = logger.Entries.Single(entry => entry.Level == LogLevel.Information);
+        Assert.That(informationEntry.Message, Does.Contain("GET"));
+        Assert.That(informationEntry.Message, Does.Contain("/api/Uniwix/Info"));
+        Assert.That(informationEntry.Message, Does.Contain("200"));
+        Assert.That(informationEntry.Message, Does.Contain("ElapsedMilliseconds"));
+        Assert.That(logger.Entries.Single(entry => entry.Level == LogLevel.Debug).Message, Does.Contain(body));
+        Assert.That(logger.Entries.Where(entry => entry.Level is LogLevel.Information or LogLevel.Warning).Select(entry => entry.Message), Has.None.Contains(body));
+        Assert.That(logger.Entries.Select(entry => entry.Message), Has.None.Contains(Username));
+        Assert.That(logger.Entries.Select(entry => entry.Message), Has.None.Contains(Password));
+        Assert.That(logger.Entries.Select(entry => entry.Message), Has.None.Contains("Basic "));
     }
 
     [Test]
@@ -150,11 +220,15 @@ public sealed class UniwixClientTests
         Assert.That(results[1].Success.Get().FileId, Is.EqualTo("success"));
     }
 
-    private static UniwixClient CreateClient(Func<HttpRequestMessage, HttpResponseMessage> responseFactory)
+    private static UniwixClient CreateClient(Func<HttpRequestMessage, HttpResponseMessage> responseFactory, TimeSpan? requestTimeout = null, ILogger<UniwixClient> logger = null)
+        => CreateClient(new StubHttpMessageHandler(responseFactory), requestTimeout, logger);
+
+    private static UniwixClient CreateClient(HttpMessageHandler handler, TimeSpan? requestTimeout = null, ILogger<UniwixClient> logger = null)
     {
         return new UniwixClient(
-            new HttpClient(new StubHttpMessageHandler(responseFactory)),
-            new UniwixClientConfiguration(Username, Password));
+            new HttpClient(handler),
+            new UniwixClientConfiguration(Username, Password, requestTimeout),
+            logger);
     }
 
     private static HttpResponseMessage CreateResponse(HttpStatusCode statusCode, string body)
@@ -178,6 +252,48 @@ public sealed class UniwixClientTests
         {
             return Task.FromResult(responseFactory(request));
         }
+    }
+
+    private sealed class DelayingHttpMessageHandler : HttpMessageHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            throw new InvalidOperationException("The delay should be cancelled before it completes.");
+        }
+    }
+
+    private sealed class CapturingHttpMessageHandler : HttpMessageHandler
+    {
+        public CancellationToken CancellationToken { get; private set; }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            CancellationToken = cancellationToken;
+            return Task.FromResult(CreateResponse(HttpStatusCode.OK, request.Method == HttpMethod.Get && request.RequestUri!.AbsolutePath.EndsWith("Invoices/file-id")
+                ? "{\"code\":0,\"result\":[]}"
+                : "{\"code\":0,\"result\":true}"));
+        }
+    }
+
+    private sealed class CapturingLogger : ILogger<UniwixClient>
+    {
+        public ConcurrentBag<LogEntry> Entries { get; } = [];
+
+        public IDisposable BeginScope<TState>(TState state) where TState : notnull => NullScope.Instance;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+            => Entries.Add(new LogEntry(logLevel, formatter(state, exception)));
+    }
+
+    private sealed record LogEntry(LogLevel Level, string Message);
+
+    private sealed class NullScope : IDisposable
+    {
+        public static readonly NullScope Instance = new();
+        public void Dispose() { }
     }
 
     private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)
