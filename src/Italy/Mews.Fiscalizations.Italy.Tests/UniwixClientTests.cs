@@ -224,6 +224,20 @@ public sealed class UniwixClientTests
     }
 
     [Test]
+    public async Task ForbiddenResponseWithUnreadableContentReturnsUnauthorizedWithoutReadingContent()
+    {
+        var content = new ThrowingHttpContent();
+        var client = CreateClient(_ => new HttpResponseMessage(HttpStatusCode.Forbidden) { Content = content });
+
+        var result = await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unauthorized));
+        Assert.That(result.Error.Get().Message, Is.EqualTo("Unauthorized"));
+        Assert.That(content.WasRead, Is.False);
+    }
+
+    [Test]
     public async Task TimeoutLoggingDoesNotContainSensitiveContent()
     {
         var logger = new CapturingLogger();
@@ -319,6 +333,23 @@ public sealed class UniwixClientTests
         {
             await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
             throw new InvalidOperationException("The delay should be cancelled before it completes.");
+        }
+    }
+
+    private sealed class ThrowingHttpContent : HttpContent
+    {
+        public bool WasRead { get; private set; }
+
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+        {
+            WasRead = true;
+            throw new InvalidOperationException("The forbidden response content must not be read.");
+        }
+
+        protected override bool TryComputeLength(out long length)
+        {
+            WasRead = true;
+            throw new InvalidOperationException("The forbidden response content length must not be computed.");
         }
     }
 

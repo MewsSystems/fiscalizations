@@ -96,18 +96,19 @@ public class UniwixClient
 
         try
         {
-            using var response = await _httpClient.SendAsync(request, requestCancellationToken);
-            var body = await response.Content.ReadAsStringAsync(requestCancellationToken);
-            stopwatch.Stop();
+            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, requestCancellationToken);
             var contentType = response.Content.Headers.ContentType?.MediaType;
 
-            _logger.LogInformation(
-                "Uniwix request completed. Method: {Method}. Path: {Path}. StatusCode: {StatusCode}. ContentType: {ContentType}. ElapsedMilliseconds: {ElapsedMilliseconds}",
-                httpMethod.Method,
-                path,
-                (int)response.StatusCode,
-                contentType,
-                stopwatch.ElapsedMilliseconds);
+            if (response.StatusCode == HttpStatusCode.Forbidden)
+            {
+                stopwatch.Stop();
+                LogRequestCompleted(httpMethod.Method, path, response.StatusCode, contentType, stopwatch.ElapsedMilliseconds);
+                return Try.Error<UniwixResponse, ErrorResult>(ErrorResult.Create("Unauthorized", ErrorType.Unauthorized));
+            }
+
+            var body = await response.Content.ReadAsStringAsync(requestCancellationToken);
+            stopwatch.Stop();
+            LogRequestCompleted(httpMethod.Method, path, response.StatusCode, contentType, stopwatch.ElapsedMilliseconds);
 
             _logger.LogDebug(
                 "Uniwix response received. Method: {Method}. Path: {Path}. StatusCode: {StatusCode}. ContentType: {ContentType}. BodyLength: {BodyLength}",
@@ -135,6 +136,17 @@ public class UniwixClient
             _logger.LogWarning("Uniwix request timed out. Method: {Method}. Path: {Path}. ElapsedMilliseconds: {ElapsedMilliseconds}", httpMethod.Method, path, stopwatch.ElapsedMilliseconds);
             return Try.Error<UniwixResponse, ErrorResult>(ErrorResult.Create($"Request to Uniwix timed out after {Configuration.RequestTimeout.TotalSeconds:g}s.", ErrorType.Connection));
         }
+    }
+
+    private void LogRequestCompleted(string method, string path, HttpStatusCode statusCode, string contentType, long elapsedMilliseconds)
+    {
+        _logger.LogInformation(
+            "Uniwix request completed. Method: {Method}. Path: {Path}. StatusCode: {StatusCode}. ContentType: {ContentType}. ElapsedMilliseconds: {ElapsedMilliseconds}",
+            method,
+            path,
+            (int)statusCode,
+            contentType,
+            elapsedMilliseconds);
     }
 
     private HttpRequestMessage CreateRequest(string url, HttpMethod httpMethod, HttpContent content)
@@ -168,11 +180,6 @@ public class UniwixClient
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
             return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Uniwix authorization failed.", ErrorType.Unauthorized));
-        }
-
-        if (response.StatusCode == HttpStatusCode.Forbidden)
-        {
-            return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Unauthorized", ErrorType.Unauthorized));
         }
 
         if (response.StatusCode == HttpStatusCode.BadRequest)
