@@ -170,6 +170,11 @@ public class UniwixClient
             return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Uniwix authorization failed.", ErrorType.Unauthorized));
         }
 
+        if (response.StatusCode == HttpStatusCode.Forbidden)
+        {
+            return Try.Error<TResult, ErrorResult>(ErrorResult.Create("Unauthorized", ErrorType.Unauthorized));
+        }
+
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
             var deserializedResponse = DeserializeResponse<ValidationError>(response, method, path, "Uniwix returned a non-JSON error response.");

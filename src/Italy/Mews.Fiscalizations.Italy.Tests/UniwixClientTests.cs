@@ -208,6 +208,21 @@ public sealed class UniwixClientTests
         AssertNoSensitiveContent(logger, body);
     }
 
+    [TestCase("Your key has been banned.")]
+    [TestCase("")]
+    public async Task ForbiddenResponseReturnsUnauthorizedWithoutReadingBody(string body)
+    {
+        var logger = new CapturingLogger();
+        var client = CreateClient(_ => CreateResponse(HttpStatusCode.Forbidden, body), logger: logger);
+
+        var result = await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unauthorized));
+        Assert.That(result.Error.Get().Message, Is.EqualTo("Unauthorized"));
+        AssertNoSensitiveContent(logger, string.IsNullOrEmpty(body) ? null : body);
+    }
+
     [Test]
     public async Task TimeoutLoggingDoesNotContainSensitiveContent()
     {
