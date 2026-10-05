@@ -2,7 +2,7 @@ namespace Mews.Fiscalizations.Italy.Uniwix.Communication;
 
 public class UniwixClientConfiguration
 {
-    public static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(30);
+    public static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromMinutes(1);
 
     public UniwixClientConfiguration(string key, string password, TimeSpan? requestTimeout = null)
     {

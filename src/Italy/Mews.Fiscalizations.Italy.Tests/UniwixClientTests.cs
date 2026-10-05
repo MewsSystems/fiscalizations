@@ -149,6 +149,25 @@ public sealed class UniwixClientTests
         Assert.That(result.Error.Get().Message, Does.Contain("timed out after"));
     }
 
+    [Test]
+    public async Task SendInvoiceWhenResponseBodyReadExceedsTimeoutReturnsConnectionError()
+    {
+        var client = CreateClient(_ => new HttpResponseMessage(HttpStatusCode.OK) { Content = new NeverCompletingHttpContent() }, requestTimeout: TimeSpan.FromMilliseconds(50));
+
+        var result = await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Does.Contain("timed out after"));
+    }
+
+    [Test]
+    public void DefaultRequestTimeoutIsOneMinute()
+    {
+        Assert.That(UniwixClientConfiguration.DefaultRequestTimeout, Is.EqualTo(TimeSpan.FromSeconds(60)));
+        Assert.That(new UniwixClientConfiguration(Username, Password).RequestTimeout, Is.EqualTo(TimeSpan.FromSeconds(60)));
+    }
+
     [TestCase("SendInvoice")]
     [TestCase("GetInvoiceState")]
     [TestCase("VerifyCredentials")]
@@ -333,6 +352,23 @@ public sealed class UniwixClientTests
         {
             await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
             throw new InvalidOperationException("The delay should be cancelled before it completes.");
+        }
+    }
+
+    private sealed class NeverCompletingHttpContent : HttpContent
+    {
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+            => SerializeToStreamAsync(stream, context, CancellationToken.None);
+
+        protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+        }
+
+        protected override bool TryComputeLength(out long length)
+        {
+            length = -1;
+            return false;
         }
     }
 
