@@ -25,10 +25,30 @@ public enum TaxKind
     NonTaxableOperationsAssimilatedToSalesOnExport,
     [XmlEnum("N3.5")]
     NonTaxableFollowingDeclarationsOfIntent,
-    [XmlEnum("3.6")]
+    [XmlEnum("N3.6")]
     NonTaxableOtherOperationsThatDoNotContributeToTheCeilingFormation,
     [XmlEnum("N4")]
     Exempt,
     [XmlEnum("N5")]
-    MarginScheme
+    MarginScheme,
+    [XmlEnum("N6.1")]
+    ReverseChargeScrapAndRecoveredMaterials,
+    [XmlEnum("N6.2")]
+    ReverseChargeGoldAndSilver,
+    [XmlEnum("N6.3")]
+    ReverseChargeConstructionSubcontracting,
+    [XmlEnum("N6.4")]
+    ReverseChargeBuildings,
+    [XmlEnum("N6.5")]
+    ReverseChargeMobilePhones,
+    [XmlEnum("N6.6")]
+    ReverseChargeElectronicProducts,
+    [XmlEnum("N6.7")]
+    ReverseChargeConstructionAndRelatedSectors,
+    [XmlEnum("N6.8")]
+    ReverseChargeEnergySector,
+    [XmlEnum("N6.9")]
+    ReverseChargeOther,
+    [XmlEnum("N7")]
+    VatPaidInOtherEuCountry
 }
