@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+using System.Net;
+using NUnit.Framework;
 using FuncSharp;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
 using Mews.Fiscalizations.Core.Model;
@@ -69,6 +70,271 @@ public sealed class UniwixClientTests
         var client = GetUniwixClient();
         var result = await client.GetInvoiceStateAsync("InvoiceThatDoesntExist");
         Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.InvoiceNotFound));
+    }
+
+    [TestCase(HttpStatusCode.OK, "You are temporarily unavailable")]
+    [TestCase(HttpStatusCode.OK, "{invalid")]
+    public async Task SendInvoiceWithMalformedSuccessResponseReturnsUnknownError(HttpStatusCode statusCode, string body)
+    {
+        var result = await CreateClient(_ => CreateResponse(statusCode, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unknown));
+        Assert.That(result.Error.Get().Message, Does.Contain("non-JSON success response"));
+    }
+
+    [TestCase("{\"result\":{}}")]
+    [TestCase("{\"result\":{\"fid\":\" \"}}")]
+    public async Task SendInvoiceWithMissingOrWhitespaceFileIdReturnsMalformedResponseError(string body)
+    {
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.OK, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unknown));
+        Assert.That(result.Error.Get().Message, Does.Contain("unexpected success response"));
+        Assert.That(result.Error.Get().Message, Does.Contain("200"));
+        Assert.That(result.Error.Get().Message, Does.Contain("text/plain"));
+        Assert.That(result.Error.Get().Message, Does.Contain(body));
+    }
+
+    [Test]
+    public async Task SendInvoiceWithMalformedResponseIncludesResponseBodyInErrorMessage()
+    {
+        const string body = "<html>Bad Gateway</html>";
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain("502"));
+        Assert.That(result.Error.Get().Message, Does.Contain("text/plain"));
+        Assert.That(result.Error.Get().Message, Does.Contain(body));
+    }
+
+    [Test]
+    public async Task SendInvoiceWithLongMalformedResponseTruncatesResponseBodyInErrorMessage()
+    {
+        var body = new string('x', 501);
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain(new string('x', 500)));
+        Assert.That(result.Error.Get().Message, Does.Not.Contain(body));
+        Assert.That(result.Error.Get().Message, Does.Contain("… (truncated)"));
+    }
+
+    [Test]
+    public async Task SendInvoiceWithEmptyMalformedResponseDescribesEmptyBody()
+    {
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, string.Empty)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain("the body is empty"));
+    }
+
+    [TestCase(HttpStatusCode.BadRequest, "Invalid invoice")]
+    [TestCase((HttpStatusCode)429, "Too many requests")]
+    public async Task SendInvoiceWithPlainTextErrorResponseIncludesResponseBodyInErrorMessage(HttpStatusCode statusCode, string body)
+    {
+        var result = await CreateClient(_ => CreateResponse(statusCode, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain(((int)statusCode).ToString()));
+        Assert.That(result.Error.Get().Message, Does.Contain(body));
+    }
+
+    [Test]
+    public async Task SendInvoiceWhenHttpRequestFailsReturnsConnectionError()
+    {
+        var result = await CreateClient(_ => throw new HttpRequestException("Sensitive upstream details")).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Is.EqualTo("Request to Uniwix failed."));
+    }
+
+    [Test]
+    public async Task SendInvoiceWhenRequestTimesOutReturnsConnectionError()
+    {
+        var result = await CreateClient(_ => throw new TaskCanceledException("The request timed out.")).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Does.Contain("timed out after"));
+    }
+
+    [Test]
+    public void SendInvoiceWhenCallerCancelsThrowsOperationCanceledException()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var client = CreateClient(new DelayingHttpMessageHandler());
+
+        Assert.That(async () => await client.SendInvoiceAsync(CreateInvoice(), cancellationSource.Token), Throws.InstanceOf<OperationCanceledException>());
+    }
+
+    [Test]
+    public async Task SendInvoiceWhenInternalTimeoutExpiresReturnsConnectionError()
+    {
+        var client = CreateClient(new DelayingHttpMessageHandler(), requestTimeout: TimeSpan.FromMilliseconds(50));
+
+        var result = await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Does.Contain("timed out after"));
+    }
+
+    [Test]
+    public async Task SendInvoiceWhenResponseBodyReadExceedsTimeoutReturnsConnectionError()
+    {
+        var client = CreateClient(_ => new HttpResponseMessage(HttpStatusCode.OK) { Content = new NeverCompletingHttpContent() }, requestTimeout: TimeSpan.FromMilliseconds(50));
+
+        var result = await client.SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Connection));
+        Assert.That(result.Error.Get().Message, Does.Contain("timed out after"));
+    }
+
+    [Test]
+    public void DefaultRequestTimeoutIsOneMinute()
+    {
+        Assert.That(UniwixClientConfiguration.DefaultRequestTimeout, Is.EqualTo(TimeSpan.FromSeconds(60)));
+        Assert.That(new UniwixClientConfiguration(Username, Password).RequestTimeout, Is.EqualTo(TimeSpan.FromSeconds(60)));
+    }
+
+    [TestCase("SendInvoice")]
+    [TestCase("GetInvoiceState")]
+    [TestCase("VerifyCredentials")]
+    public async Task PublicMethodsPassCancellationTokenToHttpMessageHandler(string method)
+    {
+        var handler = new CapturingHttpMessageHandler();
+        var client = CreateClient(handler);
+        using var cancellationSource = new CancellationTokenSource();
+
+        switch (method)
+        {
+            case "SendInvoice":
+                await client.SendInvoiceAsync(CreateInvoice(), cancellationSource.Token);
+                break;
+            case "GetInvoiceState":
+                await client.GetInvoiceStateAsync("file-id", cancellationSource.Token);
+                break;
+            case "VerifyCredentials":
+                await client.VerifyCredentialsAsync(cancellationSource.Token);
+                break;
+        }
+
+        Assert.That(handler.CancellationToken.CanBeCanceled, Is.True);
+    }
+
+    [Test]
+    public void GetInvoiceStateWhenMapperThrowsPropagatesException()
+    {
+        var client = CreateClient(_ => CreateResponse(HttpStatusCode.OK, "{\"code\":0,\"result\":[{\"stato\":99,\"data\":\"2025-01-01T00:00:00Z\"}]}"));
+
+        Assert.ThrowsAsync<ArgumentNullException>(() => client.GetInvoiceStateAsync("file-id"));
+    }
+
+    [Test]
+    public async Task ConcurrentInvoiceUploadsIsolateMalformedResponseErrors()
+    {
+        var responseCount = 0;
+        var client = CreateClient(_ => Interlocked.Increment(ref responseCount) == 1
+            ? CreateResponse(HttpStatusCode.OK, "You are temporarily unavailable")
+            : CreateResponse(HttpStatusCode.OK, "{\"code\":0,\"result\":{\"fid\":\"success\",\"msg\":\"Uploaded\"}}"));
+
+        var results = await Task.WhenAll(
+            client.SendInvoiceAsync(CreateInvoice("malformed")),
+            client.SendInvoiceAsync(CreateInvoice("successful")));
+
+        Assert.That(results[0].IsError, Is.True);
+        Assert.That(results[1].IsSuccess, Is.True);
+        Assert.That(results[1].Success.Get().FileId, Is.EqualTo("success"));
+    }
+
+    private static UniwixClient CreateClient(Func<HttpRequestMessage, HttpResponseMessage> responseFactory, TimeSpan? requestTimeout = null)
+        => CreateClient(new StubHttpMessageHandler(responseFactory), requestTimeout);
+
+    private static UniwixClient CreateClient(HttpMessageHandler handler, TimeSpan? requestTimeout = null)
+        => new(new HttpClient(handler), new UniwixClientConfiguration(Username, Password, requestTimeout));
+
+    private static HttpResponseMessage CreateResponse(HttpStatusCode statusCode, string body)
+    {
+        return new HttpResponseMessage(statusCode) { Content = new StringContent(body) };
+    }
+
+    private ElectronicInvoice CreateInvoice(string invoiceNumber = "1")
+    {
+        return new ElectronicInvoice
+        {
+            Version = VersioneSchemaType.FPR12,
+            Header = GetInvoiceHeader(invoiceNumber),
+            Body = new[] { GetInvoiceBody(invoiceNumber) }
+        };
+    }
+
+    private sealed class StubHttpMessageHandler(Func<HttpRequestMessage, HttpResponseMessage> responseFactory) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(responseFactory(request));
+        }
+    }
+
+    private sealed class DelayingHttpMessageHandler : HttpMessageHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            throw new InvalidOperationException("The delay should be cancelled before it completes.");
+        }
+    }
+
+    private sealed class NeverCompletingHttpContent : HttpContent
+    {
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+            => SerializeToStreamAsync(stream, context, CancellationToken.None);
+
+        protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+        }
+
+        protected override bool TryComputeLength(out long length)
+        {
+            length = -1;
+            return false;
+        }
+    }
+
+    private sealed class ThrowingHttpContent : HttpContent
+    {
+        public bool WasRead { get; private set; }
+
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+        {
+            WasRead = true;
+            throw new InvalidOperationException("The forbidden response content must not be read.");
+        }
+
+        protected override bool TryComputeLength(out long length)
+        {
+            WasRead = true;
+            throw new InvalidOperationException("The forbidden response content length must not be computed.");
+        }
+    }
+
+    private sealed class CapturingHttpMessageHandler : HttpMessageHandler
+    {
+        public CancellationToken CancellationToken { get; private set; }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            CancellationToken = cancellationToken;
+            return Task.FromResult(CreateResponse(HttpStatusCode.OK, request.Method == HttpMethod.Get && request.RequestUri!.AbsolutePath.EndsWith("Invoices/file-id")
+                ? "{\"code\":0,\"result\":[]}"
+                : "{\"code\":0,\"result\":true}"));
+        }
     }
 
     private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)
