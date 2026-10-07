@@ -25,7 +25,7 @@ public enum TaxKind
     NonTaxableOperationsAssimilatedToSalesOnExport,
     [XmlEnum("N3.5")]
     NonTaxableFollowingDeclarationsOfIntent,
-    [XmlEnum("3.6")]
+    [XmlEnum("N3.6")]
     NonTaxableOtherOperationsThatDoNotContributeToTheCeilingFormation,
     [XmlEnum("N4")]
     Exempt,
