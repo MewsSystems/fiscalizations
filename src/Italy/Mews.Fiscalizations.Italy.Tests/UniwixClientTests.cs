@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
 using System.Net;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using FuncSharp;
 using Mews.Fiscalizations.Italy.Dto.Invoice;
@@ -86,25 +84,47 @@ public sealed class UniwixClientTests
     }
 
     [Test]
-    public async Task SendInvoiceWithHtmlBadGatewayResponseReturnsErrorContainingStatusCode()
+    public async Task SendInvoiceWithMalformedResponseIncludesResponseBodyInErrorMessage()
     {
-        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, "<html>Bad Gateway</html>")).SendInvoiceAsync(CreateInvoice());
-
-        Assert.That(result.IsError, Is.True);
-        Assert.That(result.Error.Get().Message, Does.Contain("502"));
-    }
-
-    [Test]
-    public async Task SendInvoiceWithMalformedResponseDoesNotIncludeResponseBodyInErrorMessage()
-    {
-        const string body = "<html>Customer Jane Doe tax ID IT12345678901</html>";
+        const string body = "<html>Bad Gateway</html>";
         var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, body)).SendInvoiceAsync(CreateInvoice());
 
         Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain("502"));
+        Assert.That(result.Error.Get().Message, Does.Contain("text/plain"));
+        Assert.That(result.Error.Get().Message, Does.Contain(body));
+    }
+
+    [Test]
+    public async Task SendInvoiceWithLongMalformedResponseTruncatesResponseBodyInErrorMessage()
+    {
+        var body = new string('x', 501);
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain(new string('x', 500)));
         Assert.That(result.Error.Get().Message, Does.Not.Contain(body));
-        Assert.That(result.Error.Get().Message, Does.Not.Contain("Jane Doe"));
-        Assert.That(result.Error.Get().Message, Does.Not.Contain("IT12345678901"));
-        Assert.That(result.Error.Get().Message, Does.Contain("Body length"));
+        Assert.That(result.Error.Get().Message, Does.Contain("… (truncated)"));
+    }
+
+    [Test]
+    public async Task SendInvoiceWithEmptyMalformedResponseDescribesEmptyBody()
+    {
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, string.Empty)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain("the body is empty"));
+    }
+
+    [TestCase(HttpStatusCode.BadRequest, "Invalid invoice")]
+    [TestCase((HttpStatusCode)429, "Too many requests")]
+    public async Task SendInvoiceWithPlainTextErrorResponseIncludesResponseBodyInErrorMessage(HttpStatusCode statusCode, string body)
+    {
+        var result = await CreateClient(_ => CreateResponse(statusCode, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Message, Does.Contain(((int)statusCode).ToString()));
+        Assert.That(result.Error.Get().Message, Does.Contain(body));
     }
 
     [Test]
@@ -193,100 +213,6 @@ public sealed class UniwixClientTests
         Assert.That(handler.CancellationToken.CanBeCanceled, Is.True);
     }
 
-    private const string PiiName = "Mario Rossi";
-    private const string PiiTaxId = "RSSMRA80A01H501U";
-    private const string BodyMarker = "DISTINCTIVE-BODY-MARKER-7f3a";
-
-    [Test]
-    public async Task RequestLoggingIsMetadataOnlyAtEveryLevel()
-    {
-        var body = $"{{\"code\":0,\"result\":true,\"note\":\"{PiiName} {PiiTaxId} {BodyMarker}\"}}";
-        var logger = new CapturingLogger();
-        var client = CreateClient(_ => CreateResponse(HttpStatusCode.OK, body), logger: logger);
-
-        await client.VerifyCredentialsAsync();
-
-        var informationEntry = logger.Entries.Single(entry => entry.Level == LogLevel.Information);
-        Assert.That(informationEntry.Message, Does.Contain("GET"));
-        Assert.That(informationEntry.Message, Does.Contain("/api/Uniwix/Info"));
-        Assert.That(informationEntry.Message, Does.Contain("200"));
-        Assert.That(informationEntry.Message, Does.Contain("ElapsedMilliseconds"));
-        AssertNoSensitiveContent(logger, body);
-    }
-
-    [Test]
-    public async Task MalformedResponseLoggingDoesNotContainBodyOrPii()
-    {
-        var body = $"<html>{PiiName} {PiiTaxId} {BodyMarker}</html>";
-        var logger = new CapturingLogger();
-        var client = CreateClient(_ => CreateResponse(HttpStatusCode.BadGateway, body), logger: logger);
-
-        await client.SendInvoiceAsync(CreateInvoice());
-
-        Assert.That(logger.Entries.Any(entry => entry.Level == LogLevel.Warning), Is.True);
-        AssertNoSensitiveContent(logger, body);
-    }
-
-    [TestCase("Your key has been banned.")]
-    [TestCase("")]
-    public async Task ForbiddenResponseReturnsUnauthorizedWithoutReadingBody(string body)
-    {
-        var logger = new CapturingLogger();
-        var client = CreateClient(_ => CreateResponse(HttpStatusCode.Forbidden, body), logger: logger);
-
-        var result = await client.SendInvoiceAsync(CreateInvoice());
-
-        Assert.That(result.IsError, Is.True);
-        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unauthorized));
-        Assert.That(result.Error.Get().Message, Is.EqualTo("Unauthorized"));
-        AssertNoSensitiveContent(logger, string.IsNullOrEmpty(body) ? null : body);
-    }
-
-    [Test]
-    public async Task ForbiddenResponseWithUnreadableContentReturnsUnauthorizedWithoutReadingContent()
-    {
-        var content = new ThrowingHttpContent();
-        var client = CreateClient(_ => new HttpResponseMessage(HttpStatusCode.Forbidden) { Content = content });
-
-        var result = await client.SendInvoiceAsync(CreateInvoice());
-
-        Assert.That(result.IsError, Is.True);
-        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unauthorized));
-        Assert.That(result.Error.Get().Message, Is.EqualTo("Unauthorized"));
-        Assert.That(content.WasRead, Is.False);
-    }
-
-    [Test]
-    public async Task TimeoutLoggingDoesNotContainSensitiveContent()
-    {
-        var logger = new CapturingLogger();
-        var client = CreateClient(new DelayingHttpMessageHandler(), requestTimeout: TimeSpan.FromMilliseconds(50), logger: logger);
-
-        await client.SendInvoiceAsync(CreateInvoice());
-
-        Assert.That(logger.Entries.Any(entry => entry.Level == LogLevel.Warning), Is.True);
-        AssertNoSensitiveContent(logger, null);
-    }
-
-    private static void AssertNoSensitiveContent(CapturingLogger logger, string body)
-    {
-        var forbidden = new List<string> { PiiName, PiiTaxId, BodyMarker, Username, Password, "Basic ", Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{Username}:{Password}")) };
-        if (body is not null)
-        {
-            forbidden.Add(body);
-        }
-
-        Assert.That(logger.Entries, Is.Not.Empty);
-        foreach (var entry in logger.Entries)
-        {
-            foreach (var value in forbidden)
-            {
-                Assert.That(entry.Message, Does.Not.Contain(value), $"{entry.Level} message");
-                Assert.That(entry.State, Does.Not.Contain(value), $"{entry.Level} state");
-            }
-        }
-    }
-
     [Test]
     public void GetInvoiceStateWhenMapperThrowsPropagatesException()
     {
@@ -312,16 +238,11 @@ public sealed class UniwixClientTests
         Assert.That(results[1].Success.Get().FileId, Is.EqualTo("success"));
     }
 
-    private static UniwixClient CreateClient(Func<HttpRequestMessage, HttpResponseMessage> responseFactory, TimeSpan? requestTimeout = null, ILogger<UniwixClient> logger = null)
-        => CreateClient(new StubHttpMessageHandler(responseFactory), requestTimeout, logger);
+    private static UniwixClient CreateClient(Func<HttpRequestMessage, HttpResponseMessage> responseFactory, TimeSpan? requestTimeout = null)
+        => CreateClient(new StubHttpMessageHandler(responseFactory), requestTimeout);
 
-    private static UniwixClient CreateClient(HttpMessageHandler handler, TimeSpan? requestTimeout = null, ILogger<UniwixClient> logger = null)
-    {
-        return new UniwixClient(
-            new HttpClient(handler),
-            new UniwixClientConfiguration(Username, Password, requestTimeout),
-            logger);
-    }
+    private static UniwixClient CreateClient(HttpMessageHandler handler, TimeSpan? requestTimeout = null)
+        => new(new HttpClient(handler), new UniwixClientConfiguration(Username, Password, requestTimeout));
 
     private static HttpResponseMessage CreateResponse(HttpStatusCode statusCode, string body)
     {
@@ -400,29 +321,6 @@ public sealed class UniwixClientTests
                 ? "{\"code\":0,\"result\":[]}"
                 : "{\"code\":0,\"result\":true}"));
         }
-    }
-
-    private sealed class CapturingLogger : ILogger<UniwixClient>
-    {
-        public ConcurrentBag<LogEntry> Entries { get; } = [];
-
-        public IDisposable BeginScope<TState>(TState state) where TState : notnull => NullScope.Instance;
-
-        public bool IsEnabled(LogLevel logLevel) => logLevel >= LogLevel.Trace;
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-            => Entries.Add(new LogEntry(
-                logLevel,
-                formatter(state, exception),
-                state is IEnumerable<KeyValuePair<string, object>> pairs ? string.Join("|", pairs.Select(pair => $"{pair.Key}={pair.Value}")) : state?.ToString() ?? string.Empty));
-    }
-
-    private sealed record LogEntry(LogLevel Level, string Message, string State);
-
-    private sealed class NullScope : IDisposable
-    {
-        public static readonly NullScope Instance = new();
-        public void Dispose() { }
     }
 
     private ElectronicInvoiceHeader GetInvoiceHeader(string invoiceNumber)

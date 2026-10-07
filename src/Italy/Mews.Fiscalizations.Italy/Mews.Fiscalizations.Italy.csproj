@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <Authors>Mews</Authors>
@@ -9,14 +9,13 @@
     <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
     <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>14.1.0</PackageVersion>
+    <PackageVersion>14.1.1</PackageVersion>
     <LangVersion>12</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="FuncSharp" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.Net.Http" />
   </ItemGroup>
