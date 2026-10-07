@@ -15,22 +15,43 @@ public static class NormativeReference
     private const string NonTaxableOtherOperationsThatDoNotContributeToTheCeilingFormation = "non imponibili – altre operazioni che non concorrono alla formazione del plafond";
     private const string Exempt = "esenti";
     private const string MarginScheme = "regime del margine / IVA non esposta in fattura";
+    private const string ReverseChargeScrapAndRecoveredMaterials = "inversione contabile – cessione di rottami e altri materiali di recupero";
+    private const string ReverseChargeGoldAndSilver = "inversione contabile – cessione di oro e argento ai sensi della legge 7/2000 nonché di oreficeria usata ad OPO";
+    private const string ReverseChargeConstructionSubcontracting = "inversione contabile – subappalto nel settore edile";
+    private const string ReverseChargeBuildings = "inversione contabile – cessione di fabbricati";
+    private const string ReverseChargeMobilePhones = "inversione contabile – cessione di telefoni cellulari";
+    private const string ReverseChargeElectronicProducts = "inversione contabile – cessione di prodotti elettronici";
+    private const string ReverseChargeConstructionAndRelatedSectors = "inversione contabile – prestazioni comparto edile e settori connessi";
+    private const string ReverseChargeEnergySector = "inversione contabile – operazioni settore energetico";
+    private const string ReverseChargeOther = "inversione contabile – altri casi";
+    private const string VatPaidInOtherEuCountry = "IVA assolta in altro stato UE ex art. 7-octies lett. a, b, art. 74-sexies DPR 633/72";
 
     public static string GetByInvoiceLineKind(TaxKind taxKind)
     {
-        return taxKind.Match(
-            TaxKind.ExcludedArticle15, _ => ExcludedArticle15,
-            TaxKind.NotSubjectArticle7, _ => NotSubjectArticle7,
-            TaxKind.NotSubjectOther, _ => NotSubjectOther,
-            TaxKind.NonTaxableExports, _ => NonTaxableExports,
-            TaxKind.NonTaxableIntraCommunity, _ => NonTaxableIntraCommunity,
-            TaxKind.NonTaxableTransfersToSanMarino, _ => NonTaxableTransfersToSanMarino,
-            TaxKind.NonTaxableOperationsAssimilatedToSalesOnExport, _ => NonTaxableOperationsAssimilatedToSalesOnExport,
-            TaxKind.NonTaxableFollowingDeclarationsOfIntent, _ => NonTaxableFollowingDeclarationsOfIntent,
-            TaxKind.NonTaxableOtherOperationsThatDoNotContributeToTheCeilingFormation, _ => NonTaxableOtherOperationsThatDoNotContributeToTheCeilingFormation,
-            TaxKind.Exempt, _ => Exempt,
-            TaxKind.MarginScheme, _ => MarginScheme,
+        return taxKind switch
+        {
+            TaxKind.ExcludedArticle15 => ExcludedArticle15,
+            TaxKind.NotSubjectArticle7 => NotSubjectArticle7,
+            TaxKind.NotSubjectOther => NotSubjectOther,
+            TaxKind.NonTaxableExports => NonTaxableExports,
+            TaxKind.NonTaxableIntraCommunity => NonTaxableIntraCommunity,
+            TaxKind.NonTaxableTransfersToSanMarino => NonTaxableTransfersToSanMarino,
+            TaxKind.NonTaxableOperationsAssimilatedToSalesOnExport => NonTaxableOperationsAssimilatedToSalesOnExport,
+            TaxKind.NonTaxableFollowingDeclarationsOfIntent => NonTaxableFollowingDeclarationsOfIntent,
+            TaxKind.NonTaxableOtherOperationsThatDoNotContributeToTheCeilingFormation => NonTaxableOtherOperationsThatDoNotContributeToTheCeilingFormation,
+            TaxKind.Exempt => Exempt,
+            TaxKind.MarginScheme => MarginScheme,
+            TaxKind.ReverseChargeScrapAndRecoveredMaterials => ReverseChargeScrapAndRecoveredMaterials,
+            TaxKind.ReverseChargeGoldAndSilver => ReverseChargeGoldAndSilver,
+            TaxKind.ReverseChargeConstructionSubcontracting => ReverseChargeConstructionSubcontracting,
+            TaxKind.ReverseChargeBuildings => ReverseChargeBuildings,
+            TaxKind.ReverseChargeMobilePhones => ReverseChargeMobilePhones,
+            TaxKind.ReverseChargeElectronicProducts => ReverseChargeElectronicProducts,
+            TaxKind.ReverseChargeConstructionAndRelatedSectors => ReverseChargeConstructionAndRelatedSectors,
+            TaxKind.ReverseChargeEnergySector => ReverseChargeEnergySector,
+            TaxKind.ReverseChargeOther => ReverseChargeOther,
+            TaxKind.VatPaidInOtherEuCountry => VatPaidInOtherEuCountry,
             _ => throw new InvalidOperationException("Unsupported invoice line kind.")
-        );
+        };
     }
 }
