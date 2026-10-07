@@ -83,6 +83,20 @@ public sealed class UniwixClientTests
         Assert.That(result.Error.Get().Message, Does.Contain("non-JSON success response"));
     }
 
+    [TestCase("{\"result\":{}}")]
+    [TestCase("{\"result\":{\"fid\":\" \"}}")]
+    public async Task SendInvoiceWithMissingOrWhitespaceFileIdReturnsMalformedResponseError(string body)
+    {
+        var result = await CreateClient(_ => CreateResponse(HttpStatusCode.OK, body)).SendInvoiceAsync(CreateInvoice());
+
+        Assert.That(result.IsError, Is.True);
+        Assert.That(result.Error.Get().Type, Is.EqualTo(ErrorType.Unknown));
+        Assert.That(result.Error.Get().Message, Does.Contain("unexpected success response"));
+        Assert.That(result.Error.Get().Message, Does.Contain("200"));
+        Assert.That(result.Error.Get().Message, Does.Contain("text/plain"));
+        Assert.That(result.Error.Get().Message, Does.Contain(body));
+    }
+
     [Test]
     public async Task SendInvoiceWithMalformedResponseIncludesResponseBodyInErrorMessage()
     {

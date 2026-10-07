@@ -134,10 +134,13 @@ public class UniwixClient
     {
         var deserializedResponse = DeserializeResponse<TResult>(response, "Uniwix returned a non-JSON success response.", "Uniwix returned an empty success response.");
         return deserializedResponse.FlatMap(successResponse =>
-            successResponse.Result is null
+            successResponse.Result is null || !HasRequiredFields(successResponse.Result)
                 ? CreateMalformedResponseError<TResult>(response, "Uniwix returned an unexpected success response.")
                 : Try.Success<TResult, ErrorResult>(successResponse.Result));
     }
+
+    private static bool HasRequiredFields<TResult>(TResult response)
+        => response is not PostInvoiceResponse invoiceResponse || !string.IsNullOrWhiteSpace(invoiceResponse.FileId);
 
     private Try<TResult, ErrorResult> ProcessErrorResponse<TResult>(UniwixResponse response)
     {
