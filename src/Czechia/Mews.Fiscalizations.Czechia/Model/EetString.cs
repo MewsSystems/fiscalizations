@@ -8,6 +8,6 @@ internal static class EetString
 
     public static Regex Pattern(int maxLength)
     {
-        return new Regex($"^{AllowedCharacters}{{1,{maxLength}}}$", RegexOptions.Compiled);
+        return new Regex($@"\A{AllowedCharacters}{{1,{maxLength}}}\z", RegexOptions.Compiled);
     }
 }

@@ -15,6 +15,7 @@ public class ModelTests
     [TestCase("CZ12345678901")]
     [TestCase("cz00000019")]
     [TestCase("SK00000019")]
+    [TestCase("CZ00000019\n")]
     [TestCase("")]
     [TestCase(null)]
     public void InvalidTaxIdentifiers(string? value)
@@ -37,6 +38,7 @@ public class ModelTests
     [TestCase("12345678901234567890", true)]
     [TestCase("123456789012345678901", false)]
     [TestCase("pokladna-č1", false)]
+    [TestCase("POS-1\n", false)]
     [TestCase("", false)]
     public void RegistryIdentifierPattern(string value, bool isValid)
     {
@@ -47,6 +49,7 @@ public class ModelTests
     [TestCase("1234567890123456789012345", true)]
     [TestCase("12345678901234567890123456", false)]
     [TestCase("bill+1", false)]
+    [TestCase("123\n", false)]
     public void BillNumberPattern(string value, bool isValid)
     {
         Assert.That(BillNumber.Create(value).IsSuccess, Is.EqualTo(isValid));

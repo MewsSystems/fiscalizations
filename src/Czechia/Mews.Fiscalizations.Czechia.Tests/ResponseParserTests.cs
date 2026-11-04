@@ -104,6 +104,19 @@ public class ResponseParserTests
         Assert.That(result.Warnings.Single().Code, Is.EqualTo(7));
     }
 
+    [TestCase("<eet:Potvrzeni />")]
+    [TestCase("<eet:Potvrzeni pok=\"\" />")]
+    [TestCase("<eet:Potvrzeni pok=\"987a6be5-6af5-44f3-b4fc-987654321000\" />")]
+    public void AcknowledgementWithoutValidConfirmationCodeThrows(string potvrzeni)
+    {
+        var envelope = $"""
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:eet="http://fs.gov.cz/eet/schema/v4">
+                <soapenv:Body><eet:Odpoved><eet:Hlavicka uuid_zpravy="123e4567-e89b-42d3-a456-426655440000" dat_prij="2027-03-04T18:25:21+01:00" />{potvrzeni}</eet:Odpoved></soapenv:Body>
+            </soapenv:Envelope>
+            """;
+        Assert.Throws<EetException>(() => ResponseParser.Parse(envelope, MessageUuid, "<request/>", Option.Empty<string>()));
+    }
+
     [Test]
     public void SoapFaultThrows()
     {

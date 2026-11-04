@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Xml;
 using Mews.Fiscalizations.Czechia.Model;
 
@@ -6,6 +7,11 @@ namespace Mews.Fiscalizations.Czechia.Communication;
 
 internal static class ResponseParser
 {
+    private static readonly Regex ConfirmationCodePattern = new(
+        @"\A[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}-[0-9a-fA-F]{2}\z",
+        RegexOptions.Compiled
+    );
+
     public static SendRevenueResult Parse(string responseXml, Guid messageUuid, string requestXml, Option<string> globalTransactionId)
     {
         var document = new XmlDocument { PreserveWhitespace = true, XmlResolver = null };
@@ -49,7 +55,12 @@ internal static class ResponseParser
             {
                 throw new EetException("EET acknowledgement does not contain dat_prij.", responseXml);
             }
-            outcome = Try.Success<SendRevenueSuccess, SendRevenueError>(new SendRevenueSuccess(potvrzeni.GetAttribute("pok"), received.Get()));
+            var confirmationCode = potvrzeni.GetAttribute("pok");
+            if (!ConfirmationCodePattern.IsMatch(confirmationCode))
+            {
+                throw new EetException($"EET acknowledgement contains an invalid confirmation code (pok) '{confirmationCode}'.", responseXml);
+            }
+            outcome = Try.Success<SendRevenueSuccess, SendRevenueError>(new SendRevenueSuccess(confirmationCode, received.Get()));
             isTest = ParseBool(potvrzeni.GetAttribute("test"));
         }
         else if (chyba is not null)

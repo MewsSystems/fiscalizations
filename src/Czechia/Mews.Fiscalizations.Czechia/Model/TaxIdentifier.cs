@@ -7,7 +7,7 @@ namespace Mews.Fiscalizations.Czechia.Model;
 /// </summary>
 public sealed class TaxIdentifier
 {
-    private static readonly Regex Pattern = new("^CZ[0-9]{8,10}$", RegexOptions.Compiled);
+    private static readonly Regex Pattern = new(@"\ACZ[0-9]{8,10}\z", RegexOptions.Compiled);
 
     private TaxIdentifier(string value)
     {
