@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+        <Authors>Mews</Authors>
+        <Description>Client for EET 2.0 - the Czech electronic registration of sales (data interface v4).</Description>
+        <PackageTags>fiscalization;czechia;eet;cashregister</PackageTags>
+        <PackageProjectUrl>https://github.com/MewsSystems/fiscalizations</PackageProjectUrl>
+        <License>https://github.com/MewsSystems/fiscalizations/blob/master/LICENSE</License>
+        <RepositoryUrl>https://github.com/MewsSystems/fiscalizations</RepositoryUrl>
+        <Icon>https://raw.githubusercontent.com/msigut/eet/master/receipt.png</Icon>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>6.0.0</PackageVersion>
+        <LangVersion>12</LangVersion>
+        <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\..\..\packageIcon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FuncSharp" />
+        <PackageReference Include="System.Security.Cryptography.Xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Mews.Fiscalizations.Core\Mews.Fiscalizations.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Mews.Fiscalizations.Czechia.Tests" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PackageId>Mews.Fiscalizations.Czechia</PackageId>
+        <Company>Mews</Company>
+        <PackageIcon>packageIcon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+</Project>

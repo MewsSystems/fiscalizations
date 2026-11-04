@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://fs.gov.cz/eet/schema/v4" elementFormDefault="qualified" targetNamespace="http://fs.gov.cz/eet/schema/v4" version="4.1">
+    <xs:element name="Trzba" type="tns:TrzbaType"/>
+    
+    <xs:complexType name="TrzbaType">
+        <xs:sequence>
+            <xs:element maxOccurs="1" minOccurs="1" name="Hlavicka" type="tns:TrzbaHlavickaType"/>
+            <xs:element maxOccurs="1" minOccurs="1" name="Data" type="tns:TrzbaDataType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TrzbaHlavickaType">
+        <xs:attribute name="uuid_zpravy" type="tns:UUIDType" use="required"/>
+        <xs:attribute name="dat_odesl" type="tns:dateTime" use="required"/>
+        <xs:attribute name="prvni_zaslani" type="xs:boolean" use="required"/>
+        <xs:attribute name="overeni" type="xs:boolean" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="TrzbaDataType">
+    	<xs:attribute name="eic_popl" type="tns:CZEICType" use="required" />
+    	<xs:attribute name="eic_poverujiciho" type="tns:CZEICType" use="optional"/>
+    	<xs:attribute name="povereni_vice_popl" type="xs:boolean" use="optional"/>
+    	<xs:attribute name="id_jednotky" type="tns:IdEvidJednotkyType" use="required" />
+    	<xs:attribute name="id_pokl" type="tns:string20" use="required" />
+    	<xs:attribute name="porad_cis" type="tns:string25" use="required" />
+    	<xs:attribute name="dat_trzby" type="tns:dateTime" use="required" />
+    	<xs:attribute name="celk_trzba" type="tns:CastkaType" use="required" />
+    	<xs:attribute name="urceno_cerp_zuct" type="tns:CastkaType" use="optional" />
+    	<xs:attribute name="cerp_zuct" type="tns:CastkaType" use="optional" />
+
+    </xs:complexType>
+
+    <xs:element name="Odpoved" type="tns:OdpovedType"/>
+
+    <xs:complexType name="OdpovedType">
+        <xs:sequence>
+            <xs:element maxOccurs="1" minOccurs="1" name="Hlavicka" type="tns:OdpovedHlavickaType"/>
+            <xs:choice maxOccurs="1" minOccurs="1">
+                <xs:element name="Potvrzeni" type="tns:OdpovedPotvrzeniType"/>
+                <xs:element name="Chyba" type="tns:OdpovedChybaType"/>
+            </xs:choice>
+            <xs:element maxOccurs="10" minOccurs="0" name="Varovani" type="tns:OdpovedVarovaniType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OdpovedHlavickaType">
+        <xs:attribute name="uuid_zpravy" type="tns:UUIDType" use="optional"/>
+
+        <xs:attribute name="dat_prij" type="tns:dateTime" use="optional"/>
+        <xs:attribute name="dat_odmit" type="tns:dateTime" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="OdpovedPotvrzeniType">
+        <xs:attribute name="pok" type="tns:PokType" use="required"/>
+        <xs:attribute name="test" type="xs:boolean" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType mixed="true" name="OdpovedChybaType">
+        <xs:attribute name="kod" type="tns:KodChybaType" use="required"/>
+        <xs:attribute name="test" type="xs:boolean" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType mixed="true" name="OdpovedVarovaniType">
+        <xs:attribute name="kod_varov" type="tns:KodVarovType" use="required"/>
+    </xs:complexType>
+    
+    <xs:simpleType name="string20">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-zA-Z\.,:;/#\-_ ]{1,20}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="string25">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-zA-Z\.,:;/#\-_ ]{1,25}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="dateTime">
+        <xs:restriction base="xs:dateTime">
+            <xs:pattern value="\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(Z|[+\-]\d\d:\d\d)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="CastkaType">
+        <xs:restriction base="xs:decimal">
+            <xs:minExclusive value="-100000000" />
+            <xs:maxExclusive value="100000000" />
+            <xs:pattern value="((0|-?[1-9]\d{0,7})\.\d\d|-0\.(0[1-9]|[1-9]\d))" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="IdEvidJednotkyType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="1" />
+            <xs:maxInclusive value="999999999" />
+            <xs:pattern value="[1-9][0-9]{0,8}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="KodChybaType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="-999" />
+            <xs:maxInclusive value="999" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="KodVarovType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="1" />
+            <xs:maxInclusive value="999" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="UUIDType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}">
+            </xs:pattern>
+            <xs:length value="36"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CZEICType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="CZ[0-9]{8,10}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="PokType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}-[0-9a-fA-F]{2}">
+            </xs:pattern>
+            <xs:length value="39"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
