@@ -63,6 +63,7 @@ Each fiscalization project includes code examples. Refer to the project-specific
 | [Spain](https://github.com/MewsSystems/fiscalizations/tree/master/src/Spain)     | [Mews.Fiscalizations.Spain](https://www.nuget.org/packages/Mews.Fiscalizations.Spain) | Spain-specific fiscalization library (SII)                      |
 | [Basque](https://github.com/MewsSystems/fiscalizations/tree/master/src/Basque)   | [Mews.Fiscalizations.Basque](https://www.nuget.org/packages/Mews.Fiscalizations.Basque) | Basque region-specific fiscalization library (TicketBAI)        |
 | [Sweden](https://github.com/MewsSystems/fiscalizations/tree/master/src/Sweden)   | [Mews.Fiscalizations.Sweden](https://www.nuget.org/packages/Mews.Fiscalizations.Sweden) | Sweden-specific fiscalization library (Srv4POS -> Skatteverket) |
+| [Czechia](https://github.com/MewsSystems/fiscalizations/tree/master/src/Czechia) | [Mews.Fiscalizations.Czechia](https://www.nuget.org/packages/Mews.Fiscalizations.Czechia) | Czechia-specific fiscalization library (EET 2.0)                |
 
 ## 🧑 Authors
 <table>
